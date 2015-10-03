@@ -1,0 +1,4 @@
+"use strict"
+
+arr.map! x ->>
+  x * x

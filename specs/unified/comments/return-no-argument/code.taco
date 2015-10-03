@@ -1,0 +1,14 @@
+((() ->
+  return
+
+  # comment
+)())
+((() ->
+  return
+
+  # comment
+!(() ->
+  return
+
+  # comment
+)()

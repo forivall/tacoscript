@@ -1,0 +1,29 @@
+for var i = (1 in []) in []
+  pass
+
+for var i = (10 * 10 in []) in []
+  pass
+
+for var i = (10 + 10 in []) in []
+  pass
+
+for var i = 10 + (10 in []) in []
+  pass
+
+for var i = (1 in [])
+  pass
+
+for (1 in [])
+  pass
+
+for 1 * (1 in [])
+  pass
+
+for 1 * (1 + 1 in [])
+  pass
+
+for 1 * ((1 + 1) in [])
+  pass
+
+for 1 * (1 + (1 in []))
+  pass

@@ -1,0 +1,4 @@
+function test() ->
+  for var i of array
+
+  for i of array

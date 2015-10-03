@@ -1,0 +1,32 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "BinaryExpression",
+          "left": {
+            "type": "BinaryExpression",
+            "left": {
+              "type": "Identifier",
+              "name": "x"
+            },
+            "operator": "|",
+            "right": {
+              "type": "Identifier",
+              "name": "y"
+            },
+            "parenthesizedExpression": true
+          },
+          "operator": "^",
+          "right": {
+            "type": "Identifier",
+            "name": "z"
+          }
+        }
+      }
+    ]
+  }
+}

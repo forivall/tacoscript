@@ -1,0 +1,3 @@
+if cond
+  # Leading to EmptyStatement
+  donothing # Trailing to EmptyStatement

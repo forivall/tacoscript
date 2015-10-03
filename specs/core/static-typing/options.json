@@ -1,0 +1,5 @@
+{
+  "sourceType": "module",
+  "plugins": { "jsx": true, "flow": true },
+  "features": { "asyncFunctions": true }
+}

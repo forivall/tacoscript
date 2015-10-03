@@ -1,0 +1,7 @@
+for var i = 0
+for var i = 0 while i < 5
+for var i = 0 upto 5
+for var i = 0 while i < 5 update i = i + 1
+for var i = 0 upto 5 by 2
+for var i = 0 downto -5
+for var i = 0 downto -5 by 2

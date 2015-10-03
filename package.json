@@ -1,0 +1,81 @@
+{
+  "private": true,
+  "devDependencies": {
+    "babel": "^5.8.3",
+    "babel-eslint": "^3.1.19",
+    "babel-runtime": "^5.8.24",
+    "babylon": "^5.7.2",
+    "browserify": "^9.0.8",
+    "chai": "^2.2.0",
+    "es5-shim": "^4.1.7",
+    "eslint": "^0.21.2",
+    "lodash": "^3.10.0",
+    "mocha": "^2.3.3",
+    "mocha-fixtures-generic": "^1.0.1",
+    "output-file-sync": "^1.1.1",
+    "path-exists": "^1.0.0",
+    "rimraf": "^2.4.1",
+    "semver": "^5.0.0",
+    "shelljs": "^0.5.1",
+    "source-map-support": "^0.3.2",
+    "uglify-js": "^2.4.16"
+  },
+  "babel": {
+    "stage": 0,
+    "loose": [
+      "all"
+    ],
+    "blacklist": [
+      "es6.tailCall"
+    ],
+    "optional": [
+      "optimisation.flow.forOf",
+      "bluebirdCoroutines",
+      "runtime"
+    ],
+    "env": {
+      "test": {
+        "auxiliaryCommentBefore": "istanbul ignore next"
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "eslint:recommended",
+    "rules": {
+      "camelcase": 0,
+      "comma-dangle": 0,
+      "consistent-return": 0,
+      "curly": 0,
+      "key-spacing": 0,
+      "new-cap": 0,
+      "new-parens": 0,
+      "no-cond-assign": 0,
+      "no-console": 0,
+      "no-constant-condition": 0,
+      "no-empty": 0,
+      "no-fallthrough": 0,
+      "no-labels": 0,
+      "no-loop-func": 0,
+      "no-multi-spaces": 0,
+      "no-process-exit": 0,
+      "no-return-assign": 0,
+      "no-shadow": 0,
+      "no-underscore-dangle": 0,
+      "no-unreachable": 0,
+      "no-use-before-define": 0,
+      "no-unused-vars": 1,
+      "//quotes": [
+        "double"
+      ],
+      "quotes": [
+        2,
+        "avoid-escape"
+      ],
+      "strict": 0
+    },
+    "env": {
+      "node": true
+    }
+  }
+}

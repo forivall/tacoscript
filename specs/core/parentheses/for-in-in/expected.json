@@ -1,0 +1,45 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "body": [
+      {
+        "type": "ForInStatement",
+        "left": {
+          "type": "VariableDeclaration",
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "id": {
+                "type": "Identifier",
+                "name": "i"
+              },
+              "init": {
+                "type": "Literal",
+                "value": 1,
+                "rawValue": 1,
+                "raw": "1"
+              }
+            }
+          ],
+          "kind": "var"
+        },
+        "right": {
+          "type": "BinaryExpression",
+          "left": {
+            "type": "ArrayExpression",
+            "elements": []
+          },
+          "operator": "in",
+          "right": {
+            "type": "ArrayExpression",
+            "elements": []
+          }
+        },
+        "body": {
+          "type": "EmptyStatement"
+        }
+      }
+    ]
+  }
+}

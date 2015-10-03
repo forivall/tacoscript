@@ -1,0 +1,33 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "BinaryExpression",
+          "left": {
+            "type": "BinaryExpression",
+            "left": {
+              "type": "Literal",
+              "value": 1,
+              "rawValue": 1,
+              "raw": "1"
+            },
+            "operator": "in",
+            "right": {
+              "type": "ArrayExpression",
+              "elements": []
+            }
+          },
+          "operator": "in",
+          "right": {
+            "type": "ArrayExpression",
+            "elements": []
+          }
+        }
+      }
+    ]
+  }
+}

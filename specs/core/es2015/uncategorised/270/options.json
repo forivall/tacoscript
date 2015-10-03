@@ -1,0 +1,6 @@
+{
+  "features": {
+    "comprehensions": true
+  },
+  "throws": "Unexpected token (1:6)"
+}
