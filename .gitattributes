@@ -1,0 +1,3 @@
+**/specs/**/* -whitespace
+*.md whitespace=-trailing-space
+* text=auto

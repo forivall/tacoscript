@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+node_modules
+test/tmp
+*.log
+*.cache
+dist
+/.package.json
+/packages/*/lib
+_babel.github.io
+/tests/.browser-build.js
+.settings
+tags
