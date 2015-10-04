@@ -1,1 +1,1 @@
-function a(x, x) {'use strict';}
+function test(t, t) { }
