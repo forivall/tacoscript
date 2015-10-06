@@ -1,8 +1,12 @@
 Tacoscript
 ==========
 
-Why does this exist? For the same reason that there are both British English and American English: Some people just prefer different conventions.
+An es2015+-isomorphic altjs language, with syntax inspired by Coffeescript,
+Python, Ruby, and [frappe](https://github.com/lydell/frappe).
 
-Heavily inspired by Babel.
+Architecture inspired by Babel.
 
-This repository is the base incubator for repositories that will eventually be split off into separate repositories.
+---
+
+Why does this exist? For the same reason that there are both British English and
+American English: Some people just prefer different conventions.

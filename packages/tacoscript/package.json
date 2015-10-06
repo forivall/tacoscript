@@ -1,0 +1,19 @@
+{
+  "name": "tacoscript",
+  "version": "0.0.1-pre",
+  "description": "CLI for tacoscript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "keywords": [
+    "tacoscript",
+    "altjs"
+  ],
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme"
+}

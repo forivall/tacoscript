@@ -1,0 +1,22 @@
+{
+  "name": "tacoscript-generator",
+  "version": "0.0.1-pre",
+  "description": "Generator for tacoscript",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "keywords": [
+    "tacoscript",
+    "decompiler",
+    "code-generator",
+    "esgenerate"
+  ],
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme"
+}
