@@ -1,0 +1,4 @@
+[submodule "babel"]
+	path = babel
+	url = git@github.com:babel/babel.git
+	branch = development

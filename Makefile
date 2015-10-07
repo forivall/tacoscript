@@ -37,4 +37,5 @@ publish:
 
 bootstrap:
 	npm install
+	(cd babel; $(MAKE) bootstrap)
 	node scripts/bootstrap.js
