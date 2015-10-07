@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "homepage": "https://github.com/forivall/tacoscript#readme"
+  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "dependencies": {
+    "tacoscript-generator": "0.0.1-pre"
+  }
 }
