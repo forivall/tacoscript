@@ -1,0 +1,4 @@
+x = toggle y
+  on toggle isArray(y)
+    on y off [y]
+  off []
