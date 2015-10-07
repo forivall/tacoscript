@@ -1,24 +1,26 @@
 
 /**
- * Tacoscript's code generator, turns an ast into tacoscript code
- *
- * TODO: share code between the tacoscript and javascript generators
+ * Tacoscript's code generator API, turns an ast into code
  */
 
+import tacoPrinter from "./taco-printer";
+
+// TODO: remove this class and just use a function.
 export class CodeGenerator {
   constructor(ast, opts, code) {
     opts = opts || {};
     opts.language = opts.language || 'tacoscript';
     if (opts.language === 'javascript') opts.language = 'ecmascript';
 
-    this.ast = ast;
-    this.opts = opts;
-    this.code = code;
-    this.printer = this.createPrinter();
+    this.printer = this.createPrinter(ast, opts, code);
   }
 
-  createPrinter() {
+  static printers = {
+    'tacoscript': tacoPrinter
+  }
 
+  createPrinter(ast, opts, code) {
+    return CodeGenerator.printers[opts.language](ast, opts, code);
   }
 
   generate() {

@@ -1,17 +1,22 @@
 
-const printer = {
-  generate(ast) {
-    this.print(ast);
+const commonPrinterMethods = {
+  generate() {
+    this.tokenize();
     let code = this.stringify();
 
     return {
       code: code,
       tokens: this.tokens,
-      map: this.map.generate()
+      map: this.getMap()
     }
+  },
+
+  getMap() {
+    let map = this.map;
+    return map ? map.toJSON() : map;
   }
 };
-export default printer;
+export default commonPrinterMethods;
 
 import * as _base from "./generators/base";
 // import * as _jsx from "./generators/jsx";
@@ -23,5 +28,5 @@ import * as _base from "./generators/base";
 import * as _types from "./generators/simpleTypes";
 
 for (let generator of [_base, _types]) {
-  Object.assign(printer, generator);
+  Object.assign(commonPrinterMethods, generator);
 }

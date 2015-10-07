@@ -1,9 +1,18 @@
 
 import isArray from "lodash/lang/isArray";
+import { default as t } from "babel-types";
+
 import TacoscriptTokenBuffer from "./taco-buffer";
 
 export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
-  tokenize(ast) {
+  constructor(ast, opts, code) {
+    super(opts, code);
+    this.ast = ast;
+    this.code = code;
+  }
+
+  tokenize() {
+    let ast = this.ast;
     // prints the ast down into the buffer
     this._print(ast, null, {});
     this._finishPrint(ast, {});
@@ -128,7 +137,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
       for (i = 0; i < len; i++) {
         node = nodes[i];
-        this._print(node, parent);
+        this._print(node, parent, printOpts);
       }
 
       if (opts.dedent) { this.dedent(); }
@@ -140,30 +149,37 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     return this.printMultiple(parent, prop, opts);
   }
 
-  printList(items, parent, opts = {}) {
+  printList(parent, prop, opts = {}) {
+    if (opts.separator == null) {
+      opts.separator = {type: ','};
+    }
+    return this.printMultiple(parent, prop, opts);
     // TODO
-    // for now, just print the commas
     // eventually, don't print commas if a newline is available as a separator.
     // when source isn't available, preference should be supplied in opts:
     //   array should use newlines
     //   arguments should use commas
     //   also, there will be a format option to always insert commas
+    // this will be passed as an argument to printMultiple
   }
 
   printBlock(parent) {
     let prop = 'body';
     let node = parent.body;
     let opts = {};
+    // BlockStatement should only be printed with the generator when it is not
+    // the body of a statement (such as if, etc.)
     if (t.isBlock(node)) {
       this.indent();
       this._startPrint(parent, prop, opts);
-      this._printSequence(node);
-      this._finishPrint(node, opts)
+      this.printStatements(node, 'body', opts);
+      this._finishPrint(node, opts);
       this.dedent();
     // } else if (t.isEmptyStatement(node)) {
     //   // probably not needed
     //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);
     } else {
+      // This is a single statement with no surrounding braces
       this.push('then');
       this.print(parent, prop);
     }
