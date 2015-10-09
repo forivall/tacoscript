@@ -83,11 +83,13 @@ const
 
 export const types = {
   num: new TacoTokenType("num", "Numeric", startsExpr),
+  // value in format {}
   regexp: new TacoTokenType("regexp", "RegularExpression", startsExpr),
   string: new TacoTokenType("string", "String", startsExpr),
   name: new TacoTokenType("name", "Identifier", startsExpr),
 
   eof: new TacoTokenType("eof", "EOF"),
+  tab: new TacoTokenType("tab", "Whitespace"),
   indent: new TacoTokenType("indent", "Whitespace"),
   dedent: new TacoTokenType("dedent", "Whitespace"),
   whitespace: new TacoTokenType("whitespace", "Whitespace"),

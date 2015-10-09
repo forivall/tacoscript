@@ -2,7 +2,6 @@
 import forOwn from "lodash/object/forOwn";
 import { types as tt } from "./types";
 import { tokTypes as btt } from "babylon";
-import keywordCodeFunctions from "./_keywordSerialization";
 import toFastProperties from "to-fast-properties";
 import repeating from "repeating";
 
@@ -11,7 +10,7 @@ import repeating from "repeating";
 //
 // update the lookup helper
 export function added() {
-  forOwn(types, function(tokType, keyStr) {
+  forOwn(tt, function(tokType, keyStr) {
     // tokType[key] = keyStr;
     tokType.key = keyStr;
     if (!tokType.babylonName) {
@@ -21,6 +20,10 @@ export function added() {
   // forOwn(btt, function(tokType, keyStr) {
   //   tokType[key] = keyStr;
   // });
+}
+
+export function from(babelTokenType) {
+  // TODO
 }
 
 export function init() {
@@ -46,6 +49,7 @@ export function init() {
   tt.exec.code = "!";
   tt.backslash.code = "\\";
   tt.eq.code = "=";
+  tt.bitwiseNOT.code = "~";
   tt.bitwiseOR.code = "|";
   tt.bitwiseXOR.code = "^";
   tt.bitwiseAND.code = "&";
@@ -54,8 +58,8 @@ export function init() {
   tt.slash.code = "/";
   tt.exponent.code = "*";
 
-  tt.blockCommentStart.code = "#*";
-  tt.blockCommentEnd.code = "*#";
+  tt.blockCommentStart.code = "#$";
+  tt.blockCommentEnd.code = "$#";
   tt.lineCommentStart.code = "#";
 
   tt.num.toCode = function(token) { return token.value.raw; };
