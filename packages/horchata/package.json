@@ -1,0 +1,20 @@
+{
+  "name": "horchata",
+  "version": "0.0.1-pre",
+  "description": "horchata",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "index": "lib/index.js",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "to-fast-properties": "^1.0.1"
+  }
+}

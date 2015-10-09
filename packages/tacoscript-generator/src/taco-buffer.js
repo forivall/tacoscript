@@ -15,6 +15,10 @@ export default class TacoscriptTokenBuffer {
     this.code = code;
   }
 
+  /**
+   * Source Map
+   */
+
   _initSourceMap(opts, code) {
     if (opts.sourceMaps) {
       this.map = new sourceMap.SourceMapGenerator({
@@ -40,17 +44,44 @@ export default class TacoscriptTokenBuffer {
     });
   }
 
-  _push(token) {
-    let stringOfToken;
-    // TODO: perform magic
-    this.output += stringOfToken;
-    this.position.push(stringOfToken);
+  /**
+   * Tokenization
+   */
+
+  indent() {
+    this._indent++;
   }
+
+  dedent() {
+    this._indent--;
+  }
+
+  keyword(name) {
+    this._push({type: '_' + name});
+  }
+
+  push(...tokens) {
+
+  }
+
+  _push(token) {
+
+  }
+
+  /**
+   * Serialization
+   */
 
   stringify() {
     // probably can be shared; move to _buffer if possible.
     // calculate position and source map as tokens are serialized into code
   }
 
+  _serialize(token) {
+    let stringOfToken;
+    // TODO: perform magic
+    this.output += stringOfToken;
+    this.position.push(stringOfToken);
+  }
 
 }

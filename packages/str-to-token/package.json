@@ -1,0 +1,20 @@
+{
+  "name": "str-to-token",
+  "version": "0.0.1-pre",
+  "description": "str-to-token",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "main": "lib/index.js",
+  "dependencies": {
+    "babylon": "^5.8.23",
+    "horchata": "0.0.1-pre"
+  }
+}

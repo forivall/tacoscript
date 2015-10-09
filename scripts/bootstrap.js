@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require("shelljs/global");
 
+var argv = require("yargs").argv;
 var path = require("path");
 var fs   = require("fs");
 
@@ -26,8 +27,6 @@ var babelPackages = getPackages("babel/packages");
 
 // create links
 packages.forEach(function (root) {
-  console.log(root.name);
-  console.log(root.folder);
 
   var nodeModulesLoc = "packages/" + root.folder + "/node_modules";
   mkdir("-p", nodeModulesLoc);
@@ -49,11 +48,15 @@ packages.forEach(function (root) {
     }
   });
 
-  cd("packages/" + root.folder);
-  exec("npm install");
-  // exec("npm link");
-  cd("../..");
+  if (!argv.linkOnly) {
+    cd("packages/" + root.folder);
+    exec("npm install");
+    // exec("npm link");
+    cd("../..");
+  }
 });
 
 // exec("git submodule update --init");
-exec("make build");
+if (!argv.linkOnly) {
+  exec("make build");
+}

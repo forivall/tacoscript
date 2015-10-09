@@ -20,7 +20,8 @@
     "semver": "^5.0.3",
     "shelljs": "^0.5.3",
     "source-map-support": "^0.3.2",
-    "uglify-js": "^2.4.24"
+    "uglify-js": "^2.4.24",
+    "yargs": "^3.27.0"
   },
   "babel": {
     "stage": 0,
@@ -70,7 +71,11 @@
       "strict": 0
     },
     "//rules": {
-      "quotes": [2, "double", "avoid-escape"]
+      "quotes": [
+        2,
+        "double",
+        "avoid-escape"
+      ]
     },
     "env": {
       "node": true
