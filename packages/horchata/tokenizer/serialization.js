@@ -56,10 +56,14 @@ export function init() {
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
-  tt.prefix.forceSpaceWhenAfter.plusMin = function(left, right) {
+
+  tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
     return (left.value === "+" && right.value === "++") ||
       (left.value === "-" && right.value === "--");
   };
-  tt.prefix.forceSpaceWhenAfter.
+  tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
+    return (left.value === "+" && right.value === "++") ||
+      (left.value === "-" && right.value === "--");
+  };
   toFastProperties(tt.prefix.forceSpaceWhenAfter);
 }
