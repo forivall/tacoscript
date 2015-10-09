@@ -4,6 +4,7 @@ import { types as tt } from "./types";
 import { tokTypes as btt } from "babylon";
 import keywordCodeFunctions from "./_keywordSerialization";
 import toFastProperties from "to-fast-properties";
+import repeating from "repeating";
 
 // helper for looking up token types
 // export const key = new Symbol("TokenTypeKey");
@@ -52,6 +53,30 @@ export function init() {
   tt.star.code = "*"
   tt.slash.code = "/";
   tt.exponent.code = "*";
+
+  tt.blockCommentStart.code = "#*";
+  tt.blockCommentEnd.code = "*#";
+  tt.lineCommentStart.code = "#";
+
+  tt.num.toCode = function(token) { return token.value.raw; };
+  tt.regexp.toCode = function(token) { return token.value.raw; };
+  tt.string.toCode = function(token) { return token.value.raw; };
+  tt.name.toCode = function(token, state) {
+    // TODO: keyword conflict resolution
+    return token.value.raw;
+  };
+  tt.tab.toCode = function(token, state) {
+    return repeating(state.format.indent.indent, state.indent);
+  };
+  tt.indent.toCode = function(token, state) {
+    state.indent++;
+    return "";
+  };
+  tt.dedent.toCode = function(token, state) {
+    state.indent--;
+    return "";
+  };
+
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
