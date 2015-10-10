@@ -25,8 +25,8 @@ import * as _base from "./generators/base";
 // import * as _templateLiterals from "./generators/templateLiterals";
 // NOTE: these are only the types with shared syntax. Arrays literals, object
 // literals, and possibly regex types will have minor differences
-import * as _types from "./generators/simpleTypes";
+// import * as _types from "./generators/simpleTypes";
 
-for (let generator of [_base, _types]) {
+for (let generator of [_base/*, _types*/]) {
   Object.assign(commonPrinterMethods, generator);
 }

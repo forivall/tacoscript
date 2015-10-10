@@ -5,8 +5,8 @@
 
 import sourceMap from "source-map";
 import Position from "./position";
-import {types as tt, keywords as kw} from "horchata/lib/types";
-import {TacoToken as Token} from ""
+import {types as tt, keywords as kw} from "horchata/lib/tokenizer/types";
+import {TacoToken as Token} from "horchata/lib/tokenizer"
 import isString from "lodash/lang/isString";
 
 export default class TacoscriptTokenBuffer {
@@ -19,6 +19,7 @@ export default class TacoscriptTokenBuffer {
     // serialization state
     this.position = new Position();
     this.code = code;
+    this.output = '';
   }
 
   /**
@@ -86,15 +87,23 @@ export default class TacoscriptTokenBuffer {
    */
 
   stringify() {
-    // probably can be shared; move to _buffer if possible.
-    // calculate position and source map as tokens are serialized into code
+    for (let token of (this.tokens: Array)) {
+      this._serialize(token);
+    }
+    return this.output;
+  }
+
+  preview() {
+    return this.tokens.join('');
   }
 
   _serialize(token) {
-    let stringOfToken;
-    // TODO: perform magic
-    this.output += stringOfToken;
-    this.position.push(stringOfToken);
+    let
+      code = token.toCode(),
+      origLoc = token.origLoc || token.loc;
+    if (origLoc) this.mark(origLoc);
+    this.output += code;
+    this.position.push(code);
   }
 
 }

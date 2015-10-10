@@ -94,5 +94,4 @@ export function init() {
     return (left.value === "+" && right.value === "++") ||
       (left.value === "-" && right.value === "--");
   };
-  toFastProperties(tt.prefix.forceSpaceWhenAfter);
 }

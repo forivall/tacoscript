@@ -21,6 +21,7 @@
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
     "babel-types": "^5.8.22",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "horchata": "0.0.1-pre"
   }
 }

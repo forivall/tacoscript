@@ -7,7 +7,7 @@ export class TacoToken {
     this.value = state.value;
     this.start = state.start;
     this.end = state.end;
-    this.loc = new SourceLocation(state.startLoc, state.endLoc);
+    // this.loc = new SourceLocation(state.startLoc, state.endLoc);
   }
 
   valueOf() {
