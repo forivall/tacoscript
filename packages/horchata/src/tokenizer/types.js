@@ -71,7 +71,7 @@ export const keywords = {};
 let kw = function kw(name, options = {}) {
   options.keyword = name;
   options.code = name;
-  let type = new TacoTokenType(name, options);
+  let type = new TacoTokenType(name, "Keyword", options);
   keywords[name] = type;
   return type;
 }
@@ -175,7 +175,7 @@ export const types = {
 kw = function kw(name, options = {}) {
   options.keyword = name;
   options.code = name;
-  let type = new TacoTokenType(name, options);
+  let type = new TacoTokenType(name, "Keyword", options);
   types["_" + name] = keywords[name] = type;
 }
 

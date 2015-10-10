@@ -55,6 +55,12 @@ export default class TacoscriptTokenBuffer {
    * Tokenization
    */
 
+
+   /*
+   TODO: switch back to storing indentation amount during tokenization
+   and automatically emit indent/dedent tokens just before or after (choose one)
+   a newline
+    */
   indent() {
     // TODO: make sure that indent only occurs right before a newline
     this._push({type: tt.indent});
@@ -74,9 +80,36 @@ export default class TacoscriptTokenBuffer {
     }
   }
 
+  /**
+   * TODO: move this to documentation
+   * in generators, the tokens that have to be manually defined are:
+   * num
+   *  * will need custom serialization logic too
+   *  * value should store actual number value, base and original code
+   * regexp
+   *  * will need custom serialization logic too
+   *  * value should store the literal, flags and original code
+   * string
+   *  * will need custom serialization logic too
+   *  * value should store actual string value, quote types, and original code
+   * name
+   *  * value should store the parsed name and the original code
+   * tab
+   *  * todo: decide if length should be stored on tokenization, or generated
+   *  during serialization
+   * indent
+   * dedent
+   * whitespace (should only be emitted by catchup code)
+   * newline
+   * blockCommentBody
+   * lineCommentBody
+   */
+
   _push(state) {
     if (isString(state)) {
       state = Token.stateFromCode(state);
+    } else if (isString(state.type)) {
+      state.type = tt[state.type];
     }
     // TODO: ensure leading indent, unless in parenthetized expression context
     this.tokens.push(new Token(state));

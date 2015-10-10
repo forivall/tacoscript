@@ -34,7 +34,8 @@ export class TacoToken {
     let cacheState = TacoToken._fromCodeCache[code];
     if (cacheState) return cacheState;
 
-    for (let type in tt) {
+    for (let key in tt) {
+      let type = tt[key];
       if (type.code === code) {
         return (TacoToken._fromCodeCache[code] = { type: type });
       }
