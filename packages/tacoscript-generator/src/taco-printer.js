@@ -163,16 +163,15 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     // this will be passed as an argument to printMultiple
   }
 
-  printBlock(parent) {
-    let prop = 'body';
-    let node = parent.body;
+  printBlock(parent, prop = 'body') {
+    let node = parent[prop];
     let opts = {};
     // BlockStatement should only be printed with the generator when it is not
     // the body of a statement (such as if, etc.)
     if (t.isBlock(node)) {
       this.indent();
       this._startPrint(parent, prop, opts);
-      this.printStatements(node, 'body', opts);
+      this.printStatements(node, prop, opts);
       this._finishPrint(node, opts);
       this.dedent();
     // } else if (t.isEmptyStatement(node)) {

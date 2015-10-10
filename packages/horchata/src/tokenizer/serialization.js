@@ -70,14 +70,14 @@ export function init() {
     return token.value.raw;
   };
   tt.tab.toCode = function(token, state) {
-    return repeating(state.format.indent.indent, state.indent);
+    return repeating(state.format.indent.indent, token.value);
   };
   tt.indent.toCode = function(token, state) {
-    state.indent++;
+    // marker to parser that indentation has increased
     return "";
   };
   tt.dedent.toCode = function(token, state) {
-    state.indent--;
+    // marker to parser that indentation has decreased
     return "";
   };
 

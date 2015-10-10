@@ -1,18 +1,18 @@
-export function File(node: Object) {
+export function File(node) {
   this.print(node, 'program');
 }
 
-export function Program(node: Object) {
+export function Program(node) {
   this.printStatements(node, 'directives');
   this.printStatements(node, 'body');
 }
 
-// "use strict"
-export function Directive(node: Object) {
+// this is "use strict"
+export function Directive(node) {
   this.print(node, 'value');
   this.endLine();
 }
 
-export function DirectiveLiteral(node: Object) {
+export function DirectiveLiteral(node) {
   this.push(this._stringLiteral(node.value));
 }

@@ -8,18 +8,35 @@ import Position from "./position";
 import {types as tt, keywords as kw} from "horchata/lib/tokenizer/types";
 import {TacoToken as Token} from "horchata/lib/tokenizer"
 import isString from "lodash/lang/isString";
+import equalsDeep from "lodash/lang/equals";
 
-export default class TacoscriptTokenBuffer {
+export default class TacoBuffer {
 
   constructor(opts, code) {
     this._initSourceMap(opts, code);
     this.opts = opts;
     this.tokens = [];
+    this._indent = 0;
+    this._lastIndent = 0;
 
     // serialization state
     this.position = new Position();
     this.code = code;
     this.output = '';
+  }
+
+  /**
+   * Checks
+   */
+  isLast(state) {
+    state = TacoBuffer._massageTokenState(state);
+    let last = this.tokens[this.tokens.length - 1];
+    return last.type === state.type && equalsDeep(last.value, state.value);
+  }
+
+  isLastType(type) {
+    let last = this.tokens[this.tokens.length - 1];
+    return last.type === type;
   }
 
   /**
@@ -55,19 +72,27 @@ export default class TacoscriptTokenBuffer {
    * Tokenization
    */
 
+  newline() {
+    this._push({type: tt.newline});
+  }
 
-   /*
-   TODO: switch back to storing indentation amount during tokenization
-   and automatically emit indent/dedent tokens just before or after (choose one)
-   a newline
-    */
   indent() {
     // TODO: make sure that indent only occurs right before a newline
-    this._push({type: tt.indent});
+    this._indent++;
+    if (this.isLastType(tt.newline)) {
+      let newline = this.tokens.pop();
+      this._insertIndentTokens();
+      this.tokens.push(newline);
+    }
   }
 
   dedent() {
-    this._push({type: tt.dedent});
+    this._indent--;
+    if (this.isLastType(tt.newline)) {
+      let newline = this.tokens.pop();
+      this._insertIndentTokens();
+      this.tokens.push(newline);
+    }
   }
 
   keyword(name) {
@@ -105,14 +130,37 @@ export default class TacoscriptTokenBuffer {
    * lineCommentBody
    */
 
-  _push(state) {
+  static _massageTokenState(state) {
     if (isString(state)) {
       state = Token.stateFromCode(state);
     } else if (isString(state.type)) {
       state.type = tt[state.type];
     }
+    return state;
+  }
+
+  _push(state) {
+    state = TacoBuffer._massageTokenState(state);
+    if (state.type === tt.newline) {
+      this._insertIndentTokens()
+    }
     // TODO: ensure leading indent, unless in parenthetized expression context
     this.tokens.push(new Token(state));
+  }
+
+  _insertIndentTokens() {
+    if (this._indent !== this._lastIndent) {
+      if (this._indent > this._lastIndent) {
+        for (let i = this._indent - this._lastIndent; i > 0; i--) {
+          this.tokens.push(new Token({type: tt.indent}));
+        }
+      } else {
+        for (let i = this._lastIndent - this._indent; i > 0; i--) {
+          this.tokens.push(new Token({type: tt.dedent}));
+        }
+      }
+      this._lastIndent = this._indent;
+    }
   }
 
   /**
