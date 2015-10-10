@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
-    "lodash": "^3.10.1",
-    "babel-types": "^5.8.22"
+    "babel-types": "^5.8.22",
+    "lodash": "^3.10.1"
   }
 }

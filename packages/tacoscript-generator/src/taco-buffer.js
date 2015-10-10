@@ -5,13 +5,19 @@
 
 import sourceMap from "source-map";
 import Position from "./position";
+import {types as tt, keywords as kw} from "horchata/lib/types";
+import {TacoToken as Token} from ""
+import isString from "lodash/lang/isString";
 
 export default class TacoscriptTokenBuffer {
 
   constructor(opts, code) {
     this._initSourceMap(opts, code);
-    this.position = new Position();
     this.opts = opts;
+    this.tokens = [];
+
+    // serialization state
+    this.position = new Position();
     this.code = code;
   }
 
@@ -49,23 +55,30 @@ export default class TacoscriptTokenBuffer {
    */
 
   indent() {
-    this._indent++;
+    // TODO: make sure that indent only occurs right before a newline
+    this._push({type: tt.indent});
   }
 
   dedent() {
-    this._indent--;
+    this._push({type: tt.dedent});
   }
 
   keyword(name) {
-    this._push({type: '_' + name});
+    this._push({type: kw[name]});
   }
 
-  push(...tokens) {
-
+  push(...tokenStates) {
+    for (let token of (tokenStates: Array)) {
+      this._push(token);
+    }
   }
 
-  _push(token) {
-
+  _push(state) {
+    if (isString(state)) {
+      state = Token.stateFromCode(state);
+    }
+    // TODO: ensure leading indent, unless in parenthetized expression context
+    this.tokens.push(new Token(state));
   }
 
   /**

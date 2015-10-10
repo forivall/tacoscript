@@ -2,6 +2,18 @@ import { TacoTokenType, keywords, types as tt } from "./types";
 import includes from "lodash/collection/includes";
 
 export class TacoToken {
+  constructor(state) {
+    this.type = state.type;
+    this.value = state.value;
+    this.start = state.start;
+    this.end = state.end;
+    this.loc = new SourceLocation(state.startLoc, state.endLoc);
+  }
+
+  valueOf() {
+    return this.type.toCode(this);
+  }
+
   static from(babelToken) {
     let type = TacoTokenType.from(babelToken.type);
     let state = {
