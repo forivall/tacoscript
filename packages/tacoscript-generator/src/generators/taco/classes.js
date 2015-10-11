@@ -48,23 +48,21 @@ export function ClassBody(node) {
 export function ClassProperty(node) {
   this.printJoin(node.decorators, node, { separator: "" });
 
-  if (node.static) this.push("static ");
-  this.print(node.key, node);
-  this.print(node.typeAnnotation, node);
+  if (node.static) this.push("static");
+  this.print(node, "key");
+  this.print(node, "typeAnnotation");
   if (node.value) {
-    this.space();
     this.push("=");
-    this.space();
-    this.print(node.value, node);
+    this.print(node, "value");
   }
-  this.semicolon();
+  this.newline();
 }
 
 export function MethodDefinition(node) {
-  this.printJoin(node.decorators, node, { separator: "" });
+  this.printMultiple(node, "decorators", { separator: {type: "newline"} });
 
   if (node.static) {
-    this.push("static ");
+    this.push("static");
   }
 
   this._method(node);
