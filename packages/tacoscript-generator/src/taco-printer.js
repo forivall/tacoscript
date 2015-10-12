@@ -1,4 +1,8 @@
 
+// simple prints will print an ast, without regard for cst tokens
+// preserved print will print an ast, while trying to preserve whitespace
+// and other formatting included in cst tokens
+
 import isArray from "lodash/lang/isArray";
 import { default as t } from "babel-types";
 
@@ -14,40 +18,40 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   tokenize() {
     let ast = this.ast;
     // prints the ast down into the buffer
-    this._print(ast, null, {});
+    this._simplePrint(ast, null, {});
     this._finishPrint(ast, {});
   }
 
   print(parent, prop, opts = {}) {
     if (parent.tokenElements && parent.tokenElements.length) {
-      this._printWithTokenElements(parent, prop, opts);
+      this._preservedPrint(parent, prop, opts);
     } else {
-      this._print(parent[prop], parent, opts);
+      this._simplePrint(parent[prop], parent, opts);
     }
   }
 
-  _print(node, parent, opts) {
-    this._startSimplePrint(node, parent, opts);
+  _simplePrint(node, parent, opts) {
+    this._simpleStartPrint(node, parent, opts);
     this[node.type](node, parent, opts);
     this._finishSimplePrint(node, opts);
   }
 
-  _printWithTokenElements(parent, prop, opts) {
+  _preservedPrint(parent, prop, opts) {
     let node = parent[prop];
-    this._startTokenElementPrint(parent, prop, opts);
+    this._startPreservedPrint(parent, prop, opts);
     this[node.type](node, parent, opts);
     this._finishPrint(node, opts);
   }
 
   _startPrint(parent, prop, opts) {
     if (parent.tokenElements && parent.tokenElements.length) {
-      return this._startTokenElementPrint(parent, prop, opts);
+      return this._startPreservedPrint(parent, prop, opts);
     } else {
-      return this._startSimplePrint(parent[prop], parent, opts);
+      return this._simpleStartPrint(parent[prop], parent, opts);
     }
   }
 
-  _startSimplePrint(node, parent, opts) {
+  _simpleStartPrint(node, parent, opts) {
     // TODO: print leading comments
     // TODO: catchup newlines
 
@@ -57,7 +61,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     this.push({type: 'MappingMark', loc: node.loc.start});
   }
 
-  _startTokenElementPrint(parent, prop, opts) {
+  _startPreservedPrint(parent, prop, opts) {
     let node = parent[prop];
     throw new Error('Not Implemented');
     // print tokens between prev sibling and node
@@ -116,37 +120,70 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       // if more token elements of child: prop are in the list
       // * print the remaining tokens leading up to the last element of child: prop
     } else {
-      let len = nodes.length;
-      let separator = opts.separator
-        ? isArray(opts.separator)
-          ? opts.separator : [opts.separator]
-        : [];
-      let node, i;
+      this._simplePrintMultiple(nodes, parent, opts);
+    }
+  }
 
-      if (opts.indent) { this.indent(); }
+  _simplePrintMultiple(nodes, parent, opts) {
+    let len = nodes.length;
+    let separator = opts.separator
+      ? isArray(opts.separator)
+        ? opts.separator : [opts.separator]
+      : [];
+    let node, i;
 
-      let printOpts = {
-        statement: opts.statement,
-        after: () => {
-          if (opts.iterator) { opts.iterator(node, i); }
-          if (opts.separator && i < len - 1) {
-            this.push(...separator);
-          }
+    if (opts.indent) { this.indent(); }
+
+    let printOpts = {
+      statement: opts.statement,
+      after: () => {
+        if (opts.iterator) { opts.iterator(node, i); }
+        if (opts.separator && i < len - 1) {
+          this.push(...separator);
         }
       }
-
-      for (i = 0; i < len; i++) {
-        node = nodes[i];
-        this._print(node, parent, printOpts);
-      }
-
-      if (opts.dedent) { this.dedent(); }
     }
+
+    for (i = 0; i < len; i++) {
+      node = nodes[i];
+      this._simplePrint(node, parent, printOpts);
+    }
+
+    if (opts.dedent) { this.dedent(); }
   }
 
   printStatements(parent, prop, opts = {}) {
     opts.statement = true;
     return this.printMultiple(parent, prop, opts);
+  }
+
+  printArguments(parent, prop = "arguments", opts = {}) {
+    let node = parent[prop];
+    if (node.tokenElements) {
+      throw new Error('Not Implemented');
+    } else {
+      // a transform will be used, so don't worry about exec (!) style arguments here.
+      // reminder: exec style arguments are an arguments list that instead of being surrounded
+      // by parens, starts with a !
+      //
+      // if exec style can't be inferred, <!-- will be generated at the end of the line
+      // so, ! ...arguments #<!-- will be an illegal expression in tacoscript.
+      this.push("(");
+      opts.separator = ",";
+      this._simplePrintMultiple(node, parent, opts);
+      this.push(")");
+    }
+  }
+
+  // for array and object literals
+  printLiteralBody(parent, prop, opts = {}) {
+    let node = parent[prop];
+    if (node.tokenElements) {
+      throw new Error('Not Implemented');
+    } else {
+      opts.separator = {type: "newline"};
+      this._simplePrintMultiple(node, parent, opts)
+    }
   }
 
   printList(parent, prop, opts = {}) {

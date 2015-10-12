@@ -1,6 +1,6 @@
 
 export function ClassDeclaration(node) {
-  this.printMultiple(node, "decorators", { separator: {type: "newline"} });
+  this.printMultiple(node, "decorators", { separator: null });
   this.newline();
   this.push("class");
 
@@ -59,7 +59,7 @@ export function ClassProperty(node) {
 }
 
 export function MethodDefinition(node) {
-  this.printMultiple(node, "decorators", { separator: {type: "newline"} });
+  this.printMultiple(node, "decorators", { separator: null });
 
   if (node.static) {
     this.push("static");

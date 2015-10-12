@@ -116,6 +116,7 @@ export const types = {
   // TODO: eventually use ? as a null coalescing operator, like c#
   question:     punctuator("?",   beforeExpr), // only used by flow
   soak:         punctuator("?.", continuesPreviousLine),
+  soakBracketL: punctuator("?[", continuesPreviousLine),
   // also includes =>>, ->>, ~>>
   arrow:        punctuator("=>", {beforeExpr: true, startsExpr: true}),
   unboundArrow: punctuator("->", {beforeExpr: true, startsExpr: true}),
