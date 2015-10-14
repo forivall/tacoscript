@@ -231,5 +231,19 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 import _printer from "./_printer";
 Object.assign(TacoscriptPrinter.prototype, _printer);
 
-import BaseGenerator from "./geneators/taco/base";
-// for ...
+import baseGenerators from "./generators/taco/base";
+import classesGenerators from "./generators/taco/classes";
+import expressionsGenerators from "./generators/taco/expressions";
+import methodsGenerators from "./generators/taco/methods";
+import statementsGenerators from "./generators/taco/statements";
+import typesGenerators from "./generators/taco/types";
+for (let generator of [
+      baseGenerators,
+      classesGenerators,
+      expressionsGenerators,
+      methodsGenerators,
+      statementsGenerators,
+      typesGenerators,
+    ]) {
+  Object.assign(TacoscriptPrinter.prototype, generator);
+}

@@ -1,5 +1,6 @@
 
 // TODO: also print locations for source maps, etc.
+// TODO: get code from cst instead of from string
 
 import * as t from "babel-types";
 
