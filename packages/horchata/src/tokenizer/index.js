@@ -49,6 +49,9 @@ export class TacoToken {
     if (code === "~>" || code === "~>>") {
       return (TacoToken._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
     }
+    if (code === "~=>" || code === "~=>>") {
+      return (TacoToken._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
+    }
     if (code === "+=" || code === "-=" ||
         code === "/=" || code === "*=" || code === "**=" || code === "%=" ||
         code === "|=" || code === "&=" || code === "^=" ||

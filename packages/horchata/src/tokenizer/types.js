@@ -121,6 +121,7 @@ export const types = {
   arrow:        punctuator("=>", {beforeExpr: true, startsExpr: true}),
   unboundArrow: punctuator("->", {beforeExpr: true, startsExpr: true}),
   asyncArrow:   punctuator("~>", {beforeExpr: true, startsExpr: true}),
+  asyncBoundArrow:punctuator("~=>", {beforeExpr: true, startsExpr: true}),
   template:     new TacoTokenType("template", "Template"),
   ellipsis:     punctuator("...", beforeExpr),
   backQuote:    punctuator("`",   startsExpr),
@@ -187,6 +188,7 @@ kw("delete", {beforeExpr: true, prefix: true, startsExpr: true});
 kw("var");
 kw("let");
 kw("const");
+kw("extern");
 kw("function"); // startsExpr // in tacoscript, function is only used as a declaration
 // control flow
 kw("then", {beforeExpr: true, startsExpr: true});

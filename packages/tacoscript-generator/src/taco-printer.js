@@ -23,7 +23,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   print(parent, prop, opts = {}) {
-    if (parent.tokenElements && parent.tokenElements.length) {
+    if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       this._preservedPrint(parent, prop, opts);
     } else {
       this._simplePrint(parent[prop], parent, opts);
@@ -44,7 +44,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _startPrint(parent, prop, opts) {
-    if (parent.tokenElements && parent.tokenElements.length) {
+    if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       return this._startPreservedPrint(parent, prop, opts);
     } else {
       return this._simpleStartPrint(parent[prop], parent, opts);
@@ -72,7 +72,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _finishPrint(node, opts) {
-    if (node.tokenElements) {
+    if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
       throw new Error('Not Implemented');
       // print all remaining unprinted tokens
       // * preserve correct indentation syntax
@@ -97,13 +97,14 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   printMultiple(parent, prop, opts = {}) {
     let nodes = parent[prop];
     if (!nodes || !nodes.length) {
-      if (parent.tokenElements && parent.tokenElements.length) {
+      if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
         // if a node of child: prop is found
-          // print tokens leading up to last node of child: prop
+        // * print tokens leading up to last node of child: prop
+        throw new Error("Not Implemented");
       }
       return;
     }
-    if (parent.tokenElements && parent.tokenElements.length) {
+    if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       throw new Error("Not Implemented");
       // Iterate through tokenElements
       // print tokens leading
@@ -159,7 +160,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
   printArguments(parent, prop = "arguments", opts = {}) {
     let node = parent[prop];
-    if (node.tokenElements) {
+    if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
       throw new Error('Not Implemented');
     } else {
       // a transform will be used, so don't worry about exec (!) style arguments here.
@@ -178,7 +179,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   // for array and object literals
   printLiteralBody(parent, prop, opts = {}) {
     let node = parent[prop];
-    if (node.tokenElements) {
+    if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
       throw new Error('Not Implemented');
     } else {
       opts.separator = {type: "newline"};

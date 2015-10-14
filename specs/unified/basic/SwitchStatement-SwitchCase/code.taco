@@ -1,21 +1,21 @@
-switch foo then donothing
+switch foo
 
 switch foo
-  case "foo" then donothing
-
-
-switch foo
-  default donothing
+  case "foo"
 
 
 switch foo
-  case "foo" then donothing alsodo
-  default donothing
+  default
 
 
 switch foo
-  case "foo" then donothing alsodo
-  case "bar" then donothing alsodo
+  case "foo"
+  and default
+
+
+switch foo
+  case "foo"
+  and case "bar"
   default donothing
 
 
@@ -33,8 +33,8 @@ switch foo
 
 
 switch foo
-  case "foo" then foo() alsodo
-  case "bar"
-    bar() alsodo
-  default
+  case "foo" then foo()
+  and case "bar"
+    bar()
+  and default
     yay()
