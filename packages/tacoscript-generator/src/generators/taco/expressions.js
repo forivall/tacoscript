@@ -48,6 +48,8 @@ export function UpdateExpression(node) {
   }
 }
 
+// TODO: ToggleExpression - see frappe "nice alternative to nested ternaries"
+
 export function ConditionalExpression(node) {
   this.push("if", "!");
   this.print(node, "test");

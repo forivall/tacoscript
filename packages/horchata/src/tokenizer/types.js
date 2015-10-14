@@ -169,6 +169,7 @@ export const types = {
   bitShift:        binop("<</>>", 8),
   plusMin:    punctuator("+/-", "Punctuator", {beforeExpr: true, binop: 9, prefix: true, startsExpr: true}),
   modulo:          binop("%", 10),
+  positiveModulo:  binop("%%", 10), // See lydell/frappe '"useful" modulo'
   star:            binop("*", 10),
   slash:           binop("/", 10),
   exponent:   punctuator("**", {beforeExpr: true, binop: 11, rightAssociative: true}),

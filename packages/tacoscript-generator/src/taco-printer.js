@@ -147,7 +147,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
     for (i = 0; i < len; i++) {
       node = nodes[i];
-      this._simplePrint(node, parent, printOpts);
+      if (node) {
+        this._simplePrint(node, parent, printOpts);
+      } else {
+        // preserve holes, especially in arrays
+        this.push("pass");
+      }
     }
 
     if (opts.dedent) { this.dedent(); }
@@ -183,7 +188,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       throw new Error('Not Implemented');
     } else {
       opts.separator = {type: "newline"};
-      this._simplePrintMultiple(node, parent, opts)
+      this._simplePrintMultiple(node, parent, opts);
     }
   }
 
@@ -225,3 +230,6 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
 import _printer from "./_printer";
 Object.assign(TacoscriptPrinter.prototype, _printer);
+
+import BaseGenerator from "./geneators/taco/base";
+// for ...
