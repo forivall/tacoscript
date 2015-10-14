@@ -140,7 +140,10 @@ export function SafeSwitchCase(node: Object) {
     this.keyword("and");
   }
   this._switchCase(node);
-  this.printBlock(node);
+  // NOTE: this can't be a block, for scope reasons.
+  // if collapse, if the array only contains one statement, it will be prefixed
+  // with "then" and will have no leading newline.
+  this.printStatements(node, "consequent", { indent: true, collapse: true });
 }
 
 export function DebuggerStatement() {
