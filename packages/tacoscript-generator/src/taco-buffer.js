@@ -9,6 +9,7 @@ import {types as tt, keywords as kw} from "horchata/lib/tokenizer/types";
 import {TacoToken as Token} from "horchata/lib/tokenizer"
 import isString from "lodash/lang/isString";
 import equalsDeep from "lodash/lang/isEqual";
+import "./special-tokens";
 
 export default class TacoBuffer {
 
@@ -36,6 +37,7 @@ export default class TacoBuffer {
   }
 
   isLastType(type) {
+    if (this.tokens.length <= 0) return false;
     let last = this.tokens[this.tokens.length - 1];
     return last.type === type;
   }
@@ -46,6 +48,9 @@ export default class TacoBuffer {
 
   _initSourceMap(opts, code) {
     if (opts.sourceMaps) {
+      if (!opts.sourceFileName) {
+        throw new Error("sourceFileName must be set when generating source maps")
+      }
       this.map = new sourceMap.SourceMapGenerator({
         file: opts.sourceMapTarget,
         sourceRoot: opts.sourceRoot
@@ -144,6 +149,12 @@ export default class TacoBuffer {
 
   _push(state) {
     state = TacoBuffer._massageTokenState(state);
+    // avoid redundant mapping marks
+    if (state.type === tt.mappingMark && this.isLastType(tt.mappingMark)) {
+      if (state.value.pos === this.tokens[this.tokens.length - 1].value.pos) {
+        return;
+      }
+    }
     if (state.type === tt.newline) {
       this._insertIndentTokens()
     }
