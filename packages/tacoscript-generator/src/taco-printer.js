@@ -228,7 +228,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);
     } else {
       // This is a single statement with no surrounding braces
-      this.push('then');
+      let noThen = t.isIfStatement(parent) && prop === 'alternate' && t.isIfStatement(node);
+      if (!noThen) this.push('then');
       this.print(parent, prop);
     }
   }

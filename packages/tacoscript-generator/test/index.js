@@ -9,9 +9,15 @@ var mochaFixtures = require("mocha-fixtures-generic");
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core/basic"), {
   optionsPath: "options",
   fixtures: {
+    // actual should preserve whitespace
     "js": { loc: ["actual.js"] },
     "taco": { loc: ["actual.taco"] },
+    // expected should use autoformatting rules
+    "auto": { loc: ["expected.taco"] },
+    "babel": { loc: ["expected.js"] },
+    // estree ast
     "json": { loc: ["expected.json"] },
+    // pre-transform tacoscript ast
     "raw": { loc: ["actual.json"] }
   },
   getTaskOptions: function(suite, test) {
@@ -39,22 +45,14 @@ suite("taco-printer", function () {
 });
 _.forOwn(suiteSets, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("generation/" + setName + "/basic/" + testSuite.title, function () {
+    suite("generation/basic/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         test(task.title, !task.disabled && function () {
-          var taco = task.taco;
+          var taco = task.auto;
           var js = task.js;
 
           var actualAst = babylon.parse(js.code, {
             filename: js.loc,
-            // plugins: [
-            //   "jsx",
-            //   "flow",
-            //   "decorators",
-            //   "asyncFunctions",
-            //   "exportExtensions",
-            //   "functionBind",
-            // ],
             strictMode: false,
             sourceType: "module",
           });

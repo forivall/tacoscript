@@ -1,0 +1,3 @@
+x = switch! when isArray(y) then y
+  when y then [y]
+  else [];

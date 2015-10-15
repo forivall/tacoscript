@@ -1,4 +1,4 @@
-x = toggle y
-  on toggle isArray(y)
-    on y off [y]
-  off []
+x = if! y
+  then if! isArray(y)
+    then y else [y]
+  else []
