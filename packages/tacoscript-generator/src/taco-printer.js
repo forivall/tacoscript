@@ -60,7 +60,9 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (opts.before) { opts.before(); }
 
     // push mapping start pseudo-token
-    this.push({type: 'MappingMark', loc: node.loc.start});
+    if (this.opts.sourceMaps) {
+      this.push({type: 'mappingMark', value: {loc: node.loc.start, pos: node.start}});
+    }
   }
 
   _startPreservedPrint(parent, prop, opts) {
@@ -90,7 +92,9 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
   _finishSimplePrint(node, opts) {
     // push mapping end pseudo-token
-    this.push({type: 'MappingMark', loc: node.loc.end});
+    if (this.opts.sourceMaps) {
+      this.push({type: 'mappingMark', value: {loc: node.loc.end, pos: node.end}});
+    }
 
     if (opts.after) { opts.after(); }
     // TODO: print trailing comments

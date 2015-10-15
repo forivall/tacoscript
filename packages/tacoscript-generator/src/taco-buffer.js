@@ -57,6 +57,7 @@ export default class TacoBuffer {
   }
 
   mark(original) {
+    if (!this.map) return;
     // use current location to mark the source map
     let position = this.position;
     this.map.addMapping({
@@ -136,11 +137,7 @@ export default class TacoBuffer {
     if (isString(state)) {
       state = Token.stateFromCode(state);
     } else if (isString(state.type)) {
-      if (state.type === "MappingMark") {
-        return state;
-      } else {
-        state.type = tt[state.type];
-      }
+      state.type = tt[state.type];
     }
     return state;
   }
@@ -150,7 +147,7 @@ export default class TacoBuffer {
     if (state.type === tt.newline) {
       this._insertIndentTokens()
     }
-    // TODO: ensure leading indent, unless in parenthetized expression context
+    // TODO: ensure leading tab tokens, unless in parenthetized expression context
     this.tokens.push(new Token(state));
   }
 
@@ -186,15 +183,16 @@ export default class TacoBuffer {
 
   _serialize(token) {
     let code, origLoc;
-    if (token.type !== "MappingMark") {
-      code = token.type.toCode(token);
+    if (token.type === tt.mappingMark) {
+      this.mark(token.value.loc);
+      return;
     }
+    code = token.type.toCode(token);
     origLoc = token.origLoc || token.loc;
-    if (origLoc) this.mark(origLoc);
-    if (token.type !== "MappingMark") {
-      this.output += code;
-      this.position.push(code);
-    }
+    if (origLoc) this.mark(origLoc.start);
+    this.output += code;
+    this.position.push(code);
+    if (origLoc) this.mark(origLoc.end);
   }
 
 }

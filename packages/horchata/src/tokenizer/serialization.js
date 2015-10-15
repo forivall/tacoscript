@@ -29,6 +29,7 @@ export function from(babelTokenType) {
 export function init() {
   // added();
   tt.eof.code = "";
+  tt.newline.code = "\n";
   tt.bracketL.code = "[";
   tt.bracketR.code = "]";
   tt.braceL.code = "{";
