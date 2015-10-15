@@ -18,6 +18,9 @@ const commonPrinterMethods = {
 };
 export default commonPrinterMethods;
 
+// TODO: submit babel bug?
+commonPrinterMethods["default"] = commonPrinterMethods;
+
 import * as _base from "./generators/base";
 // import * as _jsx from "./generators/jsx";
 // import * as _flow from "./generators/flow";

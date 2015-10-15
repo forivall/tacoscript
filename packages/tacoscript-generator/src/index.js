@@ -10,6 +10,7 @@ export class CodeGenerator {
   constructor(ast, opts, code) {
     opts = opts || {};
     opts.language = opts.language || 'tacoscript';
+    opts.format = opts.format || {preserve: true};
     if (opts.language === 'javascript') opts.language = 'ecmascript';
 
     this.printer = this.createPrinter(ast, opts, code);
@@ -20,7 +21,7 @@ export class CodeGenerator {
   }
 
   createPrinter(ast, opts, code) {
-    return CodeGenerator.printers[opts.language](ast, opts, code);
+    return new CodeGenerator.printers[opts.language](ast, opts, code);
   }
 
   generate() {

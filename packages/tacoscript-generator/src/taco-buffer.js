@@ -15,6 +15,7 @@ export default class TacoBuffer {
   constructor(opts, code) {
     this._initSourceMap(opts, code);
     this.opts = opts;
+    this.format = opts.format;
     this.tokens = [];
     this._indent = 0;
     this._lastIndent = 0;
@@ -99,7 +100,8 @@ export default class TacoBuffer {
     this._push({type: kw[name]});
   }
 
-  push(...tokenStates) {
+  push(..._tokenStates) {
+    let tokenStates = _tokenStates; // babel#2539
     for (let token of (tokenStates: Array)) {
       this._push(token);
     }

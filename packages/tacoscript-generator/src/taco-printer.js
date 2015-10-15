@@ -32,6 +32,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
   _simplePrint(node, parent, opts) {
     this._simpleStartPrint(node, parent, opts);
+    if (!this[node.type]) { throw new Error(`Cannot print node of type ${node.type}`); }
     this[node.type](node, parent, opts);
     this._finishSimplePrint(node, opts);
   }
@@ -39,6 +40,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   _preservedPrint(parent, prop, opts) {
     let node = parent[prop];
     this._startPreservedPrint(parent, prop, opts);
+    if (!this[node.type]) { throw new Error(`Cannot print node of type ${node.type}`); }
     this[node.type](node, parent, opts);
     this._finishPrint(node, opts);
   }
