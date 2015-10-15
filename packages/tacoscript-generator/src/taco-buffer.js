@@ -136,7 +136,11 @@ export default class TacoBuffer {
     if (isString(state)) {
       state = Token.stateFromCode(state);
     } else if (isString(state.type)) {
-      state.type = tt[state.type];
+      if (state.type === "MappingMark") {
+        return state;
+      } else {
+        state.type = tt[state.type];
+      }
     }
     return state;
   }
@@ -181,12 +185,16 @@ export default class TacoBuffer {
   }
 
   _serialize(token) {
-    let
-      code = token.toCode(),
-      origLoc = token.origLoc || token.loc;
+    let code, origLoc;
+    if (token.type !== "MappingMark") {
+      code = token.type.toCode(token);
+    }
+    origLoc = token.origLoc || token.loc;
     if (origLoc) this.mark(origLoc);
-    this.output += code;
-    this.position.push(code);
+    if (token.type !== "MappingMark") {
+      this.output += code;
+      this.position.push(code);
+    }
   }
 
 }
