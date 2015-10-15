@@ -63,12 +63,12 @@ export function init() {
   tt.blockCommentEnd.code = "$#";
   tt.lineCommentStart.code = "#";
 
-  tt.num.toCode = function(token) { return token.value.raw; };
-  tt.regexp.toCode = function(token) { return token.value.raw; };
-  tt.string.toCode = function(token) { return token.value.raw; };
+  tt.num.toCode = function(token) { return token.value.code; };
+  tt.regexp.toCode = function(token) { return token.value.code; };
+  tt.string.toCode = function(token) { return token.value.code; };
   tt.name.toCode = function(token, state) {
     // TODO: keyword conflict resolution
-    return token.value.raw;
+    return token.value.code;
   };
   tt.tab.toCode = function(token, state) {
     return repeating(state.format.indent.indent, token.value);

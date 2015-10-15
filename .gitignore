@@ -11,3 +11,4 @@ _babel.github.io
 /tests/.browser-build.js
 .settings
 tags
+.imdone
