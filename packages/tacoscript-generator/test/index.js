@@ -56,9 +56,11 @@ _.forOwn(suiteSets, function(suites, setName) {
             strictMode: false,
             sourceType: "module",
           });
-
-          var actualCode = generate(actualAst, task.options, js.code).code;
-          expect(actualCode).to.equal(taco.code, js.loc + " !== " + taco.loc);
+          var options = _.merge({format: {perserve: false}}, task.options);
+          var actualCode = generate(actualAst, options, js.code).code;
+          // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
+          // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
+          expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
         });
       });
     });

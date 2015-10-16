@@ -52,7 +52,7 @@ export class TacoTokenType {
 
     // serialization
     this.forceSpaceWhenAfter = {};
-    this.preferSpaceWhenAfter = {};
+    this.formattingSpaceWhenAfter = {};
   }
   toCode(token) { return "" + (this.code || token.value); }
 }

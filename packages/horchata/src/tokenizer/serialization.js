@@ -27,7 +27,7 @@ export function from(babelTokenType) {
 }
 
 export function init() {
-  // added();
+  added();
   tt.eof.code = "";
   tt.newline.code = "\n";
   tt.bracketL.code = "[";
@@ -63,6 +63,7 @@ export function init() {
   tt.blockCommentEnd.code = "$#";
   tt.lineCommentStart.code = "#";
 
+  tt.whitespace.toCode = function(token) { return token.value.code; };
   tt.num.toCode = function(token) { return token.value.code; };
   tt.regexp.toCode = function(token) { return token.value.code; };
   tt.string.toCode = function(token) { return token.value.code; };
@@ -81,10 +82,12 @@ export function init() {
     // marker to parser that indentation has decreased
     return "";
   };
+  tt.bracketL.formattingSpaceWhenAfter.eq = true;
 
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
+  tt.eq.formattingSpaceWhenAfter.name = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {

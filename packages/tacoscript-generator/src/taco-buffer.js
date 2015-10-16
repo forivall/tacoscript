@@ -32,14 +32,22 @@ export default class TacoBuffer {
    */
   isLast(state) {
     state = TacoBuffer._massageTokenState(state);
-    let last = this.tokens[this.tokens.length - 1];
+    let last = this._last();
     return last.type === state.type && equalsDeep(last.value, state.value);
   }
 
   isLastType(type) {
     if (this.tokens.length <= 0) return false;
-    let last = this.tokens[this.tokens.length - 1];
+    let last = this._last();
     return last.type === type;
+  }
+
+  _last() {
+    var token;
+    for (let i = 1, len = this.tokens.length;
+        i <= len && (token = this.tokens[len - i]).type === tt.mappingMark;
+        i++) {}
+    return token;
   }
 
   /**
@@ -150,11 +158,10 @@ export default class TacoBuffer {
   _push(state) {
     state = TacoBuffer._massageTokenState(state);
     // avoid redundant mapping marks
-    if (state.type === tt.mappingMark && this.isLastType(tt.mappingMark)) {
-      if (state.value.pos === this.tokens[this.tokens.length - 1].value.pos) {
-        return;
-      }
-    }
+    if (this._isRedundantMappingMark(state)) { return; }
+
+    this._insertForceSpace(state) || this._insertFormattingSpace(state);
+
     if (state.type === tt.newline) {
       this._insertIndentTokens()
     }
@@ -175,6 +182,54 @@ export default class TacoBuffer {
       }
       this._lastIndent = this._indent;
     }
+  }
+
+  _insertForceSpace(state) {
+    let force = state.type.forceSpaceWhenAfter;
+    if (!force) { return false; }
+    let last = this._last();
+    if (last == null) { return false; }
+    let isForced = force[last.type.key] || last.type.keyword && force.keyword;
+    if (!isForced) { return false; }
+
+    if (isForced === true || isForced(last, state)) {
+      this.tokens.push(new Token({type: tt.whitespace, value: {code: ' '}}));
+      return true;
+    }
+    return false;
+  }
+
+  // TODO: move this documentation elsewhere
+  // syntax: -! is used to encode a semicolon that doesn't have a trailing newline
+  // example is in the following function
+
+  _insertFormattingSpace(state) {
+    if (this.format.compact || this.format.preserve) { return false; }
+    // if this.format.compact or this.format.preserve -! return false
+    let formatting = state.type.formattingSpaceWhenAfter;
+    if (!formatting) { return false; }
+    let last = this._last();
+    if (last == null) { return false; }
+    let insertFormatting = formatting[last.type.key] || last.type.keyword && formatting.keyword;
+    if (!insertFormatting) { return false; }
+
+    if (insertFormatting === true || insertFormatting(last, state)) {
+      this.tokens.push(new Token({type: tt.whitespace, value: {code: ' '}}));
+      return true;
+    }
+    return false;
+  }
+
+  _isRedundantMappingMark(state) {
+    if (this.tokens.length <= 0) return false;
+    let last = this.tokens[this.tokens.length - 1];
+
+    if (state.type === tt.mappingMark && last.type === tt.mappingMark) {
+      if (state.value.pos === last.value.pos) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
