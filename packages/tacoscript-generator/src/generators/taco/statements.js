@@ -168,7 +168,7 @@ export function VariableDeclaration(node: Object, parent: Object) {
   } else {
     let useNewlines = !this.format.compact && hasInits && node.declarations.length > 1;
     let sep = useNewlines ? {type: "newline"} : ",";
-
+    if (useNewlines) this.newline();
     this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
   }
 }

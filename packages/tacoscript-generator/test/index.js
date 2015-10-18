@@ -9,6 +9,7 @@ var mochaFixtures = require("mocha-fixtures-generic");
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core/basic"), {
   optionsPath: "options",
+  skip: function(test) { return test === "README.md" },
   fixtures: {
     // actual should preserve whitespace
     "js": { loc: ["actual.js"] },
