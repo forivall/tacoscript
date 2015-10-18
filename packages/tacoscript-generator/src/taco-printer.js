@@ -196,11 +196,14 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       throw new Error('Not Implemented');
     } else {
-      opts.separator = {type: "newline"};
-      if (parent.type === "ArrayExpression" && node.length <= 5) {
-        opts.separator = ",";
-      }
+      let useNewlines = true;
+      if (parent.type === "ArrayExpression" && node.length <= 5) { useNewlines = false; }
+      if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) { useNewlines = false; }
+      opts.separator = useNewlines ? {type: "newline"} : ",";
+      if (useNewlines) { this.indent(); this.newline(); }
+      // if opts.separator !== "," then! this.indent() then this.newline()
       this._simplePrintMultiple(node, parent, opts);
+      if (useNewlines) { this.dedent(); this.newline(); }
     }
   }
 

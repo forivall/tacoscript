@@ -46,19 +46,10 @@ export function _functionBody(parent, prop = "body") {
 export function _method(node: Object) {
   let value = node.value;
   let kind  = node.kind;
-  let key   = node.key;
-
-  if (kind === "method" || kind === "init") {
-    if (value.generator) {
-      this.push("*");
-    }
-  }
 
   if (kind === "get" || kind === "set") {
-    this.push(kind + " ");
+    this.push(kind);
   }
-
-  if (value.async) this.push("async ");
 
   if (node.computed) {
     this.push("[");
@@ -69,7 +60,19 @@ export function _method(node: Object) {
   }
 
   this._params(value);
-  this.print(value, "body");
+
+  if (kind === "method" || kind === "init") {
+    if (value.generator) {
+      this.push("*");
+    }
+    if (node.async) {
+      this.push("~>");
+    } else {
+      this.push("->");
+    }
+  }
+
+  this._functionBody(value);
 }
 
 /**
