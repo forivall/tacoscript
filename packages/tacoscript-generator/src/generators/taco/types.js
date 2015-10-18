@@ -118,27 +118,27 @@ export function StringLiteral(node) {
 }
 
 // TODO: move to external module, send PR to babel.
-// export function _stringLiteral(val: string): string {
-//   val = JSON.stringify(val);
-//
-//   // escape illegal js but valid json unicode characters
-//   val = val.replace(/[\u000A\u000D\u2028\u2029]/g, function (c) {
-//     return "\\u" + ("0000" + c.charCodeAt(0).toString(16)).slice(-4);
-//   });
-//
-//   if (this.format.quotes === "single") {
-//     // remove double quotes
-//     val = val.slice(1, -1);
-//
-//     // unescape double quotes
-//     val = val.replace(/\\"/g, '"');
-//
-//     // escape single quotes
-//     val = val.replace(/'/g, "\\'");
-//
-//     // add single quotes
-//     val = `'${val}'`;
-//   }
-//
-//   return val;
-// }
+export function _stringLiteral(val: string): string {
+  val = JSON.stringify(val);
+
+  // escape illegal js but valid json unicode characters
+  val = val.replace(/[\u000A\u000D\u2028\u2029]/g, function (c) {
+    return "\\u" + ("0000" + c.charCodeAt(0).toString(16)).slice(-4);
+  });
+
+  if (this.format.quotes === "single") {
+    // remove double quotes
+    val = val.slice(1, -1);
+
+    // unescape double quotes
+    val = val.replace(/\\"/g, '"');
+
+    // escape single quotes
+    val = val.replace(/'/g, "\\'");
+
+    // add single quotes
+    val = `'${val}'`;
+  }
+
+  return val;
+}

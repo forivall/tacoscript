@@ -105,6 +105,9 @@ export function init() {
   tt.arrow.formattingSpaceAfter = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
+  tt.plusMin.formattingSpaceAfter = true;
+  tt.plusMin.formattingSpaceWhenAfter.string = true;
+
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
     return (left.value === "+" && right.value === "++") ||
       (left.value === "-" && right.value === "--");

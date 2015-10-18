@@ -199,6 +199,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     } else {
       let useNewlines = true;
       if (parent.type === "ArrayExpression" && node.length <= 5) { useNewlines = false; }
+      if (parent.type === "ArrayPattern") { useNewlines = false; }
       // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) { useNewlines = false; }
       if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length === 0) { useNewlines = false; }
       // TODO: always use newlines if the literal contains a function
