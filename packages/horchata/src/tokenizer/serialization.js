@@ -89,8 +89,10 @@ export function init() {
   forOwn(keywords, function(keywordType) {
     keywordType.forceSpaceWhenAfter.keyword = true;
     keywordType.forceSpaceWhenAfter.name = true;
+    keywordType.forceSpaceWhenAfter.string = true;
   });
   tt.name.forceSpaceWhenAfter.keyword = true;
+  tt.string.forceSpaceWhenAfter.keyword = true;
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
