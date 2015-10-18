@@ -105,24 +105,18 @@ export function init() {
   tt.arrow.formattingSpaceAfter = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
+  // TODO: don't input formatting space if unary
   tt.plusMin.formattingSpaceAfter = true;
   tt.plusMin.formattingSpaceWhenAfter.name = true;
-  tt.slash.formattingSpaceWhenAfter.name = true;
-  tt.slash.formattingSpaceAfter = true;
-  tt.star.formattingSpaceAfter = true;
-  tt.star.formattingSpaceWhenAfter.name = true;
-  tt.modulo.formattingSpaceAfter = true;
-  tt.modulo.formattingSpaceWhenAfter.name = true;
-  tt.assign.formattingSpaceAfter = true;
-  tt.assign.formattingSpaceWhenAfter.name = true;
-  tt.bitShift.formattingSpaceAfter = true;
-  tt.bitShift.formattingSpaceWhenAfter.name = true;
-  tt.bitwiseAND.formattingSpaceAfter = true;
-  tt.bitwiseAND.formattingSpaceWhenAfter.name = true;
-  tt.bitwiseOR.formattingSpaceAfter = true;
-  tt.bitwiseOR.formattingSpaceWhenAfter.name = true;
-  tt.bitwiseXOR.formattingSpaceAfter = true;
-  tt.bitwiseXOR.formattingSpaceWhenAfter.name = true;
+  for (let tokenType of [
+        tt.slash, tt.star, tt.modulo, tt.assign,
+        tt.bitShift, tt.bitwiseAND, tt.bitwiseOR, tt.bitwiseXOR,
+        tt.equality, tt.relational
+      ]) {
+    tokenType.formattingSpaceWhenAfter.name = true;
+    tokenType.formattingSpaceAfter = true;
+  }
+
   tt.plusMin.formattingSpaceWhenAfter.string = true;
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
