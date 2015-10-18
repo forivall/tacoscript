@@ -84,17 +84,23 @@ export function init() {
   };
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
+  tt.arrow.formattingSpaceWhenAfter.parenR = true;
 
   forOwn(keywords, function(keywordType) {
-    keywordType.formattingSpaceWhenAfter.keyword = true;
+    keywordType.forceSpaceWhenAfter.keyword = true;
+    keywordType.forceSpaceWhenAfter.name = true;
   });
+  tt.name.forceSpaceWhenAfter.keyword = true;
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
+  tt.num.forceSpaceWhenAfter.keyword = true;
   tt.num.forceSpaceWhenAfter.keyword = true;
   tt.eq.formattingSpaceWhenAfter.name = true;
   tt.comma.formattingSpaceAfter = true;
   tt.colon.formattingSpaceAfter = true;
   tt.eq.formattingSpaceAfter = true;
+  tt.unboundArrow.formattingSpaceAfter = true;
+  tt.arrow.formattingSpaceAfter = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {

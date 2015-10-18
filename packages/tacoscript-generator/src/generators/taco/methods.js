@@ -22,6 +22,7 @@ export function _functionBody(parent, prop = "body") {
   let opts = {};
   if (t.isBlock(node)) {
     this.indent();
+    if (node.body.length > 0) { this.newline(); }
     this._startPrint(parent, prop, opts);
     this.printStatements(node, prop, opts);
     this._finishPrint(node, opts);
@@ -65,11 +66,11 @@ export function _method(node: Object) {
     if (value.generator) {
       this.push("*");
     }
-    if (node.async) {
-      this.push("~>");
-    } else {
-      this.push("->");
-    }
+  }
+  if (node.async) {
+    this.push("~>");
+  } else {
+    this.push("->");
   }
 
   this._functionBody(value);

@@ -50,6 +50,15 @@ export default class TacoBuffer {
     return token;
   }
 
+  _pop() {
+    var i, len, token;
+    for (i = 1, len = this.tokens.length;
+        i <= len && (token = this.tokens[len - i]).type === tt.mappingMark;
+        i++) {}
+    this.tokens.splice(len - i, 1);
+    return token;
+  }
+
   /**
    * Source Map
    */
@@ -95,7 +104,7 @@ export default class TacoBuffer {
     // TODO: make sure that indent only occurs right before a newline
     this._indent++;
     if (this.isLastType(tt.newline)) {
-      let newline = this.tokens.pop();
+      let newline = this._pop();
       this._insertIndentTokens();
       this.tokens.push(newline);
     }
@@ -104,7 +113,7 @@ export default class TacoBuffer {
   dedent() {
     this._indent--;
     if (this.isLastType(tt.newline)) {
-      let newline = this.tokens.pop();
+      let newline = this._pop();
       this._insertIndentTokens();
       this.tokens.push(newline);
     }
@@ -163,6 +172,9 @@ export default class TacoBuffer {
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
     if (state.type === tt.newline) {
+      if (this.isLastType(tt.whitespace)) {
+        this._pop();
+      }
       this._insertIndentTokens();
     } else if (this.isLastType(tt.newline)) {
       this.tokens.push(new Token({type: tt.tab, value: this._indent}));

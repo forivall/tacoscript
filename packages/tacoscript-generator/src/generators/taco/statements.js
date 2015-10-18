@@ -163,16 +163,13 @@ export function VariableDeclaration(node: Object, parent: Object) {
       }
     }
   }
-
   if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
     throw new Error("Not Implemented");
   } else {
-    let sep = ",";
-    if (!this.format.compact && hasInits) {
-      sep = [{type: "newline"}, {type: "indent"}];
-    }
+    let useNewlines = !this.format.compact && hasInits && node.declarations.length > 1;
+    let sep = useNewlines ? {type: "newline"} : ",";
 
-    this.printList(node.declarations, node, { separator: sep });
+    this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
   }
 }
 
