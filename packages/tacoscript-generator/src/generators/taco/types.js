@@ -8,7 +8,7 @@ export function Identifier(node) {
   this.push({type: "name", value: { value: node.name, code: this.code.slice(node.start, node.end) }});
 }
 
-export function RestElement(node: Object) {
+export function RestElement(node) {
   this.push("...");
   this.print(node, "argument");
 }
@@ -19,7 +19,7 @@ export {
   RestElement as RestProperty,
 };
 
-export function ObjectExpression(node: Object) {
+export function ObjectExpression(node) {
   this.push("{");
   this.printLiteralBody(node, "properties");
   this.push("}");
@@ -27,7 +27,7 @@ export function ObjectExpression(node: Object) {
 
 export { ObjectExpression as ObjectPattern };
 
-export function Property(node: Object) {
+export function Property(node) {
   this.printJoin(node.decorators, node, { separator: null });
 
   if (node.method || node.kind === "get" || node.kind === "set") {
@@ -60,7 +60,7 @@ export function Property(node: Object) {
   }
 }
 
-export function ArrayExpression(node: Object) {
+export function ArrayExpression(node) {
   this.push("[");
   this.printLiteralBody(node, "elements");
   this.push("]");
@@ -68,13 +68,40 @@ export function ArrayExpression(node: Object) {
 
 export { ArrayExpression as ArrayPattern };
 
-export function RegexLiteral(node: Object) {
+// TODO: can be removed when babel 6 drops
+export function Literal(node) {
+  var val = node.value;
+
+  if (node.regex) {
+    return this["RegexLiteral"]({pattern: node.regex.pattern, flags: node.regex.flags, start: node.start, end: node.end});
+  }
+
+  switch (typeof val) {
+    case "string":
+      return this["StringLiteral"](node);
+
+    case "number":
+      return this["NumberLiteral"](node);
+
+    case "boolean":
+      return this["BooleanLiteral"](node);
+
+    default:
+      if (val === null) {
+        return this["NullLiteral"](node);
+      } else {
+        throw new Error("Invalid Literal type");
+      }
+  }
+}
+
+export function RegexLiteral(node) {
   // TODO: export this as regex token.tostring
   // this.push(`/${node.pattern}/${node.flags}`);
   this.push({type: 'regexp', value: {pattern: node.pattern, flags: node.flags, code: this.code.slice(node.start, node.end) }});
 }
 
-export function BooleanLiteral(node: Object) {
+export function BooleanLiteral(node) {
   this.push(node.value ? "true" : "false");
 }
 
@@ -82,11 +109,11 @@ export function NullLiteral() {
   this.push("null");
 }
 
-export function NumberLiteral(node: Object) {
+export function NumberLiteral(node) {
   this.push({type: 'num', value: {value: node.value, code: this.code.slice(node.start, node.end)}});
 }
 
-export function StringLiteral(node: Object) {
+export function StringLiteral(node) {
   this.push({type: 'string', value: {value: node.value, code: this.code.slice(node.start, node.end)}});
 }
 

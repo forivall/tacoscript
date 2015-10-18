@@ -52,6 +52,7 @@ export class TacoTokenType {
 
     // serialization
     this.forceSpaceWhenAfter = {};
+    this.formattingSpaceAfter = false;
     this.formattingSpaceWhenAfter = {};
   }
   toCode(token) { return "" + (this.code || token.value); }
@@ -232,6 +233,8 @@ kw("true", startsExpr);
 kw("false", startsExpr);
 kw("this", startsExpr);
 kw("super", startsExpr);
+
 kw("debugger");
+kw("pass");
 
 initSerialization();

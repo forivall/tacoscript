@@ -141,14 +141,16 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
 
     if (opts.indent) { this.indent(); }
 
+    let after = () => {
+      if (opts.iterator) { opts.iterator(node, i); }
+      if (opts.separator && i < len - 1) {
+        this.push(...separator);
+      }
+    };
+
     let printOpts = {
       statement: opts.statement,
-      after: () => {
-        if (opts.iterator) { opts.iterator(node, i); }
-        if (opts.separator && i < len - 1) {
-          this.push(...separator);
-        }
-      }
+      after: after
     }
 
     for (i = 0; i < len; i++) {
@@ -158,6 +160,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       } else {
         // preserve holes, especially in arrays
         this.push("pass");
+        after();
       }
     }
 
@@ -190,10 +193,13 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   // for array and object literals
   printLiteralBody(parent, prop, opts = {}) {
     let node = parent[prop];
-    if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
+    if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       throw new Error('Not Implemented');
     } else {
       opts.separator = {type: "newline"};
+      if (parent.type === "ArrayExpression" && node.length <= 5) {
+        opts.separator = ",";
+      }
       this._simplePrintMultiple(node, parent, opts);
     }
   }

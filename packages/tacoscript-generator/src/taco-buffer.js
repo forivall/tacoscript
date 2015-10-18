@@ -206,11 +206,15 @@ export default class TacoBuffer {
   _insertFormattingSpace(state) {
     if (this.format.compact || this.format.preserve) { return false; }
     // if this.format.compact or this.format.preserve -! return false
-    let formatting = state.type.formattingSpaceWhenAfter;
-    if (!formatting) { return false; }
     let last = this._last();
-    if (last == null) { return false; }
-    let insertFormatting = formatting[last.type.key] || last.type.keyword && formatting.keyword;
+    let insertFormatting = last && last.type.formattingSpaceAfter;
+    console.log(last && last.type)
+    if (!insertFormatting) {
+      let formatting = state.type.formattingSpaceWhenAfter;
+      if (!formatting) { return false; }
+      if (last == null) { return false; }
+      insertFormatting = formatting[last.type.key] || last.type.keyword && formatting.keyword;
+    }
     if (!insertFormatting) { return false; }
 
     if (insertFormatting === true || insertFormatting(last, state)) {
@@ -260,5 +264,4 @@ export default class TacoBuffer {
     this.position.push(code);
     if (origLoc) this.mark(origLoc.end);
   }
-
 }

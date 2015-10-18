@@ -88,6 +88,7 @@ export function init() {
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
   tt.eq.formattingSpaceWhenAfter.name = true;
+  tt.comma.formattingSpaceAfter = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
