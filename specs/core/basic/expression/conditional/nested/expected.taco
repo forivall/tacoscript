@@ -1,0 +1,1 @@
+x = if! y then if! isArray(y) then y else [y] else []
