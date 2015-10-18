@@ -83,6 +83,7 @@ export function init() {
     return "";
   };
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
+  tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.

@@ -8,7 +8,7 @@ export function _params(node) {
     iterator: (node) => {
       // for flow
       if (node.optional) this.push("?")
-      this.print(node, "typeAnnotation");
+      if (node.typeAnnotation) this.print(node, "typeAnnotation");
     }
   });
 }

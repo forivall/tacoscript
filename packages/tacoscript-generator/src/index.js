@@ -4,6 +4,7 @@
  */
 
 import tacoPrinter from "./taco-printer";
+import detectIndent from "./detect-indent";
 
 // TODO: remove this class and just use a function.
 export class CodeGenerator {
@@ -11,6 +12,7 @@ export class CodeGenerator {
     opts = opts || {};
     opts.language = opts.language || 'tacoscript';
     opts.format = opts.format || {preserve: true};
+    opts.format.indent = opts.format.indent || detectIndent(code);
     if (opts.language === 'javascript') opts.language = 'ecmascript';
 
     this.printer = this.createPrinter(ast, opts, code);

@@ -1,1 +1,3 @@
-x = {answer: 42}
+x = {
+  answer: 42
+}

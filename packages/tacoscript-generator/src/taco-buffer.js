@@ -17,7 +17,7 @@ export default class TacoBuffer {
     this._initSourceMap(opts, code);
     this.opts = opts;
     this.format = opts.format;
-    this.tokens = [];
+    this.tokens = [new Token({type: tt.tab, value: 0})];
     this._indent = 0;
     this._lastIndent = 0;
 
@@ -163,7 +163,9 @@ export default class TacoBuffer {
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
     if (state.type === tt.newline) {
-      this._insertIndentTokens()
+      this._insertIndentTokens();
+    } else if (this.isLastType(tt.newline)) {
+      this.tokens.push(new Token({type: tt.tab, value: this._indent}));
     }
     // TODO: ensure leading tab tokens, unless in parenthetized expression context
     this.tokens.push(new Token(state));
@@ -256,7 +258,7 @@ export default class TacoBuffer {
       this.mark(token.value.loc);
       return;
     }
-    code = token.type.toCode(token);
+    code = token.type.toCode(token, this);
     origLoc = token.origLoc || token.loc;
     if (origLoc) this.mark(origLoc.start);
     this.output += code;
