@@ -1,6 +1,6 @@
 
 import forOwn from "lodash/object/forOwn";
-import { types as tt } from "./types";
+import { types as tt, keywords } from "./types";
 import { tokTypes as btt } from "babylon";
 import toFastProperties from "to-fast-properties";
 import repeating from "repeating";
@@ -85,6 +85,9 @@ export function init() {
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
+  forOwn(keywords, function(keywordType) {
+    keywordType.formattingSpaceWhenAfter.keyword = true;
+  });
 
   // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
   tt.num.forceSpaceWhenAfter.keyword = true;
