@@ -28,7 +28,7 @@ export function ObjectExpression(node) {
 export { ObjectExpression as ObjectPattern };
 
 export function Property(node) {
-  this.printJoin(node.decorators, node, { separator: null });
+  this.printMultiple(node, "decorators", { separator: null });
 
   if (node.method || node.kind === "get" || node.kind === "set") {
     this._method(node);

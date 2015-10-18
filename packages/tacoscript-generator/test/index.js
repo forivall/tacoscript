@@ -1,5 +1,6 @@
 /*global suite,test*/
 require('source-map-support').install();
+var fs = require("fs");
 var _ = require("lodash");
 var babylon = require('babylon');
 var generate = require('../lib/index').default;
@@ -60,7 +61,12 @@ _.forOwn(suiteSets, function(suites, setName) {
           var actualCode = generate(actualAst, options, js.code).code;
           // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
           // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
-          expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
+          var tacoLoc = taco.loc.replace('expected.json/', '');
+          if (!taco.code && !fs.existsSync(tacoLoc)) {
+            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          } else {
+            expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
+          }
         });
       });
     });

@@ -208,7 +208,6 @@ export default class TacoBuffer {
     // if this.format.compact or this.format.preserve -! return false
     let last = this._last();
     let insertFormatting = last && last.type.formattingSpaceAfter;
-    console.log(last && last.type)
     if (!insertFormatting) {
       let formatting = state.type.formattingSpaceWhenAfter;
       if (!formatting) { return false; }

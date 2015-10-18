@@ -89,6 +89,8 @@ export function init() {
   tt.num.forceSpaceWhenAfter.keyword = true;
   tt.eq.formattingSpaceWhenAfter.name = true;
   tt.comma.formattingSpaceAfter = true;
+  tt.colon.formattingSpaceAfter = true;
+  tt.eq.formattingSpaceAfter = true;
   toFastProperties(tt.num.forceSpaceWhenAfter);
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {

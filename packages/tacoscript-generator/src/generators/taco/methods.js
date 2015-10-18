@@ -3,7 +3,7 @@ import * as t from "babel-types";
 // TODO: create a "horchata-types" and switch to it
 
 export function _params(node) {
-  this.print(node, "typeParameters");
+  if (node.typeParameters) this.print(node, "typeParameters");
   this.printArguments(node, "params", {
     iterator: (node) => {
       // for flow
@@ -62,15 +62,14 @@ export function _method(node: Object) {
 
   if (node.computed) {
     this.push("[");
-    this.print(key, node);
+    this.print(node, "key");
     this.push("]");
   } else {
-    this.print(key, node);
+    this.print(node, "key");
   }
 
   this._params(value);
-  this.space();
-  this.print(value.body, value);
+  this.print(value, "body");
 }
 
 /**
