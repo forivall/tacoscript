@@ -50,7 +50,9 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
     * if a conditional expression is somewhere where blocks cannot occur, the `!` can be omitted
       `(a ? b : c)` ↔ `(if a then b else c)`
   * `while (true) {}` ↔ `while true`
-  * ```
+  * &nbsp;
+
+    ```
     do {}
     while (true) {}
     ```
