@@ -10,14 +10,14 @@ function foo() ->
 
 function foo() async ->
 
-var foo = () "foo" *->
+var foo = function foo() *->
 
-var foo = () "foo" ->
+var foo = function foo() ->
 
-var foo = () "foo" async ->
+var foo = function foo() ~>
 
 var foo = () *->
 
 var foo = () ->
 
-var foo = () async ->
+var foo = () ~>

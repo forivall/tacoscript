@@ -1,6 +1,6 @@
-exec
-exec
+!
+!
   pass
 
-exec
+!
   foo()
