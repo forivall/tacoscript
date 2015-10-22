@@ -19,6 +19,17 @@ function getPackages(dir) {
         name: pkg.name
       });
     }
+    var testpkg;
+    try { testpkg = require("../" + dir + "/" + name + "/test/package.json"); }
+    catch (e) {}
+    if (testpkg) {
+      packages.push({
+        folder: name + "/test",
+        pkg: testpkg,
+        name: pkg.name + "-test",
+        test: true
+      })
+    }
   });
   return packages;
 }
