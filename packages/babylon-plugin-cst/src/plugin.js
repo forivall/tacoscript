@@ -106,6 +106,7 @@ export default function(instance) {
         node.arguments = this.parseExprList(tt.parenR, this.options.features["es7.trailingFunctionCommas"]);
         this.toReferencedList(node.arguments);
       } else {
+        node.emptyArguments = true;
         node.arguments = [];
       }
 
