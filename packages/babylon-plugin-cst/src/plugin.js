@@ -1,8 +1,9 @@
 
 import Parser from "babylon/lib/parser";
-import { nonASCIIwhitespace } from "babylon/lib/util/whitespace";
-import TokenizerState from "babylon/lib/tokenizer/state";
 import { Token } from "babylon/lib/tokenizer";
+import TokenizerState from "babylon/lib/tokenizer/state";
+import { types as tt } from "babylon/lib/tokenizer/types";
+import { nonASCIIwhitespace } from "babylon/lib/util/whitespace";
 
 var pp = Parser.prototype;
 
@@ -25,7 +26,7 @@ export default function(instance) {
   instance.whitespaceState.init({}, instance.state.input);
   instance.whitespaceState.type = "Whitespace";
 
-  instance.extend("skipSpace", function(inner) {
+  instance.extend("skipSpace", function(/*inner*/ /*complete override*/) {
     return function skipSpace() {
       this.startWhitespace();
       loop: while (this.state.pos < this.input.length) {
@@ -80,6 +81,35 @@ export default function(instance) {
             }
         }
       }
+    };
+  });
+
+  instance.extend("parseNew", function() {
+    return function parseNew() {
+      let node = this.startNode();
+      let meta = this.parseIdent(true);
+
+      if (this.eat(tt.dot)) {
+        node.meta = meta;
+        node.property = this.parseIdent(true);
+
+        if (node.property.name !== "target") {
+          this.raise(node.property.start, "The only valid meta property for new is new.target");
+        }
+
+        return this.finishNode(node, "MetaProperty");
+      }
+
+      node.callee = this.parseNoCallExpr();
+
+      if (this.eat(tt.parenL)) {
+        node.arguments = this.parseExprList(tt.parenR, this.options.features["es7.trailingFunctionCommas"]);
+        this.toReferencedList(node.arguments);
+      } else {
+        node.arguments = [];
+      }
+
+      return this.finishNode(node, "NewExpression");
     };
   });
 }
