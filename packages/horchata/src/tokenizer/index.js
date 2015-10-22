@@ -7,6 +7,7 @@ export class TacoToken {
     this.value = state.value;
     this.start = state.start;
     this.end = state.end;
+    this.meta = state.meta || {};
     // this.loc = new SourceLocation(state.startLoc, state.endLoc);
   }
 
@@ -40,39 +41,32 @@ export class TacoToken {
         return (TacoToken._fromCodeCache[code] = { type: type });
       }
     }
-    if (code === "=>" || code === "=>>") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.arrow, value: code });
-    }
-    if (code === "->" || code === "->>") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
-    }
-    if (code === "~>" || code === "~>>") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
-    }
-    if (code === "~=>" || code === "~=>>") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
-    }
-    if (code === "+=" || code === "-=" ||
-        code === "/=" || code === "*=" || code === "**=" || code === "%=" ||
-        code === "|=" || code === "&=" || code === "^=" ||
-        code === "<<=" || code === ">>=" || code === ">>>=" ||
-        code === "or=" || code === "and=" || code === "?=") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.assign, value: code });
-    }
-    if (code === "++" || code === "--") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.incDec, value: code });
-    }
-    if (code === "==" || code === "===" || code === "!=" || code === "!==") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.equality, value: code });
-    }
-    if (code === "<" || code === "<=" || code === ">" || code === ">=") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.relational, value: code });
-    }
-    if (code === "<<" || code === ">>" || code === ">>>") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.bitShift, value: code });
-    }
-    if (code === "+" || code === "-") {
-      return (TacoToken._fromCodeCache[code] = { type: tt.plusMin, value: code });
+    switch (code) {
+      case "=>":
+      case "=>>":
+        return (TacoToken._fromCodeCache[code] = { type: tt.arrow, value: code });
+      case "->": case "->>":
+        return (TacoToken._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
+      case "~>": case "~>>":
+        return (TacoToken._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
+      case "~=>": case "~=>>":
+        return (TacoToken._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
+      case "+=": case "-=":
+      case "/=": case "*=": case "**=": case "%=":
+      case "|=": case "&=": case "^=":
+      case "<<=": case ">>=": case ">>>=":
+      case "or=": case "and=": case "?=":
+        return (TacoToken._fromCodeCache[code] = { type: tt.assign, value: code });
+      case "++": case "--":
+        return (TacoToken._fromCodeCache[code] = { type: tt.incDec, value: code });
+      case "==": case "===": case "!=": case "!==":
+        return (TacoToken._fromCodeCache[code] = { type: tt.equality, value: code });
+      case "<": case "<=": case ">": case ">=":
+        return (TacoToken._fromCodeCache[code] = { type: tt.relational, value: code });
+      case "<<": case ">>": case ">>>":
+        return (TacoToken._fromCodeCache[code] = { type: tt.bitShift, value: code });
+      case "+": case "-":
+        return (TacoToken._fromCodeCache[code] = { type: tt.plusMin, value: code });
     }
     throw new Error(`Cannot construct token from code "${code}"`);
   }

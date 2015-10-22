@@ -82,40 +82,50 @@ export function init() {
     // marker to parser that indentation has decreased
     return "";
   };
-  tt.bracketL.formattingSpaceWhenAfter.eq = true;
-  tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
-  tt.arrow.formattingSpaceWhenAfter.parenR = true;
+  // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
 
+  tt.name.forceSpaceWhenAfter.keyword = true;
+  tt.string.forceSpaceWhenAfter.keyword = true;
+  tt.num.forceSpaceWhenAfter.keyword = true;
   forOwn(keywords, function(keywordType) {
     keywordType.forceSpaceWhenAfter.keyword = true;
     keywordType.forceSpaceWhenAfter.name = true;
+    keywordType.forceSpaceWhenAfter.num = true;
     keywordType.forceSpaceWhenAfter.string = true;
+    keywordType.formattingSpaceWhenAfter.bracketR = true;
+    keywordType.formattingSpaceWhenAfter.parenR = true;
   });
-  tt.name.forceSpaceWhenAfter.keyword = true;
-  tt.string.forceSpaceWhenAfter.keyword = true;
 
-  // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
-  tt.num.forceSpaceWhenAfter.keyword = true;
-  tt.num.forceSpaceWhenAfter.keyword = true;
-  tt.eq.formattingSpaceWhenAfter.name = true;
-  tt.comma.formattingSpaceAfter = true;
-  tt.colon.formattingSpaceAfter = true;
-  tt.eq.formattingSpaceAfter = true;
-  tt.unboundArrow.formattingSpaceAfter = true;
-  tt.arrow.formattingSpaceAfter = true;
-  toFastProperties(tt.num.forceSpaceWhenAfter);
-
-  // TODO: don't input formatting space if unary
   tt.plusMin.formattingSpaceAfter = true;
   tt.plusMin.formattingSpaceWhenAfter.name = true;
+  tt.plusMin.formattingSpaceWhenAfter.num = true;
+  tt.num.formattingSpaceWhenAfter
   for (let tokenType of [
         tt.slash, tt.star, tt.modulo, tt.assign,
         tt.bitShift, tt.bitwiseAND, tt.bitwiseOR, tt.bitwiseXOR,
         tt.equality, tt.relational
       ]) {
     tokenType.formattingSpaceWhenAfter.name = true;
+    tokenType.formattingSpaceWhenAfter.num = true;
+    tokenType.formattingSpaceWhenAfter.parenR = true;
     tokenType.formattingSpaceAfter = true;
   }
+
+  tt.arrow.formattingSpaceAfter = true;
+  tt.arrow.formattingSpaceWhenAfter.parenR = true;
+  tt.bracketL.formattingSpaceWhenAfter.eq = true;
+  tt.bracketL.formattingSpaceWhenAfter.keyword = true;
+  tt.braceL.formattingSpaceWhenAfter.keyword = true;
+  tt.colon.formattingSpaceAfter = true;
+  tt.comma.formattingSpaceAfter = true;
+  tt.eq.formattingSpaceAfter = true;
+  tt.eq.formattingSpaceWhenAfter.name = true;
+  tt.name.formattingSpaceWhenAfter.exec = true;
+  tt.parenL.formattingSpaceWhenAfter.exec = true;
+  tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
+  tt.unboundArrow.formattingSpaceAfter = true;
+  tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
+
 
   tt.plusMin.formattingSpaceWhenAfter.string = true;
 

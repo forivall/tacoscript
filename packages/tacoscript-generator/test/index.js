@@ -6,6 +6,7 @@ var babylon = require('babylon');
 var generate = require('../lib/index').default;
 var expect = require("chai").expect;
 var mochaFixtures = require("mocha-fixtures-generic");
+require("babylon-plugin-cst").install();
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core/basic"), {
   optionsPath: "options",
@@ -57,6 +58,9 @@ _.forOwn(suiteSets, function(suites, setName) {
             filename: js.loc,
             strictMode: false,
             sourceType: "module",
+            plugins: {
+              "cst": true
+            }
           });
           var options = _.merge({format: {perserve: false}}, task.options);
           var result = generate(actualAst, options, js.code);
@@ -64,9 +68,9 @@ _.forOwn(suiteSets, function(suites, setName) {
           // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
           // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
           var tacoLoc = taco.loc.replace('expected.json/', '');
-          // console.log(result.tokens);
           // TODO: fix duplicate newlines properly
           actualCode = actualCode.replace("\n\n", "\n");
+          // console.log(result.tokens);
           if (!taco.code && !fs.existsSync(tacoLoc)) {
             fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
           } else {

@@ -5,7 +5,9 @@
 import * as t from "babel-types";
 
 export function Identifier(node) {
+  if (node.parenthesizedExpression) this.push("(");
   this.push({type: "name", value: { value: node.name, code: this.code.slice(node.start, node.end) }});
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function RestElement(node) {
@@ -110,7 +112,9 @@ export function NullLiteral() {
 }
 
 export function NumberLiteral(node) {
+  if (node.parenthesizedExpression) this.push("(");
   this.push({type: 'num', value: {value: node.value, code: this.code.slice(node.start, node.end)}});
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function StringLiteral(node) {

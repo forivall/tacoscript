@@ -172,9 +172,6 @@ export default class TacoBuffer {
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
     if (state.type === tt.newline) {
-      if (this.isLastType(tt.whitespace)) {
-        this._pop();
-      }
       this._insertIndentTokens();
     } else if (this.isLastType(tt.newline)) {
       this.tokens.push(new Token({type: tt.tab, value: this._indent}));
@@ -222,6 +219,7 @@ export default class TacoBuffer {
     // if this.format.compact or this.format.preserve -! return false
     let last = this._last();
     let insertFormatting = last && last.type.formattingSpaceAfter;
+    if (insertFormatting === true && state.type === tt.newline) insertFormatting = false;
     if (!insertFormatting) {
       let formatting = state.type.formattingSpaceWhenAfter;
       if (!formatting) { return false; }

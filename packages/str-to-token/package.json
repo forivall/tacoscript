@@ -2,6 +2,7 @@
   "name": "str-to-token",
   "version": "0.0.1-pre",
   "description": "str-to-token",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/forivall/tacoscript.git"

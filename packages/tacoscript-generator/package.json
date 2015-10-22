@@ -23,5 +23,8 @@
     "babel-types": "^5.8.22",
     "horchata": "0.0.1-pre",
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "babylon-plugin-cst": "0.0.1-dev"
   }
 }

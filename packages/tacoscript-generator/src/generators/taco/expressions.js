@@ -2,6 +2,7 @@
 import isInteger from "is-integer";
 import isNumber from "lodash/lang/isNumber";
 import * as t from "babel-types";
+import {TacoToken as Token} from "horchata/lib/tokenizer";
 
 const SCIENTIFIC_NOTATION = /e/i;
 
@@ -19,11 +20,8 @@ export function UnaryExpression(node) {
 
   // operator can be any token type that has prefix: true
   // TODO: generic node lookup
-  if (node.operator === "!") {
-    this.push("not");
-  } else {
-    this.push(node.operator);
-  }
+  var s = Token.stateFromCode(node.operator === "!" ? "not" : node.operator);
+  s.meta = { unary: true };
   this.print(node, "argument");
 }
 
@@ -60,9 +58,11 @@ export function ConditionalExpression(node) {
 }
 
 export function NewExpression(node) {
+  if (node.parenthesizedExpression) this.push("(");
   this.push("new");
   this.print(node, "callee");
-  this.printArguments(node);
+  if (!node.emptyArguments || node.arguments.length) this.printArguments(node);
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function SequenceExpression(node) {
@@ -130,6 +130,7 @@ export function AssignmentExpression(node) {
 
 export function BinaryExpression(node) {
   // all other binary operators
+  if (node.parenthesizedExpression) this.push("(");
   this.print(node, "left");
   let operator = node.operator;
   if (this.format.equals === "words") {
@@ -142,6 +143,7 @@ export function BinaryExpression(node) {
   }
   this.push(operator);
   this.print(node, "right");
+  if (node.parenthesizedExpression) this.push(")")
 }
 
 export function LogicalExpression(node) {
@@ -186,6 +188,7 @@ export function MemberExpression(node) {
   }
 }
 
+// like `new.target`
 export function MetaProperty(node) {
   this.print(node, "meta");
   this.push(".");
