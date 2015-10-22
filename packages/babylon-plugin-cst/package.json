@@ -1,0 +1,25 @@
+{
+  "name": "babylon-plugin-cst",
+  "version": "0.0.1-pre",
+  "description": "Babylon plugin to add cst features when parsing",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "keywords": [
+    "babylon-plugin"
+  ],
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "peerDependencies": {
+    "babylon": "^6.0.0"
+  },
+  "devDependencies": {
+    "create-hash": "^1.1.2"
+  }
+}

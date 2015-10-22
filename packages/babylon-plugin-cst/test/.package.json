@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "dependencies": {
+    "babylon": "6.0.0",
+    "babylon-plugin-cst": "0.0.1-dev"
+  }
+}
