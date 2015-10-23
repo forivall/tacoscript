@@ -96,8 +96,8 @@ export default class TacoBuffer {
    * Tokenization
    */
 
-  newline() {
-    this._push({type: tt.newline});
+  newline(force) {
+    if (force || !this.isLastType(tt.newline)) this._push({type: tt.newline});
   }
 
   indent() {

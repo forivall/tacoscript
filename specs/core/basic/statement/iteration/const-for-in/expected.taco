@@ -1,0 +1,1 @@
+for const x in list then process(x)

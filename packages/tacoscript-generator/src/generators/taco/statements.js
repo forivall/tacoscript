@@ -10,7 +10,7 @@ export function WithStatement(node) {
 
 export function IfStatement(node) {
   this.keyword("if");
-  this.print(node.test, node);
+  this.print(node, "test");
 
   this.printBlock(node, "consequent");
 
@@ -23,7 +23,7 @@ export function IfStatement(node) {
 export function ForStatement(node) {
   this.keyword("for");
 
-  this.print(node, "init");
+  if (node.init) this.print(node, "init");
 
   if (node.test) {
     this.keyword("while");
@@ -64,6 +64,7 @@ export function DoWhileStatement(node) {
   this.printBlock(node);
   this.keyword("while");
   this.print(node, "test");
+  this.newline();
 }
 
 // TODO: if syntax is ambiguous, use a !
@@ -74,6 +75,7 @@ function buildLabelStatement(prefix, key = "label") {
     if (node[key]) {
       this.print(node, key);
     }
+    this.newline();
   };
 }
 
@@ -155,7 +157,8 @@ export function VariableDeclaration(node: Object, parent: Object) {
 
   let hasInits = false;
   // don't add whitespace to loop heads
-  if (!t.isFor(parent)) {
+  let isLoopHead = t.isFor(parent);
+  if (!isLoopHead) {
     for (let declar of (node.declarations: Array<Object>)) {
       if (declar.init) {
         // has an init so let's split it up over multiple lines
@@ -170,6 +173,7 @@ export function VariableDeclaration(node: Object, parent: Object) {
     let sep = useNewlines ? {type: "newline"} : ",";
     if (useNewlines) this.newline();
     this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
+    if (!isLoopHead) this.newline();
   }
 }
 

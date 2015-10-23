@@ -1,6 +1,7 @@
 
 import isInteger from "is-integer";
 import isNumber from "lodash/lang/isNumber";
+import clone from "lodash/lang/clone";
 import * as t from "babel-types";
 import {TacoToken as Token} from "horchata/lib/tokenizer";
 
@@ -20,7 +21,7 @@ export function UnaryExpression(node) {
 
   // operator can be any token type that has prefix: true
   // TODO: generic node lookup
-  var s = Token.stateFromCode(node.operator === "!" ? "not" : node.operator);
+  var s = clone(Token.stateFromCode(node.operator === "!" ? "not" : node.operator));
   s.meta = { unary: true };
   this.push(s);
   this.print(node, "argument");

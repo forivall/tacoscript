@@ -4,9 +4,10 @@
 // and other formatting included in cst tokens
 
 import isArray from "lodash/lang/isArray";
-import { default as t } from "babel-types";
+import * as t from "babel-types";
 
 import TacoscriptTokenBuffer from "./taco-buffer";
+import {types as tt} from "horchata/lib/tokenizer/types";
 
 export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   constructor(ast, opts, code) {
@@ -137,11 +138,18 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       ? isArray(opts.separator)
         ? opts.separator : [opts.separator]
       : [];
+    let separatorIsNewline = separator.length === 1 &&
+    (separator[0].type === 'newline' || separator[0].type === tt.newline);
     let node, i;
 
     if (opts.indent) { this.indent(); }
 
-    let after = () => {
+    let after = separatorIsNewline ? () => {
+      if (opts.iterator) { opts.iterator(node, i); }
+      if (opts.separator && i < len - 1) {
+        this.newline();
+      }
+    } : () => {
       if (opts.iterator) { opts.iterator(node, i); }
       if (opts.separator && i < len - 1) {
         this.push(...separator);
@@ -206,7 +214,6 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       opts.separator = useNewlines ? {type: "newline"} : ",";
       opts.indent = useNewlines;
       if (useNewlines) { this.newline(); }
-      // if opts.separator !== "," then! this.indent() then this.newline()
       this._simplePrintMultiple(node, parent, opts);
       if (useNewlines) { this.newline(); }
     }
@@ -233,6 +240,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     // the body of a statement (such as if, etc.)
     if (t.isBlock(node)) {
       this.indent();
+      this.newline();
       this._startPrint(parent, prop, opts);
       this.printStatements(node, prop, opts);
       this._finishPrint(node, opts);
@@ -242,7 +250,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);
     } else {
       // This is a single statement with no surrounding braces
-      let noThen = t.isIfStatement(parent) && prop === 'alternate' && t.isIfStatement(node);
+      let noThen = t.isIfStatement(parent) && prop === 'alternate';
+      noThen = noThen || t.isDoWhileStatement(parent) && prop === 'body'
       if (!noThen) this.push('then');
       this.print(parent, prop);
     }

@@ -96,7 +96,7 @@ export function init() {
     keywordType.formattingSpaceWhenAfter.parenR = true;
   });
 
-  tt.plusMin.formattingSpaceAfter = true;
+  tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
   tt.plusMin.formattingSpaceWhenAfter.name = true;
   tt.plusMin.formattingSpaceWhenAfter.num = true;
   tt.plusMin.formattingSpaceWhenAfter.parenR = true;
@@ -112,10 +112,11 @@ export function init() {
     tokenType.formattingSpaceAfter = true;
   }
 
-  tt.arrow.formattingSpaceAfter = true;
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.bracketL.formattingSpaceWhenAfter.keyword = true;
+  tt.parenL.formattingSpaceWhenAfter.un = true;
+  tt.parenL.formattingSpaceWhenAfter.keyword = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
   tt.colon.formattingSpaceAfter = true;
   tt.comma.formattingSpaceAfter = true;
@@ -123,9 +124,7 @@ export function init() {
   tt.eq.formattingSpaceWhenAfter.name = true;
   tt.name.formattingSpaceWhenAfter.exec = true;
   tt.parenL.formattingSpaceWhenAfter.exec = true;
-  tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
   tt.semi.formattingSpaceAfter = true;
-  tt.unboundArrow.formattingSpaceAfter = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 

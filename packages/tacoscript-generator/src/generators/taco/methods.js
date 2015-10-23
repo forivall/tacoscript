@@ -81,11 +81,13 @@ export function _method(node: Object) {
  */
 
 export function FunctionExpression(node, parent) {
+  if (node.parenthesizedExpression) this.push("(");
   if (node.id) {
     this.push("function");
     this.print(node, "id");
   }
   this._finishFunction(node, parent);
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 /**
