@@ -92,18 +92,18 @@ export function init() {
     keywordType.forceSpaceWhenAfter.name = true;
     keywordType.forceSpaceWhenAfter.num = true;
     keywordType.forceSpaceWhenAfter.string = true;
-    keywordType.formattingSpaceWhenAfter.bracketR = true;
-    keywordType.formattingSpaceWhenAfter.parenR = true;
-    keywordType.formattingSpaceWhenAfter.incDec = true;
     keywordType.formattingSpaceWhenAfter.arrow = true;
+    keywordType.formattingSpaceWhenAfter.bracketR = true;
+    keywordType.formattingSpaceWhenAfter.comma = true;
+    keywordType.formattingSpaceWhenAfter.incDec = true;
+    keywordType.formattingSpaceWhenAfter.parenR = true;
   });
 
-  tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
+  tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; };
   tt.plusMin.formattingSpaceWhenAfter.name = true;
   tt.plusMin.formattingSpaceWhenAfter.num = true;
   tt.plusMin.formattingSpaceWhenAfter.parenR = true;
   tt.plusMin.formattingSpaceWhenAfter.string = true;
-  tt.num.formattingSpaceWhenAfter
   for (let tokenType of [
         tt.slash, tt.star, tt.modulo, tt.assign,
         tt.bitShift, tt.bitwiseAND, tt.bitwiseOR, tt.bitwiseXOR,
@@ -117,16 +117,22 @@ export function init() {
   }
 
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
+  tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.bracketL.formattingSpaceWhenAfter.keyword = true;
   tt.parenL.formattingSpaceWhenAfter.un = true;
   tt.parenL.formattingSpaceWhenAfter.keyword = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
   tt.colon.formattingSpaceAfter = true;
-  tt.comma.formattingSpaceAfter = true;
+  // tt.comma.formattingSpaceAfter = true;
+  tt.ellipsis.formattingSpaceWhenAfter.comma = true;
   tt.eq.formattingSpaceAfter = true;
   tt.eq.formattingSpaceWhenAfter.name = true;
+  tt.eq.formattingSpaceWhenAfter.braceR = true;
+  tt.eq.formattingSpaceWhenAfter.bracketR = true;
+  tt.name.formattingSpaceWhenAfter.comma = true;
   tt.name.formattingSpaceWhenAfter.exec = true;
+  tt.num.formattingSpaceWhenAfter.comma = true;
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.semi.formattingSpaceAfter = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;

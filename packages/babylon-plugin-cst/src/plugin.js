@@ -21,6 +21,26 @@ pp.finishWhitespace = function() {
   }
 };
 
+function hasTrailingComma(tokens, terminator = tt.parenR) {
+  let i = tokens.length - 1;
+  for (; i >= 0; i--) {
+    if (tokens[i].type === "Whitespace") {
+      continue;
+    }
+    if (tokens[i].type !== terminator) {
+      throw new Error(`Unexpected token ${tokens[i].type.label}`);
+    }
+    break;
+  }
+  i--;
+  for (; i >= 0; i--) {
+    if (tokens[i].type === "Whitespace") {
+      continue;
+    }
+    return tokens[i].type === tt.comma;
+  }
+}
+
 export default function(instance) {
   instance.whitespaceState = new TokenizerState();
   instance.whitespaceState.init({}, instance.state.input);
@@ -84,6 +104,8 @@ export default function(instance) {
     };
   });
 
+  // TODO: instead of complete override, look at previous tokens to see if
+  // it has parens
   instance.extend("parseNew", function() {
     return function parseNew() {
       let node = this.startNode();
@@ -113,4 +135,32 @@ export default function(instance) {
       return this.finishNode(node, "NewExpression");
     };
   });
+
+  instance.extend("parseCallExpressionArguments", function(inner) {
+    return function parseCallExpressionArguments(close, allowTrailingComma, possibleAsyncArrow) {
+      var res = inner.apply(this, arguments);
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens)) {
+        res.hasTrailingComma = true;
+      }
+      return res;
+    }
+  });
+  instance.extend("parseBindingList", function (inner) {
+    return function parseBindingList(close, allowEmpty, allowTrailingComma) {
+      var res = inner.apply(this, arguments);
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens, tt.bracketR)) {
+        res.hasTrailingComma = true;
+      }
+      return res;
+    }
+  });
+  instance.extend("parseExprList", function(inner) {
+    return function parseExprList(close, allowTrailingComma, allowEmpty, refShorthandDefaultPos) {
+      var res = inner.apply(this, arguments);
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens, tt.bracketR)) {
+        res.hasTrailingComma = true;
+      }
+      return res;
+    }
+  })
 }
