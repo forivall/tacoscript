@@ -8,7 +8,7 @@ var expect = require("chai").expect;
 var mochaFixtures = require("mocha-fixtures-generic");
 require("babylon-plugin-cst").install();
 
-var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core/basic"), {
+var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
   optionsPath: "options",
   skip: function(test) { return test === "README.md" },
   fixtures: {
