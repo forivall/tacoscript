@@ -95,6 +95,7 @@ export function init() {
     keywordType.formattingSpaceWhenAfter.bracketR = true;
     keywordType.formattingSpaceWhenAfter.parenR = true;
     keywordType.formattingSpaceWhenAfter.incDec = true;
+    keywordType.formattingSpaceWhenAfter.arrow = true;
   });
 
   tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }

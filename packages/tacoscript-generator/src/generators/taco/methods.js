@@ -32,6 +32,7 @@ export function _functionBody(parent, prop = "body") {
   //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);
   } else {
     // This is a single statement with no surrounding braces
+    // TODO: just use a sharp arrow
     if (t.isArrowFunctionExpression(parent)) {
       this.keyword("return");
     }
@@ -100,6 +101,7 @@ export function FunctionDeclaration(node, parent) {
     this.print(node, "id");
   }
   this._finishFunction(node, parent);
+  this.newline(); // note: won't be printed if there's already a newline
 }
 
 export function _finishFunction(node, parent) {
@@ -135,6 +137,6 @@ export function ArrowFunctionExpression(node, parent) {
   this._functionBody(node);
 }
 
-// TODO: ImplicitReturnArrowFunctionExpression
-// TODO: ImplicitReturnFunctionExpression
-// TODO: ImplicitReturnFunctionDeclaration
+// TODO: SharpArrowFunctionExpression
+// TODO: SharpFunctionExpression
+// TODO: SharpFunctionDeclaration

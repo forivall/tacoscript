@@ -10,7 +10,7 @@ require("babylon-plugin-cst").install();
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
   optionsPath: "options",
-  skip: function(test, testPath) { return test === "README.md" || testPath.indexOf("/comments/") !== -1 },
+  skip: function(test, testPath) { return test === "README.md" || testPath.indexOf("/comments/") !== -1 || testPath.indexOf("/edgecase/") !== -1 },
   fixtures: {
     // actual should preserve whitespace
     "js": { loc: ["actual.js"] },
@@ -48,7 +48,7 @@ suite("taco-printer", function () {
 });
 _.forOwn(suiteSets, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("generation/basic/" + setName + "/" + testSuite.title, function () {
+    suite("tacoscript-generator: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         test(task.title, !task.disabled && function () {
           var taco = task.auto;
