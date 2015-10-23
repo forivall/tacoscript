@@ -22,6 +22,7 @@ export function UnaryExpression(node) {
   // TODO: generic node lookup
   var s = Token.stateFromCode(node.operator === "!" ? "not" : node.operator);
   s.meta = { unary: true };
+  this.push(s);
   this.print(node, "argument");
 }
 

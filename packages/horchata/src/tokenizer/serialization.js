@@ -99,6 +99,7 @@ export function init() {
   tt.plusMin.formattingSpaceAfter = true;
   tt.plusMin.formattingSpaceWhenAfter.name = true;
   tt.plusMin.formattingSpaceWhenAfter.num = true;
+  tt.plusMin.formattingSpaceWhenAfter.parenR = true;
   tt.num.formattingSpaceWhenAfter
   for (let tokenType of [
         tt.slash, tt.star, tt.modulo, tt.assign,
@@ -123,6 +124,7 @@ export function init() {
   tt.name.formattingSpaceWhenAfter.exec = true;
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
+  tt.semi.formattingSpaceAfter = true;
   tt.unboundArrow.formattingSpaceAfter = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 

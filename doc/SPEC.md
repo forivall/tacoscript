@@ -154,6 +154,8 @@ All of the following syntax is optional, but is default, and is part of the core
 * array and object comprehensions
 * automatic generator and async function promotion
 * block regex
+* Python style keyword arguments
+  * should look for or create a good, standardized format for kwargs, that can be submitted as an esnext proposal.
 
 ## Implementation Plan
 

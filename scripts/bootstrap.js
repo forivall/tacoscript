@@ -32,7 +32,8 @@ packages.forEach(function (root) {
   mkdir("-p", nodeModulesLoc);
 
   packages.forEach(function (sub) {
-    if (!root.pkg.dependencies || !root.pkg.dependencies[sub.name]) return;
+    if ((!root.pkg.dependencies || !root.pkg.dependencies[sub.name]) &&
+        (!root.pkg.devDependencies || !root.pkg.devDependencies[sub.name])) return;
 
     if (!fs.existsSync(nodeModulesLoc + "/" + sub.name)) {
       console.log("Linking", "packages/" + sub.folder, "to", nodeModulesLoc + "/" + sub.name);
