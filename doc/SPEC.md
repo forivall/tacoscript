@@ -136,21 +136,25 @@ All of the following syntax is optional, but is default, and is part of the core
 * IIFE syntax
   * `(function(a, b, c){})(d, e, c)` ↔ `(d as a, e as b, c)! ->`
 * `@` ↔ `this.` ([frappe])
-* `for var i = 0 upto 5`, `downto` -- or a different simple for loop incremental shorthand. _Feedback requested_
 * extended assign - `or=`, `and=`, `?=`
 * sharp non-double arrows, multiline sharp arrow functions
 
 #### Phase 2
 * `not instanceof` ([frappe])
 * `not in` ([frappe])
-* lower precedence of `not`, `is not` same as `isnt`
-* non-fallthrough `switch` [(spec)](./safe-switch.md)
+* lower the precedence of `not`, `is not` same as `isnt`
 * `a < b < c` ([frappe])
 * `%%` ([frappe])
 * null coalsecing and soak operator (`?` and `?.` and `?[]`)
-* expression version of switch statements
 
 #### Phase 3
+* non-fallthrough `switch` [(spec)](./safe-switch.md)
+* boolean switch statements
+* expression version of boolean switch statements
+* label-less long break/continue -- `break for` will break from the lexically nearest for loop
+* `for var i = 0 upto 5`, `downto` -- or a different simple for loop incremental shorthand. _Feedback requested_
+
+#### Phase 4
 * array and object comprehensions
 * automatic generator and async function promotion
 * block regex
@@ -175,9 +179,9 @@ include raw js (for empty statements): ```$`;// javascript here`#```
 
 Since whitespace is significant, we need some way to control whitespace output for oddly formatted js
 
-increase preceding indent: `>`  
-decrease preceding indent: `<`  
-replace preceding spaces: `r{\t\t}`  
+increase preceding indent: `>`
+decrease preceding indent: `<`
+replace preceding spaces: `r{\t\t}`
 
 so that would look like `#$<$#decreased_indent_statement()`
 
