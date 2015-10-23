@@ -120,8 +120,8 @@ export function init() {
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.bracketL.formattingSpaceWhenAfter.keyword = true;
-  tt.parenL.formattingSpaceWhenAfter.un = true;
   tt.parenL.formattingSpaceWhenAfter.keyword = true;
+  tt.braceL.formattingSpaceWhenAfter.comma = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
   tt.colon.formattingSpaceAfter = true;
   // tt.comma.formattingSpaceAfter = true;

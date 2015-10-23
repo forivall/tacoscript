@@ -65,7 +65,7 @@ export function Property(node) {
 export function ArrayExpression(node) {
   this.push("[");
   this.printLiteralBody(node, "elements");
-  if (node.elements.hasTrailingComma) this.push(",")
+  if (node.elements.hasTrailingComma && node.elements[node.elements.length - 1] !== null) this.push(",")
   this.push("]");
 }
 
