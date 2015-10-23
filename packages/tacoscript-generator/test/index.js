@@ -10,7 +10,13 @@ require("babylon-plugin-cst").install();
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
   optionsPath: "options",
-  skip: function(test, testPath) { return test === "README.md" || testPath.indexOf("/comments/") !== -1 || testPath.indexOf("/edgecase/") !== -1 },
+  skip: function(test, testPath) {
+    return test === "README.md" ||
+    testPath.indexOf("/comments/") !== -1 ||
+    testPath.indexOf("/jsx/") !== -1 ||
+    testPath.indexOf("/edgecase/") !== -1 ||
+    testPath.indexOf("/static-typing/") !== -1
+  },
   fixtures: {
     // actual should preserve whitespace
     "js": { loc: ["actual.js"] },
@@ -50,6 +56,8 @@ _.forOwn(suiteSets, function(suites, setName) {
   suites.forEach(function (testSuite) {
     suite("tacoscript-generator: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
+        // comment out the following line when generating new specs
+        if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
         test(task.title, !task.disabled && function () {
           var taco = task.auto;
           var js = task.js;
