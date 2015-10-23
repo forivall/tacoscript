@@ -10,7 +10,7 @@ require("babylon-plugin-cst").install();
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
   optionsPath: "options",
-  skip: function(test) { return test === "README.md" },
+  skip: function(test, testPath) { return test === "README.md" || testPath.indexOf("/comments/") !== -1 },
   fixtures: {
     // actual should preserve whitespace
     "js": { loc: ["actual.js"] },
