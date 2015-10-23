@@ -138,8 +138,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       ? isArray(opts.separator)
         ? opts.separator : [opts.separator]
       : [];
-    let separatorIsNewline = separator.length === 1 &&
-    (separator[0].type === 'newline' || separator[0].type === tt.newline);
+    let separatorIsNewline = separator.length === 1 && (separator[0].type === 'newline' || separator[0].type === tt.newline);
     let node, i;
 
     if (opts.indent) { this.indent(); }
@@ -242,7 +241,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this.indent();
       this.newline();
       this._startPrint(parent, prop, opts);
-      this.printStatements(node, prop, opts);
+      this.printStatements(node, 'directives', opts);
+      this.printStatements(node, 'body', opts);
       this._finishPrint(node, opts);
       this.dedent();
     // } else if (t.isEmptyStatement(node)) {

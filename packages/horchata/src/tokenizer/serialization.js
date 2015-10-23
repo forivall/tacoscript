@@ -94,12 +94,14 @@ export function init() {
     keywordType.forceSpaceWhenAfter.string = true;
     keywordType.formattingSpaceWhenAfter.bracketR = true;
     keywordType.formattingSpaceWhenAfter.parenR = true;
+    keywordType.formattingSpaceWhenAfter.incDec = true;
   });
 
   tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; }
   tt.plusMin.formattingSpaceWhenAfter.name = true;
   tt.plusMin.formattingSpaceWhenAfter.num = true;
   tt.plusMin.formattingSpaceWhenAfter.parenR = true;
+  tt.plusMin.formattingSpaceWhenAfter.string = true;
   tt.num.formattingSpaceWhenAfter
   for (let tokenType of [
         tt.slash, tt.star, tt.modulo, tt.assign,
@@ -109,6 +111,7 @@ export function init() {
     tokenType.formattingSpaceWhenAfter.name = true;
     tokenType.formattingSpaceWhenAfter.num = true;
     tokenType.formattingSpaceWhenAfter.parenR = true;
+    tokenType.formattingSpaceWhenAfter.string = true;
     tokenType.formattingSpaceAfter = true;
   }
 
@@ -128,7 +131,6 @@ export function init() {
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 
-  tt.plusMin.formattingSpaceWhenAfter.string = true;
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
     return (left.value === "+" && right.value === "++") ||

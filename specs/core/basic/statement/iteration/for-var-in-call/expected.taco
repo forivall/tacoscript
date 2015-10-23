@@ -1,0 +1,1 @@
+for var x in list then process(x)

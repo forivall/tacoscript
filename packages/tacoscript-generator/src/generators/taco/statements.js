@@ -94,11 +94,11 @@ export function TryStatement(node) {
   this.keyword("try");
   this.printBlock(node, "block");
 
-  this.print(node, "handler");
+  if (node.handler) this.print(node, "handler");
 
   if (node.finalizer) {
     this.keyword("finally");
-    this.print(node, "finalizer");
+    this.printBlock(node, "finalizer");
   }
 }
 
@@ -112,9 +112,10 @@ export function CatchClause(node) {
 export function SwitchStatement(node) {
   this.keyword("switch");
   this.push("!");
-  this.print(node.discriminant, node);
+  this.print(node, "discriminant");
+  this.newline();
 
-  this.printStatements(node.cases, node, {
+  this.printStatements(node, "cases", {
     indent: true
   });
 }
@@ -122,7 +123,7 @@ export function SwitchStatement(node) {
 export function _switchCase(node) {
   if (node.test) {
     this.keyword("case");
-    this.print(node.test, node);
+    this.print(node, "test");
     this.push(":");
   } else {
     this.keyword("default");
@@ -133,6 +134,7 @@ export function _switchCase(node) {
 export function SwitchCase(node) {
   this._switchCase(node);
   if (node.consequent.length) {
+    this.newline();
     this.printStatements(node, "consequent", { indent: true });
   }
 }
