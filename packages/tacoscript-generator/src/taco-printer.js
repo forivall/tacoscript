@@ -192,7 +192,37 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       // so, ! ...arguments #<!-- will be an illegal expression in tacoscript.
       this.push("(");
       opts.separator = ",";
-      this._simplePrintMultiple(node, parent, opts);
+
+      if (opts.indent) { this.indent(); }
+
+      let argNode, i, len = node.length;
+      let after = () => {
+        if (opts.iterator) { opts.iterator(argNode, i); }
+        if (opts.separator && i < len - 1) {
+          // TODO: simplify this check into a tacoscript-types module
+          if (!this.isLastType(tt.newline)) {
+            this.push(",");
+          }
+        }
+      };
+
+      let printOpts = {
+        statement: opts.statement,
+        after: after
+      }
+
+      for (i = 0; i < len; i++) {
+        argNode = node[i];
+        if (argNode) {
+          this._simplePrint(argNode, parent, printOpts);
+        } else {
+          // preserve holes, especially in arrays
+          this.push("pass");
+          after();
+        }
+      }
+
+      if (opts.indent) { this.dedent(); }
       this.push(")");
     }
   }
