@@ -113,15 +113,12 @@ export function _finishFunction(node, parent) {
 
 /**
  * Prints ArrowFunctionExpression, prints params and body, handles async.
- * Leaves out parentheses when single param.
+ * TODO: Preserve if parens were included for a single argument
  */
 
 export function ArrowFunctionExpression(node, parent) {
-  if (node.params.length === 1 && t.isIdentifier(node.params[0])) {
-    this.print(node.params[0], node);
-  } else {
-    this._params(node);
-  }
+  if (node.parenthesizedExpression) this.push("(");
+  this._params(node);
 
   if (t.isBlock(node.body)) {
     if (node.async) {
@@ -138,7 +135,7 @@ export function ArrowFunctionExpression(node, parent) {
     }
     this.print(node, "body");
   }
-
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 // TODO: SharpArrowFunctionExpression

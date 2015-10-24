@@ -68,7 +68,9 @@ export function NewExpression(node) {
 }
 
 export function SequenceExpression(node) {
+  if (node.parenthesizedExpression) this.push("(");
   this.printMultiple(node, "expressions", {separator: ";"});
+  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function ThisExpression() {

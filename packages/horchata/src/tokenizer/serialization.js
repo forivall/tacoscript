@@ -115,13 +115,14 @@ export function init() {
     tokenType.formattingSpaceAfter = true;
   }
 
-  tt.arrow.formattingSpaceAfter = true;
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
+  tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.bracketL.formattingSpaceWhenAfter.keyword = true;
   tt.parenL.formattingSpaceWhenAfter.comma = true;
   tt.parenL.formattingSpaceWhenAfter.keyword = true;
+  tt.braceL.formattingSpaceWhenAfter.arrow = true;
   tt.braceL.formattingSpaceWhenAfter.comma = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
   tt.colon.formattingSpaceAfter = true;
@@ -131,11 +132,15 @@ export function init() {
   tt.eq.formattingSpaceWhenAfter.name = true;
   tt.eq.formattingSpaceWhenAfter.braceR = true;
   tt.eq.formattingSpaceWhenAfter.bracketR = true;
+  tt.name.formattingSpaceWhenAfter.arrow = true;
   tt.name.formattingSpaceWhenAfter.comma = true;
   tt.name.formattingSpaceWhenAfter.exec = true;
+  tt.num.formattingSpaceWhenAfter.arrow = true;
   tt.num.formattingSpaceWhenAfter.comma = true;
+  tt.parenL.formattingSpaceWhenAfter.arrow = true;
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.semi.formattingSpaceAfter = true;
+  tt.string.formattingSpaceWhenAfter.arrow = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 
