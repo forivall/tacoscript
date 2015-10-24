@@ -1,1 +1,1 @@
-([pass, pass]) => return 0
+([pass, pass]) =>> 0

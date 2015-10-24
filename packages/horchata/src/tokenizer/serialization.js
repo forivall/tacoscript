@@ -92,7 +92,6 @@ export function init() {
     keywordType.forceSpaceWhenAfter.name = true;
     keywordType.forceSpaceWhenAfter.num = true;
     keywordType.forceSpaceWhenAfter.string = true;
-    keywordType.formattingSpaceWhenAfter.arrow = true;
     keywordType.formattingSpaceWhenAfter.bracketR = true;
     keywordType.formattingSpaceWhenAfter.comma = true;
     keywordType.formattingSpaceWhenAfter.incDec = true;
@@ -116,6 +115,7 @@ export function init() {
     tokenType.formattingSpaceAfter = true;
   }
 
+  tt.arrow.formattingSpaceAfter = true;
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;

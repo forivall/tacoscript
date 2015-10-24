@@ -31,12 +31,7 @@ export function _functionBody(parent, prop = "body") {
   //   // probably not needed
   //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);
   } else {
-    // This is a single statement with no surrounding braces
-    // TODO: just use a sharp arrow
-    if (t.isArrowFunctionExpression(parent)) {
-      this.keyword("return");
-    }
-    this.print(parent, prop);
+    throw new Error("Invalid Function body");
   }
   // TODO: transform to tacoscript nodes for implicit return forms
 }
@@ -128,13 +123,22 @@ export function ArrowFunctionExpression(node, parent) {
     this._params(node);
   }
 
-  if (node.async) {
-    this.push("~=>");
+  if (t.isBlock(node.body)) {
+    if (node.async) {
+      this.push("~=>");
+    } else {
+      this.push("=>");
+    }
+    this._functionBody(node);
   } else {
-    this.push("=>");
+    if (node.async) {
+      this.push("~=>>");
+    } else {
+      this.push("=>>");
+    }
+    this.print(node, "body");
   }
 
-  this._functionBody(node);
 }
 
 // TODO: SharpArrowFunctionExpression
