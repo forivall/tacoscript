@@ -7,6 +7,8 @@ import { nonASCIIwhitespace } from "babylon/lib/util/whitespace";
 
 var pp = Parser.prototype;
 
+function peek(arr) { return arr[arr.length - 1]; }
+
 pp.startWhitespace = function() {
   this.whitespaceState.start = this.state.pos;
   this.whitespaceState.startLoc = this.state.curPosition();
@@ -18,8 +20,15 @@ pp.finishWhitespace = function() {
   this.whitespaceState.endLoc = this.state.curPosition();
   if (this.whitespaceState.end > this.whitespaceState.start) {
     this.state.tokens.push(new Token(this.whitespaceState));
+    this.cstState.nodeStack[0]._tokenElements.push(new Token(this.whitespaceState));
   }
 };
+
+pp.startNodeTokens = function() {
+  let tokens = this.cstState.orphanTokens;
+  this.cstState.orphanTokens = [];
+  return tokens;
+}
 
 function hasTrailingComma(tokens, terminator = tt.parenR) {
   let i = tokens.length - 1;
@@ -45,6 +54,11 @@ export default function(instance) {
   instance.whitespaceState = new TokenizerState();
   instance.whitespaceState.init({}, instance.state.input);
   instance.whitespaceState.type = "Whitespace";
+
+  instance.cstState = {
+    nodeStack: [],
+    orphanTokens: []
+  };
 
   instance.extend("skipSpace", function(/*inner*/ /*complete override*/) {
     return function skipSpace() {
@@ -162,5 +176,75 @@ export default function(instance) {
       }
       return res;
     }
+  });
+
+  instance.extend("next", function(inner) {
+    return function next() {
+      if (!this.isLookahead) {
+        this.cstState.nodeStack[0]._tokenElements.push(new Token(this.state));
+      }
+      let value = inner.apply(this, arguments);
+      return value;
+    }
+  });
+
+  instance.extend("startNodeAt", function(inner) {
+    return function startNodeAt(pos) {
+      if (this.state.start < pos) throw new Error(`Node started later than possible: ${this.state.start} < ${pos}`);
+      let node = inner.apply(this, arguments);
+      node._tokenElements = this.startNodeTokens();
+      parentNodeLoop: for (let parentNode of (this.cstState.nodeStack: Array)) {
+        while (parentNode._tokenElements.length > 0) {
+          if (peek(parentNode._tokenElements).start >= pos) break parentNodeLoop;
+          node._tokenElements.push(parentNode._tokenElements.pop());
+        }
+      }
+      this.cstState.nodeStack.unshift(node);
+      return node;
+    }
   })
+
+  instance.extend("startNode", function(inner) {
+    return function startNode(pos) {
+      let node = inner.apply(this, arguments);
+      this.cstState.nodeStack.unshift(node);
+      node._tokenElements = this.startNodeTokens();
+      return node;
+    }
+  })
+
+  instance.extend("finishNode", function(inner) {
+    return function finishNode(pos) {
+      let node = inner.apply(this, arguments);
+      this.cstState.nodeStack.shift();
+      let parentNode = this.cstState.nodeStack[0];
+      if (parentNode != null) parentNode._tokenElements.push(node);
+      return node;
+    }
+  })
+
+  instance.extend("finishNodeAt", function(inner) {
+    return function finishNodeAt(node_, type, pos) {
+      if (this.state.lastTokEnd < pos) throw new Error(`Node ended sooner than possible: ${this.state.lastTokeEnd} < ${pos}`);
+      let node = inner.apply(this, arguments);
+
+      while (node._tokenElements.length > 0) {
+        if (peek(node._tokenElements).end >= pos) break;
+        this.cstState.orphanTokens.push(node._tokenElements.pop());
+      }
+      this.cstState.nodeStack.shift();
+      let parentNode = this.cstState.nodeStack[0];
+      if (parentNode != null) parentNode._tokenElements.push(node);
+      return node;
+    }
+  });
+
+  instance.extend("parseTopLevel", function(inner) {
+    return function parseTopLevel() {
+      let ast = inner.apply(this, arguments);
+      // TODO: traverse tree, and replace references in _tokenElements to path lookups,
+      // TODO: convert _tokenElements to tokenElements.
+      return ast;
+    }
+  });
 }
