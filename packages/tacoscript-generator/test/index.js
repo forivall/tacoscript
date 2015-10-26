@@ -77,7 +77,6 @@ _.forOwn(suiteSets, function(suites, setName) {
           // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
           var tacoLoc = taco.loc.replace('expected.json/', '');
           // TODO: fix duplicate newlines properly -- this issue is only with object literals
-          actualCode = actualCode.replace("\n\n}", "\n}");
           // console.log(result.tokens);
           if (!taco.code && !fs.existsSync(tacoLoc)) {
             fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});

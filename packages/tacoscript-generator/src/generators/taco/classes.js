@@ -1,19 +1,19 @@
 
 export function ClassDeclaration(node) {
   this.printMultiple(node, "decorators", { separator: null });
-  this.newline();
+  if (node.decorators && node.decorators.length) this.newline();
   this.push("class");
 
   if (node.id) {
     this.print(node, "id");
   }
 
-  this.print(node, "typeParameters");
+  if (node.typeParameters) this.print(node, "typeParameters");
 
   if (node.superClass) {
     this.push("extends");
     this.print(node, "superClass");
-    this.print(node, "superTypeParameters");
+    if (node.superTypeParameters) this.print(node, "superTypeParameters");
   }
 
   if (node.implements) {
@@ -21,12 +21,15 @@ export function ClassDeclaration(node) {
     this.printMultiple(node, "implements", { separator: "," });
   }
 
-  this.space();
   // NOTE: this is a classBody, not a block
-  this.print(node.body, node);
+  this.print(node, "body");
 }
 
-export { ClassDeclaration as ClassExpression };
+export function ClassExpression(node) {
+  if (node.parenthesizedExpression) this.push("(");
+  this.ClassDeclaration(node);
+  if (node.parenthesizedExpression) this.push(")");
+}
 
 export function ClassBody(node) {
   this.indent();
@@ -35,22 +38,17 @@ export function ClassBody(node) {
   if (node.body.length === 0) {
     // this.push("pass");
   } else {
-
-    this.indent();
     this.printStatements(node, "body");
-    this.dedent();
-
-    this.rightBrace();
   }
   this.dedent();
 }
 
 export function ClassProperty(node) {
-  this.printJoin(node.decorators, node, { separator: "" });
+  this.printMultiple(node, "decorators", { separator: null });
 
   if (node.static) this.push("static");
   this.print(node, "key");
-  this.print(node, "typeAnnotation");
+  if (node.typeAnnotation) this.print(node, "typeAnnotation");
   if (node.value) {
     this.push("=");
     this.print(node, "value");
@@ -66,4 +64,5 @@ export function MethodDefinition(node) {
   }
 
   this._method(node);
+  this.newline();
 }

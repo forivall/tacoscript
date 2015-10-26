@@ -220,6 +220,7 @@ kw("with");
 kw("new", {beforeExpr: true, startsExpr: true});
 kw("yield", {beforeExpr: true, startsExpr: true});
 // classes
+kw("static");
 kw("class");
 kw("extends", beforeExpr);
 kw("get");
