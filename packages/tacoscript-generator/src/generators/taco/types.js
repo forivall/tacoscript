@@ -42,8 +42,11 @@ export function Property(node) {
     } else {
       // print `({ foo: foo = 5 } = {})` as `({ foo = 5 } = {});`
       if (t.isAssignmentPattern(node.value) && t.isIdentifier(node.key) && node.key.name === node.value.left.name) {
-        this.print(node, "value");
-        return;
+        // but only if it was that same way in the source
+        if (node.key.start == null || node.key.start === node.value.left.start && node.key.end === node.value.left.end) {
+          this.print(node, "value");
+          return;
+        }
       }
 
       this.print(node, "key");
