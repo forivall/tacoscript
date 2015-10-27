@@ -21,5 +21,8 @@
   },
   "devDependencies": {
     "create-hash": "^1.1.2"
+  },
+  "dependencies": {
+    "babel-types": "^5.8.22"
   }
 }

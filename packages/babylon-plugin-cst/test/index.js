@@ -1,13 +1,14 @@
 /*global suite,test*/
 var babylon = require("babylon");
 require("../install");
+var tokenTypes = require("../lib/types").tokenTypes;
 
 var expect = require("chai").expect;
 
 suite("babylon-plugin-cst", function () {
   test("tokens should have whitespace", function () {
     var ast = babylon.parse("new A", {plugins: {cst: true}});
-    expect(ast.tokens[1].type).to.equal("Whitespace");
+    expect(ast.tokens[1].type).to.equal(tokenTypes.whitespace);
   });
 
   test("new without parens should be indicated", function () {
