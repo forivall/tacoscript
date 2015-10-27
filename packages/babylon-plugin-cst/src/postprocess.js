@@ -45,7 +45,7 @@ export class Postprocessor {
     node.tokenElements = [];
     let nextChild = children.shift();
     while (nextChild && nextChild.list === "skip") {
-      node.tokenElements.push({child: nextChild.key, list: "skip", listIndex: nextChild.index});
+      node.tokenElements.push({type: "child", child: nextChild.key, list: "skip", listIndex: nextChild.index});
       nextChild = children.shift();
     }
     while (
@@ -55,7 +55,7 @@ export class Postprocessor {
         nextChild)) {
       if (nextChild && nextChild.node && this.tokens[this.index].start >= nextChild.node.start) {
         this.traverse(nextChild.node);
-        let tokenElement = {child: nextChild.child}
+        let tokenElement = {type: "child", child: nextChild.child}
         if (nextChild.list) {
           tokenElement.list = nextChild.list;
           tokenElement.listIndex = nextChild.index;
@@ -64,12 +64,13 @@ export class Postprocessor {
         nextChild = children.shift();
         // TODO: place skip nodes more appropriately
         while (nextChild && nextChild.list === "skip") {
-          node.tokenElements.push({child: nextChild.key, list: "skip", listIndex: nextChild.index});
+          node.tokenElements.push({type: "child", child: nextChild.child, list: "skip", listIndex: nextChild.index});
           nextChild = children.shift();
         }
       } else {
         let token = this.tokens[this.index];
         let tokenElement = {
+          type: "token",
           token: {
             ...token,
             type: tokenToName.get(token.type),

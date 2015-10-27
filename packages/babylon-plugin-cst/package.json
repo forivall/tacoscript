@@ -1,6 +1,6 @@
 {
   "name": "babylon-plugin-cst",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Babylon plugin to add cst features when parsing",
   "main": "lib/index.js",
   "repository": {
