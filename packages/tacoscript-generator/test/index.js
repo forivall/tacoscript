@@ -57,7 +57,7 @@ _.forOwn(suiteSets, function(suites, setName) {
     suite("tacoscript-generator: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
-        // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
+        if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
         test(task.title, !task.disabled && function () {
           var taco = task.auto;
           var js = task.js;
@@ -78,7 +78,7 @@ _.forOwn(suiteSets, function(suites, setName) {
           var tacoLoc = taco.loc.replace('expected.json/', '');
           // TODO: fix duplicate newlines properly -- this issue is only with object literals
           // console.log(result.tokens);
-          fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
+          // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
           if (!taco.code && !fs.existsSync(tacoLoc)) {
             fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
           } else {

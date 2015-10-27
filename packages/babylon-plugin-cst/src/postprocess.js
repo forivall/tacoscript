@@ -10,7 +10,6 @@ export class Postprocessor {
   process(ast) {
     this.ast = ast;
     this.tokens = ast.tokens;
-    this.stack = [];
     this.index = 0;
     this.traverse(ast);
     if (this.index < this.tokens.length) {
