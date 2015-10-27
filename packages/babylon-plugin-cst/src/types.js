@@ -1,6 +1,7 @@
 
 import { types as tt, TokenType } from "babylon/lib/tokenizer/types";
 import forOwn from "lodash/object/forOwn";
+import isString from "lodash/lang/isString";
 
 // TODO: create and export actual token types for these.
 export const tokenTypes = {
@@ -21,3 +22,8 @@ const ttCst = tokenTypes;
 export const tokenToName = new Map();
 for (let name in tt) { tokenToName.set(tt[name], name); }
 for (let name in ttCst) { tokenToName.set(ttCst[name], name); }
+
+export function getTokenName(tokenType) {
+  if (isString(tokenType)) return tokenType;
+  return tokenToName.get(tokenType)
+}

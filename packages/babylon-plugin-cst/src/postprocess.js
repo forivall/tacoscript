@@ -4,7 +4,7 @@ import isArray from "lodash/lang/isArray";
 // import { VISITOR_KEYS } from "babel-types";
 import { types } from "babel-core";
 const { VISITOR_KEYS } = types;
-import { tokenToName } from "./types";
+import { getTokenName } from "./types";
 
 export default function(ast) { new Postprocessor().process(ast); return ast; }
 
@@ -73,7 +73,7 @@ export class Postprocessor {
           type: "token",
           token: {
             ...token,
-            type: tokenToName.get(token.type),
+            type: getTokenName(token.type),
           },
           kind: token.type.whitespace ? "whitespace" : "code"
         };
