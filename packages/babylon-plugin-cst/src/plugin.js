@@ -151,7 +151,7 @@ export default function(instance, pluginOptions) {
   instance.extend("parseCallExpressionArguments", function(inner) {
     return function parseCallExpressionArguments(close, allowTrailingComma, possibleAsyncArrow) {
       var res = inner.apply(this, arguments);
-      if (allowTrailingComma && hasTrailingComma(this.state.tokens)) {
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens, close)) {
         res.hasTrailingComma = true;
       }
       return res;
@@ -160,7 +160,7 @@ export default function(instance, pluginOptions) {
   instance.extend("parseBindingList", function (inner) {
     return function parseBindingList(close, allowEmpty, allowTrailingComma) {
       var res = inner.apply(this, arguments);
-      if (allowTrailingComma && hasTrailingComma(this.state.tokens, tt.bracketR)) {
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens, close)) {
         res.hasTrailingComma = true;
       }
       return res;
@@ -169,7 +169,7 @@ export default function(instance, pluginOptions) {
   instance.extend("parseExprList", function(inner) {
     return function parseExprList(close, allowTrailingComma, allowEmpty, refShorthandDefaultPos) {
       var res = inner.apply(this, arguments);
-      if (allowTrailingComma && hasTrailingComma(this.state.tokens, tt.bracketR)) {
+      if (allowTrailingComma && hasTrailingComma(this.state.tokens, close)) {
         res.hasTrailingComma = true;
       }
       return res;
