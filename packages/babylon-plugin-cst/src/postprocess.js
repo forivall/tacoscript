@@ -1,7 +1,9 @@
 
 import sortBy from "lodash/collection/sortBy";
 import isArray from "lodash/lang/isArray";
-import { VISITOR_KEYS } from "babel-types";
+// import { VISITOR_KEYS } from "babel-types";
+import { types } from "babel-core";
+const { VISITOR_KEYS } = types;
 import { tokenToName } from "./types";
 
 export default function(ast) { new Postprocessor().process(ast); return ast; }
