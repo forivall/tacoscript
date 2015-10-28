@@ -116,6 +116,7 @@ export function init() {
   }
 
   tt._from.formattingSpaceWhenAfter.braceR = true;
+  tt._of.formattingSpaceWhenAfter.braceR = true;
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;

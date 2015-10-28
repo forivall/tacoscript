@@ -209,6 +209,7 @@ kw("do", isLoop);
 kw("continue");
 kw("break");
 kw("return", beforeExpr);
+kw("of");
 // exceptions
 kw("throw", beforeExpr);
 kw("try");

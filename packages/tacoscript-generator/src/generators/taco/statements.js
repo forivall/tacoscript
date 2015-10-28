@@ -50,7 +50,7 @@ let buildForXStatement = function (op) {
   return function (node) {
     this.keyword("for");
     this.print(node, "left");
-    this.push(op);
+    this.keyword(op);
     this.print(node, "right");
     this.printBlock(node);
   };

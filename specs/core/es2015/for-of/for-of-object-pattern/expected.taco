@@ -1,0 +1,4 @@
+for {
+  x
+  y
+} of z then pass

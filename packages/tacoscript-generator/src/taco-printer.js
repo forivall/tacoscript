@@ -238,6 +238,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       if (parent.type === "ArrayPattern") { useNewlines = false; }
       // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) { useNewlines = false; }
       if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length === 0) { useNewlines = false; }
+      // TODO: implement the following line:
+      //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) { useNewlines = false; }
       // TODO: always use newlines if the literal contains a function
       opts.separator = useNewlines ? {type: "newline"} : ",";
       opts.indent = useNewlines;
