@@ -220,6 +220,7 @@ kw("with");
 // expression modifiers
 kw("new", {beforeExpr: true, startsExpr: true});
 kw("yield", {beforeExpr: true, startsExpr: true});
+kw("await", {beforeExpr: true, startsExpr: true});
 // classes
 kw("static");
 kw("class");
