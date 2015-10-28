@@ -105,8 +105,18 @@ export function init() {
   tt.plusMin.formattingSpaceWhenAfter.num = true;
   tt.plusMin.formattingSpaceWhenAfter.parenR = true;
   tt.plusMin.formattingSpaceWhenAfter.string = true;
+  tt.star.formattingSpaceWhenAfter.name = true;
+  tt.star.formattingSpaceWhenAfter.num = true;
+  tt.star.formattingSpaceWhenAfter.parenR = true;
+  tt.star.formattingSpaceWhenAfter.string = true;
+  tt.star.formattingSpaceAfter = function(left, right) {
+    switch (right.type) {
+      case tt.arrow: case tt.unboundArrow: case tt.asyncArrow: case tt.asyncBoundArrow: return false;
+      default: return true;
+    }
+  };
   for (let tokenType of [
-        tt.slash, tt.star, tt.modulo, tt.assign,
+        tt.slash, tt.modulo, tt.assign,
         tt.bitShift, tt.bitwiseAND, tt.bitwiseOR, tt.bitwiseXOR,
         tt.equality, tt.relational
       ]) {
