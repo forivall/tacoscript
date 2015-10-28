@@ -294,6 +294,7 @@ import * as baseGenerators from "./generators/taco/base";
 import * as classesGenerators from "./generators/taco/classes";
 import * as expressionsGenerators from "./generators/taco/expressions";
 import * as methodsGenerators from "./generators/taco/methods";
+import * as modulesGenerators from "./generators/taco/modules";
 import * as statementsGenerators from "./generators/taco/statements";
 import * as typesGenerators from "./generators/taco/types";
 for (let generator of [
@@ -301,6 +302,7 @@ for (let generator of [
       classesGenerators,
       expressionsGenerators,
       methodsGenerators,
+      modulesGenerators,
       statementsGenerators,
       typesGenerators,
     ]) {

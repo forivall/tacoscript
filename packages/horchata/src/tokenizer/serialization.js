@@ -115,6 +115,7 @@ export function init() {
     tokenType.formattingSpaceAfter = true;
   }
 
+  tt._from.formattingSpaceWhenAfter.braceR = true;
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
@@ -141,6 +142,7 @@ export function init() {
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.semi.formattingSpaceAfter = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
+  tt.star.formattingSpaceWhenAfter._export = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 

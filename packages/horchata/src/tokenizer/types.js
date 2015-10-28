@@ -228,6 +228,8 @@ kw("set");
 // modules
 kw("export");
 kw("import");
+kw("from");
+kw("as");
 // special types
 kw("null", startsExpr);
 kw("true", startsExpr);
