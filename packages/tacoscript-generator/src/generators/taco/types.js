@@ -4,12 +4,19 @@
 
 import * as t from "babel-types";
 
-export function Identifier(node) {
+export function Identifier(node, parent) {
   if (node.parenthesizedExpression) this.push("(");
+  let standalone = true;
+  if (standalone) standalone = !(t.isMemberExpression(parent) && node === parent.property);
+  if (standalone) standalone = !(t.isProperty(parent) && node === parent.key && !parent.computed);
+  if (standalone) standalone = !(t.isExportNamespaceSpecifier(parent) && node.name === "default");
+  if (standalone) standalone = !(t.isImportSpecifier(parent) && parent.local);
+  if (standalone) standalone = !(t.isExportSpecifier(parent) && node.name === parent.exported.name && node.name === "default");
+  if (standalone) standalone = !t.isMetaProperty(parent);
   this.push({type: "name", value: {
     value: node.name,
     code: this.code.slice(node.start, node.end),
-    standalone: !node.isObjectProperty
+    standalone: standalone
   }});
   if (node.parenthesizedExpression) this.push(")");
 }
@@ -37,7 +44,6 @@ export function Property(node) {
   this.printMultiple(node, "decorators", { separator: null });
 
   if (node.method || node.kind === "get" || node.kind === "set") {
-    node.key.isObjectProperty = true;
     this._method(node);
   } else {
     if (node.computed) {
@@ -54,7 +60,6 @@ export function Property(node) {
         }
       }
 
-      node.key.isObjectProperty = true;
       this.print(node, "key");
 
       // shorthand!

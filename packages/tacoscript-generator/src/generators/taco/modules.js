@@ -2,7 +2,7 @@
 import * as t from "babel-types";
 
 export function ImportSpecifier(node) {
-  if (node.local) node.imported.isObjectProperty = true;
+
   this.print(node, "imported");
   if (node.local && node.local.name !== node.imported.name) {
     this.keyword("as");
@@ -19,11 +19,8 @@ export function ExportDefaultSpecifier(node) {
 }
 
 export function ExportSpecifier(node) {
-  let printExported = node.exported && node.local.name !== node.exported.name;
-  let exportedNode = printExported ? node.exported : node.local;
-  if (exportedNode.name === 'default') { exportedNode.isObjectProperty = true; }
   this.print(node, "local");
-  if (printExported) {
+  if (node.exported && node.local.name !== node.exported.name) {
     this.keyword("as");
     this.print(node, "exported");
   }
@@ -73,9 +70,6 @@ function ExportDeclaration(node) {
       throw new Error("Not Implemented");
     } else {
       let specifiers = node.specifiers.slice(0);
-      for (let specifier of (specifiers: Array)) {
-        if (t.isExportDefaultSpecifier(specifier)) specifier.isObjectProperty = true;
-      }
 
       let first = specifiers[0];
       let hasSpecial = false;
