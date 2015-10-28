@@ -105,6 +105,8 @@ export function init() {
   tt.plusMin.formattingSpaceWhenAfter.num = true;
   tt.plusMin.formattingSpaceWhenAfter.parenR = true;
   tt.plusMin.formattingSpaceWhenAfter.string = true;
+  tt.star.formattingSpaceWhenAfter._export = true;
+  tt.star.formattingSpaceWhenAfter._import = true;
   tt.star.formattingSpaceWhenAfter.name = true;
   tt.star.formattingSpaceWhenAfter.num = true;
   tt.star.formattingSpaceWhenAfter.parenR = true;
@@ -155,7 +157,6 @@ export function init() {
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.semi.formattingSpaceAfter = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
-  tt.star.formattingSpaceWhenAfter._export = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 
 

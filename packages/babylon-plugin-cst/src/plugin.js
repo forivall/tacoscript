@@ -25,24 +25,30 @@ pp.finishWhitespace = function(type = tokenTypes.whitespace) {
   }
 };
 
+// opposite of eat.
+function barf(state, expected) {
+  if (state.index == null) state.index = state.tokens.length - 1;
+  for (; state.index >= 0; state.index--) {
+    if (state.tokens[state.index].type.whitespace) {
+      continue;
+    }
+    if (expected == null) {
+      let token = state.tokens[state.index];
+      state.index--;
+      return token;
+    }
+    if (state.tokens[state.index].type === expected) {
+      state.index--;
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+
 function hasTrailingComma(tokens, terminator = tt.parenR) {
-  let i = tokens.length - 1;
-  for (; i >= 0; i--) {
-    if (tokens[i].type.whitespace) {
-      continue;
-    }
-    if (tokens[i].type !== terminator) {
-      throw new Error(`Unexpected token ${tokens[i].type.label}`);
-    }
-    break;
-  }
-  i--;
-  for (; i >= 0; i--) {
-    if (tokens[i].type.whitespace) {
-      continue;
-    }
-    return tokens[i].type === tt.comma;
-  }
+  let state = {tokens: tokens};
+  return barf(state, terminator) && barf(state, tt.comma);
 }
 
 export default function(instance, pluginOptions) {
@@ -170,6 +176,41 @@ export default function(instance, pluginOptions) {
     return function parseExprList(close, allowTrailingComma, allowEmpty, refShorthandDefaultPos) {
       var res = inner.apply(this, arguments);
       if (allowTrailingComma && hasTrailingComma(this.state.tokens, close)) {
+        res.hasTrailingComma = true;
+      }
+      return res;
+    }
+  });
+
+  instance.extend("parseImport", function(inner) {
+    return function parseImport() {
+      var res = inner.apply(this, arguments);
+      if (res.specifiers.length === 0) {
+        let state = {tokens: this.state.tokens};
+        barf(state, tt.semi);
+        if (barf(state, tt.string) && !barf(state, tt._import)) {
+          res.isEmptyImport = true;
+        }
+      }
+
+      let state = {tokens: this.state.tokens}, fromToken;
+      barf(state, tt.semi);
+      if (barf(state, tt.string) &&
+      ((fromToken = barf(state)), fromToken.type === tt.name && fromToken.value === 'from' ) &&
+      barf(state, tt.braceR) && barf(state, tt.comma)) {
+        res.hasTrailingComma = true;
+      }
+      return res;
+    }
+  });
+
+  instance.extend("parseExport", function(inner) {
+    return function parseImport() {
+      var res = inner.apply(this, arguments);
+
+      let state = {tokens: this.state.tokens};
+      barf(state, tt.semi);
+      if (barf(state, tt.braceR) && barf(state, tt.comma)) {
         res.hasTrailingComma = true;
       }
       return res;

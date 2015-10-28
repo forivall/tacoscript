@@ -2,7 +2,7 @@
 import * as t from "babel-types";
 
 export function ImportSpecifier(node) {
-  if (node.local && node.imported.name === 'default') node.imported.isObjectProperty = true;
+  if (node.local) node.imported.isObjectProperty = true;
   this.print(node, "imported");
   if (node.local && node.local.name !== node.imported.name) {
     this.keyword("as");
@@ -82,7 +82,7 @@ function ExportDeclaration(node) {
       if (t.isExportDefaultSpecifier(first) || t.isExportNamespaceSpecifier(first)) {
         hasSpecial = true;
         let defaultSpecifier = specifiers.shift();
-        this._simplePrint(defaultSpecifier, node);
+        this._simplePrint(defaultSpecifier, node, {});
         if (specifiers.length) {
           this.push(",");
         }
@@ -93,7 +93,7 @@ function ExportDeclaration(node) {
         if (specifiers.length) {
           this._simplePrintMultiple(specifiers, node, { separator: "," });
         }
-        if (node.specifiers.hasTrailingComma) this.push(",");
+        if (node.hasTrailingComma) this.push(",");
         this.push("}");
       }
     }
@@ -122,7 +122,7 @@ export function ImportDeclaration(node) {
     if (specifiers && specifiers.length) {
       let first = specifiers[0];
       if (t.isImportDefaultSpecifier(first) || t.isImportNamespaceSpecifier(first)) {
-        this._simplePrint(specifiers.shift(), node);
+        this._simplePrint(specifiers.shift(), node, {});
         if (specifiers.length) {
           this.push(",");
         }
@@ -131,16 +131,21 @@ export function ImportDeclaration(node) {
       if (specifiers.length) {
         this.push("{");
         this._simplePrintMultiple(specifiers, node, { separator: "," });
-        if (node.specifiers.hasTrailingComma) this.push(",");
+        if (node.hasTrailingComma) this.push(",");
         this.push("}");
       }
 
       this.keyword("from");
+    } else if (node.isEmptyImport) {
+      this.push("{");
+      if (node.hasTrailingComma) this.push(",")
+      this.push("}");
+      this.keyword("from");
     }
   }
 
-  this.print(node.source, node);
-  this.semicolon();
+  this.print(node, "source");
+  this.newline();
 }
 
 export function ImportNamespaceSpecifier(node) {
