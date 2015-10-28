@@ -224,6 +224,9 @@ kw("yield", {beforeExpr: true, startsExpr: true});
 kw("static");
 kw("class");
 kw("extends", beforeExpr);
+kw("private");
+kw("protected");
+kw("public");
 kw("get");
 kw("set");
 // modules

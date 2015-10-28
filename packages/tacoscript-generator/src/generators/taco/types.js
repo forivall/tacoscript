@@ -6,7 +6,11 @@ import * as t from "babel-types";
 
 export function Identifier(node) {
   if (node.parenthesizedExpression) this.push("(");
-  this.push({type: "name", value: { value: node.name, code: this.code.slice(node.start, node.end) }});
+  this.push({type: "name", value: {
+    value: node.name,
+    code: this.code.slice(node.start, node.end),
+    standalone: !node.isObjectProperty
+  }});
   if (node.parenthesizedExpression) this.push(")");
 }
 
@@ -33,6 +37,7 @@ export function Property(node) {
   this.printMultiple(node, "decorators", { separator: null });
 
   if (node.method || node.kind === "get" || node.kind === "set") {
+    node.key.isObjectProperty = true;
     this._method(node);
   } else {
     if (node.computed) {
@@ -49,6 +54,7 @@ export function Property(node) {
         }
       }
 
+      node.key.isObjectProperty = true;
       this.print(node, "key");
 
       // shorthand!

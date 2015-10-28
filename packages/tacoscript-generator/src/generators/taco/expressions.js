@@ -189,6 +189,7 @@ export function MemberExpression(node) {
     }
 
     this.push(".");
+    node.property.isObjectProperty = true;
     this.print(node, "property");
   }
 }

@@ -69,7 +69,9 @@ export function init() {
   tt.string.toCode = function(token) { return token.value.code; };
   tt.name.toCode = function(token, state) {
     // TODO: keyword conflict resolution
-    return token.value.code;
+    let code = token.value.code
+    if (keywords.hasOwnProperty(token.value.code) && token.value.standalone) code = "\\$" + code;
+    return code;
   };
   tt.tab.toCode = function(token, state) {
     return repeating(state.format.indent.indent, token.value);

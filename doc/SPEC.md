@@ -143,6 +143,9 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
       return false
   ```
 
+12. (maybe) `#` for line comments, `#*` for block comments. `#\*` for a line comment that starts with a *.
+
+  <code>*\\#</code> for parts of a block comment that contains <code>**#</code>
 
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". It's implemented as custom parts of the AST that is transformed into a de-sugared form.
@@ -164,6 +167,17 @@ All of the following syntax is optional, but is default, and is part of the core
 * `a < b < c` ([frappe])
 * `%%` ([frappe])
 * null coalsecing and soak operator (`?` and `?.` and `?[]`)
+* cast operators
+  * option A
+    * `!!coerceToBool` ↔ `as.b coerceToBool`
+    * `~~coerceToInt` ↔ `as.i coerceToInt`
+    * `+coerceToNumber` ↔ `as.n coerceToNumber`
+    * `""+coerceToString` ↔ `as.s coerceToString`
+  * option B
+    * `!!coerceToBool` ↔ `&&coerceToBool`
+    * `""+coerceToString` ↔ `\"coerceToString`
+    * `''+coerceToString` ↔ `\'coerceToString`
+    * <code>\`\`+coerceToString</code> ↔ <code>\\\`coerceToString</code>
 
 #### Phase 3
 * non-fallthrough `switch` [(spec)](./safe-switch.md)
