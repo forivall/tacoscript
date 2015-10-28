@@ -15,7 +15,9 @@ var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
     testPath.indexOf("/comments/") !== -1 ||
     testPath.indexOf("/jsx/") !== -1 ||
     testPath.indexOf("/edgecase/") !== -1 ||
-    testPath.indexOf("/static-typing/") !== -1
+    testPath.indexOf("/static-typing/") !== -1 ||
+    test.indexOf("invalid-") === 0 ||
+    test === "options.json"
   },
   fixtures: {
     // actual should preserve whitespace
