@@ -18,6 +18,7 @@ var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
     testPath.indexOf("/static-typing/") !== -1 ||
     test.indexOf("invalid-") === 0 ||
     test.indexOf("unexpected-") === 0 ||
+    test.indexOf("malformed-") === 0 ||
     test === "options.json"
   },
   fixtures: {
