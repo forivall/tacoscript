@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-generator",
-  "version": "0.0.1-pre",
+  "version": "0.1.0",
   "description": "Generator for tacoscript",
   "main": "lib/index.js",
   "repository": {
