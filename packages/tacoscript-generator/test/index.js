@@ -14,8 +14,9 @@ var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
   skip: function(test, testPath) {
     return test === "README.md" ||
     testPath.indexOf("/comments/") !== -1 ||
-    testPath.indexOf("/jsx/") !== -1 ||
     testPath.indexOf("/edgecase/") !== -1 ||
+    testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
+    testPath.indexOf("/jsx/") !== -1 ||
     testPath.indexOf("/static-typing/") !== -1 ||
     test.indexOf("invalid-") === 0 ||
     test.indexOf("unexpected-") === 0 ||
