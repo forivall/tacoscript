@@ -123,8 +123,9 @@ export const types = {
   unboundArrow: punctuator("->", {beforeExpr: true, startsExpr: true}),
   asyncArrow:   punctuator("~>", {beforeExpr: true, startsExpr: true}),
   asyncBoundArrow:punctuator("~=>", {beforeExpr: true, startsExpr: true}),
-  template:     new TacoTokenType("template", "Template"),
   ellipsis:     punctuator("...", beforeExpr),
+
+  template:     new TacoTokenType("template", "Template"),
   backQuote:    punctuator("`",   startsExpr),
   dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true}),
   at:           punctuator("@"),

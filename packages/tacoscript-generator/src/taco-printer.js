@@ -298,6 +298,7 @@ import * as expressionsGenerators from "./generators/taco/expressions";
 import * as methodsGenerators from "./generators/taco/methods";
 import * as modulesGenerators from "./generators/taco/modules";
 import * as statementsGenerators from "./generators/taco/statements";
+import * as templateLiteralsGenerators from "./generators/taco/template-literals";
 import * as typesGenerators from "./generators/taco/types";
 for (let generator of [
       baseGenerators,
@@ -306,6 +307,7 @@ for (let generator of [
       methodsGenerators,
       modulesGenerators,
       statementsGenerators,
+      templateLiteralsGenerators,
       typesGenerators,
     ]) {
   Object.assign(TacoscriptPrinter.prototype, generator);

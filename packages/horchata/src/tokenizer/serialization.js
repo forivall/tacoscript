@@ -67,6 +67,7 @@ export function init() {
   tt.num.toCode = function(token) { return token.value.code; };
   tt.regexp.toCode = function(token) { return token.value.code; };
   tt.string.toCode = function(token) { return token.value.code; };
+  tt.template.toCode = function(token) { return token.value.raw; };
   tt.name.toCode = function(token, state) {
     // TODO: keyword conflict resolution
     let code = token.value.code

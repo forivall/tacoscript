@@ -10,7 +10,7 @@ export function Program(node) {
 // this is "use strict"
 export function Directive(node) {
   this.print(node, 'value');
-  this.endLine();
+  this.newline();
 }
 
 export function DirectiveLiteral(node) {
