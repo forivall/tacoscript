@@ -4,6 +4,10 @@
 
 import * as t from "babel-types";
 
+export function _getCodeFromNode(node) {
+  if (this.code) return this.code.slice(node.start, node.end)
+}
+
 export function Identifier(node, parent) {
   let standalone = true;
   if (standalone) standalone = !(t.isMemberExpression(parent) && node === parent.property);
@@ -14,7 +18,7 @@ export function Identifier(node, parent) {
   if (standalone) standalone = !t.isMetaProperty(parent);
   this.push({type: "name", value: {
     value: node.name,
-    code: this.code.slice(node.start, node.end),
+    code: this._getCodeFromNode(node),
     standalone: standalone
   }});
 }
@@ -114,7 +118,7 @@ export function Literal(node) {
 export function RegexLiteral(node) {
   // TODO: export this as regex token.tostring
   // this.push(`/${node.pattern}/${node.flags}`);
-  this.push({type: 'regexp', value: {pattern: node.pattern, flags: node.flags, code: this.code.slice(node.start, node.end) }});
+  this.push({type: 'regexp', value: {pattern: node.pattern, flags: node.flags, code: this._getCodeFromNode(node) }});
 }
 
 export function BooleanLiteral(node) {
@@ -126,11 +130,11 @@ export function NullLiteral() {
 }
 
 export function NumberLiteral(node) {
-  this.push({type: 'num', value: {value: node.value, code: node.raw || this.code.slice(node.start, node.end)}});
+  this.push({type: 'num', value: {value: node.value, code: node.raw || this._getCodeFromNode(node)}});
 }
 
 export function StringLiteral(node) {
-  this.push({type: 'string', value: {value: node.value, code: this.code.slice(node.start, node.end)}});
+  this.push({type: 'string', value: {value: node.value, code: this._getCodeFromNode(node)}});
 }
 
 // TODO: move to external module, send PR to babel.

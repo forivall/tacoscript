@@ -64,14 +64,14 @@ export function init() {
   tt.lineCommentStart.code = "#";
 
   tt.whitespace.toCode = function(token) { return token.value.code; };
-  tt.num.toCode = function(token) { return token.value.code; };
-  tt.regexp.toCode = function(token) { return token.value.code; };
-  tt.string.toCode = function(token) { return token.value.code; };
+  tt.num.toCode = function(token) { return token.value.code || token.value.raw; };
+  tt.regexp.toCode = function(token) { return token.value.code || token.value.raw || ('/' + token.value.pattern + '/' + token.value.flags); };
+  tt.string.toCode = function(token) { return token.value.code || token.value.raw || JSON.stringify(token.value.value); };
   tt.template.toCode = function(token) { return token.value.raw; };
   tt.name.toCode = function(token, state) {
     // TODO: keyword conflict resolution
-    let code = token.value.code
-    if (keywords.hasOwnProperty(token.value.code) && token.value.standalone) code = "\\$" + code;
+    let code = token.value.code || token.value.raw || token.value.value;
+    if (keywords.hasOwnProperty(code) && token.value.standalone) code = "\\$" + code;
     return code;
   };
   tt.tab.toCode = function(token, state) {
@@ -168,8 +168,6 @@ export function init() {
   tt.semi.formattingSpaceAfter = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
-
-
 
   tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
     return (left.value === "+" && right.value === "++") ||

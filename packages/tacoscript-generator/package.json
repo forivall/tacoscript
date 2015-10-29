@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Generator for tacoscript",
   "main": "lib/index.js",
+  "bin": {
+    "tacoscript-generate": "bin/tacoscript-generate.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/forivall/tacoscript.git"
