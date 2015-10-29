@@ -35,6 +35,7 @@ export {
 export function ObjectExpression(node) {
   this.push("{");
   this.printLiteralBody(node, "properties");
+  if (node.hasTrailingComma || node.properties.hasTrailingComma) this.push(",")
   this.push("}");
 }
 

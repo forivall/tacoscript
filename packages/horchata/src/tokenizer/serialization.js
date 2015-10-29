@@ -95,6 +95,7 @@ export function init() {
     keywordType.forceSpaceWhenAfter.num = true;
     keywordType.forceSpaceWhenAfter.string = true;
     keywordType.formattingSpaceWhenAfter.bracketR = true;
+    keywordType.formattingSpaceWhenAfter.braceR = true;
     keywordType.formattingSpaceWhenAfter.comma = true;
     keywordType.formattingSpaceWhenAfter.incDec = true;
     keywordType.formattingSpaceWhenAfter.parenR = true;
@@ -131,13 +132,20 @@ export function init() {
 
   tt._from.formattingSpaceWhenAfter.braceR = true;
   tt._of.formattingSpaceWhenAfter.braceR = true;
+  tt.arrow.formattingSpaceAfter = function(left, right) {
+    return right.type !== tt.parenR && right.type !== tt.newline;
+  };
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
-  tt.bracketL.formattingSpaceWhenAfter.keyword = true;
+  tt.bracketL.formattingSpaceWhenAfter.keyword = function(left) {
+    return left.type !== tt._super;
+  };
   tt.parenL.formattingSpaceWhenAfter.comma = true;
-  tt.parenL.formattingSpaceWhenAfter.keyword = true;
+  tt.parenL.formattingSpaceWhenAfter.keyword = function(left) {
+    return left.type !== tt._super;
+  };
   tt.braceL.formattingSpaceWhenAfter.arrow = true;
   tt.braceL.formattingSpaceWhenAfter.comma = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
