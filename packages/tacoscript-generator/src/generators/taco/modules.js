@@ -58,8 +58,6 @@ export function ExportDefaultDeclaration() {
 function ExportDeclaration(node) {
   if (node.declaration) {
     this.print(node, "declaration");
-    let declar = node.declaration;
-    if (t.isStatement(declar) || t.isFunction(declar) || t.isClass(declar)) return;
   } else {
     if (node.exportKind === "type") {
       this.keyword("type");

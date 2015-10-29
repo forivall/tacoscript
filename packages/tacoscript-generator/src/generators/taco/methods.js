@@ -78,11 +78,16 @@ export function _method(node) {
 
 export function FunctionExpression(node, parent) {
   if (node.parenthesizedExpression) this.push("(");
+
+  let needsParens = t.isCallExpression(parent) && node === parent.callee; // TODO: better needsParens testing
+  if (needsParens) this.push("(");
+
   if (node.id) {
     this.push("function");
     this.print(node, "id");
   }
   this._finishFunction(node, parent);
+  if (needsParens) this.push(")");
   if (node.parenthesizedExpression) this.push(")");
 }
 

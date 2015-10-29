@@ -79,7 +79,7 @@ export function Property(node) {
 export function ArrayExpression(node) {
   this.push("[");
   this.printLiteralBody(node, "elements");
-  if (node.elements.hasTrailingComma && node.elements[node.elements.length - 1] !== null) this.push(",")
+  if ((node.hasTrailingComma || node.elements.hasTrailingComma) && node.elements[node.elements.length - 1] !== null) this.push(",")
   this.push("]");
 }
 
@@ -128,7 +128,7 @@ export function NullLiteral() {
 
 export function NumberLiteral(node) {
   if (node.parenthesizedExpression) this.push("(");
-  this.push({type: 'num', value: {value: node.value, code: this.code.slice(node.start, node.end)}});
+  this.push({type: 'num', value: {value: node.value, code: node.raw || this.code.slice(node.start, node.end)}});
   if (node.parenthesizedExpression) this.push(")");
 }
 

@@ -6,6 +6,7 @@ var babylon = require('babylon');
 var generate = require('../lib/index').default;
 var expect = require("chai").expect;
 var mochaFixtures = require("mocha-fixtures-generic");
+var misMatch = require("./_util").misMatch;
 require("babylon-plugin-cst").install();
 
 var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
@@ -29,7 +30,7 @@ var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
     "auto": { loc: ["expected.taco"] },
     "babel": { loc: ["expected.js"] },
     // estree ast
-    "json": { loc: ["expected.json"] },
+    "json": { loc: ["expected.json", "expected.cst.json"] },
     // pre-transform tacoscript ast
     "raw": { loc: ["actual.json"] }
   },
@@ -58,7 +59,46 @@ suite("taco-printer", function () {
 });
 _.forOwn(suiteSets, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: core/" + setName + "/" + testSuite.title, function () {
+    suite("tacoscript-generator: (preserve=false) core/" + setName + "/" + testSuite.title, function () {
+      _.each(testSuite.tests, function (task) {
+        // comment out the following line when generating new specs
+        // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
+        test(task.title, !task.disabled && function () {
+          var taco = task.auto;
+          var js = task.js;
+
+          var expectedAst;
+          try {
+            expectedAst = JSON.parse(task.json.code);
+          } catch(e) {
+            expectedAst = babylon.parse(js.code, {
+              filename: js.loc,
+              strictMode: false,
+              sourceType: "module"
+            });
+          }
+          var options = _.merge({format: {perserve: false}}, task.options);
+          var result = generate(expectedAst, options, js.code);
+          var actualCode = result.code;
+          // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
+          // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
+          var tacoLoc = taco.loc.replace('expected.json/', '');
+          // TODO: fix duplicate newlines properly -- this issue is only with object literals
+          // console.log(result.tokens);
+          // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
+          if (!taco.code && !fs.existsSync(tacoLoc)) {
+            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          } else {
+            expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
+          }
+        });
+      });
+    });
+  });
+});
+if (false) _.forOwn(suiteSets, function(suites, setName) {
+  suites.forEach(function (testSuite) {
+    suite("tacoscript-generator: (preserve=true) core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
@@ -74,20 +114,18 @@ _.forOwn(suiteSets, function(suites, setName) {
               "cst": true
             }
           });
-          var options = _.merge({format: {perserve: false}}, task.options);
+          try {
+            var expectedAst = JSON.parse(task.json.code);
+            delete expectedAst.program.sourceType;
+            var mismatchMessage = misMatch(expectedAst, actualAst);
+          } catch(e) {}
+          if (mismatchMessage) throw new Error(mismatchMessage);
+          var options = task.options;
           var result = generate(actualAst, options, js.code);
           var actualCode = result.code;
-          // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
-          // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
-          var tacoLoc = taco.loc.replace('expected.json/', '');
-          // TODO: fix duplicate newlines properly -- this issue is only with object literals
           // console.log(result.tokens);
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
-          if (!taco.code && !fs.existsSync(tacoLoc)) {
-            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
-          } else {
-            expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
-          }
+          expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
         });
       });
     });
