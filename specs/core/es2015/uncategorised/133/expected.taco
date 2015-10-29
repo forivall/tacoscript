@@ -1,0 +1,3 @@
+class A
+  static get foo() ->
+  get foo() ->

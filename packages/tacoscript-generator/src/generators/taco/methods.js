@@ -77,7 +77,6 @@ export function _method(node) {
  */
 
 export function FunctionExpression(node, parent) {
-  if (node.parenthesizedExpression) this.push("(");
 
   let needsParens = t.isCallExpression(parent) && node === parent.callee; // TODO: better needsParens testing
   if (needsParens) this.push("(");
@@ -88,7 +87,6 @@ export function FunctionExpression(node, parent) {
   }
   this._finishFunction(node, parent);
   if (needsParens) this.push(")");
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 /**
@@ -122,7 +120,6 @@ export function _finishFunction(node, parent) {
  */
 
 export function ArrowFunctionExpression(node, parent) {
-  if (node.parenthesizedExpression) this.push("(");
   this._params(node);
 
   if (t.isBlock(node.body)) {
@@ -140,7 +137,6 @@ export function ArrowFunctionExpression(node, parent) {
     }
     this.print(node, "body");
   }
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 // TODO: SharpArrowFunctionExpression

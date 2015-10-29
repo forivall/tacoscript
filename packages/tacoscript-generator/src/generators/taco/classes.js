@@ -1,5 +1,7 @@
 
-export function ClassDeclaration(node) {
+import * as t from "babel-types";
+
+export function _printClass(node) {
   this.printMultiple(node, "decorators", { separator: null });
   if (node.decorators && node.decorators.length) this.newline();
   this.push("class");
@@ -25,19 +27,25 @@ export function ClassDeclaration(node) {
   this.print(node, "body");
 }
 
-export function ClassExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
-  this.ClassDeclaration(node);
-  if (node.parenthesizedExpression) this.push(")");
+export function ClassDeclaration(node, parent) {
+  this._printClass(node);
+  this.newline();
+}
+export function ClassExpression(node, parent) {
+  // TODO: check this.format.parenthesizeClassExpressions
+  let needsParens = t.isClass(parent) && parent.superClass === node;
+  if (needsParens) this.push("(");
+  this._printClass(node);
+  if (needsParens) this.push(")");
 }
 
 export function ClassBody(node) {
   this.indent();
-  this.newline();
   // TODO: this.printInnerComments(node);
   if (node.body.length === 0) {
     // this.push("pass");
   } else {
+    this.newline();
     this.printStatements(node, "body");
   }
   this.dedent();

@@ -1,0 +1,4 @@
+{
+  t(eval) ->
+    "use strict"
+}

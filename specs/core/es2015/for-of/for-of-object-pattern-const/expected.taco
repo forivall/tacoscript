@@ -1,4 +1,1 @@
-for const {
-  x
-  y
-} of z then pass
+for const {x, y} of z then pass

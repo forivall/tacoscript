@@ -5,10 +5,9 @@
 import * as t from "babel-types";
 
 export function Identifier(node, parent) {
-  if (node.parenthesizedExpression) this.push("(");
   let standalone = true;
   if (standalone) standalone = !(t.isMemberExpression(parent) && node === parent.property);
-  if (standalone) standalone = !(t.isProperty(parent) && node === parent.key && !parent.computed);
+  if (standalone) standalone = !(t.isProperty(parent) && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/);
   if (standalone) standalone = !(t.isExportNamespaceSpecifier(parent) && node.name === "default");
   if (standalone) standalone = !(t.isImportSpecifier(parent) && parent.local);
   if (standalone) standalone = !(t.isExportSpecifier(parent) && node.name === parent.exported.name && node.name === "default");
@@ -18,7 +17,6 @@ export function Identifier(node, parent) {
     code: this.code.slice(node.start, node.end),
     standalone: standalone
   }});
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function RestElement(node) {
@@ -128,9 +126,7 @@ export function NullLiteral() {
 }
 
 export function NumberLiteral(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.push({type: 'num', value: {value: node.value, code: node.raw || this.code.slice(node.start, node.end)}});
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function StringLiteral(node) {

@@ -64,6 +64,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.start, pos: node.start}});
     }
+    if (node.parenthesizedExpression && !t.isObjectExpression(node)) this.push("(");
   }
 
   _startPreservedPrint(parent, prop, opts) {
@@ -92,6 +93,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _finishSimplePrint(node, opts) {
+    if (node.parenthesizedExpression && !t.isObjectExpression(node)) this.push(")");
     // push mapping end pseudo-token
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.end, pos: node.end}});
@@ -237,7 +239,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       if (parent.type === "ArrayExpression" && node.length <= 5) { useNewlines = false; }
       if (parent.type === "ArrayPattern") { useNewlines = false; }
       // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) { useNewlines = false; }
-      if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length === 0) { useNewlines = false; }
+      if ((parent.type === "ObjectExpression") && node.length === 0) { useNewlines = false; }
+      if (t.isObjectPattern(parent) && node.length <= 2) { useNewlines = false; }
       // TODO: implement the following line:
       //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) { useNewlines = false; }
       // TODO: always use newlines if the literal contains a function

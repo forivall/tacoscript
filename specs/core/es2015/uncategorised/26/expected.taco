@@ -1,0 +1,7 @@
+`outer${{
+  x: {
+    y: 10
+  }
+}}bar${`nested${() ->
+  return 1
+}endnest`}end`

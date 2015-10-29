@@ -8,21 +8,17 @@ import {TacoToken as Token} from "horchata/lib/tokenizer";
 const SCIENTIFIC_NOTATION = /e/i;
 
 export function UnaryExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   // operator can be any token type that has prefix: true
   // TODO: generic node lookup
   var s = clone(Token.stateFromCode(node.operator === "!" ? "not" : node.operator));
   s.meta = { unary: true };
   this.push(s);
   this.print(node, "argument");
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function DoExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.push("do");
   this.printBlock(node);
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function ParenthesizedExpression(node) {
@@ -32,7 +28,6 @@ export function ParenthesizedExpression(node) {
 }
 
 export function UpdateExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   if (node.prefix) {
     this.push(node.operator);
     this.print(node, "argument");
@@ -40,13 +35,11 @@ export function UpdateExpression(node) {
     this.print(node, "argument");
     this.push(node.operator);
   }
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 // TODO: ToggleExpression - see frappe "nice alternative to nested ternaries"
 
 export function ConditionalExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.push("if");
   // TODO: or if parent is an expression
   if (!node.parenthesizedExpression) this.push("!");
@@ -55,21 +48,17 @@ export function ConditionalExpression(node) {
   this.print(node, "consequent");
   this.push("else");
   this.print(node, "alternate");
-  if (node.parenthesizedExpression) this.push(")");
+
 }
 
 export function NewExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.push("new");
   this.print(node, "callee");
   if (!node.emptyArguments || node.arguments.length) this.printArguments(node);
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function SequenceExpression(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.printMultiple(node, "expressions", {separator: ";"});
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function ThisExpression() {
@@ -119,11 +108,9 @@ export function ExpressionStatement(node) {
 }
 
 export function AssignmentPattern(node) {
-  if (node.parenthesizedExpression) this.push("(");
   this.print(node, "left");
   this.push("=");
   this.print(node, "right");
-  if (node.parenthesizedExpression) this.push(")");
 }
 
 export function AssignmentExpression(node) {
@@ -135,7 +122,6 @@ export function AssignmentExpression(node) {
 
 export function BinaryExpression(node) {
   // all other binary operators
-  if (node.parenthesizedExpression) this.push("(");
   this.print(node, "left");
   let operator = node.operator;
   if (this.format.equals === "words") {
@@ -148,7 +134,6 @@ export function BinaryExpression(node) {
   }
   this.push(operator);
   this.print(node, "right");
-  if (node.parenthesizedExpression) this.push(")")
 }
 
 export function LogicalExpression(node) {
