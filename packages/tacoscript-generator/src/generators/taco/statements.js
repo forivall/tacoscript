@@ -139,7 +139,7 @@ export function SwitchCase(node) {
   }
 }
 
-export function SafeSwitchCase(node: Object) {
+export function SafeSwitchCase(node) {
   if (node.fallthrough) {
     this.keyword("and");
   }
@@ -154,7 +154,7 @@ export function DebuggerStatement() {
   this.keyword("debugger");
 }
 
-export function VariableDeclaration(node: Object, parent: Object) {
+export function VariableDeclaration(node, parent) {
   this.keyword(node.kind);
 
   let hasInits = false;
@@ -179,7 +179,7 @@ export function VariableDeclaration(node: Object, parent: Object) {
   }
 }
 
-export function VariableDeclarator(node: Object) {
+export function VariableDeclarator(node) {
   this.print(node, "id", {assertChildrenPrinted: ["typeAnnotation"]});
   if (node.init) {
     this.push("=");
