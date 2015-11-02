@@ -1,77 +1,95 @@
-import { TacoTokenType, keywords, types as tt } from "./types";
-import includes from "lodash/collection/includes";
+/*
+ * Copyright (C) 2012-2014 by various contributors (see doc/ACORN_AUTHORS)
+ * Copyright (C) 2015 Jordan Klassen <forivall@gmail.com>
+ *
+ * See LICENSE for full license text
+ */
 
-export class TacoToken {
-  constructor(state) {
-    this.type = state.type;
-    this.value = state.value;
-    this.start = state.start;
-    this.end = state.end;
-    this.meta = state.meta || {};
-    // this.loc = new SourceLocation(state.startLoc, state.endLoc);
-  }
+// TODO: rename to lexer everywhere in the code.
 
-  valueOf() {
-    return this.type.toCode(this);
-  }
+import {types as tt} from "./types";
+import {reservedWords, keywords} from "./util/identifier";
 
-  static from(babelToken) {
-    let type = TacoTokenType.from(babelToken.type);
-    let state = {
-      type: type,
-      value: type.convertValue(babelToken.value)
-    };
-    let token = new TacoToken(state);
-    token.origLoc = babelToken.loc;
-    token.origStart = babelToken.start;
-    token.origEnd = babelToken.end;
-    return token;
-  }
-  static _fromCodeCache = {};
-  // should not be used on regex, etc.
-  static stateFromCode(code) {
-    // TODO: just use the tokenizer to do this
-    // make sure to design the tokenizer to make this easy
-    let cacheState = TacoToken._fromCodeCache[code];
-    if (cacheState) return cacheState;
+function keywordRegexp(words) {
+  return new RegExp("^(" + words.join("|") + ")$");
+}
 
-    for (let key in tt) {
-      let type = tt[key];
-      if (type.code === code) {
-        return (TacoToken._fromCodeCache[code] = { type: type });
-      }
-    }
-    switch (code) {
-      case "=>":
-      case "=>>":
-        return (TacoToken._fromCodeCache[code] = { type: tt.arrow, value: code });
-      case "->": case "->>":
-        return (TacoToken._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
-      case "~>": case "~>>":
-        return (TacoToken._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
-      case "~=>": case "~=>>":
-        return (TacoToken._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
-      case "+=": case "-=":
-      case "/=": case "*=": case "**=": case "%=":
-      case "|=": case "&=": case "^=":
-      case "<<=": case ">>=": case ">>>=":
-      case "or=": case "and=": case "?=":
-        return (TacoToken._fromCodeCache[code] = { type: tt.assign, value: code });
-      case "++": case "--":
-        return (TacoToken._fromCodeCache[code] = { type: tt.incDec, value: code });
-      case "==": case "===": case "!=": case "!==":
-        return (TacoToken._fromCodeCache[code] = { type: tt.equality, value: code });
-      case "<": case "<=": case ">": case ">=":
-        return (TacoToken._fromCodeCache[code] = { type: tt.relational, value: code });
-      case "<<": case ">>": case ">>>":
-        return (TacoToken._fromCodeCache[code] = { type: tt.bitShift, value: code });
-      case "+": case "-":
-        return (TacoToken._fromCodeCache[code] = { type: tt.plusMin, value: code });
-    }
-    throw new Error(`Cannot construct token from code "${code}"`);
-  }
+export class State {
+  constructor(options, input) {
+    this.input = input;
+    this.options = options;
 
-  static fromCode(code) {
-    return new TacoToken(TacoToken.stateFromCode(code));
+    // Used to signal to callers of `readWord1` whether the word
+    // contained any escape sequences. This is needed because words with
+    // escape sequences must not be interpreted as keywords.
+    this.containsEsc = false;
+
+    // Load plugins
+    this.loadPlugins(this.options.plugins)
+
+    // Set up token state
+
+    // The current position of the tokenizer in the input.
+    this.pos = this.lineStart = 0
+    this.curLine = 1
+
+    // Properties of the current token:
+    // Its type
+    this.type = tt.eof
+    // For tokens that include more information than their type, the value
+    this.value = null
+    // Its start and end offset
+    this.start = this.end = this.pos
+    // And, if locations are used, the {line, column} object
+    // corresponding to those offsets
+    this.startLoc = this.endLoc = this.curPosition()
+
+    // Position information for the previous token
+    this.lastTokEndLoc = this.lastTokStartLoc = null
+    this.lastTokStart = this.lastTokEnd = this.pos
+
+    // The context stack is used to superficially track syntactic
+    // context to predict whether a regular expression is allowed in a
+    // given position.
+    this.context = this.initialContext()
+    this.exprAllowed = true
+
+    // Figure out if it's a module code.
+    this.strict = this.inModule = this.options.sourceType === "module"
+
+    // Used to signify the start of a potential arrow function
+    this.potentialArrowAt = -1
+
+    // Flags to track whether we are in a function, a generator.
+    this.inFunction = this.inGenerator = false
+    // Labels in scope.
+    this.labels = []
+
   }
 }
+
+export default class Lexer {
+  // TODO: move input to parse(), change otions os that it only contains options
+  // that are generic, no options that pertain to the source file
+  constructor(options, input) {
+    // TODO: move these regexes to lexer
+    this.keywords = keywordRegexp([].concat(keywords, reservedWords.tacoscript))
+    this.reservedWords = keywordRegexp([].concat(reservedWords.es2015, reservedWords.strict));
+    this.reservedWordsStrictBind = keywordRegexp([].concat(reservedWords.es2015, reservedWords.strict, reservedWords.strictBind))
+    this.input = "" + input;
+
+    // TODO: move this call to parsing
+    this.init();
+  }
+
+  // call this prior to start parsing
+  init() {
+    this.state = new State(this.options, this.input);
+
+  }
+
+  // TODO: parse hash bang line as comment
+
+}
+
+export {Lexer, Lexer as Tokenizer};

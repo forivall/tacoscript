@@ -26,7 +26,7 @@ import { init as initSerialization } from "./serialization";
 // `continuesExpression` marks a token that, if it is the last token before
 // a newline, the expression will continue
 
-export class TacoTokenType {
+export class TokenType {
   constructor(label, alias, conf = {}) {
     // metadata
     this.label = label;
@@ -57,12 +57,13 @@ export class TacoTokenType {
   }
   toCode(token) { return "" + (this.code || token.value); }
 }
+export {TokenType as TacoTokenType};
 
 function binop(name, prec) {
-  return new TacoTokenType(name, "Punctuator", {beforeExpr: true, binop: prec});
+  return new TokenType(name, "Punctuator", {beforeExpr: true, binop: prec});
 }
 function punctuator(name, conf) {
-  return new TacoTokenType(name, "Punctuator", conf)
+  return new TokenType(name, "Punctuator", conf)
 }
 
 // Map keyword names to token types.
@@ -72,7 +73,7 @@ export const keywords = {};
 let kw = function kw(name, options = {}) {
   options.keyword = name;
   options.code = name;
-  let type = new TacoTokenType(name, "Keyword", options);
+  let type = new TokenType(name, "Keyword", options);
   keywords[name] = type;
   return type;
 }
@@ -83,24 +84,24 @@ const
   isLoop = {isLoop: true};
 
 export const types = {
-  num: new TacoTokenType("num", "Numeric", startsExpr),
+  num: new TokenType("num", "Numeric", startsExpr),
   // value in format {}
-  regexp: new TacoTokenType("regexp", "RegularExpression", startsExpr),
-  string: new TacoTokenType("string", "String", startsExpr),
-  name: new TacoTokenType("name", "Identifier", startsExpr),
+  regexp: new TokenType("regexp", "RegularExpression", startsExpr),
+  string: new TokenType("string", "String", startsExpr),
+  name: new TokenType("name", "Identifier", startsExpr),
 
-  eof: new TacoTokenType("eof", "EOF"),
-  tab: new TacoTokenType("tab", "Whitespace"),
-  indent: new TacoTokenType("indent", "Whitespace"),
-  dedent: new TacoTokenType("dedent", "Whitespace"),
-  whitespace: new TacoTokenType("whitespace", "Whitespace"),
-  newline: new TacoTokenType("newline", "Whitespace"),
+  eof: new TokenType("eof", "EOF"),
+  tab: new TokenType("tab", "Whitespace"),
+  indent: new TokenType("indent", "Whitespace"),
+  dedent: new TokenType("dedent", "Whitespace"),
+  whitespace: new TokenType("whitespace", "Whitespace"),
+  newline: new TokenType("newline", "Whitespace"),
 
-  blockCommentStart: new TacoTokenType("#*", "Comment"),
-  blockCommentBody: new TacoTokenType("blockcomment", "Comment"),
-  blockCommentEnd: new TacoTokenType("*#", "Comment"),
-  lineCommentStart: new TacoTokenType("#", "Comment"),
-  lineCommentBody: new TacoTokenType("linecomment", "Comment"),
+  blockCommentStart: new TokenType("#*", "Comment"),
+  blockCommentBody: new TokenType("blockcomment", "Comment"),
+  blockCommentEnd: new TokenType("*#", "Comment"),
+  lineCommentStart: new TokenType("#", "Comment"),
+  lineCommentBody: new TokenType("linecomment", "Comment"),
 
   // Punctuation token types.
   bracketL:     punctuator("[",  {beforeExpr: true, startsExpr: true}),
@@ -125,7 +126,7 @@ export const types = {
   asyncBoundArrow:punctuator("~=>", {beforeExpr: true, startsExpr: true}),
   ellipsis:     punctuator("...", beforeExpr),
 
-  template:     new TacoTokenType("template", "Template"),
+  template:     new TokenType("template", "Template"),
   backQuote:    punctuator("`",   startsExpr),
   dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true}),
   at:           punctuator("@"),
@@ -180,7 +181,7 @@ export const types = {
 kw = function kw(name, options = {}) {
   options.keyword = name;
   options.code = name;
-  let type = new TacoTokenType(name, "Keyword", options);
+  let type = new TokenType(name, "Keyword", options);
   types["_" + name] = keywords[name] = type;
 }
 
