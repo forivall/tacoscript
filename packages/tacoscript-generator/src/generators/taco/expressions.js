@@ -124,13 +124,13 @@ export function BinaryExpression(node) {
   // all other binary operators
   this.print(node, "left");
   let operator = node.operator;
-  if (this.format.equals === "words") {
-    operator = ({
-      "===": "is",
-      "!==": "isnt",
-      "==": "like",
-      "!=": "unlike"
-    })[operator];
+  if (!this.dialect["equality-symbols"]) {
+    switch (operator) {
+      case "===": operator = "is"; break;
+      case "!==": operator = "isnt"; break;
+      case "==": operator = "like"; break;
+      case "!=": operator = "unlike"; break;
+    }
   }
   this.push(operator);
   this.print(node, "right");

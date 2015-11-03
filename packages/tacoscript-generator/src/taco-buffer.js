@@ -11,12 +11,26 @@ import isString from "lodash/lang/isString";
 import equalsDeep from "lodash/lang/isEqual";
 import "./special-tokens";
 
+// TODO: move to tacoscript-options package
+function normalizeOptions(input) {
+  if (input == null) throw new Error("Unexpected null or undefined options");
+  let inputDialect = input.dialect || {};
+  // TODO: console.warn about unknown opts
+  let opts = {};
+  opts.dialect = {};
+  opts.dialect["equality-symbols"] = !!inputDialect["equality-symbols"];
+  opts.format = input.format || {};
+  return opts;
+}
+
 export default class TacoBuffer {
 
   constructor(opts, code) {
     this._initSourceMap(opts, code);
+    opts = normalizeOptions(opts);
     this.opts = opts;
     this.format = opts.format;
+    this.dialect = opts.dialect;
     this.tokens = [new Token({type: tt.tab, value: 0})];
     this._indent = 0;
     this._lastIndent = 0;
