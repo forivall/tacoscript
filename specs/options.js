@@ -36,5 +36,10 @@ module.exports.core = {
   },
   fixtures: baseOptions.fixtures,
   getTaskOptions: baseOptions.getTaskOptions,
-
+}
+module.exports.unified = {
+  optionsPath: baseOptions.optionsPath,
+  skip: baseOptions.skip,
+  fixtures: baseOptions.fixtures,
+  getTaskOptions: baseOptions.getTaskOptions,
 }
