@@ -166,6 +166,7 @@ export function init() {
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.regexp.formattingSpaceWhenAfter.keyword = true;
   tt.semi.formattingSpaceAfter = true;
+  tt.string.formattingSpaceWhenAfter.comma = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 

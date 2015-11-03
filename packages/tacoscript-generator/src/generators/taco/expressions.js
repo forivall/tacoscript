@@ -143,7 +143,7 @@ export function LogicalExpression(node) {
 }
 
 export function BindExpression(node) {
-  this.print(node, "object");
+  if (node.object != null) this.print(node, "object");
   this.push("::");
   this.print(node, "callee");
 }
