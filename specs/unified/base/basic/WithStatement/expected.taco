@@ -1,0 +1,5 @@
+with foo
+with foo
+  pass
+with foo
+  bar()

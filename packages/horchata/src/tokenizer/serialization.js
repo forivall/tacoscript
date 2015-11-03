@@ -137,11 +137,16 @@ export function init() {
     return right.type !== tt.parenR && right.type !== tt.newline;
   };
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
+  tt.asyncArrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
   tt.bracketL.formattingSpaceWhenAfter.keyword = function(left) {
-    return left.type !== tt._super;
+    return (
+      left.type !== tt._super &&
+      left.type !== tt._this &&
+      true
+    );
   };
   tt.parenL.formattingSpaceWhenAfter.comma = true;
   tt.parenL.formattingSpaceWhenAfter.keyword = function(left) {

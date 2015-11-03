@@ -13,11 +13,11 @@ export function IfStatement(node) {
   this.print(node, "test");
 
   this.printBlock(node, "consequent");
-
   if (node.alternate) {
     this.keyword("else");
     this.printBlock(node, "alternate");
   }
+  if (!this.format.preserve) this.newline(true);
 }
 
 export function ForStatement(node) {
@@ -100,6 +100,7 @@ export function TryStatement(node) {
     this.keyword("finally");
     this.printBlock(node, "finalizer");
   }
+  if (!this.format.preserve) this.newline(true);
 }
 
 export function CatchClause(node) {
@@ -137,6 +138,7 @@ export function SwitchCase(node) {
     this.newline();
     this.printStatements(node, "consequent", { indent: true });
   }
+  this.newline();
 }
 
 export function SafeSwitchCase(node) {
@@ -152,6 +154,7 @@ export function SafeSwitchCase(node) {
 
 export function DebuggerStatement() {
   this.keyword("debugger");
+  this.newline();
 }
 
 export function VariableDeclaration(node, parent) {
