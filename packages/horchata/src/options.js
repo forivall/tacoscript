@@ -1,4 +1,4 @@
-let object = {};
+let emptyObject = {};
 
 export const defaultOptions = {
   // The two source types have different static semantics.
@@ -11,7 +11,7 @@ export const defaultOptions = {
   allowReturnOutsideFunction: false,
 
   // map of plugins with their options
-  plugins: object,
+  plugins: emptyObject,
 
   // When `locations` is on, `loc` properties holding objects with
   // `start` and `end` properties in `{line, column}` form (with
@@ -39,8 +39,8 @@ export function getOptions(opts) {
   let options = {};
   for (let key in defaultOptions) {
     options[key] = opts && key in opts ? opts[key] : defaultOptions[key];
-    // don't reuse the object default option
-    if (options[key] === object) options[key] = {};
+    // dalways init a new empty object
+    if (options[key] === emptyObject) options[key] = {};
   }
   return options;
 }
