@@ -8,39 +8,18 @@ var expect = require("chai").expect;
 var mochaFixtures = require("mocha-fixtures-generic");
 var misMatch = require("./_util").misMatch;
 require("babylon-plugin-cst").install();
+var specOptions = require("../../../specs/options");
 
-var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"), {
-  optionsPath: "options",
-  skip: function(test, testPath) {
-    return test === "README.md" ||
-    testPath.indexOf("/comments/") !== -1 ||
-    testPath.indexOf("/edgecase/") !== -1 ||
-    testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
-    testPath.indexOf("/jsx/") !== -1 ||
-    testPath.indexOf("/static-typing/") !== -1 ||
-    test.indexOf("invalid-") === 0 ||
-    test.indexOf("unexpected-") === 0 ||
-    test.indexOf("malformed-") === 0 ||
-    test === "options.json"
-  },
-  fixtures: {
-    // actual should preserve whitespace
-    "js": { loc: ["actual.js"] },
-    "taco": { loc: ["actual.taco"] },
-    // expected should use autoformatting rules
-    "auto": { loc: ["expected.taco"] },
-    "babel": { loc: ["expected.js"] },
-    // estree ast
-    "json": { loc: ["expected.json", "expected.cst.json"] },
-    // pre-transform tacoscript ast
-    "raw": { loc: ["actual.json"] }
-  },
-  getTaskOptions: function(suite, test) {
-    return _.merge({
-      sourceFileName: test.js.filename,
-    }, _.cloneDeep(suite.options));
-  },
-});
+var suiteSets = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
+  _.assign({}, specOptions.core, {
+    skip: function(test, testPath) {
+      return specOptions.core.skip(test, testPath) ||
+      test.indexOf("invalid-") === 0 ||
+      test.indexOf("unexpected-") === 0 ||
+      test.indexOf("malformed-") === 0;
+    }
+  })
+);
 
 suite("taco-printer", function () {
   test("basic", function () {
