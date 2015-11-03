@@ -6,7 +6,7 @@
 import sourceMap from "source-map";
 import Position from "./position";
 import {types as tt, keywords as kw} from "horchata/lib/tokenizer/types";
-import {TacoToken as Token} from "horchata/lib/tokenizer"
+import {Token} from "horchata/lib/tokenizer"
 import isString from "lodash/lang/isString";
 import equalsDeep from "lodash/lang/isEqual";
 import "./special-tokens";

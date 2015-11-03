@@ -8,7 +8,8 @@
 // TODO: rename to lexer everywhere in the code.
 
 import {types as tt} from "./types";
-import {reservedWords, keywords} from "./util/identifier";
+import {reservedWords, keywords} from "../util/identifier";
+export {Token} from "./token";
 
 function keywordRegexp(words) {
   return new RegExp("^(" + words.join("|") + ")$");
