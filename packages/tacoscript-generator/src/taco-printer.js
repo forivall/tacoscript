@@ -90,6 +90,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     } else {
       this._finishSimplePrint(node, opts)
     }
+    this.flush();
   }
 
   _finishSimplePrint(node, opts) {

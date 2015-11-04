@@ -56,20 +56,7 @@ export function _method(node) {
     this.print(node, "key");
   }
 
-  this._params(value);
-
-  if (kind === "method" || kind === "init") {
-    if (value.generator) {
-      this.push("*");
-    }
-  }
-  if (node.async) {
-    this.push("~>");
-  } else {
-    this.push("->");
-  }
-
-  this._functionBody(value);
+  this._finishFunction(value, node);
 }
 
 /**

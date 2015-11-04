@@ -39,6 +39,8 @@ export default class TacoBuffer {
     this.position = new Position();
     this.code = code;
     this.output = '';
+
+    this._warnings = [];
   }
 
   /**
@@ -56,12 +58,16 @@ export default class TacoBuffer {
     return last.type === type;
   }
 
-  _last() {
-    var token;
-    for (let i = 1, len = this.tokens.length;
-        i <= len && (token = this.tokens[len - i]).type === tt.mappingMark;
+  _lastOffset(offset = 1) {
+    let i = offset;
+    for (let len = this.tokens.length;
+        i <= len && this.tokens[len - i].type === tt.mappingMark;
         i++) {}
-    return token;
+    return i;
+  }
+
+  _last() {
+    return this.tokens[this.tokens.length - this._lastOffset()];
   }
 
   _pop() {
@@ -144,6 +150,17 @@ export default class TacoBuffer {
     }
   }
 
+  flush() {
+    let lastOffset = this._lastOffset();
+    if (this.tokens[this.tokens.length - lastOffset].type !== tt.newline) {
+      this.onWarning("Last token is not a newline");
+      let last = this._last();
+      if (last != null && last.type === tt.newline) {
+        this.tokens.splice(lastOffset, this.tokens.length);
+      }
+    }
+  }
+
   /**
    * TODO: move this to documentation
    * in generators, the tokens that have to be manually defined are:
@@ -208,6 +225,8 @@ export default class TacoBuffer {
       this._lastIndent = this._indent;
     }
   }
+
+  // TODO: reduce duplication between force space and formatting space.
 
   _insertForceSpace(state) {
     let force = state.type.forceSpaceWhenAfter;
@@ -288,5 +307,13 @@ export default class TacoBuffer {
     this.output += code;
     this.position.push(code);
     if (origLoc) this.mark(origLoc.end);
+  }
+
+  // Warnings
+
+  onWarning(warning) {
+    // default; can be overwritten by opts
+    // console.warn(warning);
+    this._warnings.push(warning);
   }
 }
