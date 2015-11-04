@@ -226,12 +226,11 @@ All of the following syntax is optional, but is default, and is part of the core
 ## Implementation Plan
 
 * [ ] Implement taco-generator to generate tacoscript (masascript) from babylon ASTs
+  * [ ] Publish tacoscript generator and make demo site
 * [ ] Implement horchata, the tacoscript (including Phase 1 and 2 syntax) parser
 * [ ] Improve documentation
 * [ ] Implement each of the extended syntax as independent transforms
-* [ ] Fork acorn-babel and modify to parse tacoscript
-  * [ ] implement off-side rule parsing
-  * [ ] implement other keywords
+* [ ] add whitespace and comment preservation to tacoscript-generator
 * [ ] implement whitespace preserving js generator
 
 
