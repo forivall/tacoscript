@@ -158,6 +158,8 @@ export function init() {
   };
   tt.arrow.formattingSpaceWhenAfter.parenR = true;
   tt.asyncArrow.formattingSpaceWhenAfter.parenR = true;
+  tt.asyncBoundArrow.formattingSpaceWhenAfter.parenR = true;
+  tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
   tt.bracketL.formattingSpaceWhenAfter.arrow = true;
   tt.bracketL.formattingSpaceWhenAfter.comma = true;
   tt.bracketL.formattingSpaceWhenAfter.eq = true;
@@ -173,6 +175,9 @@ export function init() {
     return left.type !== tt._super;
   };
   tt.braceL.formattingSpaceWhenAfter.arrow = true;
+  tt.braceL.formattingSpaceWhenAfter.asyncArrow = true;
+  tt.braceL.formattingSpaceWhenAfter.asyncBoundArrow = true;
+  tt.braceL.formattingSpaceWhenAfter.unboundArrow = true;
   tt.braceL.formattingSpaceWhenAfter.comma = true;
   tt.braceL.formattingSpaceWhenAfter.keyword = true;
   tt.colon.formattingSpaceAfter = true;
@@ -183,15 +188,23 @@ export function init() {
   tt.eq.formattingSpaceWhenAfter.braceR = true;
   tt.eq.formattingSpaceWhenAfter.bracketR = true;
   tt.name.formattingSpaceWhenAfter.arrow = true;
+  tt.name.formattingSpaceWhenAfter.asyncArrow = true;
+  tt.name.formattingSpaceWhenAfter.asyncBoundArrow = true;
+  tt.name.formattingSpaceWhenAfter.unboundArrow = true;
   tt.name.formattingSpaceWhenAfter.comma = true;
   tt.name.formattingSpaceWhenAfter.exec = true;
   tt.num.formattingSpaceWhenAfter.arrow = true;
   tt.num.formattingSpaceWhenAfter.comma = true;
   tt.parenL.formattingSpaceWhenAfter.arrow = true;
+  tt.parenL.formattingSpaceWhenAfter.asyncArrow = true;
+  tt.parenL.formattingSpaceWhenAfter.asyncBoundArrow = true;
+  tt.parenL.formattingSpaceWhenAfter.unboundArrow = true;
   tt.parenL.formattingSpaceWhenAfter.exec = true;
   tt.regexp.formattingSpaceWhenAfter.keyword = true;
   tt.semi.formattingSpaceAfter = true;
-  tt.string.formattingSpaceWhenAfter.comma = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
-  tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
+  tt.string.formattingSpaceWhenAfter.asyncArrow = true;
+  tt.string.formattingSpaceWhenAfter.asyncBoundArrow = true;
+  tt.string.formattingSpaceWhenAfter.unboundArrow = true;
+  tt.string.formattingSpaceWhenAfter.comma = true;
 }
