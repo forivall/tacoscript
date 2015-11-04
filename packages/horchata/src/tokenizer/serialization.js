@@ -85,16 +85,36 @@ export function init() {
     // marker to parser that indentation has decreased
     return "";
   };
-  // NOTE: proper serialization of invalid taco/javascript is not guaranteed.
+  // NOTE: proper serialization of an invalid stream of tokens is not guaranteed.
 
-  tt.name.forceSpaceWhenAfter.keyword = true;
-  tt.string.forceSpaceWhenAfter.keyword = true;
-  tt.num.forceSpaceWhenAfter.keyword = true;
+  // spacing required for proper parsing
+
   forOwn(keywords, function(keywordType) {
     keywordType.forceSpaceWhenAfter.keyword = true;
     keywordType.forceSpaceWhenAfter.name = true;
     keywordType.forceSpaceWhenAfter.num = true;
     keywordType.forceSpaceWhenAfter.string = true;
+  });
+  tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
+    return (left.value === "+" && right.value === "++") ||
+      (left.value === "-" && right.value === "--");
+  };
+  tt.name.forceSpaceWhenAfter.keyword = true;
+  tt.num.forceSpaceWhenAfter.keyword = true;
+  tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
+    return (
+      left.value === "+" && right.value === "++" ||
+      left.value === "-" && right.value === "--" ||
+      left.value === "+" && right.value === "+" ||
+      left.value === "-" && right.value === "-" ||
+      false
+    );
+  };
+  tt.string.forceSpaceWhenAfter.keyword = true;
+
+  // formatting : todo: move to plugin
+
+  forOwn(keywords, function(keywordType) {
     keywordType.formattingSpaceWhenAfter.bracketR = true;
     keywordType.formattingSpaceWhenAfter.braceR = true;
     keywordType.formattingSpaceWhenAfter.comma = true;
@@ -174,13 +194,4 @@ export function init() {
   tt.string.formattingSpaceWhenAfter.comma = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;
   tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
-
-  tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
-    return (left.value === "+" && right.value === "++") ||
-      (left.value === "-" && right.value === "--");
-  };
-  tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
-    return (left.value === "+" && right.value === "++") ||
-      (left.value === "-" && right.value === "--");
-  };
 }
