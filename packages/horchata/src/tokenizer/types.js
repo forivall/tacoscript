@@ -57,7 +57,6 @@ export class TokenType {
   }
   toCode(token) { return "" + (this.code || token.value); }
 }
-export {TokenType as TacoTokenType};
 
 function binop(name, prec) {
   return new TokenType(name, "Punctuator", {beforeExpr: true, binop: prec});

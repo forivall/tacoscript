@@ -1,6 +1,6 @@
-import { TokenType, types as tt } from "./types";
+import {TokenType, types as tt} from "./types";
 
-export class Token {
+export default class Token {
   constructor(state) {
     this.type = state.type;
     this.value = state.value;
@@ -74,5 +74,3 @@ export class Token {
     return new Token(Token.stateFromCode(code));
   }
 }
-
-export {Token as TacoToken};
