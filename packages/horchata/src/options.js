@@ -38,9 +38,8 @@ export const defaultOptions = {
 export function getOptions(opts) {
   let options = {};
   for (let key in defaultOptions) {
-    options[key] = opts && key in opts ? opts[key] : defaultOptions[key];
-    // dalways init a new empty object
-    if (options[key] === emptyObject) options[key] = {};
+    options[key] = opts && key in opts ? opts[key] :
+      defaultOptions[key] === emptyObject ? {} : defaultOptions[key];
   }
   return options;
 }
