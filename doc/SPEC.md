@@ -185,6 +185,35 @@ All of the following syntax is optional, but is default, and is part of the core
 * expression version of boolean switch statements
 * label-less long break/continue -- `break for` will break from the lexically nearest for loop
 * `for var i = 0 upto 5`, `downto` -- or a different simple for loop incremental shorthand. _Feedback requested_
+* "lispy" `or` and `and` blocks
+
+  ```
+  result =
+    a ||
+    b ||
+    c ||
+    this.isFoo() ||
+    false;
+
+  return (
+    foo &&
+    bar &&
+    this.makesSense() &&
+    true
+  );
+  ```
+  ↔
+  ```
+  result = or
+    a
+    b
+    c
+    this.isFoo()
+  return and
+    foo
+    bar
+    this.makesSense()
+  ```
 
 #### Phase 4
 * array and object comprehensions
