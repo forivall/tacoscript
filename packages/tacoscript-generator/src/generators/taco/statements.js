@@ -119,6 +119,8 @@ export function SwitchStatement(node) {
   this.printStatements(node, "cases", {
     indent: true
   });
+
+  if (!this.format.preserve) this.newline(true);
 }
 
 export function _switchCase(node) {
