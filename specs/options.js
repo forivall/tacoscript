@@ -27,12 +27,16 @@ var baseOptions = module.exports.base = {
 module.exports.core = {
   optionsPath: baseOptions.optionsPath,
   skip: function(test, testPath) {
-    return baseOptions.skip(test, testPath) ||
-    testPath.indexOf("/comments/") !== -1 ||
-    testPath.indexOf("/edgecase/") !== -1 ||
-    testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
-    testPath.indexOf("/jsx/") !== -1 ||
-    testPath.indexOf("/static-typing/") !== -1;
+    return (
+      baseOptions.skip(test, testPath) ||
+      testPath.indexOf("/comments/") !== -1 ||
+      testPath.indexOf("/edgecase/") !== -1 ||
+      testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
+      testPath.indexOf("/jsx/") !== -1 ||
+      testPath.indexOf("/static-typing/") !== -1 ||
+      testPath.indexOf("/todo/") !== -1 ||
+      false
+    );
   },
   fixtures: baseOptions.fixtures,
   getTaskOptions: baseOptions.getTaskOptions,
@@ -40,14 +44,16 @@ module.exports.core = {
 module.exports.unified = {
   optionsPath: baseOptions.optionsPath,
   skip: function(test, testPath) {
-    return baseOptions.skip(test, testPath) ||
-    test.indexOf("TODO") === 0 || // TODO: implement comprehensions
-    testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
-    testPath.indexOf("/jsx/") !== -1 ||
-    testPath.indexOf("/static-typing/") !== -1 ||
-    testPath.indexOf("/todo/") !== -1 ||
-    testPath.indexOf("/comments/") !== -1 ||
-    false;
+    return (
+      baseOptions.skip(test, testPath) ||
+      test.indexOf("TODO") === 0 || // TODO: implement comprehensions
+      testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
+      testPath.indexOf("/jsx/") !== -1 ||
+      testPath.indexOf("/static-typing/") !== -1 ||
+      testPath.indexOf("/todo/") !== -1 ||
+      testPath.indexOf("/comments/") !== -1 ||
+      false
+    );
   },
   fixtures: baseOptions.fixtures,
   getTaskOptions: baseOptions.getTaskOptions,
