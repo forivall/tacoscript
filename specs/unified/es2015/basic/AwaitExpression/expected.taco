@@ -1,0 +1,4 @@
+function foo() ~>
+  await bar()
+function bar() ~>
+  await* foo()
