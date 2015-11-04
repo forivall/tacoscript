@@ -46,6 +46,7 @@ module.exports.unified = {
     testPath.indexOf("/jsx/") !== -1 ||
     testPath.indexOf("/static-typing/") !== -1 ||
     testPath.indexOf("/todo/") !== -1 ||
+    testPath.indexOf("/comments/") !== -1 ||
     false;
   },
   fixtures: baseOptions.fixtures,
