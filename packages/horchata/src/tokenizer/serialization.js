@@ -1,7 +1,7 @@
 
 import forOwn from "lodash/object/forOwn";
-import { types as tt, keywords } from "./types";
-import { tokTypes as btt } from "babylon";
+import {types as tt, keywords} from "./types";
+import {tokTypes as btt} from "babylon";
 import toFastProperties from "to-fast-properties";
 import repeating from "repeating";
 

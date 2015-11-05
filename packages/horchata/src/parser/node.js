@@ -5,53 +5,63 @@
  * See LICENSE for full license text
  */
 
-import {Parser} from "./state"
-import {SourceLocation} from "./locutil"
+import {Parser} from "./index";
+import {SourceLocation} from "../util/location";
 
 export class Node {
-  constructor(parser, pos, loc) {
-    this.type = ""
-    this.start = pos
-    this.end = 0
-    if (parser.options.locations)
-      this.loc = new SourceLocation(parser, loc)
-    if (parser.options.directSourceFile)
-      this.sourceFile = parser.options.directSourceFile
-    if (parser.options.ranges)
-      this.range = [pos, 0]
+  constructor(state, pos, loc, tokenIndex) {
+    this.type = "";
+    this.start = pos;
+    this.end = 0;
+    this.tokenStart = tokenIndex;
+    this.tokenEnd = 0;
+    if (state.options.locations) {
+      this.loc = new SourceLocation(state, loc);
+    }
+    if (state.options.directSourceFile) {
+      this.sourceFile = state.options.directSourceFile;
+    }
+    if (state.options.ranges) {
+      this.range = [pos, 0];
+    }
   }
 }
 
 // Start an AST node, attaching a start offset.
 
-const pp = Parser.prototype
+const pp = Parser.prototype;
 
 pp.startNode = function() {
-  return new Node(this, this.start, this.startLoc)
+  return new Node(this, this.start, this.startLoc, Math.max(0, this.tokens.length - 1));
 }
 
-pp.startNodeAt = function(pos, loc) {
-  return new Node(this, pos, loc)
+pp.startNodeOn = function(tokenIndex) {
+  let token = this.tokens[tokenIndex];
+  return new Node(this, token.start, token.loc.start);
 }
 
 // Finish an AST node, adding `type` and `end` properties.
 
-function finishNodeAt(node, type, pos, loc) {
-  node.type = type
-  node.end = pos
-  if (this.options.locations)
-    node.loc.end = loc
-  if (this.options.ranges)
-    node.range[1] = pos
-  return node
+pp._finishNodeAt = function(node, type, pos, loc, tokenIndex) {
+  node.type = type;
+  node.end = pos;
+  node.tokenEnd = tokenIndex;
+  if (this.options.locations) {
+    node.loc.end = loc;
+  }
+  if (this.options.ranges) {
+    node.range[1] = pos;
+  }
+  return node;
 }
 
 pp.finishNode = function(node, type) {
-  return finishNodeAt.call(this, node, type, this.lastTokEnd, this.lastTokEndLoc)
+  return this._finishNodeAt(node, type, this.lastTokEnd, this.lastTokEndLoc, this.tokens.length - 1);
 }
 
 // Finish node at given position
 
-pp.finishNodeAt = function(node, type, pos, loc) {
-  return finishNodeAt.call(this, node, type, pos, loc)
+pp.finishNodeOn = function(node, type, tokenIndex) {
+  let token = this.tokens[tokenIndex];
+  return this._finishNodeAt(node, type, token.end, token.loc.end, tokenIndex);
 }

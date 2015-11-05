@@ -5,9 +5,9 @@
  * See LICENSE for full license text
  */
 
-import {types as tt} from "./tokenizer/types";
-import {getOptions} from "./options";
-import Lexer from "./tokenizer";
+import {types as tt} from "../tokenizer/types";
+import Lexer from "../tokenizer";
+import SourceFile from "../file";
 
 // Registered plugins
 export const plugins = {};
@@ -15,7 +15,6 @@ export const plugins = {};
 export class Parser extends Lexer {
   constructor(options, input) {
     super(options, input);
-    this.options = getOptions(options);
     this.sourceFile = this.options.sourceFile;
   }
 
@@ -31,9 +30,12 @@ export class Parser extends Lexer {
     }
   }
 
-  parse() {
-    let node = this.options.program || this.startNode()
+  // TODO: take a vinyl file as input, or vinyl-like file object
+  parse(text, metadata) {
+    let file = new SourceFile(text, this.options, metadata);
+    this.open(file); // set up tokenizer
+    let program = this.startNode();
     this.nextToken()
-    return this.parseTopLevel(node)
+    return this.parseTopLevel(file, program)
   }
 }

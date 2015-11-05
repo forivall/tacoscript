@@ -1,7 +1,7 @@
-// TODO.
 
-import { tokTypes as btt } from "babylon"
-import { types as tokTypes } from "./tokenizer/types";
+// Extend parser prototype accordingly
+import "./parser/node";
 
-
-export { tokTypes };
+// Export bindings from parser and lexer
+export {Parser, plugins} from "./parser";
+export {types as tokTypes} from "./tokenizer/types";
