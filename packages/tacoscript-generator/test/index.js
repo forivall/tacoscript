@@ -6,7 +6,7 @@ var babylon = require('babylon');
 var generate = require('../lib/index').default;
 var expect = require("chai").expect;
 var mochaFixtures = require("mocha-fixtures-generic");
-var misMatch = require("./_util").misMatch;
+var misMatch = require("../../tacoscript-dev-utils").misMatch;
 require("babylon-plugin-cst").install();
 var specOptions = require("../../../specs/options");
 

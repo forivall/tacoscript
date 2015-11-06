@@ -3,7 +3,7 @@ import Node from "./parser/node";
 import {Position} from "./util/location";
 
 export default class File extends Node {
-  constructor(input, options, metadata) {
+  constructor(input, options, metadata = {}) {
     super({options}, 0, new Position(1, 0), 0);
     this.input = input;
     this.filename = metadata.filename;
@@ -12,6 +12,7 @@ export default class File extends Node {
     this.type = "File";
     this.program = null;
     this.tokens = null;
+    this.map = null;
   }
 
   toJSON() {

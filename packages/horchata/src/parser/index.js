@@ -13,11 +13,20 @@ import SourceFile from "../file";
 export const plugins = {};
 
 export class Parser extends Lexer {
-  constructor(options, input) {
-    super(options, input);
-    this.sourceFile = this.options.sourceFile;
+  static addPlugin(name, initializer) {
+    let currentPlugin = plugins[name];
+    if (currentPlugin != null && currentPlugin !== initializer) {
+      throw new Error("Plugin '" + name + "' conflicts with another plugin");
+    }
+    plugins[name] = initializer;
   }
 
+  constructor(options, input) {
+    super(options, input);
+
+    // Load plugins
+    this.loadPlugins(this.options.plugins);
+  }
   extend(name, f) {
     this[name] = f(this[name])
   }
@@ -30,12 +39,16 @@ export class Parser extends Lexer {
     }
   }
 
-  // TODO: take a vinyl file as input, or vinyl-like file object
   parse(text, metadata) {
     let file = new SourceFile(text, this.options, metadata);
     this.open(file); // set up tokenizer
     let program = this.startNode();
     this.nextToken()
     return this.parseTopLevel(file, program)
+  }
+
+  // TODO: take a vinyl file as input, or vinyl-like file object
+  parseFile() {
+    throw new Error("Not Implemented");
   }
 }

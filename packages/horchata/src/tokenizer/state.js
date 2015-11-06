@@ -1,4 +1,5 @@
 import {types as tt} from "./types";
+import {Position} from "../util/location";
 
 export default class State {
   constructor(options, inputFile) {
@@ -6,13 +7,12 @@ export default class State {
     this.inputFile = inputFile;
     this.options = options;
 
+    this.sourceFile = this.options.sourceFile;
+
     // Used to signal to callers of `readWord1` whether the word
     // contained any escape sequences. This is needed because words with
     // escape sequences must not be interpreted as keywords.
     this.containsEsc = false;
-
-    // Load plugins
-    this.loadPlugins(this.options.plugins);
 
     // Set up token state
 
@@ -47,10 +47,25 @@ export default class State {
     // Used to signify the start of a potential arrow function
     this.potentialArrowAt = -1;
 
-    // Flags to track whether we are in a function, a generator.
-    this.inFunction = this.inGenerator = false;
+    // Flags to track whether we are in a function, a method, a generator, an async function.
+    // inFunction is used for validity of `return`
+    // inMethod is for `super`
+    // TODO: check spec to see if super is allowed in any functions, add tests
+    // inGenerator is for `yield`
+    // inAsync is for `await`
+    this.inFunction = this.inMethod = this.inGenerator = this.inAsync = false;
     // Labels in scope.
     this.labels = [];
+
+    // List of currently declared decorators, awaiting attachment
+    this.decorators = [];
+
+    // All tokens parsed, will be attached to the file node at the end of parsing
+    this.tokens = [];
+
+    // Flag for if we're in the deader of a "for" loop, to decidee if `while`
+    // is for starting a loop or just to start the `test`
+    this.inForHeader = false;
   }
 
   curPosition() {
