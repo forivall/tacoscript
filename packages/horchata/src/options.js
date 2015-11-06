@@ -31,6 +31,8 @@ export const defaultOptions = {
 
   createParenthesizedExpressionNodes: false
   // TODO: callbacks will be only added via plugin
+
+  // TODO: https://github.com/jmeas/sourcemap-options
 }
 
 // Interpret and default an options object

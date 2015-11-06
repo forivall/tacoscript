@@ -47,3 +47,6 @@ export function getLineInfo(input, offset) {
     }
   }
 }
+
+// TODO: use https://github.com/lydell/line-numbers or babel-code-frame to
+// display parsing errors
