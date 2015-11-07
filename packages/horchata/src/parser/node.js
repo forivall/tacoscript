@@ -23,5 +23,8 @@ export default class Node {
     if (state.options.ranges) {
       this.range = [pos, 0];
     }
+    if (state.options.sourceElements) {
+      this.sourceElements = [];
+    }
   }
 }

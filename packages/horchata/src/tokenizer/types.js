@@ -96,10 +96,10 @@ export const types = {
 
   eof: new TokenType("eof", "EOF"),
   tab: new TokenType("tab", "Whitespace"),
-  indent: new TokenType("indent", "Whitespace"),
-  dedent: new TokenType("dedent", "Whitespace"),
+  indent: new TokenType("indent", "SignificantWhitespace"),
+  dedent: new TokenType("dedent", "SignificantWhitespace"),
   whitespace: new TokenType("whitespace", "Whitespace"),
-  newline: new TokenType("newline", "Whitespace"),
+  newline: new TokenType("newline", "SignificantWhitespace"),
 
   blockCommentStart: new TokenType("#*", "Comment"),
   blockCommentBody: new TokenType("blockcomment", "Comment"),

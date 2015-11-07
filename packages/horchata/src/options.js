@@ -13,6 +13,11 @@ export const defaultOptions = {
   // map of plugins with their options
   plugins: emptyObject,
 
+  // Construct a CST with the sourceElements, according to the estree CST proposal spec
+  // https://github.com/gibson042/estree/blob/gh-41/spec.md
+  sourceElements: true,
+
+
   // When `locations` is on, `loc` properties holding objects with
   // `start` and `end` properties in `{line, column}` form (with
   // line being 1-based and column 0-based) will be attached to the

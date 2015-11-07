@@ -20,6 +20,22 @@ export default class State {
     this.pos = this.lineStart = 0;
     this.curLine = 1;
 
+    // The current indent level
+    this.indentation = 0;
+    // The detected whitespace used for indentation
+    // This must be consistent through the file, or else it is a syntax error
+    this.indentString = null;
+    this.indentCharCode = -1;
+    this.indentRepeat = -1;
+
+    // Used to signal that we have already checked for indentation changes after
+    // any upcoming newlines. Set to false after an indent or detent (or no
+    // indentation change token) has been pushed, and reset to true after a newline
+    // has been pushed.
+    this.checkIndentation = true;
+    // Used to signal if we will be skipping upcoming indentation
+    this.inIndentation = true;
+
     // Properties of the current token:
     // Its type
     this.type = tt.eof;
@@ -32,6 +48,7 @@ export default class State {
     this.startLoc = this.endLoc = this.curPosition();
 
     // Position information for the previous token
+    this.lastTokType = null;
     this.lastTokEndLoc = this.lastTokStartLoc = null;
     this.lastTokStart = this.lastTokEnd = this.pos;
 
@@ -62,6 +79,8 @@ export default class State {
 
     // All tokens parsed, will be attached to the file node at the end of parsing
     this.tokens = [];
+    // All tokens and non-tokens parsed
+    this.sourceElementTokens = [];
 
     // Flag for if we're in the deader of a "for" loop, to decidee if `while`
     // is for starting a loop or just to start the `test`

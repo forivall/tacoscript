@@ -82,7 +82,7 @@ export default function(instance, pluginOptions) {
               break;
             }
 
-          case 10: case 8232: case 8233:
+          case 10: case 0x2028: case 0x2029:
             this.finishWhitespace(), this.startWhitespace();
             this.whitespaceState.value += String.fromCharCode(ch);
             ++this.state.pos;
