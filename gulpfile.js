@@ -25,7 +25,7 @@ var buildFn = function(options) { return function() {
     path.dirname = path.dirname.replace("/src", "/lib");
   }))
   .pipe(size({showFiles: true}))
-  .pipe(sourcemaps.write('packages', {includeContent: false, sourceRoot: process.cwd()}))
+  .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: process.cwd() + "/packages"}))
   .pipe(gulp.dest('packages'))
 }}
 

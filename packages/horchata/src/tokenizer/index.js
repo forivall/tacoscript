@@ -238,7 +238,7 @@ export default class Lexer {
     while (this.state.pos < this.input.length) {
       let ch = this.fullCharCodeAtPos();
       if (isIdentifierChar(ch)) {
-        this.pos += ch <= 0xffff ? 1 : 2;
+        this.state.pos += ch <= 0xffff ? 1 : 2;
       } else if (ch === 92) { // "\"
         this.state.containsEsc = true;
         word += this.input.slice(chunkStart, this.state.pos);
@@ -246,7 +246,7 @@ export default class Lexer {
         let escStart = this.state.pos;
         ++this.state.pos;
         if (this.input.charCodeAt(this.state.pos) !== 117) { // "u"
-          this.raise(this.pos, "Expected Unicode escape sequence \\uXXXX");
+          this.raise(this.state.pos, "Expected Unicode escape sequence \\uXXXX");
         }
 
         ++this.state.pos;
