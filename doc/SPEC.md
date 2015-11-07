@@ -178,6 +178,11 @@ All of the following syntax is optional, but is default, and is part of the core
     * `""+coerceToString` ↔ `\"coerceToString`
     * `''+coerceToString` ↔ `\'coerceToString`
     * <code>\`\`+coerceToString</code> ↔ <code>\\\`coerceToString</code>
+  * option C
+    * `!!coerceToBool` ↔ `(b!coerceToBool)`
+    * `~~coerceToInt` ↔ `(i!coerceToInt)`
+    * `+coerceToNumber` ↔ `(n!coerceToNumber)`
+    * `""+coerceToString` ↔ `(s!coerceToString)`
 
 #### Phase 3
 * non-fallthrough `switch` [(spec)](./safe-switch.md)
@@ -222,6 +227,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * block regex
 * Python style keyword arguments
   * should look for or create a good, standardized format for kwargs, that can be submitted as an esnext proposal.
+* Whatever custom syntax makes the parser easier to read
 
 ## Implementation Plan
 
