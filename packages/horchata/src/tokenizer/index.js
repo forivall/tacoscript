@@ -7,8 +7,8 @@
 
 // TODO: rename to lexer everywhere in the code.
 
-import {types as tt} from "./types";
-import {reservedWords, keywords, isIdentifierChar, isIdentifierStart} from "../util/identifier";
+import {types as tt, keywords as keywordTypes} from "./types";
+import {reservedWords, keywords, isIdentifierChar, isIdentifierStart, codePointToString} from "../util/identifier";
 import {isNewline, nonASCIIwhitespace} from "../util/whitespace";
 import State from "./state";
 import {getOptions} from "../options";
@@ -35,6 +35,10 @@ export default class Lexer {
     this.file = this.input = this.state = null;
   }
 
+  raise() {
+    throw new Error("Not Implemented");
+  }
+
   // call this prior to start parsing
   // TODO: who's responsible for creating the file object?
   open(file) {
@@ -47,6 +51,16 @@ export default class Lexer {
   }
 
   // TODO: parse hash bang line as comment
+
+  next() {
+    this.onToken(Token.fromState(this.state));
+
+    this.lastTokEnd = this.end;
+    this.lastTokStart = this.start;
+    this.lastTokEndLoc = this.endLoc;
+    this.lastTokStartLoc = this.startLoc;
+    this.nextToken();
+  }
 
   // Read a single token & update the lexer state
   nextToken() {
@@ -98,6 +112,7 @@ export default class Lexer {
     // throw new Error("Not Implemented");
     this.state.inIndentation = false;
   }
+
   // based on acorn's skipSpace
   // parse & skip whitespace and comments
   skipNonTokens() {
@@ -175,16 +190,78 @@ export default class Lexer {
     ));
   }
 
+  // Called at the end of each token. Sets type, val, end, endLoc.
+  finishToken(type, val) {
+    let prevType = this.state.type;
+    this.state.type = type;
+    this.state.value = val;
+    this.state.end = this.state.pos;
+    this.state.endLoc = this.state.curPosition();
+    // TODO: add option to disable this
+    this.state.meta = {}
+
+    this.updateContext(prevType);
+  }
+
   getTokenFromCode() {
     throw new Error("Not Implemented");
   }
 
-  readWord() {
+  // NOTE: please alphabetize read* functions
+
+  readCodePoint() {
     throw new Error("Not Implemented");
   }
 
+  // Read an identifier or keyword token
+  readWord() {
+    let word = this.readWordSingle();
+    let type = tt.name;
+    if (!this.state.containsEsc && this.isKeyword(word)) {
+      type = keywordTypes[word];
+    }
+    return this.finishToken(type, {value: word, raw: this.input.slice(this.state.start, this.state.pos)});
+  }
+
+  // Read an identifier, and return it as a string. Sets `state.containsEsc`
+  // to whether the word contained a '\u' escape, or if it started with `\$`
+  //
+  // Incrementally adds only escaped chars, adding other chunks as-is
+  // as a micro-optimization.
+
   readWordSingle() {
-    throw new Error("Not Implemented");
+    this.state.containsEsc = false;
+    let word = "";
+    let first = true;
+    let chunkStart = this.state.pos;
+
+    while (this.state.pos < this.input.length) {
+      let ch = this.fullCharCodeAtPos();
+      if (isIdentifierChar(ch)) {
+        this.pos += ch <= 0xffff ? 1 : 2;
+      } else if (ch === 92) { // "\"
+        this.state.containsEsc = true;
+        word += this.input.slice(chunkStart, this.state.pos);
+
+        let escStart = this.state.pos;
+        ++this.state.pos;
+        if (this.input.charCodeAt(this.state.pos) !== 117) { // "u"
+          this.raise(this.pos, "Expected Unicode escape sequence \\uXXXX");
+        }
+
+        ++this.state.pos;
+        let esc = this.readCodePoint();
+        if (!(first ? isIdentifierStart : isIdentifierChar)(esc)) {
+          this.raise(escStart, "Invalid Unicode escape");
+        }
+        word += codePointToString(esc);
+        chunkStart = this.state.pos;
+      } else {
+        break;
+      }
+      first = false;
+    }
+    return word + this.input.slice(chunkStart, this.state.pos);
   }
 
   ////////////// Token Storage //////////////
