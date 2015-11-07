@@ -31,7 +31,7 @@ export default class TacoBuffer {
     this.opts = opts;
     this.format = opts.format;
     this.dialect = opts.dialect;
-    this.tokens = [new Token({type: tt.tab, value: 0})];
+    this.tokens = [new Token(tt.tab, 0)];
     this._indent = 0;
     this._lastIndent = 0;
 
@@ -205,21 +205,21 @@ export default class TacoBuffer {
     if (state.type === tt.newline) {
       this._insertIndentTokens();
     } else if (this.isLastType(tt.newline)) {
-      this.tokens.push(new Token({type: tt.tab, value: this._indent}));
+      this.tokens.push(new Token(tt.tab, this._indent));
     }
     // TODO: ensure leading tab tokens, unless in parenthetized expression context
-    this.tokens.push(new Token(state));
+    this.tokens.push(Token.fromState(state));
   }
 
   _insertIndentTokens() {
     if (this._indent !== this._lastIndent) {
       if (this._indent > this._lastIndent) {
         for (let i = this._indent - this._lastIndent; i > 0; i--) {
-          this.tokens.push(new Token({type: tt.indent}));
+          this.tokens.push(new Token(tt.indent));
         }
       } else {
         for (let i = this._lastIndent - this._indent; i > 0; i--) {
-          this.tokens.push(new Token({type: tt.dedent}));
+          this.tokens.push(new Token(tt.dedent));
         }
       }
       this._lastIndent = this._indent;
@@ -237,7 +237,7 @@ export default class TacoBuffer {
     if (!isForced) { return false; }
 
     if (isForced === true || isForced(last, state)) {
-      this.tokens.push(new Token({type: tt.whitespace, value: {code: ' '}}));
+      this.tokens.push(new Token(tt.whitespace, {code: ' '}));
       return true;
     }
     return false;
@@ -262,7 +262,7 @@ export default class TacoBuffer {
     if (!insertFormatting) { return false; }
 
     if (insertFormatting === true || insertFormatting(last, state)) {
-      this.tokens.push(new Token({type: tt.whitespace, value: {code: ' '}}));
+      this.tokens.push(new Token(tt.whitespace, {code: ' '}));
       return true;
     }
     return false;

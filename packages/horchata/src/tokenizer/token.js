@@ -1,13 +1,19 @@
 import {TokenType, types as tt} from "./types";
+import {SourceLocation} from "../util/location";
 
 export default class Token {
-  constructor(state) {
-    this.type = state.type;
-    this.value = state.value;
-    this.start = state.start;
-    this.end = state.end;
-    this.meta = state.meta || {};
-    // this.loc = new SourceLocation(state.startLoc, state.endLoc);
+  constructor(type, value, start, end, startLoc, endLoc, parent = {}, meta = {}) {
+    this.type = type;
+    this.value = value;
+    this.start = start;
+    this.end = end;
+    this.meta = meta || {};
+    this.loc = new SourceLocation(parent, startLoc, endLoc);
+  }
+
+  static fromState(state) {
+    return new Token(state.type, state.value,
+      state.start, state.end, state.startLoc, state.endLoc, state, state.meta);
   }
 
   valueOf() {
@@ -71,6 +77,6 @@ export default class Token {
   }
 
   static fromCode(code) {
-    return new Token(Token.stateFromCode(code));
+    return Token.fromState(Token.stateFromCode(code));
   }
 }

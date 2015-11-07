@@ -9,7 +9,7 @@
 
 import {types as tt} from "./types";
 import {reservedWords, keywords, isIdentifierChar, isIdentifierStart} from "../util/identifier";
-import {isNewline} from "../util/whitespace";
+import {isNewline, nonASCIIwhitespace} from "../util/whitespace";
 import State from "./state";
 import {getOptions} from "../options";
 // export {default as Token} from "./token";
@@ -75,10 +75,11 @@ export default class Lexer {
       return this.readWord();
     }
     if (this.state.checkIndentation && isNewline(code)) {
+      // check for indentation change in the next line, if the next char is a newline.
+      // this takes some annoying amount of lookahead, but we can optimise that later. If needed.
       if (this.maybeReadIndentation()) return;
     }
-    // first check for indentation change in the next line, if the next char is a newline.
-    // this takes some annoying amount of lookahead, but we can optimise that later. If needed.
+    return this.getTokenFromCode(code);
   }
 
   fullCharCodeAtPos() {
@@ -94,12 +95,99 @@ export default class Lexer {
 
   skipIndentation() {
     // TODO: ...
+    // throw new Error("Not Implemented");
     this.state.inIndentation = false;
   }
   // based on acorn's skipSpace
   // parse & skip whitespace and comments
   skipNonTokens() {
+    let start = this.state.pos;
+    let startLoc = this.state.curPosition();
+    while (this.state.pos < this.input.length) {
+      let ch = this.input.charCodeAt(this.state.pos);
+      // TODO: see if micro-optimization of order of checking ch is worth it
+      if (ch === 32 || ch === 160 || ch > 8 && ch < 14 || ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch))) {
+        ++this.state.pos;
+      } else {
+        if (this.state.pos > start) {
+          this.onNonToken(new Token(tt.whitespace,
+            {code: this.input.slice(start, this.state.pos)},
+            start, this.state.pos, startLoc, this.state.curPosition(),
+            this.state
+          ));
+        }
+        if (ch === 35) { // '#'
+          if (this.input.charCodeAt(this.state.pos + 1) === 42) { // '*'
+            this.skipBlockComment();
+          } else {
+            this.skipLineComment();
+          }
+          start = this.state.pos;
+          startLoc = this.state.curPosition();
+        } else {
+          break;
+        }
+      }
+    }
   }
+
+  skipLineComment(startLength = 1) {
+    let start = this.state.pos;
+    let startLoc = this.curPosition();
+    this.state.pos += startLength;
+    this.onNonToken(new Token(tt.lineCommentStart, null,
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+
+    start = this.state.pos;
+    startLoc = this.curPosition();
+    for (let ch; ch = this.input.charCodeAt(this.state.pos),
+    this.state.pos < this.input.length &&
+    ch !== 10 && ch !== 13 && ch !== 8232 && ch !== 8233; ++this.state.pos);
+
+    this.onNonToken(new Token(tt.lineCommentBody, this.input.slice(start, this.state.pos),
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+  }
+
+  skipBlockComment() {
+    let start = this.state.pos;
+    let startLoc = this.curPosition();
+    this.state.pos += 2;
+    this.onNonToken(new Token(tt.blockCommentStart, null,
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+
+    start = this.state.pos;
+    startLoc = this.curPosition();
+    let end = this.input.indexOf("*#", this.state.pos);
+    if (end === -1) this.raise(this.state.pos, "Unterminated comment");
+    this.state.pos = end;
+    this.onNonToken(new Token(tt.blockCommentBody, this.input.slice(start, this.state.pos),
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+
+    start = this.state.pos;
+    startLoc = this.curPosition();
+    this.state.pos += 2;
+    this.onNonToken(new Token(tt.blockCommentEnd, null,
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+  }
+
+  getTokenFromCode() {
+    throw new Error("Not Implemented");
+  }
+
+  readWord() {
+    throw new Error("Not Implemented");
+  }
+
+  readWordSingle() {
+    throw new Error("Not Implemented");
+  }
+
+  ////////////// Token Storage //////////////
 
   onToken(token) {
     this.state.tokens.push(token);
