@@ -52,6 +52,7 @@ export default class Lexer {
 
   // TODO: parse hash bang line as comment
 
+  // Move to the next token
   next() {
     this.onToken(Token.fromState(this.state));
 
@@ -60,6 +61,21 @@ export default class Lexer {
     this.lastTokEndLoc = this.endLoc;
     this.lastTokStartLoc = this.startLoc;
     this.nextToken();
+  }
+
+  // Check if the next token matches `type`
+  match(type) {
+    return this.state.type === type;
+  }
+
+  // Predicate that tests whether the next token is of the given
+  // type, and if yes, consumes it as a side effect.
+  eat(type) {
+    if (this.match(type)) {
+      this.next();
+      return true;
+    }
+    return false;
   }
 
   // Read a single token & update the lexer state
@@ -217,7 +233,7 @@ export default class Lexer {
   readWord() {
     let word = this.readWordSingle();
     let type = tt.name;
-    if (!this.state.containsEsc && this.isKeyword(word)) {
+    if (!this.state.containsEsc && this.keywords.test(word)) {
       type = keywordTypes[word];
     }
     return this.finishToken(type, {value: word, raw: this.input.slice(this.state.start, this.state.pos)});

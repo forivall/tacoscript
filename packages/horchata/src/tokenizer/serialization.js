@@ -47,7 +47,7 @@ export function init() {
   tt.backQuote.code = "`";
   tt.dollarBraceL.code = "${";
   tt.at.code = "@";
-  tt.exec.code = "!";
+  tt.excl.code = "!";
   tt.backslash.code = "\\";
   tt.eq.code = "=";
   tt.bitwiseNOT.code = "~";
@@ -192,14 +192,14 @@ export function init() {
   tt.name.formattingSpaceWhenAfter.asyncBoundArrow = true;
   tt.name.formattingSpaceWhenAfter.unboundArrow = true;
   tt.name.formattingSpaceWhenAfter.comma = true;
-  tt.name.formattingSpaceWhenAfter.exec = true;
+  tt.name.formattingSpaceWhenAfter.excl = true;
   tt.num.formattingSpaceWhenAfter.arrow = true;
   tt.num.formattingSpaceWhenAfter.comma = true;
   tt.parenL.formattingSpaceWhenAfter.arrow = true;
   tt.parenL.formattingSpaceWhenAfter.asyncArrow = true;
   tt.parenL.formattingSpaceWhenAfter.asyncBoundArrow = true;
   tt.parenL.formattingSpaceWhenAfter.unboundArrow = true;
-  tt.parenL.formattingSpaceWhenAfter.exec = true;
+  tt.parenL.formattingSpaceWhenAfter.excl = true;
   tt.regexp.formattingSpaceWhenAfter.keyword = true;
   tt.semi.formattingSpaceAfter = true;
   tt.string.formattingSpaceWhenAfter.arrow = true;

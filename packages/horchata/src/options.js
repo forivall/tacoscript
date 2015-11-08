@@ -34,7 +34,12 @@ export const defaultOptions = {
   // [range]: https://bugzilla.mozilla.org/show_bug.cgi?id=745678
   ranges: false,
 
-  createParenthesizedExpressionNodes: false
+  createParenthesizedExpressionNodes: false,
+
+  // When enabled, import/export statements are not constrained to
+  // appearing at the top level of the program.
+  allowImportExportEverywhere: false,
+
   // TODO: callbacks will be only added via plugin
 
   // TODO: https://github.com/jmeas/sourcemap-options

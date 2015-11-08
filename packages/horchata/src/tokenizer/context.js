@@ -43,7 +43,7 @@ sp.initialContext = function() {
 const lp = Lexer.prototype;
 
 lp.updateContext = function(prevType) {
-  let update, type = this.type;
+  let update, type = this.state.type;
   if (type.keyword && prevType == tt.dot) {
     this.state.exprAllowed = false;
   } else if (update = type.updateContext) {

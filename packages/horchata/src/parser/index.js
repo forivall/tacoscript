@@ -12,7 +12,7 @@ import SourceFile from "../file";
 // Registered plugins
 export const plugins = {};
 
-export class Parser extends Lexer {
+export default class Parser extends Lexer {
   static addPlugin(name, initializer) {
     let currentPlugin = plugins[name];
     if (currentPlugin != null && currentPlugin !== initializer) {

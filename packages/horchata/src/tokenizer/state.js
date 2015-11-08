@@ -58,6 +58,10 @@ export default class State {
     this.context = this.initialContext();
     this.exprAllowed = true;
 
+    // used to communicate to children in the recursive descent if statements
+    // are allowed in the given context
+    this.statementAllowed = true;
+
     // Figure out if it's a module code.
     this.strict = this.inModule = this.options.sourceType === "module";
 

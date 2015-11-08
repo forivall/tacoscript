@@ -5,7 +5,7 @@
  * See LICENSE for full license text
  */
 
-import {Parser} from "./index";
+import Parser from "./index";
 import Node from "./node";
 
 // Start an AST node, attaching a start offset.
