@@ -1,12 +1,8 @@
 import { types as tt } from "../../tokenizer/types";
-import Parser from "../index";
-import { lineBreak } from "../../util/whitespace";
-
-const pp = Parser.prototype;
 
 // ### Statement parsing
 
-pp.parseStatement = function(declaration = true, topLevel = false) {
+export function parseStatement(declaration = true, topLevel = false) {
   let parentStatementAllowed = this.state.statementAllowed;
   this.state.statementAllowed = true;
 
@@ -90,7 +86,7 @@ pp.parseStatement = function(declaration = true, topLevel = false) {
   return node;
 }
 
-pp.parseOtherStatement = function() {
+export function parseOtherStatement() {
   // Purposefully left empty. This is a point where it is useful for plugins
   // to be able to extend. However, even though this function does nothing,
   // `inner()` should still be called for all of the other plugins.
@@ -103,22 +99,22 @@ pp.parseOtherStatement = function() {
   return null;
 }
 
-pp.parseDoStatementStatement = function() {
+export function parseDoStatementStatement() {
   this.parseStatement(false);
 }
 
-pp.parseTopLevelStatement = function() {
+export function parseTopLevelStatement() {
   this.parseStatement(true, true);
 }
 
-pp.parseDecorators = function() {
+export function parseDecorators() {
   while (this.match(tt.at)) {
     this.state.decorators.push(this.parseDecorator());
   }
   this.checkDecorators();
 }
 
-pp.parseSwitchStatement = function(node) {
+export function parseSwitchStatement(node) {
   this.next();
   if (this.eat(tt.excl)) {
     throw new Error("Not Implemented");
@@ -127,10 +123,10 @@ pp.parseSwitchStatement = function(node) {
   }
 }
 
-// should be overridded by plugin
-pp.parseSafeSwitchStatement = function(node) { this.unexpected(); }
+// should be overridden by safe switch statement plugin
+export function parseSafeSwitchStatement(/*node*/) { this.unexpected(); }
 
-pp.checkDecorators = function() {
+export function checkDecorators() {
   // TODO
   // checks are moved to other functions, so that plugins can override them for extended syntax.
   // i.e. allow adding decorators to standalone functions

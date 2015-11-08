@@ -52,3 +52,26 @@ export default class Parser extends Lexer {
     throw new Error("Not Implemented");
   }
 }
+
+import * as parserNodeMethods from "./nodeMethods";
+import * as baseParsers from "./types/base";
+// import * as classesParsers from "./types/classes";
+// import * as expressionsParsers from "./types/expressions";
+// import * as methodsParsers from "./types/methods";
+// import * as modulesParsers from "./types/modules";
+import * as statementsParsers from "./types/statements";
+// import * as templateLiteralsParsers from "./types/template-literals";
+// import * as typesParsers from "./types/types";
+for (let parserMethods of [
+      parserNodeMethods,
+      baseParsers,
+      // classesParsers,
+      // expressionsParsers,
+      // methodsParsers,
+      // modulesParsers,
+      statementsParsers,
+      // templateLiteralsParsers,
+      // typesParsers,
+    ]) {
+  Object.assign(Parser.prototype, parserMethods);
+}

@@ -1,15 +1,6 @@
 
-// TODO: rather than extending prototypes from other modules and importing
-// them here, create mixins, and extend the prototype from the same file that
-// contains the class definition
-
-// Extend lexer prototype accordingly
+// Add methods to lexer prototype
 import "./tokenizer/context";
-
-// Extend parser prototype accordingly
-import "./parser/nodeMethods";
-import "./parser/types/base";
-import "./parser/types/statements";
 
 // Export bindings from lexer
 export {types as tokTypes} from "./tokenizer/types";

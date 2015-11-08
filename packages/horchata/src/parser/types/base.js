@@ -1,10 +1,4 @@
 import { types as tt } from "../../tokenizer/types";
-import Parser from "../index";
-import { lineBreak } from "../../util/whitespace";
-
-const pp = Parser.prototype;
-// TODO: instead of having subfiles attach their functions to the prototype,
-// have the base
 
 // Top Level Parsing
 
@@ -13,7 +7,7 @@ const pp = Parser.prototype;
 // `program` argument.  If present, the statements will be appended
 // to its body instead of creating a new node.
 
-pp.parseTopLevel = function(file, program) {
+export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
 
   this.parseBlockBody(program, true, true, tt.eof);
@@ -23,14 +17,14 @@ pp.parseTopLevel = function(file, program) {
   file.tokens   = this.state.tokens;
 
   return this.finishNode(file, "File");
-};
+}
 
-pp.parseBlockStatement = function() {
+export function parseBlockStatement() {
   throw new Error("Not Implemented");
 }
 
 // this can be any kind of block, not just detached (`!`) blocks
-pp.parseBlock = function() {
+export function parseBlock() {
   let node = this.startNode();
   this.expect(tt.indent);
   this.parseBlockBody(node, )
@@ -41,7 +35,7 @@ pp.parseBlock = function() {
 // TODO: Handle use of `use strict`. Currently, use strict is just parsed, but
 // not error checked.
 
-pp.parseBlockBody = function(node, allowDirectives, isTopLevel) {
+export function parseBlockBody(node, allowDirectives, isTopLevel) {
   let end = isTopLevel ? tt.eof : tt.dedent;
 
   node.body = [];
@@ -56,7 +50,4 @@ pp.parseBlockBody = function(node, allowDirectives, isTopLevel) {
     finishedDirectives = true;
     node.body.push(this.parseStatement());
   }
-
 }
-
-pp.checkOctal
