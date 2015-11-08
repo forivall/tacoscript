@@ -159,6 +159,22 @@ All of the following syntax is optional, but is default, and is part of the core
 * `@` ↔ `this.` ([frappe])
 * extended assign - `or=`, `and=`, `?=`
 * sharp non-double arrows, multiline sharp arrow functions
+* allow breaking from blocks
+  ```
+  switch (0) { default:
+    if (shouldBreak) {
+      break;
+    }
+  }
+  ```
+  ↔
+  ```
+  !
+    if shouldBreak
+      break
+  ```
+
+  This pattern is mostly used internally in horchata.
 
 #### Phase 2
 * `not instanceof` ([frappe])
@@ -234,6 +250,9 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] Implement taco-generator to generate tacoscript (masascript) from babylon ASTs
   * [ ] Publish tacoscript generator and make demo site
 * [ ] Implement horchata, the tacoscript (including Phase 1 and 2 syntax) parser
+  * [ ] Replace use of pos & loc with tokenIndex, and then read pos & loc from token
+  * [ ] Implement a simpler & more performant version of lookahead compared to babylon's lookahead
+    * [ ] use lookahead'd tokens when the context doesn't change
 * [ ] Improve documentation
 * [ ] Implement each of the extended syntax as independent transforms
 * [ ] add whitespace and comment preservation to tacoscript-generator

@@ -35,7 +35,8 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._function:
       if (!declaration) this.unexpected();
       node = this.parseFunctionDeclaration(node); break;
-    case tt._if: node = this.parseIfStatement(node); break;
+    case tt._if:
+      node = this.parseIfStatementOrConditionalExpression(node); break;
     case tt._import:
       if (!this.options.allowImportExportEverywhere && !topLevel) {
         this.raise(this.start, "`import` may only appear at the top level");
@@ -87,6 +88,9 @@ export function parseStatement(declaration = true, topLevel = false) {
 }
 
 export function parseOtherStatement() {
+  // Purposefully left empty for plugins. See docs/horchata-plugins.md#empty-functions
+
+  // TODO: move this document to docs
   // Purposefully left empty. This is a point where it is useful for plugins
   // to be able to extend. However, even though this function does nothing,
   // `inner()` should still be called for all of the other plugins.
@@ -131,4 +135,9 @@ export function checkDecorators() {
   // checks are moved to other functions, so that plugins can override them for extended syntax.
   // i.e. allow adding decorators to standalone functions
   // let allowExport = this.state.statementAllowed
+}
+//
+export function parseIfStatementOrConditionalExpression(node) {
+  // TODO
+  throw new Error("Not Implemented");
 }

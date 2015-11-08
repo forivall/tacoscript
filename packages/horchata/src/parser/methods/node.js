@@ -5,7 +5,7 @@
  * See LICENSE for full license text
  */
 
-import Node from "./node";
+import Node from "../node";
 
 // Start an AST node, attaching a start offset.
 

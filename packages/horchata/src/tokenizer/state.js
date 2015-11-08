@@ -65,8 +65,10 @@ export default class State {
     // Figure out if it's a module code.
     this.strict = this.inModule = this.options.sourceType === "module";
 
-    // Used to signify the start of a potential arrow function
-    this.potentialArrowAt = -1;
+    // Used to signify the start of a potential anonymous function expression
+    // Equivalent to acorn & babylon's potentialArrowAt
+    // TODO: replace with token index instead of char index
+    this.potentialLambdaAt = -1;
 
     // Flags to track whether we are in a function, a method, a generator, an async function.
     // inFunction is used for validity of `return`
