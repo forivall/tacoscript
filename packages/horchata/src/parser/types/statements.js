@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2012-2014 by various contributors (see doc/ACORN_AUTHORS)
+ * Copyright (C) 2015 Jordan Klassen <forivall@gmail.com>
+ *
+ * See LICENSE for full license text
+ */
+
 import { types as tt } from "../../tokenizer/types";
 
 // ### Statement parsing
@@ -147,4 +154,11 @@ export function checkDecorators() {
 export function parseIfStatementOrConditionalExpression(node) {
   // TODO
   throw new Error("Not Implemented");
+}
+
+export function parseExpressionStatement(node, expr) {
+  node.expression = expr
+  // TODO: also allow tt.eof or `and then`
+  this.eat(tt.newline) || this.unexpected();
+  return this.finishNode(node, "ExpressionStatement")
 }

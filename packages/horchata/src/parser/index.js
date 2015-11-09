@@ -8,6 +8,7 @@
 import {types as tt} from "../tokenizer/types";
 import Lexer from "../tokenizer";
 import SourceFile from "../file";
+import {getLineInfo} from "../util/location";
 
 // Registered plugins
 export const plugins = {};
@@ -50,6 +51,28 @@ export default class Parser extends Lexer {
   // TODO: take a vinyl file as input, or vinyl-like file object
   parseFile() {
     throw new Error("Not Implemented");
+  }
+
+  //////// Utility methods ////////
+
+  // Raise an unexpected token error
+  unexpected(pos) {
+    console.error(this.state.cur);
+    this.raise(pos != null ? pos : this.state.cur.start, "Unexpected Token");
+  }
+
+  // This function is used to raise exceptions on parse errors. It
+  // takes an offset integer (into the current `input`) to indicate
+  // the location of the error, attaches the position to the end
+  // of the error message, and then raises a `SyntaxError` with that
+  // message.
+  raise(pos, message) {
+    let loc = getLineInfo(this.input, pos);
+    let err = new SyntaxError(message + " (" + loc.line + ":" + loc.column + ")");
+    err.pos = pos;
+    err.loc = loc;
+    err.raisedAt = this.pos;
+    throw err;
   }
 }
 

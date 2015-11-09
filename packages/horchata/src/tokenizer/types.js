@@ -39,6 +39,7 @@ export class TokenType {
     this.keyword = conf.keyword;
     this.code = conf.code;
     this.babylonName = conf.babylonName;
+    this.estreeValue = conf.estreeValue || null;
 
     // parsing
     this.beforeExpr = !!conf.beforeExpr;
@@ -53,6 +54,7 @@ export class TokenType {
     this.prefix = !!conf.prefix;
     this.postfix = !!conf.postfix;
     this.binop = conf.binop || null;
+    this.binopExpressionName = conf.binopExpressionName || "BinaryExpression";
     this.updateContext = null; // for jsx parsing
 
     // serialization
@@ -154,21 +156,21 @@ export const types = {
   eq:         punctuator("=", {beforeExpr: true, isAssign: true}),
   assign:     punctuator("_=", {beforeExpr: true, isAssign: true}),
   incDec:     punctuator("++/--", {prefix: true, postfix: true, startsExpr: true}),
-  bitwiseNOT: punctuator("~", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", babylonValue: "~"}),
-  _not:               kw("not", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", babylonValue: "!"}),
-  _or:                kw("or", {binop: 1, babylonName: "logicalOR", babylonValue: "||"}),
-  _and:               kw("and", {binop: 2, babylonName: "logicalAND", babylonValue: "&&"}),
+  bitwiseNOT: punctuator("~", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix"}),
+  _not:               kw("not", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", estreeValue: "!"}),
+  _or:                kw("or", {binop: 1, binopExpressionType: "LogicalExpression", babylonName: "logicalOR", estreeValue: "||"}),
+  _and:               kw("and", {binop: 2, binopExpressionType: "LogicalExpression", babylonName: "logicalAND", estreeValue: "&&"}),
   bitwiseOR:       binop("|", 3),
   bitwiseXOR:      binop("^", 4),
   bitwiseAND:      binop("&", 5),
   // Either form of equality (is/isnt/like/unlike or ===/!==/==/!=) are parsable,
   // but one or the other is always generated. is/isnt/like/unlike is the default.
   // TODO: throw an error when mixing types.
-  _is:                kw("is", {binop: 6, babylonName: "equality", babylonValue: "==="}),
+  _is:                kw("is", {binop: 6, babylonName: "equality", estreeValue: "==="}),
   // possible alternative: notis, however, discussion on frappe agrees that isnt is fine.
-  _isnt:              kw("isnt", {binop: 6, babylonName: "equality", babylonValue: "!=="}),
-  _like:              kw("like", {binop: 6, babylonName: "equality", babylonValue: "=="}),
-  _unlike:            kw("unlike", {binop: 6, babylonName: "equality", babylonValue: "!="}),
+  _isnt:              kw("isnt", {binop: 6, babylonName: "equality", estreeValue: "!=="}),
+  _like:              kw("like", {binop: 6, babylonName: "equality", estreeValue: "=="}),
+  _unlike:            kw("unlike", {binop: 6, babylonName: "equality", estreeValue: "!="}),
   equality:        binop("==", 6),
   relational:      binop("</>", 7),
   _in:                kw("in", {beforeExpr: true, binop: 7}),

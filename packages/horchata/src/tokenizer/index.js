@@ -78,6 +78,12 @@ export default class Lexer {
     return false;
   }
 
+  // Raise an unexpected token error
+  unexpected(pos) {
+    console.error(this.state.cur);
+    this.raise(pos != null ? pos : this.state.cur.start, "Unexpected Token");
+  }
+
   // Read a single token & update the lexer state
   nextToken() {
     let curContext = this.curContext();

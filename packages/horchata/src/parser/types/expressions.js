@@ -77,7 +77,7 @@ export function parseExpressionMaybeSequence(expressionContext) {
 // a higher precedence than assignment expressions
 
 // precedence: 2, 3, 4
-export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks) {
+export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks = {}) {
   let node;
   switch (this.state.type) {
     case tt._yield: node = this.parseYieldExpression(); break;
@@ -155,12 +155,28 @@ export function parseExpressionOperators(expressionContext) {
 // operator that has a lower precedence than the set it is parsing.
 
 export function parseExpressionOperator(node, start, minPrec, expressionContext) {
-  // TODO:
-  throw new Error("Not Implemented");
+  let prec = this.state.cur.type.binop;
+  if (prec != null && !(expressionContext.noIn && this.match(tt._in)) &&
+      prec > minPrec) {
+    let left = node;
+    node = this.startNode(start);
+    node.left = left;
+    node.operator = this.state.cur.type.estreeValue || this.state.cur.value;
+    this.checkExpressionOperatorLeft(node);
+
+    let op = this.state.cur.type;
+    this.next();
+
+    node.right = this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
+      {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext
+    );
+    node = this.finishNode(node, op.binopExpressionType);
+  }
+  return node;
 }
 
 // Parse unary operators, both prefix and postfix.
-export function parseExpressionMaybeUnary(expressionContext) {
+export function parseExpressionMaybeUnary(expressionContext = {}) {
   expressionContext = {...expressionContext, noIn: false}; // `in` is allowed in unary operators
   if (this.state.cur.type.prefix) {
     throw new Error("Not Implemented");
@@ -169,22 +185,77 @@ export function parseExpressionMaybeUnary(expressionContext) {
   let node = this.parseExpressionSubscripts(expressionContext);
 }
 
+export function isArrowFunctionExpression(node) {
+  // TODO: investigate what the parsing rules are around subscript parsing, and see if we need this,
+  // or if it's just a performance optimization
+  return node.type === "ArrowFunctionExpression";
+}
+
 // Parse call, dot, and `[]`-subscript expressions.
 export function parseExpressionSubscripts(expressionContext) {
   let start = {...this.state.cur};
   let potentialLambdaOn = this.state.potentialLambdaOn;
   let node = this.parseExpressionAtomic(expressionContext);
 
-  throw new Error("Not Implemented");
-
   // check if we just parsed an arrow-type function expression
-  let skipArrowSubscripts = false;
+  let skipArrowSubscripts = this.isArrowFunctionExpression(node) && start.start === potentialLambdaOn.start;
 
   if (skipArrowSubscripts || expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
   }
 
   return this.parseSubscripts(node, start);
+}
+
+// NOTE: parseExprList has the signature (close, allowTrailingComma, allowEmpty, refDestructuringErrors)
+
+export function parseSubscripts(base, start, subscriptContext = {}) {
+  let noCalls = subscriptContext.isNew;
+  let node = base;
+  for (;;) {
+    if (!noCalls && this.eat(tt.doubleColon)) {
+      node = this.startNode(start);
+      node.object = base;
+      node.callee = this.parseNonCallExpression();
+      node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext);
+      break;
+    } else if (this.eat(tt.dot)) {
+      node = this.startNode(start);
+      node.object = base;
+      node.property = this.parseIdentifier({allowKeywords: true});
+      node.computed = false;
+      base = node = this.finishNode(node, "MemberExpression");
+    } else if (this.eat(tt.bracketL)) {
+      node = this.startNode(start);
+      node.object = base;
+      node.property = this.parseExpression();
+      node.computed = true;
+      this.eat(tt.bracketR) || this.unexpected();
+      base = node = this.finishNode(node, "MemberExpression");
+    } else if (!noCalls && this.eat(tt.parenL)) {
+      let node = this.startNode(start);
+      node.callee = base;
+      node.arguments = this.parseCallExpressionArguments(tt.parenR);
+      base = node = this.finishNode(node, "CallExpression");
+      this.checkReferencedList(node.arguments);
+    } else if (!noCalls && this.eat(tt.excl)) {
+      let node = this.startNode(start);
+      node.callee = base;
+      // TODO: create a specific method for this: if an indent is found, then the ending is a dedent.
+      // otherwise it stays a newline.
+      node.arguments = this.parseCallExpressionArguments(tt.newline, {exclCall: true});
+      base = node = this.finishNode(node, "CallExpression");
+      this.checkReferencedList(node.arguments);
+    } else if (this.match(tt.backQuote)) {
+      let node = this.startNode(start);
+      node.tag = base;
+      node.quasi = this.parseTemplate();
+      base = node = this.finishNode(node, "TaggedTemplateExpression");
+    } else {
+      break;
+    }
+  }
+  return node;
 }
 
 // Parse an atomic expression — either a single token that is an
