@@ -167,6 +167,14 @@ All of the following syntax is optional, but is default, and is part of the core
     }
   }
   ```
+  or
+  ```
+  do {
+    if (shouldBreak) {
+      break;
+    }
+  } while (false);
+  ```
   ↔
   ```
   !
