@@ -173,16 +173,41 @@ export function parseExpressionMaybeUnary(expressionContext) {
 export function parseExpressionSubscripts(expressionContext) {
   let start = {...this.state.cur};
   let potentialLambdaOn = this.state.potentialLambdaOn;
-  let node = this.parseExpressionAtom(expressionContext);
+  let node = this.parseExpressionAtomic(expressionContext);
 
   throw new Error("Not Implemented");
 
   // check if we just parsed an arrow-type function expression
+  let skipArrowSubscripts = false;
 
-
-  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+  if (skipArrowSubscripts || expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
   }
 
   return this.parseSubscripts(node, start);
+}
+
+// Parse an atomic expression — either a single token that is an
+// expression, an expression started by a keyword like `function` or
+// `new`, or an expression wrapped in punctuation like `()`, `[]`,
+// or `{}`.
+
+export function parseExpressionAtomic(expressionContext) {
+  let node;
+  let canBeArrow = this.state.potentialLambdaOn.start === this.state.cur.start;
+  switch (this.state.cur.type) {
+    case tt._super:
+      this.checkSuperStatement();
+      throw new Error("Not Implemented");
+    case tt._this:
+      // TODO: move to a parse function
+      node = this.startNode();
+      this.next();
+      node = this.finishNode(node, "ThisExpression");
+      break;
+      // TODO
+    default:
+      this.unexpected();
+  }
+  return node;
 }

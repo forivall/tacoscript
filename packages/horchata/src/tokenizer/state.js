@@ -105,8 +105,7 @@ export default class State {
     // Used to signify information about the start of a potential anonymous
     // function expression
     // Equivalent to acorn & babylon's potentialArrowAt
-    // TODO: replace with token index instead of char index
-    this.potentialLambdaOn = null;
+    this.potentialLambdaOn = {...this.cur};
   }
 
   curPosition() {

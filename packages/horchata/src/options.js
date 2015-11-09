@@ -8,7 +8,12 @@ export const defaultOptions = {
 
   // When enabled, a return at the top level is not considered an
   // error.
+  // TODO: rename to allow return in any statement context, same with super
+  // TODO: actually, just move to validator plugins.
   allowReturnOutsideFunction: false,
+
+  // When enabled, `super` is allowed anywhere.
+  allowSuperOutsideMethod: false,
 
   // map of plugins with their options
   plugins: emptyObject,
@@ -41,6 +46,8 @@ export const defaultOptions = {
   allowImportExportEverywhere: false,
 
   // TODO: callbacks will be only added via plugin
+
+  // TODO: create a `loose` preset that allows all of these "allowSomethingSomewhere"
 
   // TODO: https://github.com/jmeas/sourcemap-options
 }
