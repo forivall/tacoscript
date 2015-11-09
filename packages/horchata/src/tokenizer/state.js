@@ -2,10 +2,13 @@ import {types as tt} from "./types";
 import {Position} from "../util/location";
 
 export default class State {
-  constructor(options, inputFile) {
+  init(options, inputFile) {
     // TODO: decide if non-strict should be supported
-    this.inputFile = inputFile;
     this.options = options;
+
+    //////// File ////////
+
+    this.inputFile = inputFile;
 
     this.sourceFile = this.options.sourceFile;
 
@@ -14,7 +17,10 @@ export default class State {
     // escape sequences must not be interpreted as keywords.
     this.containsEsc = false;
 
-    // Set up token state
+    // Figure out if it's a module code.
+    this.strict = this.inModule = this.options.sourceType === "module";
+
+    //////// Character ////////
 
     // The current position of the tokenizer in the input.
     this.pos = this.lineStart = 0;
@@ -28,6 +34,8 @@ export default class State {
     this.indentCharCode = -1;
     this.indentRepeat = -1;
 
+    //////// Context ////////
+
     // Used to signal that we have already checked for indentation changes after
     // any upcoming newlines. Set to false after an indent or detent (or no
     // indentation change token) has been pushed, and reset to true after a newline
@@ -36,21 +44,23 @@ export default class State {
     // Used to signal if we will be skipping upcoming indentation
     this.inIndentation = true;
 
-    // Properties of the current token:
-    // Its type
-    this.type = tt.eof;
-    // For tokens that include more information than their type, the value
-    this.value = null;
-    // Its start and end offset
-    this.start = this.end = this.pos;
-    // And, if locations are used, the {line, column} object
-    // corresponding to those offsets
-    this.startLoc = this.endLoc = this.curPosition();
+    // Flags to track whether we are in a function, a method, a generator, an async function.
+    // inFunction is used for validity of `return`
+    // inMethod is for `super`
+    // TODO: check spec to see if super is allowed in any functions, add tests
+    // inGenerator is for `yield`
+    // inAsync is for `await`
+    this.inFunction = this.inMethod = this.inGenerator = this.inAsync = false;
 
-    // Position information for the previous token
-    this.lastTokType = null;
-    this.lastTokEndLoc = this.lastTokStartLoc = null;
-    this.lastTokStart = this.lastTokEnd = this.pos;
+    // Flag for if we're in the deader of a "for" loop, to decidee if `while`
+    // is for starting a loop or just to start the `test`
+    this.inForHeader = false;
+
+    // Labels in scope.
+    this.labels = [];
+
+    // List of currently declared decorators, awaiting attachment
+    this.decorators = [];
 
     // The context stack is used to superficially track syntactic
     // context to predict whether a regular expression is allowed in a
@@ -62,38 +72,56 @@ export default class State {
     // are allowed in the given context
     this.statementAllowed = true;
 
-    // Figure out if it's a module code.
-    this.strict = this.inModule = this.options.sourceType === "module";
-
-    // Used to signify the start of a potential anonymous function expression
-    // Equivalent to acorn & babylon's potentialArrowAt
-    // TODO: replace with token index instead of char index
-    this.potentialLambdaAt = -1;
-
-    // Flags to track whether we are in a function, a method, a generator, an async function.
-    // inFunction is used for validity of `return`
-    // inMethod is for `super`
-    // TODO: check spec to see if super is allowed in any functions, add tests
-    // inGenerator is for `yield`
-    // inAsync is for `await`
-    this.inFunction = this.inMethod = this.inGenerator = this.inAsync = false;
-    // Labels in scope.
-    this.labels = [];
-
-    // List of currently declared decorators, awaiting attachment
-    this.decorators = [];
+    //////// Token ////////
 
     // All tokens parsed, will be attached to the file node at the end of parsing
     this.tokens = [];
     // All tokens and non-tokens parsed
     this.sourceElementTokens = [];
 
-    // Flag for if we're in the deader of a "for" loop, to decidee if `while`
-    // is for starting a loop or just to start the `test`
-    this.inForHeader = false;
+    let curPosition = this.curPosition();
+    // Properties of the current token:
+    this.cur = {
+      // Its type
+      type: tt.eof,
+      // For tokens that include more information than their type, the value
+      value: null,
+      // Its index in the token array
+      index: this.tokens.length,
+      // Its start and end offset
+      start: this.pos,
+      end: this.pos,
+      // And, if locations are used, the {line, column} object
+      // corresponding to those offsets
+      startLoc: curPosition,
+      endLoc: curPosition,
+
+      sourceFile: this.sourceFile,
+    };
+
+    // Position information for the previous token
+    this.prev = {...this.cur};
+
+    // Used to signify information about the start of a potential anonymous
+    // function expression
+    // Equivalent to acorn & babylon's potentialArrowAt
+    // TODO: replace with token index instead of char index
+    this.potentialLambdaOn = null;
   }
 
   curPosition() {
     return new Position(this.curLine, this.pos - this.lineStart);
+  }
+
+  clone() {
+    let clone = new State();
+    for (let k in this) {
+      switch(k) {
+        case 'tokens': case 'sourceElementTokens': break;
+        case 'cur': case 'prev': clone[k] = {...this[k]}; break;
+        case 'context': clone.context = [].concat(this.context); break;
+        default: clone[k] = this[k];
+      }
+    }
   }
 }

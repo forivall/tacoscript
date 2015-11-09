@@ -4,7 +4,7 @@ import {Position} from "./util/location";
 
 export default class File extends Node {
   constructor(input, options, metadata = {}) {
-    super({options}, 0, new Position(1, 0), 0);
+    super({options}, {start: 0, startLoc: new Position(1, 0), index: 0});
     this.input = input;
     this.filename = metadata.filename;
     this.sourceType = metadata.sourceType || "module";

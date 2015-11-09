@@ -55,8 +55,8 @@ export function parseExpression(expressionContext = {}) {
 
 // precedence: 0
 export function parseExpressionMaybeSequence(expressionContext) {
-  let startPos = this.state.start;
-  let startLoc = this.state.startLoc;
+  let startPos = this.state.cur.start;
+  let startLoc = this.state.cur.startLoc;
   let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
   if (this.match(tt.semi)) {
     let node = this.startNodeAt(startPos, startLoc);
@@ -79,7 +79,7 @@ export function parseExpressionMaybeSequence(expressionContext) {
 // precedence: 2, 3, 4
 export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks) {
   let node;
-  switch(this.state.type) {
+  switch (this.state.type) {
     case tt._yield: node = this.parseYieldExpression(); break;
     case tt._if: node = this.parseConditionalExpression(); break;
     default:
@@ -95,8 +95,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         expressionContext.shorthandDefaultPos = {start: 0};
       }
 
-      let startPos = this.state.start;
-      let startLoc = this.state.startLoc;
+      let start = {...this.cur};
 
       // tacoscript arrow functions _always_ have arguments surrounded by parens
       // TODO: add plugin extension point here for custom function syntax, to
@@ -108,7 +107,17 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
 
       // tacoscript conditional expressions always start with `if` or `if!`,
       // so we don't need a parseMaybeConditional
-      let left = this.parseExprOps(expressionContext);
+      node = this.parseExprOps(expressionContext);
+      if (callbacks.afterLeftParse) {
+        node = callbacks.afterLeftParse.call(this, node, startPos, startLoc);
+      }
+
+      if (this.state.type.isAssign) {
+        let left = node;
+        // node = this.startNodeAt(startPos, startLoc);
+      }
+
+
 
   }
   return node;

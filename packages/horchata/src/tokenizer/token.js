@@ -11,9 +11,9 @@ export default class Token {
     this.loc = new SourceLocation(parent, startLoc, endLoc);
   }
 
-  static fromState(state) {
-    return new Token(state.type, state.value,
-      state.start, state.end, state.startLoc, state.endLoc, state, state.meta);
+  static fromState(spec) {
+    return new Token(spec.type, spec.value,
+      spec.start, spec.end, spec.startLoc, spec.endLoc, spec, spec.meta);
   }
 
   valueOf() {

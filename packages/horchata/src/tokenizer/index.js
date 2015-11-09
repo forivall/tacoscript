@@ -44,7 +44,8 @@ export default class Lexer {
   open(file) {
     this.file = file;
     this.input = this.file.input;
-    this.state = new State(this.options, this.file);
+    this.state = new State();
+    this.state.init(this.options, this.file);
   }
   close() {
     this.file = this.input = this.state = null;
@@ -54,18 +55,17 @@ export default class Lexer {
 
   // Move to the next token
   next() {
-    this.onToken(Token.fromState(this.state));
+    this.onToken(Token.fromState(this.state.cur));
 
-    this.lastTokEnd = this.end;
-    this.lastTokStart = this.start;
-    this.lastTokEndLoc = this.endLoc;
-    this.lastTokStartLoc = this.startLoc;
+    this.state.prev = {...this.state.cur};
+    this.state.cur.index = this.state.tokens.length;
+
     this.nextToken();
   }
 
   // Check if the next token matches `type`
   match(type) {
-    return this.state.type === type;
+    return this.state.cur.type === type;
   }
 
   // Predicate that tests whether the next token is of the given
@@ -90,8 +90,8 @@ export default class Lexer {
     }
     this.state.containsOctal = false;
     this.state.octalPosition = null;
-    this.state.start = this.state.pos;
-    if (this.options.locations) this.state.startLoc = this.state.curPosition();
+    this.state.cur.start = this.state.pos;
+    if (this.options.locations) this.state.cur.startLoc = this.state.curPosition();
     if (this.state.pos >= this.input.length) return this.finishToken(tt.eof);
 
     if (curContext.override) return this.finishToken(tt.eof);
@@ -208,13 +208,17 @@ export default class Lexer {
 
   // Called at the end of each token. Sets type, val, end, endLoc.
   finishToken(type, val) {
-    let prevType = this.state.type;
-    this.state.type = type;
-    this.state.value = val;
-    this.state.end = this.state.pos;
-    this.state.endLoc = this.state.curPosition();
+    let cur = this.state.cur;
+    let prevType = cur.type;
+    cur.type = type;
+    cur.value = val;
+    cur.end = this.state.pos;
+    cur.endLoc = this.state.curPosition();
+    // when spread destructuring is optimised in babel
+    // cur = {...cur, type, val, end: this.state.pos, endLoc: this.state.curPosition()};
+
     // TODO: add option to disable this
-    this.state.meta = {}
+    this.state.cur.meta = {};
 
     this.updateContext(prevType);
   }
@@ -236,7 +240,7 @@ export default class Lexer {
     if (!this.state.containsEsc && this.keywords.test(word)) {
       type = keywordTypes[word];
     }
-    return this.finishToken(type, {value: word, raw: this.input.slice(this.state.start, this.state.pos)});
+    return this.finishToken(type, {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)});
   }
 
   // Read an identifier, and return it as a string. Sets `state.containsEsc`

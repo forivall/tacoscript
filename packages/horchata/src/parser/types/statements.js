@@ -14,7 +14,7 @@ export function parseStatement(declaration = true, topLevel = false) {
   // start with. Many are trivial to parse, some require a bit of
   // complexity.
 
-  let startType = this.state.type;
+  let startType = this.state.cur.type;
   let node = this.startNode();
 
   switch(startType) {
@@ -98,8 +98,15 @@ export function parseOtherStatement() {
   // plugins should return the node that they parsed, and should check
   // the result of inner before trying to parse a statement themselves
 
+  // Eventually, this should be extended with better interaction between the
+  // differing precedence levels of different plugins
+  // TODO: look at sweet.js for prior art.
+
   // usually would start with
   // let startType = this.state.type;
+  // switch(startType) { case tt._myType: ...}
+  // or
+  // if (match(tt._myType)) ...
   return null;
 }
 

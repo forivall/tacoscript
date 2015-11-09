@@ -8,20 +8,20 @@
 import {SourceLocation} from "../util/location";
 
 export default class Node {
-  constructor(state, pos, loc, tokenIndex) {
+  constructor(state, token) {
     this.type = "";
-    this.start = pos;
+    this.start = token.start;
     this.end = 0;
-    this.tokenStart = tokenIndex;
+    this.tokenStart = token.index;
     this.tokenEnd = 0;
     if (state.options.locations) {
-      this.loc = new SourceLocation(state, loc);
+      this.loc = new SourceLocation(state, token.startLoc != null ? token.startLoc : token.loc.start);
     }
     if (state.options.directSourceFile) {
-      this.sourceFile = state.options.directSourceFile;
+      this.sourceFile = token.sourceFile || state.options.directSourceFile;
     }
     if (state.options.ranges) {
-      this.range = [pos, 0];
+      this.range = [token.start, 0];
     }
     if (state.options.sourceElements) {
       this.sourceElements = [];
