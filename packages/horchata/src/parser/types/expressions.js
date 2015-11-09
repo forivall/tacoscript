@@ -94,7 +94,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         expressionContext.shorthandDefaultPos = {start: 0};
       }
 
-      let start = {...this.cur};
+      let start = {...this.state.cur};
 
       // tacoscript arrow functions _always_ have arguments surrounded by parens
       // TODO: add plugin extension point here for custom function syntax, to
@@ -106,7 +106,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
 
       // tacoscript conditional expressions always start with `if` or `if!`,
       // so we don't need a parseMaybeConditional
-      node = this.parseExprOps(expressionContext);
+      node = this.parseExpressionOperators(expressionContext);
       if (callbacks.afterLeftParse) {
         node = callbacks.afterLeftParse.call(this, node, start);
       }
@@ -131,10 +131,58 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
   return node;
 }
 
-
 export function parseOtherKeywordExpression() {
   // Purposefully left empty for plugins. See docs/horchata-plugins.md#empty-functions
   return null;
 }
 
-// opp
+// TODO: make sure to unset "noIn" when it becomes irrelevent
+
+// Start the precedence parser
+export function parseExpressionOperators(expressionContext) {
+  let start = {...this.state.cur};
+  let node = this.parseExpressionMaybeUnary(expressionContext);
+  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+    return node;
+  }
+  return this.parseExpressionOperator(node, start, -1, {noIn: expressionContext.noIn});
+}
+
+// Parse binary operators with the operator precedence parsing
+// algorithm. `left` is the left-hand side of the operator.
+// `minPrec` provides context that allows the function to stop and
+// defer further parser to one of its callers when it encounters an
+// operator that has a lower precedence than the set it is parsing.
+
+export function parseExpressionOperator(node, start, minPrec, expressionContext) {
+  // TODO:
+  throw new Error("Not Implemented");
+}
+
+// Parse unary operators, both prefix and postfix.
+export function parseExpressionMaybeUnary(expressionContext) {
+  expressionContext = {...expressionContext, noIn: false}; // `in` is allowed in unary operators
+  if (this.state.cur.type.prefix) {
+    throw new Error("Not Implemented");
+  }
+  let start = {...this.state.cur};
+  let node = this.parseExpressionSubscripts(expressionContext);
+}
+
+// Parse call, dot, and `[]`-subscript expressions.
+export function parseExpressionSubscripts(expressionContext) {
+  let start = {...this.state.cur};
+  let potentialLambdaOn = this.state.potentialLambdaOn;
+  let node = this.parseExpressionAtom(expressionContext);
+
+  throw new Error("Not Implemented");
+
+  // check if we just parsed an arrow-type function expression
+
+
+  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+    return node;
+  }
+
+  return this.parseSubscripts(node, start);
+}
