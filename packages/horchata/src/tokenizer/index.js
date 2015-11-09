@@ -143,7 +143,10 @@ export default class Lexer {
     while (this.state.pos < this.input.length) {
       let ch = this.input.charCodeAt(this.state.pos);
       // TODO: see if micro-optimization of order of checking ch is worth it
-      if (ch === 32 || ch === 160 || ch > 8 && ch < 14 || ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch))) {
+
+      // newline characters:  10, 8232, 8233, 13 (when followed by 10)
+      if (ch === 32 || ch === 160 || ch > 8 && ch < 14 && ch !== 10 && !(ch === 13 && this.input.charCodeAt(this.pos + 1) === 10) ||
+          ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
         ++this.state.pos;
       } else {
         if (this.state.pos > start) {
