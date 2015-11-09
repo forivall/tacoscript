@@ -83,7 +83,6 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
     case tt._yield: node = this.parseYieldExpression(); break;
     case tt._if: node = this.parseConditionalExpression(); break;
     default:
-
       let maybeOtherExpressionNode = this.parseOtherKeywordExpression(node);
       if (maybeOtherExpressionNode) {
         node = maybeOtherExpressionNode;
@@ -109,16 +108,25 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
       // so we don't need a parseMaybeConditional
       node = this.parseExprOps(expressionContext);
       if (callbacks.afterLeftParse) {
-        node = callbacks.afterLeftParse.call(this, node, startPos, startLoc);
+        node = callbacks.afterLeftParse.call(this, node, start);
       }
 
-      if (this.state.type.isAssign) {
+      if (this.state.cur.type.isAssign) {
         let left = node;
-        // node = this.startNodeAt(startPos, startLoc);
+        node = this.startNode(start);
+        node.operator = this.state.value;
+        left = node.left = this.toAssignable(left, this.state.cur.type);
+        expressionContext.shorthandDefaultPos.start = 0;  // reset because shorthand default was used correctly
+
+        this.checkAssignable(left);
+        this.next();
+
+        node.right = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+        node = this.finishNode(node, "AssignmentExpression");
+        break;
       }
 
-
-
+      // TODO: add plugin hook here
   }
   return node;
 }

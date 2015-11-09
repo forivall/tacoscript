@@ -56,6 +56,7 @@ export default class Parser extends Lexer {
 import * as nodeMethods from "./methods/node";
 import * as validationMethods from "./methods/validation";
 import * as baseParsers from "./types/base";
+import * as assignableParsers from "./types/assignable";
 // import * as classesParsers from "./types/classes";
 import * as expressionsParsers from "./types/expressions";
 // import * as methodsParsers from "./types/methods";
@@ -67,6 +68,7 @@ for (let parserMethods of [
       nodeMethods,
       validationMethods,
       baseParsers,
+      assignableParsers,
       // classesParsers,
       expressionsParsers,
       // methodsParsers,
