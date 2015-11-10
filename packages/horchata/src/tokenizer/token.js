@@ -52,9 +52,9 @@ export default class Token {
         return (Token._fromCodeCache[code] = { type: tt.arrow, value: code });
       case "->": case "->>":
         return (Token._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
-      case "~>": case "~>>":
+      case "+>": case "+>>":
         return (Token._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
-      case "~=>": case "~=>>":
+      case "+=>": case "+=>>":
         return (Token._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
       case "+=": case "-=":
       case "/=": case "*=": case "**=": case "%=":

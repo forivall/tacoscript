@@ -15,7 +15,7 @@ var foo = {
   ["bar"]: "foo"
   ["foo"]() ->
   foo() ->
-  foo() ~>
+  foo() +>
   foo() *->
   get foo() ->
   set foo(foo) ->

@@ -94,7 +94,7 @@ export function _finishFunction(node, parent) {
 
   if (node.generator) this.push("*");
   if (node.async) {
-    this.push("~>");
+    this.push("+>");
   } else {
     this.push("->");
   }
@@ -111,14 +111,14 @@ export function ArrowFunctionExpression(node, parent) {
 
   if (t.isBlock(node.body)) {
     if (node.async) {
-      this.push("~=>");
+      this.push("+=>");
     } else {
       this.push("=>");
     }
     this._functionBody(node);
   } else {
     if (node.async) {
-      this.push("~=>>");
+      this.push("+=>>");
     } else {
       this.push("=>>");
     }

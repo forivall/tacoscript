@@ -1,10 +1,10 @@
 class Foo
-  foo() ~>
+  foo() +>
   foo() ->
   ["foo"]() ->
   get foo() ->
   set foo(bar) ->
-  static foo() ~>
+  static foo() +>
   static foo() ->
   static ["foo"]() ->
   static get foo() ->

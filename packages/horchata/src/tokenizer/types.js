@@ -125,11 +125,11 @@ export const types = {
   question:     punctuator("?",   beforeExpr), // only used by flow
   soak:         punctuator("?.", continuesPreviousLine),
   soakBracketL: punctuator("?[", continuesPreviousLine),
-  // also includes =>>, ->>, ~>>
+  // also includes =>>, ->>, +>>, respectively
   arrow:        punctuator("=>", {beforeExpr: true, startsExpr: true}),
   unboundArrow: punctuator("->", {beforeExpr: true, startsExpr: true}),
-  asyncArrow:   punctuator("~>", {beforeExpr: true, startsExpr: true}),
-  asyncBoundArrow:punctuator("~=>", {beforeExpr: true, startsExpr: true}),
+  asyncArrow:   punctuator("+>", {beforeExpr: true, startsExpr: true}),
+  asyncBoundArrow:punctuator("+=>", {beforeExpr: true, startsExpr: true}),
   ellipsis:     punctuator("...", beforeExpr),
 
   template:     new TokenType("template", "Template"),

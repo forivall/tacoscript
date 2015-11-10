@@ -83,6 +83,8 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
   var foo = function*(bar) {}
   async function foo(bar) {}
   var foo = async function(bar) {}
+  async function* foo(bar) {}
+  var foo = async function*(bar) {}
   ```
   ↔
   ```
@@ -95,8 +97,10 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 
   function foo(bar) *->
   var foo = (bar) *->
-  function foo(bar) ~>
-  var foo = (bar) ~>
+  function foo(bar) +>
+  var foo = (bar) +>
+  function foo(bar) *+>
+  var foo = (bar) *+>
   ```
 
   ```
