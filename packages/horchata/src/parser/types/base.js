@@ -9,6 +9,7 @@ import { types as tt } from "../../tokenizer/types";
 
 export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
+  file.program = program;
 
   this.parseBlockBody(program, {allowDirectives: true, isTopLevel: true});
 

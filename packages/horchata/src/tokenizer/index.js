@@ -389,6 +389,7 @@ export default class Lexer {
       this.state.pos += 2;
       return this.finishToken(tt.arrow);
     }
+    ++this.state.pos;
     return this.finishToken(tt.eq);
   }
 

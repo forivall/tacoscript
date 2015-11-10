@@ -79,7 +79,7 @@ export function parseExpressionMaybeSequence(expressionContext) {
 // precedence: 2, 3, 4
 export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks = {}) {
   let node;
-  switch (this.state.type) {
+  switch (this.state.cur.type) {
     case tt._yield: node = this.parseYieldExpression(); break;
     case tt._if: node = this.parseConditionalExpression(); break;
     default:
@@ -185,6 +185,19 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
   }
   let start = {...this.state.cur};
   let node = this.parseExpressionSubscripts(expressionContext);
+  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+    return node;
+  }
+  while (this.state.cur.type.postfix) {
+    let expr = node;
+    node = this.startNode(start);
+    node.operator = this.state.value;
+    node.prefix = false;
+    node.argument = expr;
+    this.checkAssignable(expr);
+    this.next();
+    node = this.finishNode(node, "UpdateExpression");
+  }
   return node;
 }
 
