@@ -9,12 +9,14 @@ export function checkReferencedList(expressions) { return expressions; }
 export function checkAssignable(/*node, assignableContext = {}*/) {}
 
 export function checkDeclaration(decl, kind, declarationContext) {
-  const isFor = !!declarationContext.isFor;
-  if (kind === tt._const && !this.matchForKeyword()) {
-    // const requires an initializer or use in `for ... in` or `for ... of`
-    this.unexpected();
-  } else if (decl.id.type !== "Identifier" && !(isFor && this.matchForKeyword())) {
-    this.raise(this.state.prev.end, "Complex binding patterns require an initialization value");
+  if (!decl.init) {
+    const isFor = !!declarationContext.isFor;
+    if (kind === tt._const && !this.matchForKeyword()) {
+      // const requires an initializer or use in `for ... in` or `for ... of`
+      this.unexpected();
+    } else if (decl.id.type !== "Identifier" && !(isFor && this.matchForKeyword())) {
+      this.raise(this.state.prev.end, "Complex binding patterns require an initialization value");
+    }
   }
   return decl;
 }

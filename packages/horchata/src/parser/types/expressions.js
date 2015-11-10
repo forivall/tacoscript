@@ -302,11 +302,30 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt.regexp:
-      let value = this.state.value;
-      node = this.parseLIteral(this.state.value, "RegExpLiteral");
+      let value = this.state.cur.value;
+      node = this.parseLiteral(value.value, "RegExpLiteral");
       node.pattern = value.pattern;
       node.flags = value.flags;
       break;
+
+    // TODO: store cst info.
+    case tt.num:
+      return this.parseLiteral(this.state.cur.value, "NumericLiteral");
+
+    case tt.string:
+      return this.parseLiteral(this.state.cur.value, "StringLiteral");
+
+    case tt._null:
+      node = this.startNode();
+      this.next();
+      return this.finishNode(node, "NullLiteral");
+
+    case tt._true: case tt._false:
+      node = this.startNode();
+      node.value = this.match(tt._true);
+      this.next();
+      return this.finishNode(node, "BooleanLiteral");
+
 
     // TODO: the rest of the atomic expressions to parse.
 

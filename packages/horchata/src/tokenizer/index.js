@@ -342,6 +342,8 @@ export default class Lexer {
 
   // NOTE: please alphabetize read* functions
 
+  // Read a string value, interpreting backslash-escapes.
+
   readCodePoint() {
     throw new Error("Not Implemented");
   }
@@ -383,6 +385,70 @@ export default class Lexer {
   readIndentationDirective(code) {
     throw new Error("Not Implemented");
   }
+
+  // Read an integer, octal integer, or floating-point number.
+  readNumber(startsWithDot) {
+    let start = this.state.pos;
+    let isFloat = false;
+    let octal = this.input.charCodeAt(this.state.pos) === 48;
+    if (!startsWithDot && this.readNumber_int(10) === null) this.raise(start, "Invalid number");
+
+    let next = this.input.charCodeAt(this.state.pos);
+    if (next === 46) { // '.'
+      ++this.state.pos;
+      this.readNumber_int(10);
+      isFloat = true;
+      next = this.input.charCodeAt(this.state.pos);
+    }
+    if (next === 69 || next === 101) { // 'eE'
+      next = this.input.charCodeAt(++this.state.pos);
+      if (next === 43 || next === 45) ++this.state.pos; // '+-'
+      if (this.readNumber_int(10) === null) this.raise(start, "Invalid number");
+      isFloat = true;
+    }
+    if (isIdentifierStart(this.fullCharCodeAtPos())) this.raise(this.state.pos, "Identifier directly after number");
+
+    let str = this.input.slice(start, this.state.pos), val;
+    if (isFloat) {
+      val = parseFloat(str);
+    } else if (!octal || str.length === 1) {
+      val = parseInt(str, 10);
+    } else if (/[89]/.test(str) || this.state.strict) {
+      this.raise(start, "Invalid number");
+    } else {
+      val = parseInt(str, 8);
+    }
+    // TODO: also store raw source
+    return this.finishToken(tt.num, val);
+  }
+
+  // Read an integer in the given radix. Return null if zero digits
+  // were read, the integer value otherwise. When `len` is given, this
+  // will return `null` unless the integer has exactly `len` digits.
+  readNumber_int(radix, len) {
+    let start = this.state.pos;
+    let total = 0;
+    for (let i = 0, end = len == null ? Infinity : len; i < end; ++i) {
+      let code = this.input.charCodeAt(this.state.pos);
+      let val;
+      if (code >= 97) {
+        val = code - 97 + 10; // a-z
+      } else if (code >= 65) {
+        val = code - 65 + 10; // A-Z
+      } else if (code >= 48 && code <= 57) {
+        val = code - 48; // 0-9
+      } else  {
+        val = Infinity;
+      }
+      if (val >= radix) break;
+      ++this.state.pos;
+      total = total * radix + val;
+    }
+    if (this.state.pos === start || len != null && this.state.pos - start !== len) return null;
+
+    return total;
+  }
+
 
   readToken_eq() {
     if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'

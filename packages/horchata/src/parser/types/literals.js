@@ -71,3 +71,11 @@ export function parseIdentifier(identifierContext = {}) {
   this.next();
   return this.finishNode(node, "Identifier");
 }
+
+export function parseLiteral(value, type) {
+  let node = this.startNode();
+  node.value = value;
+  node.raw = this.input.slice(this.state.cur.start, this.state.cur.end);
+  this.next();
+  return this.finishNode(node, type);
+}
