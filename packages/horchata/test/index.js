@@ -21,6 +21,22 @@ suite("taco-printer", function () {
   test("basic", function () {
     var code = "this\n";
     var ast = horchata.parse(code);
+    var mismatchMessage = misMatch({
+      type: "File",
+      program: {
+        type: "Program",
+        body: [
+          {
+            type: "ExpressionStatement",
+            expression: {
+              type: "ThisExpression"
+            }
+          }
+        ]
+      }
+    }, ast);
+
+    if (mismatchMessage) throw new Error(mismatchMessage);
   });
 });
 
