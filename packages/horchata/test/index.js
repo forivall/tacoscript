@@ -49,7 +49,8 @@ _.forOwn(coreSpecs, function(suites, setName) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
         test(task.title, !task.disabled && function () {
-          var taco = task.taco;
+          // var taco = task.taco;
+          var taco = task.auto;
 
           var ast = horchata.parse(taco.code);
           var expectedAst;
@@ -59,6 +60,8 @@ _.forOwn(coreSpecs, function(suites, setName) {
           } catch(e) {}
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
+            console.log("code:");
+            console.log(taco.code);
             console.dir(ast.program, {depth: null});
             throw new Error(mismatchMessage);
           }
