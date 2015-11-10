@@ -385,8 +385,8 @@ export default class Lexer {
   }
 
   readToken_eq() {
-    if (this.input.charCodeAt(this.pos + 1) === 62) { // '=>'
-      this.pos += 2;
+    if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'
+      this.state.pos += 2;
       return this.finishToken(tt.arrow);
     }
     return this.finishToken(tt.eq);
@@ -398,6 +398,13 @@ export default class Lexer {
     let type = tt.name;
     if (!this.state.containsEsc && this.keywords.test(word)) {
       type = keywordTypes[word];
+      // TODO: move to method to allow customization by plugins
+      if (type === tt._and || type === tt._or) {
+        if (this.input.charCodeAt(this.state.pos) === 61) { // and=, or=
+          ++this.state.pos;
+          return this.finishToken(tt.assign, type.keyword + "=");
+        }
+      }
     }
     return this.finishToken(type, {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)});
   }
