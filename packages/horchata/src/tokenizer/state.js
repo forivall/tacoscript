@@ -34,15 +34,18 @@ export default class State {
     this.indentCharCode = -1;
     this.indentRepeat = -1;
 
+    // When tokenizing, we lookahead past a newline, athen insert the indent token before the newline
+    this.indentPos = 0;
+
     //////// Context ////////
 
     // Used to signal that we have already checked for indentation changes after
     // any upcoming newlines. Set to false after an indent or detent (or no
     // indentation change token) has been pushed, and reset to true after a newline
     // has been pushed.
-    this.checkIndentation = true;
     // Used to signal if we will be skipping upcoming indentation
-    this.inIndentation = true;
+    // This is set in `readIndentationMaybe` and unset in `skipIndentation`
+    this.eol = true;
 
     // Flags to track whether we are in a function, a method, a generator, an async function.
     // inFunction is used for validity of `return`
@@ -68,8 +71,13 @@ export default class State {
     this.context = this.initialContext();
     this.exprAllowed = true;
 
+    // Flag to see if we are inside a grouping operator `()` (but not function arguments)
+    // or inside a computed subscript `[]` (but not an array expression)
+    this.significantWhitespaceContext = [true];
+
     // used to communicate to children in the recursive descent if statements
     // are allowed in the given context
+    // TODO: replace with a stack
     this.statementAllowed = true;
 
     //////// Token ////////

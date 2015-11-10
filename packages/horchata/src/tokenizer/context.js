@@ -71,17 +71,15 @@ tt.parenR.updateContext = tt.braceR.updateContext = tt.dedent = function() {
   }
 }
 
-// TODO
-tt.newline.updateContext = function() {
-  throw new Error("Not Implmented");
-}
-
-tt._then.updateContext = function() {
-  throw new Error("Not Implemented");
-}
-
 tt.indent.updateContext = function() {
   throw new Error("Not Implemented");
+  // we need to check if the indent introduces a block, or continues a
+  // * call expression's arguments
+  // * function declaration/expression's arguments
+  // * array
+  // * object
+  // * statement header (like the conditional in an if or for, etc.)
+
 }
 
 tt.braceL.updateContext = function() {

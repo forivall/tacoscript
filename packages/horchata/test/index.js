@@ -21,9 +21,26 @@ suite("taco-printer", function () {
   test("basic", function () {
     var code = "this\n";
     var ast = horchata.parse(code);
-    console.dir(ast);
   });
 });
+
+function removeLocInfo(json) {
+  if (Object.prototype.toString.call(json) === '[object Array]') {
+    for (var i = 0, len = json.length; i < len; i++) {
+      removeLocInfo(json[i]);
+    }
+  } else {
+    delete json.start;
+    delete json.end;
+    delete json.loc;
+    for (var k in json) {
+      if (json[k] != null && Object.prototype.toString.call(json) === '[object Object]') {
+        removeLocInfo(json[k]);
+      }
+    }
+  }
+  return json;
+}
 
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
@@ -37,10 +54,14 @@ _.forOwn(coreSpecs, function(suites, setName) {
           var ast = horchata.parse(taco.code);
           var expectedAst;
           try {
-            expectedAst = JSON.parse(task.json.code);
+            expectedAst = removeLocInfo(JSON.parse(task.json.code));
+            delete expectedAst.program.sourceType;
           } catch(e) {}
           var mismatchMessage = misMatch(expectedAst, ast);
-          if (mismatchMessage) throw new Error(mismatchMessage);
+          if (mismatchMessage) {
+            console.dir(ast.program, {depth: null});
+            throw new Error(mismatchMessage);
+          }
         });
       });
     });

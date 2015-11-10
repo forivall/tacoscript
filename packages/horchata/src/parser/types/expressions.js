@@ -183,6 +183,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
   }
   let start = {...this.state.cur};
   let node = this.parseExpressionSubscripts(expressionContext);
+  return node;
 }
 
 export function isArrowFunctionExpression(node) {
