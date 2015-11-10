@@ -156,8 +156,10 @@ export default class Lexer {
       if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
-      } else if (!(significantWhitespace && isNewline(ch)) && (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
-          ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
+      } else if (!(significantWhitespace && isNewline(ch) && this.state.cur.type !== tt.newline) &&
+          // skip
+          (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
         // skip non-significant whitespace
         ++this.state.pos;
       } else {
@@ -246,6 +248,7 @@ export default class Lexer {
 
   getTokenFromCode(code) {
     switch (code) {
+      // newlines are significant!
       case 13:
         if (this.input.charCodeAt(this.state.pos + 1) === 10) {
           ++this.state.pos;
@@ -326,6 +329,9 @@ export default class Lexer {
       let startIndent = this.state.indentPos;
       while (this.state.pos < this.input.length) {
         let ch = this.input.charCodeAt(this.state.indentPos);
+        // TODO: skip blank lines
+        // TODO: decide if comments should start an indentation level. probably not.
+        // TODO: revise skipIndentation to also skip non-tokens in blank lines first.
         if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
           ++this.state.indentPos;
