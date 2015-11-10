@@ -348,6 +348,44 @@ export default class Lexer {
     throw new Error("Not Implemented");
   }
 
+  readIndentationMaybe(newlineCode) {
+    this.state.eol = true;
+    this.state.indentPos = this.state.pos + 1;
+    if (newlineCode === 13 && this.input.charCodeAt(this.state.indentPos) === 10) {
+      this.state.indentPos++;
+    }
+    // TODO: instead of assuming the first indent is one indent level,
+    // the parser should indicate how many indentation levels are needed.
+    if (this.state.indentCharCode === -1) {
+      // detect indent
+      let startIndent = this.state.indentPos;
+      while (this.state.pos < this.input.length) {
+        let ch = this.input.charCodeAt(this.state.indentPos);
+        // TODO: skip blank lines
+        // TODO: decide if comments should start an indentation level. probably not.
+        // TODO: revise skipIndentation to also skip non-tokens in blank lines first.
+        if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
+          ++this.state.indentPos;
+        } else {
+          break;
+        }
+      }
+      if (this.state.indentPos === startIndent) {
+        // No indent yet, just return.
+        return false;
+      } else {
+        throw new Error("Not Implemented");
+      }
+    } else {
+      throw new Error("Not Implemented");
+    }
+  }
+
+  readIndentationDirective(code) {
+    throw new Error("Not Implemented");
+  }
+
   // Read an identifier or keyword token
   readWord() {
     let word = this.readWordSingle();
@@ -397,44 +435,6 @@ export default class Lexer {
       first = false;
     }
     return word + this.input.slice(chunkStart, this.state.pos);
-  }
-
-  readIndentationMaybe(newlineCode) {
-    this.state.eol = true;
-    this.state.indentPos = this.state.pos + 1;
-    if (newlineCode === 13 && this.input.charCodeAt(this.state.indentPos) === 10) {
-      this.state.indentPos++;
-    }
-    // TODO: instead of assuming the first indent is one indent level,
-    // the parser should indicate how many indentation levels are needed.
-    if (this.state.indentCharCode === -1) {
-      // detect indent
-      let startIndent = this.state.indentPos;
-      while (this.state.pos < this.input.length) {
-        let ch = this.input.charCodeAt(this.state.indentPos);
-        // TODO: skip blank lines
-        // TODO: decide if comments should start an indentation level. probably not.
-        // TODO: revise skipIndentation to also skip non-tokens in blank lines first.
-        if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
-            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
-          ++this.state.indentPos;
-        } else {
-          break;
-        }
-      }
-      if (this.state.indentPos === startIndent) {
-        // No indent yet, just return.
-        return false;
-      } else {
-        throw new Error("Not Implemented");
-      }
-    } else {
-      throw new Error("Not Implemented");
-    }
-  }
-
-  readIndentationDirective(code) {
-    throw new Error("Not Implemented");
   }
 
   ////////////// Token Storage //////////////
