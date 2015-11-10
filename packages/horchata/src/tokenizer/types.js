@@ -54,7 +54,7 @@ export class TokenType {
     this.prefix = !!conf.prefix;
     this.postfix = !!conf.postfix;
     this.binop = conf.binop || null;
-    this.binopExpressionName = conf.binopExpressionName || "BinaryExpression";
+    if (this.binop != null) this.binopExpressionName = conf.binopExpressionName || "BinaryExpression";
     this.updateContext = null; // for jsx parsing
 
     // serialization

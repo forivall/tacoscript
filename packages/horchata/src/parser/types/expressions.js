@@ -136,7 +136,9 @@ export function parseOtherKeywordExpression() {
   return null;
 }
 
-// TODO: make sure to unset "noIn" when it becomes irrelevent
+// TODO: make sure to unset "isFor" when it becomes irrelevent
+// isFor is equivalent to "noIn", since we could introduce more `for` iteration keywords
+// that could also be used as operators.
 
 // Start the precedence parser
 export function parseExpressionOperators(expressionContext) {
@@ -145,7 +147,7 @@ export function parseExpressionOperators(expressionContext) {
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
   }
-  return this.parseExpressionOperator(node, start, -1, {noIn: expressionContext.noIn});
+  return this.parseExpressionOperator(node, start, -1, {isFor: expressionContext.isFor});
 }
 
 // Parse binary operators with the operator precedence parsing
@@ -156,7 +158,7 @@ export function parseExpressionOperators(expressionContext) {
 
 export function parseExpressionOperator(node, start, minPrec, expressionContext) {
   let prec = this.state.cur.type.binop;
-  if (prec != null && !(expressionContext.noIn && this.match(tt._in)) &&
+  if (prec != null && !(expressionContext.isFor && this.match(tt._in)) &&
       prec > minPrec) {
     let left = node;
     node = this.startNode(start);
@@ -177,7 +179,7 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
 
 // Parse unary operators, both prefix and postfix.
 export function parseExpressionMaybeUnary(expressionContext = {}) {
-  expressionContext = {...expressionContext, noIn: false}; // `in` is allowed in unary operators
+  expressionContext = {...expressionContext, isFor: false}; // `in` is allowed in unary operators
   if (this.state.cur.type.prefix) {
     throw new Error("Not Implemented");
   }

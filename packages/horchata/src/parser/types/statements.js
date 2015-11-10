@@ -64,7 +64,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       if (!declaration) this.unexpected();
       // fallthrough
     case tt._var:
-      node = this.parseVariableDeclaration(node, startType); break;
+      node = this.parseDeclarationStatement(node, startType); break;
 
     // Symbols
     case tt.excl: node = this.parseBlockStatement(node); break;
@@ -142,6 +142,7 @@ export function parseIfStatementOrConditionalExpression(node) {
   throw new Error("Not Implemented");
 }
 
+// Parse a switch, as a statement.
 export function parseSwitchStatement(node) {
   this.next();
   if (this.eat(tt.excl)) {
@@ -154,6 +155,33 @@ export function parseSwitchStatement(node) {
 // should be overridden by safe switch statement plugin
 export function parseSafeSwitchStatement(/*node*/) {
   this.raise(this.state.pos, "Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
+}
+
+// Parse a list of variable declarations, as a statement. Equivalent to `parseVarStatement`
+export function parseDeclarationStatement(node, kind) {
+  this.next();
+  this.parseDeclaration(node, kind);
+  this.eat(tt.newline) || this.unexpected();
+  return this.finishNode(node, "VariableDeclaration");
+}
+
+// Parse a list of variable declarations. Equivalent to `parseVar`
+export function parseDeclaration(node, kind, declarationContext = {}) {
+  node.declarations = [];
+  node.kind = kind.keyword;
+  for (;;) {
+    let decl = this.startNode();
+    decl = this.parseDeclarationAssignable(decl);
+    if (this.eat(tt.eq)) {
+      decl.init = this.parseExpression(declarationContext);
+    } else {
+      decl.init = null;
+    }
+    this.checkDeclaration(decl, kind, declarationContext);
+    node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
+    if (!(this.eat(tt.comma) || this.eat(tt.newline))) break;
+  }
+  return node;
 }
 
 // keep this at the bottom.
