@@ -252,6 +252,10 @@ All of the following syntax is optional, but is default, and is part of the core
 * Python style keyword arguments
   * should look for or create a good, standardized format for kwargs, that can be submitted as an esnext proposal.
 * Whatever custom syntax makes the parser easier to read
+* allow any indentation level, but it won't be automatically closed. instead,
+  statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
+
+  This would be opt-in, or automatically enabled if the indentation of your source js sucks.
 
 ## Implementation Plan
 

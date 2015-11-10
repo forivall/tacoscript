@@ -234,7 +234,7 @@ export default class Lexer {
     let cur = this.state.cur;
     let prevType = cur.type;
     cur.type = type;
-    cur.value = val;
+    cur.value = val || type.label; // or read value from pos - 1
     cur.end = this.state.pos;
     cur.endLoc = this.state.curPosition();
     // when spread destructuring is optimised in babel
@@ -246,6 +246,8 @@ export default class Lexer {
     this.updateContext(prevType);
   }
 
+  // TODO: allow extension of each of these token endpoints to allow custom
+  // multichar tokens.
   getTokenFromCode(code) {
     switch (code) {
       // newlines are significant!
@@ -255,6 +257,87 @@ export default class Lexer {
         }
       case 10: case 8232: case 8233:
         ++this.state.pos; return this.finishToken(tt.newline);
+
+      // The interpretation of a dot depends on whether it is followed
+      // by a digit or another two dots.
+      case 46: // '.'
+        // TODO: use "readNumberStartingWithDot" (that just calls readNumber, but it's for readability :))
+        return this.readToken_dot();
+
+      // Punctuation tokens.
+      case 40: ++this.state.pos; return this.finishToken(tt.parenL);
+      case 41: ++this.state.pos; return this.finishToken(tt.parenR);
+      case 59: ++this.state.pos; return this.finishToken(tt.semi);
+      case 44: ++this.state.pos; return this.finishToken(tt.comma);
+      case 91: ++this.state.pos; return this.finishToken(tt.bracketL);
+      case 93: ++this.state.pos; return this.finishToken(tt.bracketR);
+      case 123: ++this.state.pos; return this.finishToken(tt.braceL);
+      case 125: ++this.state.pos; return this.finishToken(tt.braceR);
+
+      case 58:
+        if (this.input.charCodeAt(this.state.pos + 1) === 58) {
+          this.state.pos += 2;
+          return this.finishToken(tt.doubleColon, '::');
+        } else {
+          ++this.state.pos;
+          return this.finishToken(tt.colon);
+        }
+
+      case 63: ++this.state.pos; return this.finishToken(tt.question);
+      // TODO: figure out alternate syntax for 'this' shorthand. Probably `@.`, but no standalone
+      case 64: ++this.state.pos; return this.finishToken(tt.at);
+
+      case 96: // '`'
+        ++this.state.pos;
+        return this.finishToken(tt.backQuote);
+
+      case 48: // '0'
+        let next = this.input.charCodeAt(this.pos + 1);
+        if (next === 120 || next === 88) return this.readRadixNumber(16); // '0x', '0X' - hex number
+        if (next === 111 || next === 79) return this.readRadixNumber(8); // '0o', '0O' - octal number
+        if (next === 98 || next === 66) return this.readRadixNumber(2); // '0b', '0B' - binary number
+        // Anything else beginning with a digit is an integer, octal
+        // number, or float.
+      case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: // 1-9
+        return this.readNumber();
+
+      // Quotes produce strings.
+      case 34: case 39: // '"', "'"
+        return this.readString(code);
+
+      // Operators are parsed inline in tiny state machines. '=' (61) is
+      // often referred to. `finishOp` simply skips the amount of
+      // characters it is given as second argument, and returns a token
+      // of the type given by its first argument.
+
+      case 47: // '/'
+        return this.readToken_slash();
+
+      case 37: case 42: // '%*'
+        return this.readToken_mult_modulo(code);
+
+      case 124: case 38: // '|&'
+        return this.readToken_pipe_amp(code);
+
+      case 94: // '^'
+        return this.readToken_caret();
+
+      // TODO: handle arrows _here_
+
+      case 43: case 45: // '+-'
+        return this.readToken_plus_min(code);
+
+      case 60: case 62: // '<>'
+        return this.readToken_lt_gt(code);
+
+      case 61: // '='
+        return this.readToken_eq(code);
+
+      case 33: // '!'
+        return this.readToken_excl(code);
+
+      case 126: // '~'
+        return this.finishToken(tt.bitwiseNOT);
     }
     this.raise(this.state.pos, "Unexpected character '" + codePointToString(code) + "'");
   }
