@@ -261,6 +261,8 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
   return node;
 }
 
+// TODO: move the below function to literals
+
 // Parse an atomic expression — either a single token that is an
 // expression, an expression started by a keyword like `function` or
 // `new`, or an expression wrapped in punctuation like `()`, `[]`,
@@ -279,7 +281,25 @@ export function parseExpressionAtomic(expressionContext) {
       this.next();
       node = this.finishNode(node, "ThisExpression");
       break;
-      // TODO
+
+    case tt.name:
+      node = this.parseIdentifier();
+      // NOTE: tacoscript arrow expressions _must_ have parens, so don't worry about
+      // arrows here.
+      break;
+
+    case tt.regexp:
+      let value = this.state.value;
+      node = this.parseLIteral(this.state.value, "RegExpLiteral");
+      node.pattern = value.pattern;
+      node.flags = value.flags;
+      break;
+
+    // TODO: the rest of the atomic expressions to parse.
+
+    // TODO:
+    // case tt._do:
+
     default:
       this.unexpected();
   }
