@@ -10,11 +10,12 @@ import { types as tt } from "../../tokenizer/types";
 export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
 
-  this.parseBlockBody(program, true, true, tt.eof);
+  this.parseBlockBody(program, {allowDirectives: true, isTopLevel: true});
 
   file.program  = this.finishNode(program, "Program");
   file.comments = this.state.comments;
   file.tokens   = this.state.tokens;
+  file.warnings = this.state.warnings;
 
   return this.finishNode(file, "File");
 }
@@ -27,7 +28,7 @@ export function parseBlockStatement() {
 export function parseBlock() {
   let node = this.startNode();
   this.expect(tt.indent);
-  this.parseBlockBody(node, )
+  this.parseBlockBody(node);
 }
 
 // Parse a sequence of statements, seaparated by newlines, and enclosed in an
@@ -35,7 +36,9 @@ export function parseBlock() {
 // TODO: Handle use of `use strict`. Currently, use strict is just parsed, but
 // not error checked.
 
-export function parseBlockBody(node, allowDirectives, isTopLevel) {
+export function parseBlockBody(node, blockContext = {}) {
+  const allowDirectives = !!blockContext.allowDirectives;
+  const isTopLevel = !!blockContext.isTopLevel;
   let end = isTopLevel ? tt.eof : tt.dedent;
 
   node.body = [];

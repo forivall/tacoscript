@@ -117,7 +117,8 @@ export function parseOtherStatement() {
   return null;
 }
 
-export function parseDoStatementStatement() {
+// statement within a "do" expression
+export function parseDoExpressionStatement() {
   this.parseStatement(false);
 }
 
@@ -132,6 +133,15 @@ export function parseDecorators() {
   this.checkDecorators();
 }
 
+//// Statement parsers by type ////
+
+// We overload the if keyword, so this intermediary parser is required until we
+// figure out what it is.
+export function parseIfStatementOrConditionalExpression(node) {
+  // TODO
+  throw new Error("Not Implemented");
+}
+
 export function parseSwitchStatement(node) {
   this.next();
   if (this.eat(tt.excl)) {
@@ -142,23 +152,19 @@ export function parseSwitchStatement(node) {
 }
 
 // should be overridden by safe switch statement plugin
-export function parseSafeSwitchStatement(/*node*/) { this.unexpected(); }
-
-export function checkDecorators() {
-  // TODO
-  // checks are moved to other functions, so that plugins can override them for extended syntax.
-  // i.e. allow adding decorators to standalone functions
-  // let allowExport = this.state.statementAllowed
-}
-//
-export function parseIfStatementOrConditionalExpression(node) {
-  // TODO
-  throw new Error("Not Implemented");
+export function parseSafeSwitchStatement(/*node*/) {
+  this.raise(this.state.pos, "Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
 }
 
+// keep this at the bottom.
+// If we're not parsing a statement, it's an ExpressionStatement!
 export function parseExpressionStatement(node, expr) {
-  node.expression = expr
-  // TODO: also allow tt.eof or `and then`
-  this.eat(tt.newline) || this.unexpected();
-  return this.finishNode(node, "ExpressionStatement")
+  node.expression = expr;
+  // TODO: also allow `and then`
+  // `and then` will be handled after boolean expressions are properly handled --
+  // the posiition of the and will be stored, and then read here, similar to how
+  // arrow functions work.
+  if (this.match(tt.eof)) this.warn(this.state.pos, "No newline at end of file");
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  return this.finishNode(node, "ExpressionStatement");
 }

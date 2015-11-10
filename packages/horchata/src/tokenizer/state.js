@@ -5,6 +5,7 @@ export default class State {
   init(options, inputFile) {
     // TODO: decide if non-strict should be supported
     this.options = options;
+    this.warnings = [];
 
     //////// File ////////
 

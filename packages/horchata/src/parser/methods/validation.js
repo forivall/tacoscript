@@ -14,3 +14,10 @@ export function checkExpressionOperatorLeft(node) {
     this.raise(left.argument.start, "Illegal expression. Wrap left hand side or entire exponentiation in parentheses.");
   }
 }
+
+export function checkDecorators() {
+  // TODO
+  // checks are moved to other functions, so that plugins can override them for extended syntax.
+  // i.e. allow adding decorators to standalone functions
+  // let allowExport = this.state.statementAllowed
+}

@@ -44,8 +44,10 @@ export default class Parser extends Lexer {
     let file = new SourceFile(text, this.options, metadata);
     this.open(file); // set up tokenizer
     let program = this.startNode();
-    this.nextToken()
-    return this.parseTopLevel(file, program)
+    this.nextToken();
+    file = this.parseTopLevel(file, program);
+    if (file.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
+    return file;
   }
 
   // TODO: take a vinyl file as input, or vinyl-like file object
@@ -67,12 +69,21 @@ export default class Parser extends Lexer {
   // of the error message, and then raises a `SyntaxError` with that
   // message.
   raise(pos, message) {
+    throw this._createSyntaxError(pos, message);
+  }
+
+  warn(pos, message) {
+    this.state.warnings.push(this._createSyntaxError(pos, message));
+  }
+
+  _createSyntaxError(pos, message) {
     let loc = getLineInfo(this.input, pos);
     let err = new SyntaxError(message + " (" + loc.line + ":" + loc.column + ")");
     err.pos = pos;
     err.loc = loc;
     err.raisedAt = this.pos;
-    throw err;
+    return err;
+
   }
 }
 
