@@ -265,14 +265,15 @@ export default class Lexer {
         return this.readToken_dot();
 
       // Punctuation tokens.
-      case 40: ++this.state.pos; return this.finishToken(tt.parenL);
-      case 41: ++this.state.pos; return this.finishToken(tt.parenR);
-      case 59: ++this.state.pos; return this.finishToken(tt.semi);
-      case 44: ++this.state.pos; return this.finishToken(tt.comma);
-      case 91: ++this.state.pos; return this.finishToken(tt.bracketL);
-      case 93: ++this.state.pos; return this.finishToken(tt.bracketR);
-      case 123: ++this.state.pos; return this.finishToken(tt.braceL);
-      case 125: ++this.state.pos; return this.finishToken(tt.braceR);
+      case 40: ++this.state.pos; return this.finishToken(tt.parenL);   // '('
+      case 41: ++this.state.pos; return this.finishToken(tt.parenR);   // ')'
+      case 59: ++this.state.pos; return this.finishToken(tt.semi);     // ';'
+      case 44: ++this.state.pos; return this.finishToken(tt.comma);    // ','
+      case 91: ++this.state.pos; return this.finishToken(tt.bracketL); // '['
+      case 93: ++this.state.pos; return this.finishToken(tt.bracketR); // ']'
+      case 123: ++this.state.pos; return this.finishToken(tt.braceL);  // '{'
+      case 125: ++this.state.pos; return this.finishToken(tt.braceR);  // '}'
+      case 33: ++this.state.pos; return this.finishToken(tt.excl);     // '!'
 
       case 58:
         if (this.input.charCodeAt(this.state.pos + 1) === 58) {
@@ -331,10 +332,7 @@ export default class Lexer {
         return this.readToken_lt_gt(code);
 
       case 61: // '='
-        return this.readToken_eq(code);
-
-      case 33: // '!'
-        return this.readToken_excl(code);
+        return this.readToken_eq();
 
       case 126: // '~'
         return this.finishToken(tt.bitwiseNOT);
@@ -384,6 +382,14 @@ export default class Lexer {
 
   readIndentationDirective(code) {
     throw new Error("Not Implemented");
+  }
+
+  readToken_eq() {
+    if (this.input.charCodeAt(this.pos + 1) === 62) { // '=>'
+      this.pos += 2;
+      return this.finishToken(tt.arrow);
+    }
+    return this.finishToken(tt.eq);
   }
 
   // Read an identifier or keyword token
