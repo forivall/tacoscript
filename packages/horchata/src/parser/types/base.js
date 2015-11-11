@@ -23,17 +23,15 @@ export function parseTopLevel(file, program) {
 
 export function parseBlockStatement(blockContext = {}) {
   this.next();
-  this.eat(tt.newline) || this.unexpected();
-  let node = this.startNode();
-  this.parseBlockBody(node, blockContext);
-  return this.finishNode(node, "BlockStatement");
+  return this.parseBlock(blockContext);
 }
 
 // this can be any kind of block, not just detached (`!`) blocks
-export function parseBlock() {
+export function parseBlock(blockContext = {}) {
   let node = this.startNode();
-  this.expect(tt.indent);
-  this.parseBlockBody(node);
+  this.eat(tt.indent) && this.eat(tt.newline) || this.unexpected();
+  this.parseBlockBody(node, blockContext);
+  return this.finishNode(node, "BlockStatement");
 }
 
 // Parse a sequence of statements, seaparated by newlines, and enclosed in an

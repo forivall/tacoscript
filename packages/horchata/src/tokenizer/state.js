@@ -29,6 +29,7 @@ export default class State {
 
     // The current indent level
     this.indentation = 0;
+    this.nextIndentation = 0;
     // The detected whitespace used for indentation
     // This must be consistent through the file, or else it is a syntax error
     this.indentString = null;

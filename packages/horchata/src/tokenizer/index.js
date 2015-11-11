@@ -87,9 +87,17 @@ export default class Lexer {
 
   // Read a single token & update the lexer state
   nextToken() {
+    if (this.state.nextIndentation !== this.state.indentation) {
+      if (this.state.nextIndentation > this.state.indentation) {
+        return this.finishToken(tt.indent);
+      } else {
+        return this.finishToken(tt.dedent);
+      }
+    }
+
     let curContext = this.curContext();
     if (curContext == null || !curContext.preserveSpace) {
-      if (this.state.eol) {
+      if (this.state.eol && !isNewline(this.input.charCodeAt(this.state.pos))) {
         this.skipIndentation();
       }
       // newlines are significant, so this only skips comments and non-indentation whitespace
@@ -101,6 +109,7 @@ export default class Lexer {
     if (this.options.locations) this.state.cur.startLoc = this.state.curPosition();
     if (this.state.pos >= this.input.length) {
       if (this.state.indentation > 0) {
+        this.state.nextIndentation = 0;
         return this.finishToken(tt.dedent);
       }
       return this.finishToken(tt.eof);
@@ -119,7 +128,13 @@ export default class Lexer {
     if (!this.state.eol && isNewline(code)) {
       // check for indentation change in the next line, if the next char is a newline.
       // this takes some annoying amount of lookahead, but we can optimise that later. If needed.
-      if (this.readIndentationMaybe(code)) return;
+      if (this.hasIndentationChanged(code)) {
+        if (this.state.nextIndentation > this.state.indentation) {
+          return this.finishToken(tt.indent);
+        } else {
+          return this.finishToken(tt.dedent);
+        }
+      }
     }
     return this.getTokenFromCode(code);
   }
@@ -361,7 +376,15 @@ export default class Lexer {
     throw new Error("Not Implemented");
   }
 
-  readIndentationMaybe(newlineCode, expectedLevels = 1) {
+  // Maybe read indentation. If this is the first indentation found,
+  // sets the indentation settings. `expectedLevels` is only used when detecting
+  // indentation, otherwise, it's ignored and the aprser should return errors
+  // according to the amount of indents it expects.
+  // the only case where more than one level of indentation is expected is when
+  // we are in the header of a statement, then two levels of indentation is expected.
+
+  // TODO: skip comments
+  hasIndentationChanged(newlineCode, expectedLevels = 1) {
     this.state.eol = true;
     this.state.indentStart = this.state.pos + 1;
     if (newlineCode === 13 && this.input.charCodeAt(this.state.indentStart) === 10) {
@@ -372,6 +395,7 @@ export default class Lexer {
       // detect indent
       let pos = this.state.indentStart;
       let indentCharCode = -1;
+      let inconsistentIndentation = false;
       while (pos < this.input.length) {
         let ch = this.input.charCodeAt(pos);
         // TODO: this should be overhauled at some point
@@ -380,13 +404,16 @@ export default class Lexer {
           ++pos;
           if (ch === 13 && this.input.charCodeAt(pos) === 10) ++pos;
           this.state.indentStart = pos;
+          inconsistentIndentation = false;
           indentCharCode = -1;
         } else if (ch === indentCharCode) {
           ++pos;
         } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
           if (indentCharCode !== -1) {
-            throw new Error("Inconsistent Indentation");
+            inconsistentIndentation = true;
+            ++pos;
+            continue;
           }
           indentCharCode = ch;
           ++pos;
@@ -394,20 +421,52 @@ export default class Lexer {
           break;
         }
       }
+      if (inconsistentIndentation) this.raise(this.state.pos, "Inconsistent Indentation");
+
       this.state.indentEnd = pos;
       if (this.state.indentEnd === this.state.indentStart) {
         // No indent yet, just return.
         return false;
       } else {
         let indentRepeat = (this.state.indentEnd - this.state.indentStart) / expectedLevels;
-        if (Math.floor(indentRepeat) !== indentRepeat) { throw new Error("Invalid indentation"); }
-        this.indentString = this.input.slice(this.state.indentStart, this.state.indentStart + indentRepeat);
-        this.indentCharCode = indentCharCode;
-        this.indentRepeat = indentRepeat;
-        for (let i = 0; i < expectedLevels; i++) this.finishToken(tt.indent);
+        if (Math.floor(indentRepeat) !== indentRepeat) this.raise(this.state.pos, "Invalid Indentation");
+        this.state.indentString = this.input.slice(this.state.indentStart, this.state.indentStart + indentRepeat);
+        this.state.indentCharCode = indentCharCode;
+        this.state.indentRepeat = indentRepeat;
+        this.state.nextIndentation = expectedLevels;
+        return true;
       }
     } else {
-      throw new Error("Not Implemented");
+      // we have already detected the indentation settings, see if the level of indentation is different.
+      let pos = this.state.indentStart;
+      let indentCharCode = this.state.indentCharCode;
+      let inconsistentIndentation = false;
+      while (pos < this.input.length) {
+        let ch = this.input.charCodeAt(pos);
+        // TODO: this should be overhauled at some point
+        // TODO: look at cpython's code, or just for + use detect-indnet
+        if (isNewline(ch)) {
+          ++pos;
+          if (ch === 13 && this.input.charCodeAt(pos) === 10) ++pos;
+          this.state.indentStart = pos;
+          inconsistentIndentation = false;
+        } else if (ch === indentCharCode) {
+          ++pos;
+        } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
+          inconsistentIndentation = true;
+        } else {
+          break;
+        }
+        if (inconsistentIndentation) this.raise(this.state.pos, "Inconsistent Indentation");
+      }
+
+      this.state.indentEnd = pos;
+
+      let indentCount = (this.state.indentEnd - this.state.indentStart) / this.state.indentRepeat;
+      if (Math.floor(indentCount) !== indentCount) this.raise(this.state.pos, "Invalid Indentation");
+      this.state.nextIndentation = indentCount;
+      return this.state.nextIndentation !== this.state.indentation;
     }
   }
 
