@@ -384,6 +384,8 @@ export default class Lexer {
   // we are in the header of a statement, then two levels of indentation is expected.
 
   // TODO: skip comments
+
+  // IF YOU ARE READING THIS, FEEL FREE TO SUBMIT A PULL REQUEST TO CLEAN THIS UP
   hasIndentationChanged(newlineCode, expectedLevels = 1) {
     this.state.eol = true;
     this.state.indentStart = this.state.pos + 1;
