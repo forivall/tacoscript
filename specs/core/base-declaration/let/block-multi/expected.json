@@ -89,7 +89,7 @@
                   "name": "x"
                 },
                 "init": {
-                  "type": "NumberLiteral",
+                  "type": "NumericLiteral",
                   "start": 10,
                   "end": 12,
                   "loc": {
@@ -103,7 +103,6 @@
                     }
                   },
                   "value": 14,
-                  "rawValue": 14,
                   "raw": "14"
                 }
               },
@@ -138,7 +137,7 @@
                   "name": "y"
                 },
                 "init": {
-                  "type": "NumberLiteral",
+                  "type": "NumericLiteral",
                   "start": 18,
                   "end": 19,
                   "loc": {
@@ -152,7 +151,6 @@
                     }
                   },
                   "value": 3,
-                  "rawValue": 3,
                   "raw": "3"
                 }
               },
@@ -187,7 +185,7 @@
                   "name": "z"
                 },
                 "init": {
-                  "type": "NumberLiteral",
+                  "type": "NumericLiteral",
                   "start": 25,
                   "end": 29,
                   "loc": {
@@ -201,7 +199,6 @@
                     }
                   },
                   "value": 1977,
-                  "rawValue": 1977,
                   "raw": "1977"
                 }
               }
