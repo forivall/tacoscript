@@ -36,7 +36,8 @@ export default class State {
     this.indentRepeat = -1;
 
     // When tokenizing, we lookahead past a newline, athen insert the indent token before the newline
-    this.indentPos = 0;
+    this.indentStart = -1;
+    this.indentEnd = -1;
 
     //////// Context ////////
 

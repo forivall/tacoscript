@@ -23,6 +23,7 @@ export function parseTopLevel(file, program) {
 
 export function parseBlockStatement(blockContext = {}) {
   this.next();
+  this.eat(tt.newline) || this.unexpected();
   let node = this.startNode();
   this.parseBlockBody(node, blockContext);
   return this.finishNode(node, "BlockStatement");

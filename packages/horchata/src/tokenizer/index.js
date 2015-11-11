@@ -99,7 +99,12 @@ export default class Lexer {
     this.state.octalPosition = null;
     this.state.cur.start = this.state.pos;
     if (this.options.locations) this.state.cur.startLoc = this.state.curPosition();
-    if (this.state.pos >= this.input.length) return this.finishToken(tt.eof);
+    if (this.state.pos >= this.input.length) {
+      if (this.state.indentation > 0) {
+        return this.finishToken(tt.dedent);
+      }
+      return this.finishToken(tt.eof);
+    }
 
     if (curContext.override) return this.finishToken(tt.eof);
     else return this.readToken(this.fullCharCodeAtPos());
@@ -128,26 +133,31 @@ export default class Lexer {
     return (code << 10) + next - 0x35fdc00;
   }
 
-  curContext() { return this.state.context[this.state.context.length - 1]; }
   isSignificantWhitespace() {
+    // let curContext = this.curContext();
+    // TODO: move this to the standard contexts
+    // TODO: is also insignificant if current token is `or`, `and`, or other binary non-postfix operators
     return this.state.significantWhitespaceContext[this.state.significantWhitespaceContext.length - 1];
   }
 
   skipIndentation() {
     // TODO: ...
     // throw new Error("Not Implemented");
+    this.skipNonTokens(this.state.indentEnd);
     this.onNonToken(new Token(tt.tab, this.state.indentation));
     this.state.eol = false;
-    this.state.pos = this.state.indentPos;
+    if (this.state.indentEnd > this.state.pos) {
+      this.state.pos = this.state.indentEnd;
+    }
   }
 
   // based on acorn's skipSpace
   // parse & skip whitespace and comments
-  skipNonTokens() {
+  skipNonTokens(end = this.input.length) {
     let start = this.state.pos;
     let startLoc = this.state.curPosition();
     let significantWhitespace = this.isSignificantWhitespace();
-    while (this.state.pos < this.input.length) {
+    while (this.state.pos < end) {
       let ch = this.input.charCodeAt(this.state.pos);
       // TODO: see if micro-optimization of order of checking ch is worth it
 
@@ -244,6 +254,9 @@ export default class Lexer {
     this.state.cur.meta = {};
 
     this.updateContext(prevType);
+
+    if (type === tt.indent) ++this.state.indentation;
+    else if (type === tt.dedent) --this.state.indentation;
   }
 
   // TODO: allow extension of each of these token endpoints to allow custom
@@ -348,34 +361,50 @@ export default class Lexer {
     throw new Error("Not Implemented");
   }
 
-  readIndentationMaybe(newlineCode) {
+  readIndentationMaybe(newlineCode, expectedLevels = 1) {
     this.state.eol = true;
-    this.state.indentPos = this.state.pos + 1;
-    if (newlineCode === 13 && this.input.charCodeAt(this.state.indentPos) === 10) {
-      this.state.indentPos++;
+    this.state.indentStart = this.state.pos + 1;
+    if (newlineCode === 13 && this.input.charCodeAt(this.state.indentStart) === 10) {
+      this.state.indentStart++;
     }
-    // TODO: instead of assuming the first indent is one indent level,
-    // the parser should indicate how many indentation levels are needed.
+    // First time encountering an indent, try to detect what indent is supposed to be, with condextual information
     if (this.state.indentCharCode === -1) {
       // detect indent
-      let startIndent = this.state.indentPos;
-      while (this.state.pos < this.input.length) {
-        let ch = this.input.charCodeAt(this.state.indentPos);
-        // TODO: skip blank lines
-        // TODO: decide if comments should start an indentation level. probably not.
-        // TODO: revise skipIndentation to also skip non-tokens in blank lines first.
-        if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+      let pos = this.state.indentStart;
+      let indentCharCode = -1;
+      while (pos < this.input.length) {
+        let ch = this.input.charCodeAt(pos);
+        // TODO: this should be overhauled at some point
+        // TODO: look at cpython's code, or just for + use detect-indnet
+        if (isNewline(ch)) {
+          ++pos;
+          if (ch === 13 && this.input.charCodeAt(pos) === 10) ++pos;
+          this.state.indentStart = pos;
+          indentCharCode = -1;
+        } else if (ch === indentCharCode) {
+          ++pos;
+        } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
-          ++this.state.indentPos;
+          if (indentCharCode !== -1) {
+            throw new Error("Inconsistent Indentation");
+          }
+          indentCharCode = ch;
+          ++pos;
         } else {
           break;
         }
       }
-      if (this.state.indentPos === startIndent) {
+      this.state.indentEnd = pos;
+      if (this.state.indentEnd === this.state.indentStart) {
         // No indent yet, just return.
         return false;
       } else {
-        throw new Error("Not Implemented");
+        let indentRepeat = (this.state.indentEnd - this.state.indentStart) / expectedLevels;
+        if (Math.floor(indentRepeat) !== indentRepeat) { throw new Error("Invalid indentation"); }
+        this.indentString = this.input.slice(this.state.indentStart, this.state.indentStart + indentRepeat);
+        this.indentCharCode = indentCharCode;
+        this.indentRepeat = indentRepeat;
+        for (let i = 0; i < expectedLevels; i++) this.finishToken(tt.indent);
       }
     } else {
       throw new Error("Not Implemented");

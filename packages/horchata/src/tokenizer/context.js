@@ -25,20 +25,27 @@ export class TokContext {
 // TODO: document context types and reason(s) for needing a new context for each
 export const types = {
   i_stat: new TokContext("indent", false),
+  decl_expr: new TokContext("var", true),
+  return_expr: new TokContext("return", true),
   b_expr: new TokContext("{", true),
   b_tmpl: new TokContext("${", true),
   p_stat: new TokContext("(", false),
   p_expr: new TokContext("(", true),
   q_tmpl: new TokContext("`", true, true, p => p.readTmplToken()),
   f_expr: new TokContext("function", true),
-  kw_stat: new TokContext("keyword", true),
+  // for a list of expressions
+  // * arguments for a function definition
+  // * arguments for a function call
+  // * continuation of a if/for/while statement
+  // l_expr: new TokContext("list", true),
+  // *** for now, require use of escaped newlines, like python
 }
 
 const sp = State.prototype;
 
 sp.initialContext = function() {
   return [types.i_stat];
-}
+};
 
 const lp = Lexer.prototype;
 
@@ -51,74 +58,72 @@ lp.updateContext = function(prevType) {
   } else {
     this.state.exprAllowed = type.beforeExpr;
   }
-}
+};
+
+lp.curContext = function() {
+  return this.state.context[this.state.context.length - 1];
+};
 
 // Token-specific context update code
 
-tt.parenR.updateContext = tt.braceR.updateContext = tt.dedent = function() {
-  if (this.state.context.length === 1) {
-    this.state.exprAllowed = true;
-    return;
-  }
-  let out = this.state.context.pop();
-  if (out === types.i_stat && this.curContext() === types.f_expr) {
-    this.state.context.pop();
-    this.state.exprAllowed = false;
-  } else if (out === types.b_tmpl) {
-    this.state.exprAllowed = true;
-  } else {
-    this.state.exprAllowed = !out.isExpr;
-  }
-}
-
-tt.indent.updateContext = function() {
-  throw new Error("Not Implemented");
+tt.indent.updateContext = function(prevType) {
   // we need to check if the indent introduces a block, or continues a
   // * call expression's arguments
   // * function declaration/expression's arguments
   // * array
   // * object
   // * statement header (like the conditional in an if or for, etc.)
-
-}
+  if (prevType === tt._let || prevType === tt._const || prevType === tt._var) {
+    this.state.context.push(types.decl_expr);
+  // } else if (prevType === tt.indent) {
+  //   // double indent for keyword head
+  //   this.state.context.push(types.kw_stat);
+  } else if (prevType === tt._return) {
+    this.state.context.push(types.return_expr);
+  } else {
+    this.state.context.push(types.i_stat);
+  }
+};
 
 tt.braceL.updateContext = function() {
   this.state.context.push(types.b_expr);
   this.state.exprAllowed = true;
-}
+};
 
 tt.dollarBraceL.updateContext = function() {
   this.state.context.push(types.b_tmpl);
   this.state.exprAllowed = true;
-}
+};
 
 tt._if.updateContext = tt._for.updateContext = tt._with.updateContext = function() {
+  throw new Error("Not Implemented");
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;
-}
+};
 
 tt._while.updateContext = function() {
+  throw new Error("Not Implemented");
   if (this.state.inForHeader) return;
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;
-}
+};
 
 // TODO: do we need to detect if this is a list of parameters
 tt.parenL.updateContext = function() {
   this.state.context.push(types.p_expr);
   this.state.exprAllowed = true;
-}
+};
 
 tt.incDec.updateContext = function() {
   // keep `this.state.exprAllowed` unchanged
-}
+};
 
 tt._function.updateContext = function() {
   if (this.curContext() !== types.b_stat) {
     this.context.push(types.f_expr);
   }
   this.exprAllowed = false;
-}
+};
 
 tt.backQuote.updateContext = function() {
   if (this.curContext() === types.q_tmpl) {
@@ -127,4 +132,41 @@ tt.backQuote.updateContext = function() {
     this.context.push(types.q_tmpl);
   }
   this.exprAllowed = false;
-}
+};
+
+
+tt.braceR.updateContext = function() {
+  if (this.state.context.length === 1) {
+    this.state.exprAllowed = true;
+    return;
+  }
+  let out = this.state.context.pop();
+  if (out === types.b_tmpl) {
+    this.state.exprAllowed = true;
+  } else {
+    this.state.exprAllowed = !out.isExpr;
+  }
+};
+
+tt.parenR.updateContext = function() {
+  if (this.state.context.length === 1) {
+    this.state.exprAllowed = true;
+    return;
+  }
+  let out = this.state.context.pop();
+  this.state.exprAllowed = !out.isExpr;
+};
+
+tt.dedent.updateContext = function() {
+  if (this.state.context.length === 1) {
+    this.state.exprAllowed = true;
+    return;
+  }
+  let out = this.state.context.pop();
+  if (out === types.i_stat && this.curContext() === types.f_expr) {
+    this.state.context.pop();
+    this.state.exprAllowed = false;
+  } else {
+    this.state.exprAllowed = !out.isExpr;
+  }
+};

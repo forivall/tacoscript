@@ -89,7 +89,7 @@
                   "name": "x"
                 },
                 "init": {
-                  "type": "NumberLiteral",
+                  "type": "NumericLiteral",
                   "start": 12,
                   "end": 14,
                   "loc": {
@@ -103,7 +103,6 @@
                     }
                   },
                   "value": 42,
-                  "rawValue": 42,
                   "raw": "42"
                 }
               }
