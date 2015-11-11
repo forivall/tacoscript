@@ -21,8 +21,11 @@ export function parseTopLevel(file, program) {
   return this.finishNode(file, "File");
 }
 
-export function parseBlockStatement() {
-  throw new Error("Not Implemented");
+export function parseBlockStatement(blockContext = {}) {
+  this.next();
+  let node = this.startNode();
+  this.parseBlockBody(node, blockContext);
+  return this.finishNode(node, "BlockStatement");
 }
 
 // this can be any kind of block, not just detached (`!`) blocks
@@ -33,18 +36,19 @@ export function parseBlock() {
 }
 
 // Parse a sequence of statements, seaparated by newlines, and enclosed in an
-// indentation level
-// TODO: Handle use of `use strict`. Currently, use strict is just parsed, but
-// not error checked.
+// indentation level. Handles `"use strict"` declarations when
+// `blockContext.isFunction` is true
 
 export function parseBlockBody(node, blockContext = {}) {
   const allowDirectives = !!blockContext.allowDirectives;
+  // const allowStrict = !!blockContext.isFunction;
   const isTopLevel = !!blockContext.isTopLevel;
   let end = isTopLevel ? tt.eof : tt.dedent;
 
   node.body = [];
   node.directives = [];
 
+  // let oldStrict;
   let finishedDirectives = false;
   while (!this.eat(end)) {
     if (allowDirectives && !finishedDirectives && this.match(tt.string)) {
@@ -53,5 +57,9 @@ export function parseBlockBody(node, blockContext = {}) {
     }
     finishedDirectives = true;
     node.body.push(this.parseStatement());
+  }
+  if (!isTopLevel) {
+    if (this.match(tt.eof)) this.warn("Missing newline at end of file");
+    this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
   }
 }
