@@ -136,7 +136,6 @@
                     }
                   },
                   "value": 1,
-                  "rawValue": 1,
                   "raw": "1"
                 },
                 "kind": "init"
@@ -189,7 +188,6 @@
                     }
                   },
                   "value": 2,
-                  "rawValue": 2,
                   "raw": "2"
                 },
                 "kind": "init"

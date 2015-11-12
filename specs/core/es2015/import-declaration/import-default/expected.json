@@ -90,7 +90,6 @@
             }
           },
           "value": "foo",
-          "rawValue": "foo",
           "raw": "\"foo\""
         }
       }

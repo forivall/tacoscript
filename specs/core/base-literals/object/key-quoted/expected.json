@@ -120,7 +120,6 @@
                     }
                   },
                   "value": "answer",
-                  "rawValue": "answer",
                   "raw": "\"answer\""
                 },
                 "value": {
@@ -138,7 +137,6 @@
                     }
                   },
                   "value": 42,
-                  "rawValue": 42,
                   "raw": "42"
                 },
                 "kind": "init"

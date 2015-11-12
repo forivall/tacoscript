@@ -57,7 +57,6 @@
             }
           },
           "value": "Hello\u0000World",
-          "rawValue": "Hello\u0000World",
           "raw": "\"Hello\\0World\""
         }
       }

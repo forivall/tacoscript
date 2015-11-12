@@ -105,7 +105,6 @@
                   }
                 },
                 "value": "Error",
-                "rawValue": "Error",
                 "raw": "\"Error\""
               },
               "kind": "init"

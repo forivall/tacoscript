@@ -57,7 +57,6 @@
             }
           },
           "value": "./a/b.js",
-          "rawValue": "./a/b.js",
           "raw": "\"./a/b.js\""
         },
         "body": {

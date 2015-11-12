@@ -120,7 +120,6 @@
                     }
                   },
                   "value": "undef",
-                  "rawValue": "undef",
                   "raw": "\"undef\""
                 },
                 "kind": "get",

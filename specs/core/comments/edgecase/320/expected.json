@@ -71,7 +71,6 @@
               }
             },
             "value": 123,
-            "rawValue": 123,
             "raw": "123."
           },
           "operator": "+",
@@ -90,7 +89,6 @@
               }
             },
             "value": 2,
-            "rawValue": 2,
             "raw": "2"
           }
         }

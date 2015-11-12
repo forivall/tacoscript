@@ -118,7 +118,6 @@
                       }
                     },
                     "value": "use strict",
-                    "rawValue": "use strict",
                     "raw": "'use strict'"
                   }
                 },
@@ -151,7 +150,6 @@
                       }
                     },
                     "value": "\u0000",
-                    "rawValue": "\u0000",
                     "raw": "'\u0000'"
                   }
                 }

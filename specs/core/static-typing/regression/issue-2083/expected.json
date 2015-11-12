@@ -170,7 +170,6 @@
                           }
                         },
                         "value": 1,
-                        "rawValue": 1,
                         "raw": "1"
                       },
                       "cases": [
@@ -450,7 +449,6 @@
                               }
                             },
                             "value": 4,
-                            "rawValue": 4,
                             "raw": "4"
                           },
                           "parenthesizedExpression": true

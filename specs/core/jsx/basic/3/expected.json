@@ -147,7 +147,6 @@
                     }
                   },
                   "value": "bar",
-                  "rawValue": null,
                   "raw": "\"bar\""
                 }
               }
@@ -217,7 +216,6 @@
                 }
               },
               "value": " ",
-              "rawValue": null,
               "raw": " "
             },
             {
@@ -266,7 +264,6 @@
                 }
               },
               "value": " ",
-              "rawValue": null,
               "raw": " "
             },
             {

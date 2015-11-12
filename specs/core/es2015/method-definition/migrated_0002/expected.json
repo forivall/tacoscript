@@ -120,7 +120,6 @@
                     }
                   },
                   "value": "method",
-                  "rawValue": "method",
                   "raw": "'method'"
                 },
                 "kind": "init",

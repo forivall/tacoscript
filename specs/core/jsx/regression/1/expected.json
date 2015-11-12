@@ -136,7 +136,6 @@
                 }
               },
               "value": "foo ",
-              "rawValue": null,
               "raw": "foo "
             },
             {
@@ -213,7 +212,6 @@
                         }
                       },
                       "value": "test",
-                      "rawValue": null,
                       "raw": "\"test\""
                     }
                   }
@@ -283,7 +281,6 @@
                     }
                   },
                   "value": " bar",
-                  "rawValue": null,
                   "raw": " bar"
                 }
               ]
@@ -303,7 +300,6 @@
                 }
               },
               "value": " baz",
-              "rawValue": null,
               "raw": " baz"
             }
           ]

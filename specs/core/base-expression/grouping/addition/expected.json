@@ -85,7 +85,6 @@
                 }
               },
               "value": 1,
-              "rawValue": 1,
               "raw": "1",
               "parenthesizedExpression": true
             },
@@ -105,7 +104,6 @@
                 }
               },
               "value": 2,
-              "rawValue": 2,
               "raw": "2",
               "parenthesizedExpression": true
             }
@@ -126,7 +124,6 @@
               }
             },
             "value": 3,
-            "rawValue": 3,
             "raw": "3"
           }
         }

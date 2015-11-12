@@ -85,7 +85,6 @@
                 }
               },
               "value": 4,
-              "rawValue": 4,
               "raw": "4"
             },
             "operator": "+",
@@ -104,7 +103,6 @@
                 }
               },
               "value": 5,
-              "rawValue": 5,
               "raw": "5"
             }
           },
@@ -124,7 +122,6 @@
               }
             },
             "value": 6,
-            "rawValue": 6,
             "raw": "6",
             "parenthesizedExpression": true
           }

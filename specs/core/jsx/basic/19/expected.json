@@ -116,7 +116,6 @@
                     }
                   },
                   "value": "leading",
-                  "rawValue": null,
                   "raw": "\"leading\""
                 }
               },
@@ -165,7 +164,6 @@
                     }
                   },
                   "value": "attribute",
-                  "rawValue": null,
                   "raw": "\"attribute\""
                 }
               },

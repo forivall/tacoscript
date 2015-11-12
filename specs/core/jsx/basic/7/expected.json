@@ -116,7 +116,6 @@
                     }
                   },
                   "value": "&&",
-                  "rawValue": null,
                   "raw": "\"&#x0026;&#38;\""
                 }
               }
@@ -186,7 +185,6 @@
                 }
               },
               "value": "\nbar\nbaz\n",
-              "rawValue": null,
               "raw": "\nbar\nbaz\n"
             }
           ]

@@ -154,7 +154,6 @@
                       }
                     },
                     "value": 1,
-                    "rawValue": 1,
                     "raw": "1",
                     "leadingComments": null
                   },
@@ -281,7 +280,6 @@
                       }
                     },
                     "value": 2,
-                    "rawValue": 2,
                     "raw": "2",
                     "leadingComments": null
                   },

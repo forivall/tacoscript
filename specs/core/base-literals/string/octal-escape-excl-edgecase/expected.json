@@ -57,7 +57,6 @@
             }
           },
           "value": "Hello!2World",
-          "rawValue": "Hello!2World",
           "raw": "\"Hello\\412World\""
         }
       }

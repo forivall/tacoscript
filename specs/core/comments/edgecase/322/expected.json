@@ -57,7 +57,6 @@
             }
           },
           "value": "a&b",
-          "rawValue": "a&b",
           "raw": "'a\\u0026b'"
         }
       }

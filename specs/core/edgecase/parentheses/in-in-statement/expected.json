@@ -12,7 +12,6 @@
             "left": {
               "type": "Literal",
               "value": 1,
-              "rawValue": 1,
               "raw": "1"
             },
             "operator": "in",

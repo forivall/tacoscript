@@ -106,7 +106,6 @@
             }
           },
           "value": "foobar",
-          "rawValue": "foobar",
           "raw": "\"foobar\""
         },
         "exportKind": "type",

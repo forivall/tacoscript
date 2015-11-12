@@ -85,7 +85,6 @@
                 }
               },
               "value": 123,
-              "rawValue": 123,
               "raw": "123."
             },
             "property": {
@@ -122,7 +121,6 @@
                 }
               },
               "value": 10,
-              "rawValue": 10,
               "raw": "10"
             }
           ]

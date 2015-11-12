@@ -88,7 +88,6 @@
                 }
               },
               "value": "var x = /[P QR]/\\\\u0067",
-              "rawValue": "var x = /[P QR]/\\\\u0067",
               "raw": "'var x = /[P QR]/\\\\\\\\u0067'"
             }
           }

@@ -168,7 +168,6 @@
                             }
                           },
                           "value": 10,
-                          "rawValue": 10,
                           "raw": "10"
                         },
                         "kind": "init"
@@ -256,7 +255,6 @@
                             }
                           },
                           "value": 1,
-                          "rawValue": 1,
                           "raw": "1"
                         }
                       }

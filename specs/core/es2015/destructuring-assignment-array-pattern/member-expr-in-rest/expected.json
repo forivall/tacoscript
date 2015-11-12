@@ -131,7 +131,6 @@
                       }
                     },
                     "value": 0,
-                    "rawValue": 0,
                     "raw": "0"
                   },
                   "computed": true
@@ -154,7 +153,6 @@
               }
             },
             "value": 0,
-            "rawValue": 0,
             "raw": "0"
           }
         }

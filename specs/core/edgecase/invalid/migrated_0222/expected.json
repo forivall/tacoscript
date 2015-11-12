@@ -105,7 +105,6 @@
                   }
                 },
                 "value": "octal directive\u0001",
-                "rawValue": "octal directive\u0001",
                 "raw": "\"octal directive\\1\""
               }
             },
@@ -138,7 +137,6 @@
                   }
                 },
                 "value": "octal directive\u0002",
-                "rawValue": "octal directive\u0002",
                 "raw": "\"octal directive\\2\""
               }
             },
@@ -171,7 +169,6 @@
                   }
                 },
                 "value": "use strict",
-                "rawValue": "use strict",
                 "raw": "\"use strict\""
               }
             }

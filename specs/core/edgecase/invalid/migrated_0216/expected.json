@@ -57,7 +57,6 @@
             }
           },
           "value": "\u0001",
-          "rawValue": "\u0001",
           "raw": "\"\\1\""
         }
       },
@@ -90,7 +89,6 @@
             }
           },
           "value": "use strict",
-          "rawValue": "use strict",
           "raw": "'use strict'"
         }
       }

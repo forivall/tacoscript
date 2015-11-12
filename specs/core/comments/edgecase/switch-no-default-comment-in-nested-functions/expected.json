@@ -515,7 +515,6 @@
                                             }
                                           },
                                           "value": 1,
-                                          "rawValue": 1,
                                           "raw": "1"
                                         }
                                       },
@@ -541,7 +540,6 @@
                                 }
                               },
                               "value": "SequenceExpression",
-                              "rawValue": "SequenceExpression",
                               "raw": "\"SequenceExpression\""
                             },
                             "trailingComments": [
@@ -598,7 +596,6 @@
                             }
                           },
                           "value": false,
-                          "rawValue": false,
                           "raw": "false",
                           "leadingComments": null
                         },

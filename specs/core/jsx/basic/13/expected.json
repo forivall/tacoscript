@@ -150,7 +150,6 @@
                   },
                   "closingElement": null,
                   "children": [],
-                  "rawValue": null
                 }
               },
               {
@@ -277,11 +276,9 @@
                         }
                       },
                       "value": "monkeys /> gorillas",
-                      "rawValue": null,
                       "raw": "monkeys /> gorillas"
                     }
                   ],
-                  "rawValue": null
                 }
               }
             ],

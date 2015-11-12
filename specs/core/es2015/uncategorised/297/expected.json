@@ -121,7 +121,6 @@
                     }
                   },
                   "value": "use strict",
-                  "rawValue": "use strict",
                   "raw": "\"use strict\""
                 }
               },
@@ -154,7 +153,6 @@
                     }
                   },
                   "value": 42,
-                  "rawValue": 42,
                   "raw": "42"
                 }
               }

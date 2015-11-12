@@ -105,7 +105,6 @@
                   }
                 },
                 "value": "use strict",
-                "rawValue": "use strict",
                 "raw": "'use strict'"
               }
             },
@@ -138,7 +137,6 @@
                   }
                 },
                 "value": 0,
-                "rawValue": 0,
                 "raw": "0o0"
               }
             }

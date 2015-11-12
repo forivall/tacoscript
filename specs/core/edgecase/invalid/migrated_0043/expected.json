@@ -88,7 +88,6 @@
                 }
               },
               "value": "var x = /[a-z]/\\\\ux",
-              "rawValue": "var x = /[a-z]/\\\\ux",
               "raw": "'var x = /[a-z]/\\\\\\\\ux'"
             }
           }
