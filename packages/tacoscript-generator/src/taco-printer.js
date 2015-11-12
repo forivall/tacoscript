@@ -299,20 +299,20 @@ Object.assign(TacoscriptPrinter.prototype, _printer);
 import * as baseGenerators from "./generators/taco/base";
 import * as classesGenerators from "./generators/taco/classes";
 import * as expressionsGenerators from "./generators/taco/expressions";
+import * as literalsGenerators from "./generators/taco/literals";
 import * as methodsGenerators from "./generators/taco/methods";
 import * as modulesGenerators from "./generators/taco/modules";
 import * as statementsGenerators from "./generators/taco/statements";
 import * as templateLiteralsGenerators from "./generators/taco/template-literals";
-import * as typesGenerators from "./generators/taco/types";
 for (let generator of [
       baseGenerators,
       classesGenerators,
       expressionsGenerators,
+      literalsGenerators,
       methodsGenerators,
       modulesGenerators,
       statementsGenerators,
       templateLiteralsGenerators,
-      typesGenerators,
     ]) {
   Object.assign(TacoscriptPrinter.prototype, generator);
 }
