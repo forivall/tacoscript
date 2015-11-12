@@ -186,7 +186,7 @@
                   "name": "z"
                 },
                 "init": {
-                  "type": "NumberLiteral",
+                  "type": "NumericLiteral",
                   "start": 27,
                   "end": 31,
                   "loc": {

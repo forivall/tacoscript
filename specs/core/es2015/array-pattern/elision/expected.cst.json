@@ -92,7 +92,7 @@
               "hasTrailingComma": true
             },
             "init": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "start": 11,
               "end": 12,
               "loc": {

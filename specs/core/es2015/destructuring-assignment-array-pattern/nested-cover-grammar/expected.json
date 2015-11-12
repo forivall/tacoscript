@@ -172,7 +172,7 @@
                 ]
               },
               "right": {
-                "type": "NumberLiteral",
+                "type": "NumericLiteral",
                 "start": 7,
                 "end": 8,
                 "loc": {

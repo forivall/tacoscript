@@ -129,9 +129,10 @@ export function NullLiteral() {
   this.push("null");
 }
 
-export function NumberLiteral(node) {
+export function NumericLiteral(node) {
   this.push({type: 'num', value: {value: node.value, code: node.raw || this._getCodeFromNode(node)}});
 }
+export {NumericLiteral as NumberLiteral};
 
 export function StringLiteral(node) {
   this.push({type: 'string', value: {value: node.value, code: this._getCodeFromNode(node)}});
