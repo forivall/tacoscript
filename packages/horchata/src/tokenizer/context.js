@@ -119,17 +119,17 @@ tt.incDec.updateContext = function() {
 };
 
 tt._function.updateContext = function() {
-  if (this.curContext() !== types.b_stat) {
-    this.context.push(types.f_expr);
+  if (this.curContext() !== types.i_stat) {
+    this.state.context.push(types.f_expr);
   }
   this.exprAllowed = false;
 };
 
 tt.backQuote.updateContext = function() {
   if (this.curContext() === types.q_tmpl) {
-    this.context.pop();
+    this.state.context.pop();
   } else {
-    this.context.push(types.q_tmpl);
+    this.state.context.push(types.q_tmpl);
   }
   this.exprAllowed = false;
 };
