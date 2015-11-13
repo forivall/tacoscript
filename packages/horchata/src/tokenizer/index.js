@@ -653,6 +653,16 @@ export default class Lexer {
 
         let escStart = this.state.pos;
         ++this.state.pos;
+        // Tacoscript-specific syntax: reserved words can be used as identifiers
+        // when started with "\$"; for the purpose of parsing the actual name,
+        // just skip the "\$"
+
+        if (first && this.input.charCodeAt(this.state.pos === 36)) {
+          ++this.state.pos;
+          chunkStart = this.state.pos;
+          first = false;
+          continue;
+        }
         if (this.input.charCodeAt(this.state.pos) !== 117) { // "u"
           this.raise(this.state.pos, "Expected Unicode escape sequence \\uXXXX");
         }
@@ -669,7 +679,11 @@ export default class Lexer {
       }
       first = false;
     }
-    return word + this.input.slice(chunkStart, this.state.pos);
+    word += this.input.slice(chunkStart, this.state.pos);
+    if (word.length <= 0) {
+      this.raise(this.state.pos, "Invalid Identifier name")
+    }
+    return word;
   }
 
   ////////////// Token Storage //////////////
