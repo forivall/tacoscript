@@ -175,7 +175,7 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
     node.right = this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
       {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext
     );
-    node = this.finishNode(node, op.binopExpressionType);
+    node = this.finishNode(node, op.binopExpressionName);
   }
   return node;
 }

@@ -176,7 +176,7 @@ export const types = {
   _in:                kw("in", {beforeExpr: true, binop: 7}),
   _instanceof:        kw("instanceof", {beforeExpr: true, binop: 7}),
   bitShift:        binop("<</>>", 8),
-  plusMin:    punctuator("+/-", "Punctuator", {beforeExpr: true, binop: 9, prefix: true, startsExpr: true}),
+  plusMin:    punctuator("+/-", {beforeExpr: true, binop: 9, prefix: true, startsExpr: true}),
   modulo:          binop("%", 10),
   positiveModulo:  binop("%%", 10), // See lydell/frappe '"useful" modulo'
   star:            binop("*", 10),

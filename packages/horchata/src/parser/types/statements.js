@@ -199,6 +199,6 @@ export function parseExpressionStatement(node, expr) {
   // the posiition of the and will be stored, and then read here, similar to how
   // arrow functions work.
   if (this.match(tt.eof)) this.warn(this.state.pos, "No newline at end of file");
-  this.match(tt.dedent) || this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
   return this.finishNode(node, "ExpressionStatement");
 }

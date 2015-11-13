@@ -1,4 +1,5 @@
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../tokenizer/types";
+import {isNewline} from "../../util/whitespace";
 
 // Top Level Parsing
 
@@ -77,7 +78,9 @@ export function parseBlockBody(node, blockContext = {}) {
   // let oldStrict;
   let finishedDirectives = false;
   while (!this.eat(end)) {
-    if (allowDirectives && !finishedDirectives && this.match(tt.string)) {
+    if (allowDirectives && !finishedDirectives && this.match(tt.string) &&
+        // TODO: implement a fast, trailing-whitespace ignoring lookahead for this
+        (this.state.cur.end >= this.input.length || isNewline(this.input.charCodeAt(this.state.cur.end)))) {
       node.directives.push(this.parseDirective());
       continue;
     }
