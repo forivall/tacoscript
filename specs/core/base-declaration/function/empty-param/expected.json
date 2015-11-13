@@ -108,9 +108,9 @@
               "column": 34
             }
           },
-          "body": [
+          "directives": [
             {
-              "type": "ExpressionStatement",
+              "type": "Directive",
               "start": 20,
               "end": 33,
               "loc": {
@@ -123,8 +123,9 @@
                   "column": 33
                 }
               },
-              "expression": {
-                "type": "StringLiteral",
+              "sourceElements": [],
+              "value": {
+                "type": "DirectiveLiteral",
                 "start": 20,
                 "end": 32,
                 "loc": {
@@ -137,11 +138,13 @@
                     "column": 32
                   }
                 },
+                "sourceElements": [],
                 "value": "use strict",
                 "raw": "'use strict'"
               }
             }
-          ]
+          ],
+          "body": []
         }
       }
     ]

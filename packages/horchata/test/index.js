@@ -2,6 +2,7 @@
 require('source-map-support').install();
 var horchata = require("../lib/index");
 var _ = require("lodash");
+var fs = require("fs");
 var specOptions = require("../../../specs/options");
 var misMatch = require("../../tacoscript-dev-utils").misMatch;
 var mochaFixtures = require("mocha-fixtures-generic");
@@ -76,9 +77,10 @@ _.forOwn(coreSpecs, function(suites, setName) {
           } catch(e) {}
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
+            fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
             console.log("code:");
             console.log(taco.code);
-            console.dir(ast.program, {depth: null});
+            // console.dir(ast.program, {depth: null});
             throw new Error(mismatchMessage);
           }
         });

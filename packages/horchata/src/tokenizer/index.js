@@ -91,7 +91,11 @@ export default class Lexer {
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
       } else {
-        return this.finishToken(tt.dedent);
+        if (this.state.cur.type === tt.newline) {
+          return this.finishToken(tt.dedent);
+        } else {
+          return this.finishToken(tt.newline);
+        }
       }
     }
 
@@ -110,7 +114,7 @@ export default class Lexer {
     if (this.state.pos >= this.input.length) {
       if (this.state.indentation > 0) {
         this.state.nextIndentation = 0;
-        return this.finishToken(tt.dedent);
+        return this.finishToken(tt.newline);
       }
       return this.finishToken(tt.eof);
     }
@@ -132,7 +136,7 @@ export default class Lexer {
         if (this.state.nextIndentation > this.state.indentation) {
           return this.finishToken(tt.indent);
         } else {
-          return this.finishToken(tt.dedent);
+          return this.finishToken(tt.newline);
         }
       }
     }
@@ -376,12 +380,6 @@ export default class Lexer {
 
   // NOTE: please alphabetize read* functions
 
-  // Read a string value, interpreting backslash-escapes.
-
-  readCodePoint() {
-    throw new Error("Not Implemented");
-  }
-
   // Maybe read indentation. If this is the first indentation found,
   // sets the indentation settings. `expectedLevels` is only used when detecting
   // indentation, otherwise, it's ignored and the aprser should return errors
@@ -544,6 +542,44 @@ export default class Lexer {
 
     return total;
   }
+
+  // Read a string value, interpreting backslash-escapes.
+
+  readCodePoint() {
+    let ch = this.input.charCodeAt(this.state.pos);
+    let code;
+
+    if (ch === 123) {
+      let codePos = ++this.state.pos;
+      code = this.readHexChar(this.input.indexOf('}', this.state.pos) - this.state.pos);
+      ++this.state.pos;
+      if (code > 0x10FFFF) this.raise(codePos, "Code point out of bounds");
+    } else {
+      code = this.readHexChar(4);
+    }
+    return code;
+  }
+
+  readString(quoteChar) {
+    let out = "";
+    let chunkStart = ++this.state.pos;
+    for (;;) {
+      if (this.state.pos >= this.input.length) this.raise(this.state.cur.start, "Unterminated string constant");
+      let ch = this.input.charCodeAt(this.state.pos);
+      if (ch === quoteChar) break;
+      if (ch === 92) { // '\'
+        out += this.input.slice(chunkStart, this.state.pos);
+        out += this.readEscapedChar(false);
+        chunkStart = this.state.pos;
+      } else {
+        if (isNewline(ch)) this.raise(this.state.cur.start, "Unterminated string constant");
+        ++this.state.pos;
+      }
+    }
+    out += this.input.slice(chunkStart, this.state.pos++);
+    return this.finishToken(tt.string, out);
+  }
+
 
   readToken_eq() {
     if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'

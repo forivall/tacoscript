@@ -21,6 +21,24 @@ export function parseTopLevel(file, program) {
   return this.finishNode(file, "File");
 }
 
+// expected cur.type: tt.string
+export function parseDirective() {
+  let directiveLiteral = this.startNode();
+  let directive = this.startNode();
+
+  let raw = this.input.slice(this.state.cur.start, this.state.cur.end);
+  let value = raw.slice(1, -1); // remove quotes
+
+  directiveLiteral.value = value;
+  directiveLiteral.raw = raw;
+
+  this.next();
+
+  directive.value = this.finishNode(directiveLiteral, "DirectiveLiteral");
+  this.eat(tt.newline) || this.unexpected();
+  return this.finishNode(directive, "Directive");
+}
+
 export function parseBlockStatement(blockContext = {}) {
   this.next();
   return this.parseBlock(blockContext);

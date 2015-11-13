@@ -173,6 +173,7 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
   let isIndent = this.eat(tt.indent);
   if (isIndent) this.eat(tt.newline) || this.unexpected();
   for (;;) {
+    if (isIndent && this.eat(tt.dedent)) break;
     let decl = this.startNode();
     decl = this.parseDeclarationAssignable(decl);
     if (this.eat(tt.eq)) {
@@ -186,7 +187,6 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
     if (!isIndent) isIndent = this.eat(tt.indent);
     if (!(this.eat(tt.comma) || isIndent && this.eat(tt.newline))) break;
   }
-  if (isIndent) this.eat(tt.dedent) || this.unexpected();
   return node;
 }
 
