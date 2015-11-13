@@ -43,3 +43,32 @@ export function checkIdentifierName(identifierContext) {
     this.raise(this.state.cur.start, "The keyword '" + this.state.cur.value.value + "' is reserved");
   }
 }
+
+// Checks function params for various disallowed patterns such as using "eval"
+// or "arguments" and duplicate parameters.
+
+export function checkParams(node) {
+  let nameHash = {};
+  for (let i = 0; i < node.params.length; i++) {
+    this.checkLVal(node.params[i], true, nameHash);
+  }
+}
+
+export function checkFunctionBody(node, functionContext) {
+  const {isArrowFunction} = functionContext;
+  let isExpression = isArrowFunction && !this.match(tt._indent) || functionContext.isExpression;
+
+  // If this is a strict mode function, verify that argument names
+  // are not repeated, and it does not try to bind the words `eval`
+  // or `arguments`.
+  if (this.strict || !isExpression && node.body.body.length && this.isUseStrict(node.body.body[0])) {
+    let oldStrict = this.strict
+    this.strict = true
+    if (node.id)
+      this.checkLVal(node.id, true)
+    this.checkParams(node);
+    this.strict = oldStrict
+  } else if (isArrowFunction) {
+    this.checkParams(node);
+  }
+}

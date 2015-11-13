@@ -49,6 +49,8 @@ import {types as tt} from "../../tokenizer/types";
 //   delayed syntax error at correct position).
 
 // main entry point into expression parsing. Can be used by plugins
+// since `;` is used for the sequence operator and `,` is only used for lists,
+// this should be used wherever `parseMaybeAssign` would be in acorn or babylon.
 export function parseExpression(expressionContext = {}) {
   return this.parseExpressionMaybeSequence(expressionContext);
 }
@@ -77,6 +79,7 @@ export function parseExpressionMaybeSequence(expressionContext) {
 // a higher precedence than assignment expressions
 
 // precedence: 2, 3, 4
+// equivalent to parseMaybeAssign.
 export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks = {}) {
   let node;
   switch (this.state.cur.type) {

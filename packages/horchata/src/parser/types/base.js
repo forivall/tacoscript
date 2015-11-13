@@ -36,7 +36,7 @@ export function parseBlock(blockContext = {}) {
 
 // Parse a sequence of statements, seaparated by newlines, and enclosed in an
 // indentation level. Handles `"use strict"` declarations when
-// `blockContext.isFunction` is true
+// `blockContext.allowDirectives` is true
 
 export function parseBlockBody(node, blockContext = {}) {
   const allowDirectives = !!blockContext.allowDirectives;

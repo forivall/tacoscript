@@ -5,7 +5,6 @@
  * See LICENSE for full license text
  */
 
-import {types as tt} from "../tokenizer/types";
 import Lexer from "../tokenizer";
 import SourceFile from "../file";
 import {getLineInfo} from "../util/location";
@@ -94,7 +93,7 @@ import * as baseParsers from "./types/base";
 // import * as classesParsers from "./types/classes";
 import * as expressionsParsers from "./types/expressions";
 import * as literalsParsers from "./types/literals";
-// import * as methodsParsers from "./types/methods";
+import * as methodsParsers from "./types/methods";
 // import * as modulesParsers from "./types/modules";
 import * as statementsParsers from "./types/statements";
 // import * as templateLiteralsParsers from "./types/template-literals";
@@ -107,7 +106,7 @@ for (let parserMethods of [
       // classesParsers,
       expressionsParsers,
       literalsParsers,
-      // methodsParsers,
+      methodsParsers,
       // modulesParsers,
       statementsParsers,
       // templateLiteralsParsers,

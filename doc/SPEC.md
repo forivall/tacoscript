@@ -266,9 +266,11 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] Implement taco-generator to generate tacoscript (masascript) from babylon ASTs
   * [ ] Publish tacoscript generator and make demo site
 * [ ] Implement horchata, the tacoscript (including Phase 1 and 2 syntax) parser
-  * [ ] Replace use of pos & loc with tokenIndex, and then read pos & loc from token
+  * [x] -Replace use of pos & loc with tokenIndex, and then read pos & loc from token-
+    * pass a proto-token object instead of pos and loc, which includes pos, loc and token index
   * [ ] Implement a simpler & more performant version of lookahead compared to babylon's lookahead
     * [ ] use lookahead'd tokens when the context doesn't change
+  * [ ] Instead of setting and unsetting the state on `this`, pass a scope object down the recursive descent.
 * [ ] Improve documentation
 * [ ] Implement each of the extended syntax as independent transforms
 * [ ] add whitespace and comment preservation to tacoscript-generator

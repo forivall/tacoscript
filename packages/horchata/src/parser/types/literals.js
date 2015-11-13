@@ -34,17 +34,59 @@ export function parseBindingAtomic() {
       return this.parseIdentifier();
 
     case tt.bracketL:
-      let node = this.startNode()
-      this.next()
-      node.elements = this.parseBindingList(tt.bracketR, true, true)
-      return this.finishNode(node, "ArrayPattern")
+      let node = this.startNode();
+      this.next();
+      node.elements = this.parseBindingList(tt.bracketR, {allowEmpty: true, allowTrailingComma: true});
+      return this.finishNode(node, "ArrayPattern");
 
     case tt.braceL:
-      return this.parseObj(true)
+      throw new Error("Not Implemented");
+      // return this.parseObj(true);
 
     default:
-      this.unexpected()
+      this.unexpected();
   }
+}
+
+export function parseBindingList(close, bindingListContext = {}) {
+  const {allowEmpty, allowTrailingComma} = bindingListContext;
+  let elements = [];
+  let indented = false;
+  let first = true;
+  while (!this.eat(indented ? tt.dedent : close)) {
+    if (!indented) {
+      indented = this.eat(tt.indent);
+      if (indented && first) first = false;
+    }
+    if (first) {
+      first = false;
+    } else {
+      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+    }
+
+    if (allowEmpty && this.eat(tt._pass)) {
+      elements.push(null);
+    } else if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
+      break;
+    } else if (this.match(tt.ellipsis)) {
+      elements.push(this.parseAssignableListItemTypes(this.parseRest()));
+      // TODO: allow ellipsis after newline just before close
+      this.eat(indented ? tt.dedent : close) || this.unexpected();
+    } else {
+      // TODO: allow parsing defaults with parseMaybeDefault()
+      let node = this.parseBindingAtomic();
+      elements.push(node);
+    }
+  }
+  if (indented) {
+    this.eat(tt.newline) && this.eat(close) || this.unexpected();
+  }
+  return elements;
+}
+
+// for flow? probably.
+export function parseAssignableListItemTypes(param) {
+  return param;
 }
 
 // Parse the next token as an identifier. If `allowKeywords` is true (used
