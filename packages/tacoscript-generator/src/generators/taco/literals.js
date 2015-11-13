@@ -139,7 +139,7 @@ export function StringLiteral(node) {
 }
 
 // TODO: move to external module, send PR to babel.
-export function _stringLiteral(val: string): string {
+export function _stringLiteral(val) {
   val = JSON.stringify(val);
 
   // escape illegal js but valid json unicode characters

@@ -1,6 +1,8 @@
 
 import forOwn from "lodash/object/forOwn";
+import includes from "lodash/collection/includes";
 import {types as tt, keywords} from "./types";
+import {reservedWords} from "../util/identifier";
 import {tokTypes as btt} from "babylon";
 import toFastProperties from "to-fast-properties";
 import repeating from "repeating";
@@ -71,7 +73,7 @@ export function init() {
   tt.name.toCode = function(token, state) {
     // TODO: keyword conflict resolution
     let code = token.value.code || token.value.raw || token.value.value;
-    if (keywords.hasOwnProperty(code) && token.value.standalone) code = "\\$" + code;
+    if ((keywords.hasOwnProperty(code) || includes(reservedWords.strict, code)) && token.value.standalone) code = "\\$" + code;
     return code;
   };
   tt.tab.toCode = function(token, state) {

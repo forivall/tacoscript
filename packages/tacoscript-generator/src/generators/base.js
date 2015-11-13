@@ -14,5 +14,5 @@ export function Directive(node) {
 }
 
 export function DirectiveLiteral(node) {
-  this.push(this._stringLiteral(node.value));
+  this.push({type: "string", value: {value: node.value, raw: node.raw}});
 }
