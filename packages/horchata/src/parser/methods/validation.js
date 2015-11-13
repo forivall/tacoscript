@@ -50,7 +50,7 @@ export function checkIdentifierName(identifierContext) {
 export function checkParams(node) {
   let nameHash = {};
   for (let i = 0; i < node.params.length; i++) {
-    this.checkLVal(node.params[i], true, nameHash);
+    this.checkAssignable(node.params[i], true, nameHash);
   }
 }
 

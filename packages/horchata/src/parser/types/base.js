@@ -29,9 +29,19 @@ export function parseBlockStatement(blockContext = {}) {
 // this can be any kind of block, not just detached (`!`) blocks
 export function parseBlock(blockContext = {}) {
   let node = this.startNode();
+  if (this.eat(tt.newline) || this.eat(tt.eof)) {
+    this.initBlockBody(node);
+    return this.finishNode(node, "BlockStatement");
+  }
   this.eat(tt.indent) && this.eat(tt.newline) || this.unexpected();
   this.parseBlockBody(node, blockContext);
   return this.finishNode(node, "BlockStatement");
+}
+
+export function initBlockBody(node) {
+  node.body = [];
+  node.directives = [];
+  return node;
 }
 
 // Parse a sequence of statements, seaparated by newlines, and enclosed in an
@@ -44,8 +54,7 @@ export function parseBlockBody(node, blockContext = {}) {
   const isTopLevel = !!blockContext.isTopLevel;
   let end = isTopLevel ? tt.eof : tt.dedent;
 
-  node.body = [];
-  node.directives = [];
+  this.initBlockBody(node);
 
   // let oldStrict;
   let finishedDirectives = false;
