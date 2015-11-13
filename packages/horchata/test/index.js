@@ -11,6 +11,7 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
   _.assign({}, specOptions.core, {
     skip: function(test, testPath) {
       return specOptions.core.skip(test, testPath) ||
+      testPath.indexOf("base-edgecase") !== -1 ||
       test.indexOf("invalid-") === 0 ||
       test.indexOf("unexpected-") === 0 ||
       test.indexOf("malformed-") === 0;
