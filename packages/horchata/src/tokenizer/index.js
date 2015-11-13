@@ -9,7 +9,7 @@
 
 import {types as tt, keywords as keywordTypes} from "./types";
 import {reservedWords, keywords, isIdentifierChar, isIdentifierStart, codePointToString} from "../util/identifier";
-import {isNewline, nonASCIIwhitespace} from "../util/whitespace";
+import {isNewline, nonASCIIwhitespace, lineBreak} from "../util/whitespace";
 import State from "./state";
 import {getOptions} from "../options";
 // export {default as Token} from "./token";
@@ -272,6 +272,12 @@ export default class Lexer {
 
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
+  }
+
+  finishArrow(type, len) {
+    let start = this.state.pos;
+    this.state.pos += len + ~~(this.input.charCodeAt(this.state.pos + len + 1) === 62);
+    this.finishToken(type, this.input.slice(start, this.state.pos));
   }
 
   // TODO: allow extension of each of these token endpoints to allow custom
@@ -539,14 +545,37 @@ export default class Lexer {
     return total;
   }
 
-
   readToken_eq() {
     if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'
-      this.state.pos += 2;
-      return this.finishToken(tt.arrow);
+      return this.finishArrow(tt.arrow, 2);
     }
     ++this.state.pos;
-    return this.finishToken(tt.eq);
+    return this.finishToken(tt.eq, "=");
+  }
+
+  readToken_plus_min(code) {
+    let next = this.input.charCodeAt(this.state.pos + 1);
+    let nextnext = this.input.charCodeAt(this.state.pos + 2);
+    if (next === code) {
+      if (next === 45 && nextnext === 62 && lineBreak.test(this.input.slice(this.state.prev.end, this.state.pos))) {
+        // A `-->` line comment
+        throw new Error("Not Implemented");
+      }
+      this.state.pos += 2;
+      return this.finishToken(tt.incDec, next === 45 ? '--' : '++');
+    }
+    if (next === 61) { // =
+      if (code === 43 && nextnext === 62) { // +=>
+        return this.finishArrow(tt.asyncBoundArrow, 3);
+      }
+      this.state.pos += 2;
+      return this.finishToken(tt.assign, code === 45 ? "-=" : "+=");
+    }
+    if (next === 62) {
+      return this.finishArrow(code === 45 ? tt.unboundArrow : tt.asyncArrow, 2)
+    }
+    ++this.state.pos;
+    return this.finishToken(tt.plusMin, code === 45 ? "-" : "+");
   }
 
   // Read an identifier or keyword token

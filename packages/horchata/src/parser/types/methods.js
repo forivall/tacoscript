@@ -70,12 +70,14 @@ export function parseFunctionBody(node, functionContext) {
   }
 
   this.checkFunctionBody(node, functionContext);
+  return node;
 }
 
 export function parseFunctionDeclaration(node) {
   this.next();
   this.initFunction(node);
-  this.parseFunctionNamed(node, {}, {isStatement: true});
+  node = this.parseFunctionNamed(node, {}, {isStatement: true});
+  return this.finishNode(node, "FunctionDeclaration");
 }
 
 export function parseFunctionNamed(node, identifierContext, functionContext) {
@@ -83,6 +85,7 @@ export function parseFunctionNamed(node, identifierContext, functionContext) {
   this.parseFunctionParams(node);
   this.parseFunctionArrow(node, functionContext);
   this.parseFunctionBody(node, functionContext);
+  return node;
 }
 
 export function parseFunctionParams(node) {
@@ -110,8 +113,4 @@ export function parseFunctionArrow(node) {
       this.unexpected();
   }
   return node;
-}
-
-export function parseFunction(node, functionContext) {
-
 }

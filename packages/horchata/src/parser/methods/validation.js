@@ -61,14 +61,22 @@ export function checkFunctionBody(node, functionContext) {
   // If this is a strict mode function, verify that argument names
   // are not repeated, and it does not try to bind the words `eval`
   // or `arguments`.
-  if (this.strict || !isExpression && node.body.body.length && this.isUseStrict(node.body.body[0])) {
-    let oldStrict = this.strict
-    this.strict = true
-    if (node.id)
-      this.checkLVal(node.id, true)
+  let isStrict = !!this.state.strict;
+  if (!isStrict || !isExpression && node.body.directives.length) {
+    for (let directive of (node.body.directives: Array)) {
+      if (directive.value.value === "use strict") {
+        isStrict = true;
+      }
+    }
+  }
+
+  if (isArrowFunction) {
     this.checkParams(node);
-    this.strict = oldStrict
-  } else if (isArrowFunction) {
+  } else if (isStrict) {
+    let oldStrict = this.state.strict;
+    this.strict = true;
+    if (node.id) this.checkAssignable(node.id, true);
     this.checkParams(node);
+    this.state.strict = oldStrict
   }
 }

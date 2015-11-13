@@ -252,13 +252,13 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
       this.eat(tt.bracketR) || this.unexpected();
       base = node = this.finishNode(node, "MemberExpression");
     } else if (!noCalls && this.eat(tt.parenL)) {
-      let node = this.startNode(start);
+      node = this.startNode(start);
       node.callee = base;
       node.arguments = this.parseCallExpressionArguments(tt.parenR);
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (!noCalls && this.eat(tt.excl)) {
-      let node = this.startNode(start);
+      node = this.startNode(start);
       node.callee = base;
       // TODO: create a specific method for this: if an indent is found, then the ending is a dedent.
       // otherwise it stays a newline.
@@ -266,7 +266,7 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (this.match(tt.backQuote)) {
-      let node = this.startNode(start);
+      node = this.startNode(start);
       node.tag = base;
       node.quasi = this.parseTemplate();
       base = node = this.finishNode(node, "TaggedTemplateExpression");
@@ -275,6 +275,49 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
     }
   }
   return node;
+}
+
+// TODO: allow expr (!) auto closing call expressions.
+export function parseCallExpressionArguments(close, expressionContext = {}) {
+  const {allowTrailingComma} = expressionContext;
+  let elements = [];
+  let indented = false;
+  let first = true;
+
+  while (!this.eat(indented ? tt.dedent : close)) {
+    if (!indented) {
+      indented = this.eat(tt.indent);
+      if (indented && first) first = false;
+    }
+    if (first) {
+      first = false;
+    } else {
+      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+    }
+
+    if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
+      break;
+    }
+    let node;
+    if (this.match(tt.ellipsis)) {
+      node = this.parseSpread(expressionContext);
+    } else {
+      node = this.parseExpression(expressionContext);
+    }
+    elements.push(node);
+  }
+  if (indented) {
+    if (close !== tt.newline) this.eat(tt.newline) || this.unexpected();
+    this.eat(close) || this.unexpected();
+  }
+  return elements;
+}
+
+export function parseSpread(expressionContext) {
+  let node = this.startNode();
+  this.next();
+  node.argument = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+  return this.finishNode(node, "SpreadElement");
 }
 
 // TODO: move the below function to literals
