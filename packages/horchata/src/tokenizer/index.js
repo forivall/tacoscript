@@ -568,6 +568,43 @@ export default class Lexer {
     return code;
   }
 
+  readRegexp() {
+    let escaped, inClass, start = this.state.pos;
+    for (;;) {
+      if (this.state.pos >= this.input.length) this.raise(start, "Unterminated regular expression");
+      let ch = this.input.charAt(this.state.pos);
+      if (lineBreak.test(ch)) {
+        this.raise(start, "Unterminated regular expression");
+      }
+      if (escaped) {
+        escaped = false;
+      } else {
+        if (ch === "[") {
+          inClass = true;
+        } else if (ch === "]" && inClass) {
+          inClass = false;
+        } else if (ch === "/" && !inClass) {
+          break;
+        }
+        escaped = ch === "\\";
+      }
+      ++this.state.pos;
+    }
+    let pattern = this.input.slice(start, this.state.pos);
+    ++this.state.pos;
+    // Need to use `readWordSingle` because '\uXXXX' sequences are allowed
+    // here (don't ask).
+    let flags = this.readWordSingle(true);
+    if (flags) {
+      let validFlags = /^[gmsiyu]*$/;
+      if (!validFlags.test(flags)) this.raise(start, "Invalid regular expression flag");
+    }
+    return this.finishToken(tt.regexp, {
+      pattern: pattern,
+      flags: flags
+    });
+  }
+
   readString(quoteChar) {
     let out = "";
     let chunkStart = ++this.state.pos;
@@ -657,7 +694,7 @@ export default class Lexer {
   // Incrementally adds only escaped chars, adding other chunks as-is
   // as a micro-optimization.
 
-  readWordSingle() {
+  readWordSingle(allowEmpty) {
     this.state.containsEsc = false;
     let word = "";
     let first = true;
@@ -700,7 +737,7 @@ export default class Lexer {
       first = false;
     }
     word += this.input.slice(chunkStart, this.state.pos);
-    if (word.length <= 0) {
+    if (!allowEmpty && word.length <= 0) {
       this.raise(this.state.pos, "Invalid Identifier name")
     }
     return word;
