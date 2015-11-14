@@ -13,7 +13,7 @@ import { types as tt } from "../../tokenizer/types";
 
 export function convertLeftAssign(node, tokType) {
   if (tokType === tt.eq) {
-    return toAssignable(node);
+    return this.toAssignable(node);
   }
   return node;
 }

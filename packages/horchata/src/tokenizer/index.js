@@ -281,7 +281,18 @@ export default class Lexer {
   finishArrow(type, len) {
     let start = this.state.pos;
     this.state.pos += len + ~~(this.input.charCodeAt(this.state.pos + len + 1) === 62);
-    this.finishToken(type, this.input.slice(start, this.state.pos));
+    return this.finishToken(type, this.input.slice(start, this.state.pos));
+  }
+
+  finishEqOrType(type) {
+    let start = this.state.pos;
+    ++this.state.pos;
+    let next = this.input.charCodeAt(this.state.pos);
+    if (next === 61) {
+      ++this.state.pos;
+      return this.finishToken(tt.eq, this.input.slice(start, this.state.pos));
+    }
+    return this.finishToken(type);
   }
 
   // TODO: allow extension of each of these token endpoints to allow custom
@@ -352,14 +363,11 @@ export default class Lexer {
       case 47: // '/'
         return this.readToken_slash();
 
-      case 37: case 42: // '%*'
-        return this.readToken_mult_modulo(code);
-
-      case 124: case 38: // '|&'
-        return this.readToken_pipe_amp(code);
-
-      case 94: // '^'
-        return this.readToken_caret();
+      case 37: return this.finishEqOrType(tt.modulo); // '%'
+      case 42: return this.finishEqOrType(tt.star); //'*'
+      case 124: return this.finishEqOrType(tt.bitwiseOR); // '|'
+      case 38: return this.finishEqOrType(tt.bitwiseAND); // '&'
+      case 94: return this.finishEqOrType(tt.bitwiseXOR); // '^'
 
       // TODO: handle arrows _here_
 
@@ -580,7 +588,6 @@ export default class Lexer {
     return this.finishToken(tt.string, out);
   }
 
-
   readToken_eq() {
     if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'
       return this.finishArrow(tt.arrow, 2);
@@ -612,6 +619,19 @@ export default class Lexer {
     }
     ++this.state.pos;
     return this.finishToken(tt.plusMin, code === 45 ? "-" : "+");
+  }
+
+  readToken_slash() { // '/'
+    if (this.state.exprAllowed) {
+      ++this.pos;
+      return this.readRegexp();
+    }
+    ++this.pos;
+    if (this.input.charCodeAt(this.state.pos) === 61) {
+      ++this.pos;
+      return this.finishToken(tt.assign, "/=");
+    }
+    return this.finishToken(tt.slash, "/")
   }
 
   // Read an identifier or keyword token
