@@ -342,7 +342,7 @@ export default class Lexer {
         return this.finishToken(tt.backQuote);
 
       case 48: // '0'
-        let next = this.input.charCodeAt(this.pos + 1);
+        let next = this.input.charCodeAt(this.state.pos + 1);
         if (next === 120 || next === 88) return this.readRadixNumber(16); // '0x', '0X' - hex number
         if (next === 111 || next === 79) return this.readRadixNumber(8); // '0o', '0O' - octal number
         if (next === 98 || next === 66) return this.readRadixNumber(2); // '0b', '0B' - binary number
@@ -692,12 +692,12 @@ export default class Lexer {
 
   readToken_slash() { // '/'
     if (this.state.exprAllowed) {
-      ++this.pos;
+      ++this.state.pos;
       return this.readRegexp();
     }
-    ++this.pos;
+    ++this.state.pos;
     if (this.input.charCodeAt(this.state.pos) === 61) {
-      ++this.pos;
+      ++this.state.pos;
       return this.finishToken(tt.assign, "/=");
     }
     return this.finishToken(tt.slash, "/")
