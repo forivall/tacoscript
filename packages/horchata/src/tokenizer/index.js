@@ -633,6 +633,38 @@ export default class Lexer {
     return this.finishToken(tt.eq, "=");
   }
 
+  readToken_lt_gt(code) { // '<>'
+    let start = this.state.pos;
+    let next = this.input.charCodeAt(this.state.pos + 1);
+    let size = 1;
+
+    if (next === code) {
+      size = code === 62 && this.input.charCodeAt(this.state.pos + 2) === 62 ? 3 : 2;
+      if (this.input.charCodeAt(this.state.pos + size) === 61) {
+        this.state.pos += size + 1;
+        return this.finishToken(tt.assign, this.input.slice(start, this.state.pos));
+      }
+      this.state.pos += size;
+      return this.finishToken(tt.bitShift, this.input.slice(start, this.state.pos));
+    }
+
+    if (next === 33 && code === 60 && this.input.charCodeAt(this.state.pos + 2) === 45 && this.input.charCodeAt(this.state.pos + 3) === 45) {
+      if (this.inModule) this.unexpected();
+      // `<!--`, an XML-style comment that should be interpreted as a line comment
+      throw new Error("Not Implemented");
+      this.skipLineComment(4);
+      this.skipSpace();
+      return this.nextToken();
+    }
+
+    if (next === 61) {
+      size = this.input.charCodeAt(this.state.pos + 2) === 61 ? 3 : 2;
+    }
+
+    this.state.pos += size;
+    return this.finishOp(tt.relational, this.input.slice(start, this.state.pos));
+  }
+
   readToken_plus_min(code) {
     let next = this.input.charCodeAt(this.state.pos + 1);
     let nextnext = this.input.charCodeAt(this.state.pos + 2);
