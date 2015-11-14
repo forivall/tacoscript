@@ -11,9 +11,73 @@
 
 import { types as tt } from "../../tokenizer/types";
 
-export function toAssignable(node, tokType) {
+export function convertLeftAssign(node, tokType) {
   if (tokType === tt.eq) {
-    throw new Error("Not Implemented");
+    return toAssignable(node);
+  }
+  return node;
+}
+
+export function convertRightAssign(node/*, tokType*/) {
+  return node;
+}
+
+
+// Convert existing, already parsed expression atom to assignable pattern
+// if possible.
+
+export function toAssignable(node, assignableContext = {}) {
+  if (node == null) return node;
+  const {isBinding} = assignableContext;
+  // TODO: finish converting this function.
+  switch (node.type) {
+    case "Identifier":
+    case "ObjectPattern":
+    case "ArrayPattern":
+      // already assignable
+      break
+
+    // TODO: rcreate a child object that is a "Converter" that performs these kinds
+    // of tasks
+    case "ObjectExpression":
+      node.type = "ObjectPattern";
+      for (let i = 0; i < node.properties.length; i++) {
+        let prop = node.properties[i];
+        if (prop.kind !== "init") this.raise(prop.key.start, "Object pattern can't contain getter or setter");
+        this.toAssignable(prop.value, isBinding);
+      }
+      break
+
+    case "ArrayExpression":
+      node.type = "ArrayPattern";
+      this.toAssignableList(node.elements, isBinding);
+      break
+
+    case "AssignmentExpression":
+      if (node.operator === "=") {
+        node.type = "AssignmentPattern";
+        delete node.operator;
+        // falls through to AssignmentPattern
+      } else {
+        this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
+        break;
+      }
+
+    case "AssignmentPattern":
+      if (node.right.type === "YieldExpression") {
+        this.raise(node.right.start, "Yield expression cannot be a default value");
+      }
+      break;
+
+    case "ParenthesizedExpression":
+      node.expression = this.toAssignable(node.expression, isBinding);
+      break;
+
+    case "MemberExpression":
+      if (!isBinding) break;
+
+    default:
+      this.raise(node.start, "Assigning to rvalue");
   }
   return node;
 }

@@ -116,15 +116,17 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
 
       if (this.state.cur.type.isAssign) {
         let left = node;
+        let type = this.state.cur.type;
         node = this.startNode(start);
-        node.operator = this.state.value;
-        left = node.left = this.toAssignable(left, this.state.cur.type);
+        node.operator = this.state.cur.value;
+        left = node.left = this.convertLeftAssign(left, type);
         expressionContext.shorthandDefaultPos.start = 0;  // reset because shorthand default was used correctly
 
         this.checkAssignable(left);
         this.next();
 
-        node.right = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+        let right = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+        node.right = this.convertRightAssign(right, type);
         node = this.finishNode(node, "AssignmentExpression");
         break;
       }
