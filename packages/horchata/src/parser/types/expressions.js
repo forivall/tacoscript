@@ -178,6 +178,7 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
       {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext
     );
     node = this.finishNode(node, op.binopExpressionName);
+    node = this.parseExpressionOperator(node, start, minPrec, expressionContext);
   }
   return node;
 }
