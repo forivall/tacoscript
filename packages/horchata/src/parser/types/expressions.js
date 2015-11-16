@@ -51,20 +51,20 @@ import {types as tt} from "../../tokenizer/types";
 // main entry point into expression parsing. Can be used by plugins
 // since `;` is used for the sequence operator and `,` is only used for lists,
 // this should be used wherever `parseMaybeAssign` would be in acorn or babylon.
-export function parseExpression(expressionContext = {}) {
-  return this.parseExpressionMaybeSequence(expressionContext);
+export function parseExpression(expressionContext = {}, callbacks = {}) {
+  return this.parseExpressionMaybeSequence(expressionContext, callbacks);
 }
 
 // precedence: 0
-export function parseExpressionMaybeSequence(expressionContext) {
+export function parseExpressionMaybeSequence(expressionContext, callbacks) {
   let startPos = this.state.cur.start;
   let startLoc = this.state.cur.startLoc;
-  let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+  let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks);
   if (this.match(tt.semi)) {
     let node = this.startNodeAt(startPos, startLoc);
     node.expressions = [expr];
     while (this.eat(tt.semi)) {
-      node.expressions.push(this.parseExpressionMaybeKeywordOrAssignment(expressionContext));
+      node.expressions.push(this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks));
     }
     this.checkReferencedList(node.expressions);
     return this.finishNode(node, "SequenceExpression");
@@ -287,7 +287,7 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
   let indented = false;
   let first = true;
 
-  while (!this.eat(indented ? tt.dedent : close)) {
+  while (!this.match(indented ? tt.dedent : close)) {
     if (!indented) {
       indented = this.eat(tt.indent);
       if (indented && first) first = false;
@@ -311,8 +311,9 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
   }
   if (indented) {
     if (close !== tt.newline) this.eat(tt.newline) || this.unexpected();
-    this.eat(close) || this.unexpected();
+    this.eat(tt.dedent) || this.unexpected();
   }
+  this.eat(close) || this.unexpected();
   return elements;
 }
 
@@ -359,24 +360,47 @@ export function parseExpressionAtomic(expressionContext) {
 
     // TODO: store cst info.
     case tt.num:
-      return this.parseLiteral(this.state.cur.value, "NumericLiteral");
+      node = this.parseLiteral(this.state.cur.value, "NumericLiteral");
+      break;
 
     case tt.string:
-      return this.parseLiteral(this.state.cur.value, "StringLiteral");
+      node = this.parseLiteral(this.state.cur.value, "StringLiteral");
+      break;
 
     case tt._null:
       node = this.startNode();
       this.next();
-      return this.finishNode(node, "NullLiteral");
+      node = this.finishNode(node, "NullLiteral");
+      break;
 
     case tt._true: case tt._false:
       node = this.startNode();
       node.value = this.match(tt._true);
       this.next();
-      return this.finishNode(node, "BooleanLiteral");
+      node = this.finishNode(node, "BooleanLiteral");
+      break;
 
+    case tt.parenL:
+      node = this.parseParenAndDistinguishExpression(null, {canBeArrow});
+      break;
 
-    // TODO: the rest of the atomic expressions to parse.
+    case tt.bracketL:
+      throw new Error("Not Implemented");
+
+    case tt.braceL:
+      throw new Error("Not Implemented");
+
+    case tt._function:
+      throw new Error("Not Implemented");
+
+    case tt._class:
+      throw new Error("Not Implemented");
+
+    case tt._new:
+      throw new Error("Not Implemented");
+
+    case tt.backquote:
+      throw new Error("Not Implemented");
 
     // TODO:
     // case tt._do:
@@ -384,5 +408,85 @@ export function parseExpressionAtomic(expressionContext) {
     default:
       this.unexpected();
   }
+  return node;
+}
+
+// Parse an expression grouped by parenthises -- could be
+// * an expression
+// * a comprehension
+// * arguments for an anonymous function
+// * anything else that a plugin might want to add (ex. flow type annotations)
+// Our job is to distinguish which of these things it is, and
+export function parseParenAndDistinguishExpression(start, expressionContext = {}) {
+  const {canBeArrow, allowTrailingComma} = expressionContext;
+  if (start == null) start = {...this.state.cur};
+
+  this.next();
+
+  let innerStart = {...this.state.cur};
+
+  // TODO: add hook to parse comprehensions here
+
+  let elements = [];
+  let indented = false;
+  let first = true;
+
+  expressionContext.shorthandDefaultPos = {start: 0};
+  let node, spreadStart, firstSeparatorStart;
+  while (!this.match(indented ? tt.dedent : tt.parenR)) {
+    if (!indented) {
+      indented = this.eat(tt.indent);
+      if (indented && first) first = false;
+    }
+    if (first) {
+      first = false;
+    } else {
+      firstSeparatorStart = this.state.cur.start;
+      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+    }
+
+    if (allowTrailingComma && this.eat(indented ? tt.dedent : tt.parenR)) {
+      break;
+    }
+    let node;
+    if (this.match(tt.ellipsis)) {
+      spreadStart = this.state.cur.start;
+      node = this.parseRest();
+      elements.push(node);
+      break;
+    } else {
+      node = this.parseExpression(expressionContext); // , {afterLeftParse: this.parseParenItem}
+    }
+    elements.push(node);
+  }
+  if (indented) {
+    this.eat(tt.dedent) && this.eat(tt.newline) || this.unexpected();
+  }
+  this.eat(tt.parenR) || this.unexpected();
+
+  let {type, value} = this.state.cur;
+  if (canBeArrow && (
+      this.eat(tt.arrow) ||
+      this.eat(tt.unboundArrow) ||
+      this.eat(tt.asyncArrow) ||
+      this.eat(tt.asyncBoundArrow) ||
+      false)) {
+    elements = this.toArguments(elements);
+    node = this.parseArrowExpression(type, value, start, elements, expressionContext);
+  } else if (elements.length === 0) {
+    this.unexpected(this.state.prev.start);
+  } else if (spreadStart) {
+    this.unexpected(spreadStart);
+  } else if (expressionContext.shorthandDefaultPos.start) {
+    this.unexpected(expressionContext.shorthandDefaultPos.start);
+  } else if (firstSeparatorStart) {
+    this.unexpected(firstSeparatorStart);
+  } else if (elements.length > 1) {
+    this.raise(this.state.pos, "Arguments list is not attached to a function");
+  } else {
+    node = elements[0];
+    node.parenthesizedExpression = true;
+  }
+
   return node;
 }

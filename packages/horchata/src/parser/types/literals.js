@@ -82,6 +82,10 @@ export function toAssignable(node, assignableContext = {}) {
   return node;
 }
 
+export function toArguments(elements) {
+  throw new Error("Not Implemented");
+}
+
 // equivalent to parseVarId / parseVarHead
 export function parseDeclarationAssignable(node) {
   node.id = this.parseBindingAtomic();
