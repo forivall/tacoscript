@@ -5,8 +5,6 @@
  * See LICENSE for full license text
  */
 
-import { init as initSerialization } from "./serialization";
-
 // ## Token types
 
 // The assignment of fine-grained, information-carrying type objects
@@ -158,8 +156,8 @@ export const types = {
   incDec:     punctuator("++/--", {prefix: true, postfix: true, startsExpr: true}),
   bitwiseNOT: punctuator("~", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix"}),
   _not:               kw("not", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", estreeValue: "!"}),
-  _or:                kw("or", {binop: 1, binopExpressionType: "LogicalExpression", babylonName: "logicalOR", estreeValue: "||"}),
-  _and:               kw("and", {binop: 2, binopExpressionType: "LogicalExpression", babylonName: "logicalAND", estreeValue: "&&"}),
+  _or:                kw("or", {binop: 1, binopExpressionName: "LogicalExpression", babylonName: "logicalOR", estreeValue: "||"}),
+  _and:               kw("and", {binop: 2, binopExpressionName: "LogicalExpression", babylonName: "logicalAND", estreeValue: "&&"}),
   bitwiseOR:       binop("|", 3),
   bitwiseXOR:      binop("^", 4),
   bitwiseAND:      binop("&", 5),
@@ -252,5 +250,3 @@ kw("super", startsExpr);
 
 kw("debugger");
 kw("pass");
-
-initSerialization();

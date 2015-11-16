@@ -662,7 +662,7 @@ export default class Lexer {
     }
 
     this.state.pos += size;
-    return this.finishOp(tt.relational, this.input.slice(start, this.state.pos));
+    return this.finishToken(tt.relational, this.input.slice(start, this.state.pos));
   }
 
   readToken_plus_min(code) {

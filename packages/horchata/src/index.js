@@ -1,6 +1,7 @@
 
-// Add methods to lexer prototype
+// Add methods to various prototypes
 import "./tokenizer/context";
+import "./tokenizer/serialization";
 
 // Export bindings from lexer
 export {types as tokTypes} from "./tokenizer/types";
