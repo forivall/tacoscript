@@ -6,6 +6,8 @@
 import sourceMap from "source-map";
 import Position from "./position";
 import {types as tt, keywords as kw} from "horchata/lib/tokenizer/types";
+import "horchata/lib/tokenizer/serialization";
+
 import {Token} from "horchata/lib/tokenizer"
 import isString from "lodash/lang/isString";
 import equalsDeep from "lodash/lang/isEqual";
@@ -249,7 +251,7 @@ export default class TacoBuffer {
 
   _insertFormattingSpace(state) {
     if (this.format.compact || this.format.preserve) { return false; }
-    // if this.format.compact or this.format.preserve -! return false
+    // if this.format.compact or this.format.preserve then! return false
     let last = this._last();
     let insertFormatting = last && last.type.formattingSpaceAfter;
     if (insertFormatting === true && state.type === tt.newline) insertFormatting = false;
