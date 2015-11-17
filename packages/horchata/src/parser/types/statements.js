@@ -138,8 +138,34 @@ export function parseDecorators() {
 // We overload the if keyword, so this intermediary parser is required until we
 // figure out what it is.
 export function parseIfStatementOrConditionalExpression(node) {
-  // TODO
-  throw new Error("Not Implemented");
+  this.next();
+  if (this.match(tt.excl)) {
+    node = this.parseExpressionStatement(node, this.parseConditionalExpression());
+  } else {
+    node = this.parseIfStatement(node);
+  }
+  return node;
+}
+
+export function parseIfStatement(node) {
+  node.test = this.parseExpression();
+  node.consequent = this.parseStatementBody();
+  node.alternate = this.eat(tt._else) ? this.parseStatementBody() : null;
+  return this.finishNode(node, "IfStatement");
+}
+
+export function parseStatementBody() {
+  let node;
+  if (this.eat(tt.indent)) {
+    node = this.startNode();
+    this.eat(tt.newline) || this.unexpected();
+    this.parseBlockBody(node);
+    node = this.finishNode();
+  } else {
+    this.eat(tt._then);
+    node = this.parseStatement();
+  }
+  return node;
 }
 
 // Parse a switch, as a statement.

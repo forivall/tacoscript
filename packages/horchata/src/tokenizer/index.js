@@ -259,11 +259,11 @@ export default class Lexer {
   }
 
   // Called at the end of each token. Sets type, val, end, endLoc.
-  finishToken(type, val) {
+  finishToken(type, val = type.label) {
     let cur = this.state.cur;
     let prevType = cur.type;
     cur.type = type;
-    cur.value = val || type.label; // or read value from pos - 1
+    cur.value = val; // or read value from pos - 1
     cur.end = this.state.pos;
     cur.endLoc = this.state.curPosition();
     // when spread destructuring is optimised in babel
@@ -510,7 +510,8 @@ export default class Lexer {
     }
     if (isIdentifierStart(this.fullCharCodeAtPos())) this.raise(this.state.pos, "Identifier directly after number");
 
-    let str = this.input.slice(start, this.state.pos), val;
+    let str = this.input.slice(start, this.state.pos);
+    let val;
     if (isFloat) {
       val = parseFloat(str);
     } else if (!octal || str.length === 1) {
