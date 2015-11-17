@@ -29,7 +29,7 @@ export const types = {
   return_expr: new TokContext("return", true),
   b_expr: new TokContext("{", true),
   b_tmpl: new TokContext("${", true),
-  p_stat: new TokContext("(", false),
+  kw_stat: new TokContext("keyword", false), // implicit parenthises for keyword block starters
   p_expr: new TokContext("(", true),
   q_tmpl: new TokContext("`", true, true, p => p.readTmplToken()),
   f_expr: new TokContext("function", true),
@@ -81,9 +81,20 @@ tt.indent.updateContext = function(prevType) {
   } else if (prevType === tt._return) {
     this.state.context.push(types.return_expr);
   } else {
+    if (this.curContext() === types.kw_stat) {
+      this.state.context.pop();
+    }
+    this.state.exprAllowed = false;
     this.state.context.push(types.i_stat);
   }
 };
+
+tt._then.updateContext = function() {
+  if (this.curContext() === types.kw_stat) {
+    this.state.context.pop();
+  }
+  this.state.exprAllowed = true;
+}
 
 tt.braceL.updateContext = function() {
   this.state.context.push(types.b_expr);
@@ -96,7 +107,7 @@ tt.dollarBraceL.updateContext = function() {
 };
 
 let blockStatementUpdateContext = function() {
-  throw new Error("Not Implemented");
+  // TODO: don't push kw_stat for `if` when it's an implicit conditional
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;
 };
@@ -108,6 +119,12 @@ tt._while.updateContext = function() {
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;
 };
+
+tt.excl.updateContext = function(prevType) {
+  if (prevType === tt._if) {
+    this.state.context.pop();
+  }
+}
 
 // TODO: do we need to detect if this is a list of parameters
 tt.parenL.updateContext = function() {
@@ -155,7 +172,7 @@ tt.parenR.updateContext = function() {
     return;
   }
   let out = this.state.context.pop();
-  this.state.exprAllowed = !out.isExpr;
+  this.state.exprAllowed = false;
 };
 
 tt.dedent.updateContext = function() {
@@ -164,7 +181,7 @@ tt.dedent.updateContext = function() {
     return;
   }
   let out = this.state.context.pop();
-  if (out === types.i_stat && this.curContext() === types.f_expr) {
+  if (out === types.i_stat && (this.curContext() === types.f_expr)) {
     this.state.context.pop();
     this.state.exprAllowed = false;
   } else {
