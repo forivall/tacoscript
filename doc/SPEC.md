@@ -148,6 +148,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
   ```
 
 12. (maybe) `#` for line comments, `#*` for block comments. `#\*` for a line comment that starts with a *.
+  Pending: https://github.com/wycats/javascript-private-state
 
   <code>*\\#</code> for parts of a block comment that contains <code>**#</code>
 
