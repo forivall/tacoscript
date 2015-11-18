@@ -116,6 +116,8 @@ export function parseBindingAtomic() {
   }
 }
 
+// TODO: refactor list code for parseBindingList, parseParenAndDistinguishExpression,
+// parseExpressionList, and parseObjectLiteral to share newline-as-separator code
 export function parseBindingList(close, bindingListContext = {}) {
   const {allowEmpty, allowTrailingComma} = bindingListContext;
   let elements = [];
@@ -132,19 +134,21 @@ export function parseBindingList(close, bindingListContext = {}) {
       this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
     }
 
+    let node;
     if (allowEmpty && this.eat(tt._pass)) {
-      elements.push(null);
+      node = null;
     } else if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
       break;
     } else if (this.match(tt.ellipsis)) {
-      elements.push(this.parseAssignableListItemTypes(this.parseRest()));
+      node = this.parseRest();
       // TODO: allow ellipsis after newline just before close
-      this.eat(indented ? tt.dedent : close) || this.unexpected();
+      this.match(indented ? tt.dedent : close) || this.unexpected();
     } else {
       // TODO: allow parsing defaults with parseMaybeDefault()
-      let node = this.parseBindingAtomic();
-      elements.push(node);
+      node = this.parseBindingAtomic();
     }
+    node = this.parseAssignableListItemTypes(node);
+    elements.push(node);
   }
   if (indented) {
     this.eat(tt.newline) && this.eat(close) || this.unexpected();
@@ -188,4 +192,47 @@ export function parseLiteral(value, type) {
   node.raw = this.input.slice(this.state.cur.start, this.state.cur.end);
   this.next();
   return this.finishNode(node, type);
+}
+
+// override me to implement array comprehensions, etc.
+export function parseArrayExpression(expressionContext) {
+  let node = this.startNode();
+  this.next();
+  node.elements = this.parseExpressionList(tt.bracketR, {...expressionContext, allowEmpty: true, allowTrailingComma: true});
+  return this.finishNode(node, "ArrayExpression");
+}
+export function parseExpressionList(close, expressionContext) {
+  const {allowEmpty, allowTrailingComma} = expressionContext;
+  let elements = [];
+  let indented = false;
+  let first = true;
+  while (!this.eat(indented ? tt.dedent : close)) {
+    if (!indented) {
+      indented = this.eat(tt.indent);
+      if (indented && first) first = false;
+    }
+    if (first) {
+      first = false;
+    } else {
+      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+    }
+
+    let node;
+    if (allowEmpty && this.eat(tt._pass)) {
+      node = null;
+    } else if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
+      break;
+    } else if (this.match(tt.ellipsis)) {
+      node = this.parseSpread(expressionContext);
+      // TODO: allow ellipsis after newline just before close
+      this.match(indented ? tt.dedent : close) || this.unexpected();
+    } else {
+      node = this.parseExpression();
+    }
+    elements.push(node);
+  }
+  if (indented) {
+    this.eat(tt.newline) && this.eat(close) || this.unexpected();
+  }
+  return elements;
 }

@@ -384,11 +384,12 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt.parenL:
-      node = this.parseParenAndDistinguishExpression(null, {canBeArrow});
+      node = this.parseParenAndDistinguishExpression(null, {...expressionContext, canBeArrow});
       break;
 
     case tt.bracketL:
-      throw new Error("Not Implemented");
+      node = this.parseArrayExpression(expressionContext);
+      break;
 
     case tt.braceL:
       throw new Error("Not Implemented");

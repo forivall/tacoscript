@@ -23,7 +23,7 @@ export function parseMethod(isGenerator) {
   let node = this.startNode();
   this.initFunction(node);
   this.eat(tt.parenL) || this.unexpected();
-  node.params = this.parseBindingList(tt.parenR, false, false);
+  node.params = this.parseBindingList(tt.parenR);
   node.generator = isGenerator;
   this.parseFunctionBody(node, false);
   return this.finishNode(node, "FunctionExpression");
