@@ -468,16 +468,20 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   }
   this.eat(tt.parenR) || this.unexpected();
 
-  let {type, value} = this.state.cur;
-
+  let maybeGenerator = this.match(tt.star);
   if (canBeArrow && (
-      this.eat(tt.arrow) ||
-      this.eat(tt.unboundArrow) ||
-      this.eat(tt.asyncArrow) ||
-      this.eat(tt.asyncBoundArrow) ||
+      maybeGenerator && (
+        this.matchNext(tt.arrow) ||
+        this.matchNext(tt.unboundArrow) ||
+        this.matchNext(tt.asyncArrow) ||
+        this.matchNext(tt.asyncBoundArrow) ||
+        false) ||
+      this.match(tt.arrow) ||
+      this.match(tt.unboundArrow) ||
+      this.match(tt.asyncArrow) ||
+      this.match(tt.asyncBoundArrow) ||
       false)) {
-    elements = this.toArguments(elements);
-    node = this.parseArrowExpression(type, value, start, elements, expressionContext);
+    node = this.parseArrowExpression(this.startNode(start), elements, {}, expressionContext);
   } else if (elements.length === 0) {
     this.unexpected(this.state.prev.start);
   } else if (spreadStart) {

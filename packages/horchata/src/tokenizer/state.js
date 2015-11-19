@@ -138,4 +138,25 @@ export default class State {
     }
     return clone;
   }
+
+  resetNext() {
+    let nullPosition = new Position(1, 0);
+    this.next = {
+      // Its type
+      type: tt.unknown,
+      // For tokens that include more information than their type, the value
+      value: null,
+      // Its index in the token array
+      index: -1,
+      // Its start and end offset
+      start: -1,
+      end: -1,
+      // And, if locations are used, the {line, column} object
+      // corresponding to those offsets
+      startLoc: nullPosition,
+      endLoc: nullPosition,
+
+      sourceFile: this.sourceFile,
+    }
+  };
 }

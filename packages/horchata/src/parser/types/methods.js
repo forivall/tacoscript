@@ -31,10 +31,13 @@ export function parseMethod(isGenerator) {
 
 // Parse arrow function expression with given parameters.
 
+// current token position is on the '*' or the arrow (of any arrow type)
+// so the first job of this function is to figure out what kind of function this is.
 export function parseArrowExpression(node, params) {
   this.initFunction(node);
   throw new Error("Not Implemented")
-  // node.params = this.toAssignableList(params, true);
+
+  node.params = this.toArguments(params);
   // this.parseFunctionBody(node, {isArrowFunction: true});
   // return this.finishNode(node, "ArrowFunctionExpression");
 }

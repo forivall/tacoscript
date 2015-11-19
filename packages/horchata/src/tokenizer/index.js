@@ -81,6 +81,11 @@ export default class Lexer {
     return this.state.cur.type === type;
   }
 
+  // Check if the lookahead token matches `type`
+  matchNext(type) {
+    return this.state.next.type === type;
+  }
+
   // Predicate that tests whether the next token is of the given
   // type, and if yes, consumes it as a side effect.
   eat(type) {
@@ -289,10 +294,12 @@ export default class Lexer {
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
 
-    if (type === tt.star && !this.isLookahead) {
+    if (!this.isLookahead && type === tt.star && prevType === tt.parenR) {
       this.lookahead.state = this.state.clone();
       this.lookahead.next();
       this.state.next = this.lookahead.state.cur;
+    } else {
+      this.state.resetNext();
     }
 
     return true;
