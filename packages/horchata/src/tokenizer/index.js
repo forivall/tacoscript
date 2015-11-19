@@ -276,6 +276,8 @@ export default class Lexer {
 
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
+
+    return true;
   }
 
   finishArrow(type, len) {
@@ -322,7 +324,8 @@ export default class Lexer {
       case 93: ++this.state.pos; return this.finishToken(tt.bracketR); // ']'
       case 123: ++this.state.pos; return this.finishToken(tt.braceL);  // '{'
       case 125: ++this.state.pos; return this.finishToken(tt.braceR);  // '}'
-      case 33: ++this.state.pos; return this.finishToken(tt.excl);     // '!'
+
+      case 33: return this.readToken_excl();     // '!'
 
       case 58:
         if (this.input.charCodeAt(this.state.pos + 1) === 58) {
@@ -627,11 +630,33 @@ export default class Lexer {
   }
 
   readToken_eq() {
-    if (this.input.charCodeAt(this.state.pos + 1) === 62) { // '=>'
+    let next = this.input.charCodeAt(this.state.pos + 1);
+    if (next === 62) { // '=>'
       return this.finishArrow(tt.arrow, 2);
     }
     ++this.state.pos;
+    if (this.finishTokenMaybe_equality("=", next)) return;
     return this.finishToken(tt.eq, "=");
+  }
+
+  readToken_excl() {
+    ++this.state.pos;
+    if (this.finishTokenMaybe_equality("!", this.input.charCodeAt(this.state.pos))) return;
+    return this.finishToken(tt.excl);
+  }
+
+  finishTokenMaybe_equality(prefix, next) {
+    if (next === 61) {
+      if (this.input.charCodeAt(this.state.pos + 1) === 61) {
+        this.state.pos += 2;
+        return this.finishToken(tt.equality, prefix + "==");
+      } else {
+        ++this.state.pos;
+        return this.finishToken(tt.equality, prefix + "=");
+      }
+    } else {
+      return false;
+    }
   }
 
   readToken_lt_gt(code) { // '<>'
