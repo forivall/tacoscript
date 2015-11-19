@@ -95,6 +95,7 @@ export const types = {
   name: new TokenType("name", "Identifier", startsExpr),
 
   eof: new TokenType("eof", "EOF"),
+  unknown: new TokenType("unknown"), // for fixed lookahead
   tab: new TokenType("tab", "Whitespace"),
   indent: new TokenType("indent", "SignificantWhitespace"),
   dedent: new TokenType("dedent", "SignificantWhitespace"),

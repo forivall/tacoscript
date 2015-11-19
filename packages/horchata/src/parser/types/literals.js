@@ -44,13 +44,13 @@ export function toAssignable(node, assignableContext = {}) {
       for (let i = 0; i < node.properties.length; i++) {
         let prop = node.properties[i];
         if (prop.kind !== "init") this.raise(prop.key.start, "Object pattern can't contain getter or setter");
-        this.toAssignable(prop.value, isBinding);
+        this.toAssignable(prop.value, assignableContext);
       }
       break
 
     case "ArrayExpression":
       node.type = "ArrayPattern";
-      this.toAssignableList(node.elements, isBinding);
+      this.toAssignableList(node.elements, assignableContext);
       break
 
     case "AssignmentExpression":
@@ -70,7 +70,7 @@ export function toAssignable(node, assignableContext = {}) {
       break;
 
     case "ParenthesizedExpression":
-      node.expression = this.toAssignable(node.expression, isBinding);
+      node.expression = this.toAssignable(node.expression, assignableContext);
       break;
 
     case "MemberExpression":
@@ -82,8 +82,40 @@ export function toAssignable(node, assignableContext = {}) {
   return node;
 }
 
+
+// Convert list of expression atoms to binding list.
+
+export function toAssignableList(exprList, assignableContext = {}) {
+  const {isBinding} = assignableContext;
+  let end = exprList.length;
+  if (end) {
+    let last = exprList[end - 1];
+    if (last && last.type == "RestElement") {
+      --end;
+    } else if (last && last.type == "SpreadElement") {
+      // Convert SpreadElement to RestElement
+      last.type = "RestElement";
+      let node = last.argument;
+      node = this.toAssignable(node, assignableContext);
+      if (node.type !== "Identifier" && node.type !== "MemberExpression" && node.type !== "ArrayPattern") {
+        this.unexpected(node.start);
+      }
+      --end;
+    }
+
+    if (isBinding && last.type === "RestElement" && last.argument.type !== "Identifier") {
+      this.unexpected(last.argument.start);
+    }
+  }
+  for (let i = 0; i < end; i++) {
+    exprList[i] = this.toAssignable(exprList[i], assignableContext);
+  }
+  return exprList
+}
+
+
 export function toArguments(elements) {
-  throw new Error("Not Implemented");
+  return this.toAssignableList(elements, {isBinding: true});
 }
 
 // equivalent to parseVarId / parseVarHead

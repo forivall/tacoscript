@@ -107,7 +107,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
       // accomodate [frappe lambdas][fl], etc from within a plugin
       // fl: https://github.com/lydell/frappe#consistently-short-arrow-function-syntax
       if (this.match(tt.parenL)) {
-        this.state.potentialLambdaAt = this.state.start;
+        this.state.potentialLambdaOn = {...this.state.cur};
       }
 
       // tacoscript conditional expressions always start with `if` or `if!`,
@@ -469,6 +469,7 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   this.eat(tt.parenR) || this.unexpected();
 
   let {type, value} = this.state.cur;
+
   if (canBeArrow && (
       this.eat(tt.arrow) ||
       this.eat(tt.unboundArrow) ||

@@ -113,6 +113,9 @@ export default class State {
     // Position information for the previous token
     this.prev = {...this.cur};
 
+    // Position information for the next token (single token fixed lookahead)
+    this.next = {...this.cur, type: tt.unknown};
+
     // Used to signify information about the start of a potential anonymous
     // function expression
     // Equivalent to acorn & babylon's potentialArrowAt
@@ -133,5 +136,6 @@ export default class State {
         default: clone[k] = this[k];
       }
     }
+    return clone;
   }
 }

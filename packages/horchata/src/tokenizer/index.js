@@ -23,8 +23,9 @@ function keywordRegexp(words) {
 export default class Lexer {
   // TODO: move input to parse(), change otions os that it only contains options
   // that are generic, no options that pertain to the source file
-  constructor(options) {
+  constructor(options = {}) {
     this.options = getOptions(options);
+    this.isLookahead = !!options.isLookahead;
 
     // Construct regexes for reserved words, according to settings
     this.keywords = keywordRegexp([].concat(keywords, reservedWords.tacoscript))
@@ -34,6 +35,10 @@ export default class Lexer {
 
     // These will be populated by `open()`
     this.file = this.input = this.state = null;
+
+    if (!this.isLookahead) {
+      this.lookahead = new Lexer({...options, isLookahead: true});
+    }
   }
 
   raise() {
@@ -45,8 +50,12 @@ export default class Lexer {
   open(file) {
     this.file = file;
     this.input = this.file.input;
-    this.state = new State();
-    this.state.init(this.options, this.file);
+    if (!this.isLookahead) {
+      this.state = new State();
+      this.state.init(this.options, this.file);
+
+      this.lookahead.open(file);
+    }
   }
   close() {
     this.file = this.input = this.state = null;
@@ -55,11 +64,14 @@ export default class Lexer {
   // TODO: parse hash bang line as comment
 
   // Move to the next token
+  // TODO: add a two-token fixed lookahead, assuming as context doesn't change
+  //    and then when context changes, the lookahead is rebuilt
+  // TODO: add dynamic lookahead, like how babylon does it.
   next() {
     this.onToken(Token.fromState(this.state.cur));
 
     this.state.prev = {...this.state.cur};
-    this.state.cur.index = this.state.tokens.length;
+    if (!this.isLookahead) this.state.cur.index = this.state.tokens.length;
 
     this.nextToken();
   }
@@ -276,6 +288,12 @@ export default class Lexer {
 
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
+
+    if (type === tt.star && !this.isLookahead) {
+      this.lookahead.state = this.state.clone();
+      this.lookahead.next();
+      this.state.next = this.lookahead.state.cur;
+    }
 
     return true;
   }
@@ -804,6 +822,7 @@ export default class Lexer {
   ////////////// Token Storage //////////////
 
   onToken(token) {
+    if (this.isLookahead) return;
     this.state.tokens.push(token);
     this.onSourceElementToken(token);
   }
@@ -813,6 +832,7 @@ export default class Lexer {
   }
 
   onSourceElementToken(token) {
+    if (this.isLookahead) return;
     this.state.sourceElementTokens.push(token);
   }
 }
