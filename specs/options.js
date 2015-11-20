@@ -13,7 +13,7 @@ var baseOptions = module.exports.base = {
     "auto": { loc: ["expected.taco"] },
     "babel": { loc: ["expected.js"] },
     // estree ast
-    "json": { loc: ["expected.json", "expected.cst.json"] },
+    "json": { loc: ["expected.json"] },
     // pre-transform tacoscript ast
     "raw": { loc: ["actual.json"] },
   },

@@ -12,6 +12,9 @@ var specOptions = require("../../../specs/options");
 
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
   _.assign({}, specOptions.core, {
+    fixtures: _.assign({}, specOptions.core.fixtures, {
+      "json": { loc: ["expected.json", "expected.cst.json"] }
+    }),
     skip: function(test, testPath) {
       return specOptions.core.skip(test, testPath) ||
       test.indexOf("invalid-") === 0 ||
@@ -42,7 +45,13 @@ var babylonParseOpts = {
     "es7.exportExtensions": true,
   },
 };
-var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"), specOptions.unified);
+var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
+  _.extend({}, specOptions.unified, {
+    fixtures: _.assign({}, specOptions.unified.fixtures, {
+      "json": { loc: ["expected.json", "expected.cst.json"] }
+    })
+  })
+);
 
 suite("taco-printer", function () {
   test("basic", function () {
