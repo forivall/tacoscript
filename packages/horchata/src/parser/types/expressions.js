@@ -139,6 +139,21 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
   return node;
 }
 
+// expects the `if` to already be on `cur`, and the `!` to maybe be next.
+export function parseConditionalExpression(expressionContext = {}) {
+  let node = this.startNode();
+  this.eat(tt.excl);
+  node.test = this.parseExpression();
+
+  this.eat(tt._then) || this.unexpected();
+  node.consequent = this.parseExpression();
+
+  this.eat(tt._else) || this.unexpected();
+  node.alternate = this.parseExpression();
+
+  return this.finishNode(node, "ConditionalExpression");
+}
+
 export function parseOtherKeywordExpression() {
   // Purposefully left empty for plugins. See docs/horchata-plugins.md#empty-functions
   return null;
@@ -163,7 +178,6 @@ export function parseExpressionOperators(expressionContext) {
 // `minPrec` provides context that allows the function to stop and
 // defer further parser to one of its callers when it encounters an
 // operator that has a lower precedence than the set it is parsing.
-
 export function parseExpressionOperator(node, start, minPrec, expressionContext) {
   let prec = this.state.cur.type.binop;
   if (prec != null && !(expressionContext.isFor && this.match(tt._in)) &&
@@ -210,10 +224,8 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
   return node;
 }
 
-export function isArrowFunctionExpression(node) {
-  // TODO: investigate what the parsing rules are around subscript parsing, and see if we need this,
-  // or if it's just a performance optimization
-  return node.type === "ArrowFunctionExpression";
+export function isArrowExpression(node) {
+  return node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression" && node.id;
 }
 
 // Parse call, dot, and `[]`-subscript expressions.
@@ -223,7 +235,7 @@ export function parseExpressionSubscripts(expressionContext) {
   let node = this.parseExpressionAtomic(expressionContext);
 
   // check if we just parsed an arrow-type function expression
-  let skipArrowSubscripts = this.isArrowFunctionExpression(node) && start.start === potentialLambdaOn.start;
+  let skipArrowSubscripts = this.isArrowExpression(node) && start.start === potentialLambdaOn.start;
 
   if (skipArrowSubscripts || expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
@@ -327,13 +339,10 @@ export function parseSpread(expressionContext) {
   return this.finishNode(node, "SpreadElement");
 }
 
-// TODO: move the below function to literals
-
 // Parse an atomic expression — either a single token that is an
 // expression, an expression started by a keyword like `function` or
 // `new`, or an expression wrapped in punctuation like `()`, `[]`,
 // or `{}`.
-
 export function parseExpressionAtomic(expressionContext) {
   let node;
   let canBeArrow = this.state.potentialLambdaOn.start === this.state.cur.start;
@@ -402,7 +411,8 @@ export function parseExpressionAtomic(expressionContext) {
       throw new Error("Not Implemented");
 
     case tt._new:
-      throw new Error("Not Implemented");
+      node = this.parseNew();
+      break;
 
     case tt.backquote:
       throw new Error("Not Implemented");
@@ -415,6 +425,8 @@ export function parseExpressionAtomic(expressionContext) {
   }
   return node;
 }
+
+// The remaining functions here are for parsing atomic expressions, alphabetized
 
 // Parse an expression grouped by parenthises -- could be
 // * an expression
@@ -499,19 +511,4 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   }
 
   return node;
-}
-
-// expects the `if` to already be on `cur`, and the `!` to maybe be next.
-export function parseConditionalExpression(expressionContext = {}) {
-  let node = this.startNode();
-  this.eat(tt.excl);
-  node.test = this.parseExpression();
-
-  this.eat(tt._then) || this.unexpected();
-  node.consequent = this.parseExpression();
-
-  this.eat(tt._else) || this.unexpected();
-  node.alternate = this.parseExpression();
-
-  return this.finishNode(node, "ConditionalExpression");
 }
