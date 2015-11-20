@@ -792,7 +792,7 @@ export default class Lexer {
         }
       }
     }
-    return this.finishToken(type, {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)});
+    return this.finishToken(type, type === tt.name ? {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)} : word);
   }
 
   // Read an identifier, and return it as a string. Sets `state.containsEsc`
