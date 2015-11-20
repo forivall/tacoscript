@@ -18,15 +18,15 @@ export function initFunction(node) {
 }
 
 // Parse object or class method.
-
-export function parseMethod(isGenerator) {
-  let node = this.startNode();
+export function parseMethod(node, functionContext = {}) {
+  let oldInMethod = this.state.inMethod;
+  this.state.inMethod = node.kind || true;
   this.initFunction(node);
-  this.eat(tt.parenL) || this.unexpected();
-  node.params = this.parseBindingList(tt.parenR);
-  node.generator = isGenerator;
-  this.parseFunctionBody(node);
-  return this.finishNode(node, "FunctionExpression");
+  node = this.parseFunctionParams(node, functionContext);
+  node = this.parseArrowNamed(node, functionContext);
+  node = this.parseFunctionBody(node, functionContext);
+  this.state.inMethod = oldInMethod;
+  return node;
 }
 
 // Parse arrow function expression with given parameters.
@@ -50,7 +50,7 @@ export function parseArrowExpression(node, params) {
       if (Token.isImplicitReturn(arrow)) {
         node = this.parseArrowExpressionFunction(node);
       } else {
-        this.parseFunctionBody(node, {allowEmpty: true});
+        node = this.parseFunctionBody(node, {allowEmpty: true});
       }
       break;
 
@@ -59,7 +59,7 @@ export function parseArrowExpression(node, params) {
       // fallthrough
     case tt.unboundArrow:
       isArrowFunction = false;
-      this.parseFunctionBody(node, {allowEmpty: true});
+      node = this.parseFunctionBody(node, {allowEmpty: true});
       break;
     default: this.unexpected();
   }
@@ -119,18 +119,19 @@ export function parseFunctionExpressionNamed() {
 
 export function parseFunctionNamed(node, identifierContext, functionContext) {
   node.id = this.parseIdentifier(identifierContext);
-  this.parseFunctionParams(node);
-  this.parseArrowNamed(node, functionContext);
-  this.parseFunctionBody(node, functionContext);
+  node = this.parseFunctionParams(node, functionContext);
+  node = this.parseArrowNamed(node, functionContext);
+  node = this.parseFunctionBody(node, functionContext);
   return node;
 }
 
-export function parseFunctionParams(node) {
+export function parseFunctionParams(node/*, functionContext*/) {
   this.eat(tt.parenL) || this.unexpected();
   node.params = this.parseBindingList(tt.parenR, {allowTrailingComma: true});
+  return node;
 }
 
-export function parseArrowNamed(node) {
+export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
   switch(this.state.cur.type) {
     case (tt.arrow):

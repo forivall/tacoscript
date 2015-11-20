@@ -27,4 +27,16 @@ export default class Node {
       this.sourceElements = [];
     }
   }
+
+  __clone() {
+    let clone = new Node();
+    for (let k in this) clone[k] = this[k];
+    if ("range" in this) {
+      clone.range = [this.range[0], this.range[1]];
+    }
+    if ("sourceElements" in this) {
+      clone.sourceElements = [];
+    }
+    return clone;
+  }
 }

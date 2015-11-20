@@ -22,10 +22,8 @@ export function convertRightAssign(node/*, tokType*/) {
   return node;
 }
 
-
 // Convert existing, already parsed expression atom to assignable pattern
 // if possible.
-
 export function toAssignable(node, assignableContext = {}) {
   if (node == null) return node;
   const {isBinding} = assignableContext;
@@ -82,9 +80,7 @@ export function toAssignable(node, assignableContext = {}) {
   return node;
 }
 
-
 // Convert list of expression atoms to binding list.
-
 export function toAssignableList(exprList, assignableContext = {}) {
   const {isBinding} = assignableContext;
   let end = exprList.length;
@@ -112,7 +108,6 @@ export function toAssignableList(exprList, assignableContext = {}) {
   }
   return exprList
 }
-
 
 export function toArguments(elements) {
   return this.toAssignableList(elements, {isBinding: true});
@@ -176,8 +171,7 @@ export function parseBindingList(close, bindingListContext = {}) {
       // TODO: allow ellipsis after newline just before close
       this.match(indented ? tt.dedent : close) || this.unexpected();
     } else {
-      // TODO: allow parsing defaults with parseMaybeDefault()
-      node = this.parseBindingAtomic();
+      node = this.parseMaybeDefault();
     }
     node = this.parseAssignableListItemTypes(node);
     elements.push(node);
@@ -193,10 +187,25 @@ export function parseAssignableListItemTypes(param) {
   return param;
 }
 
+// Parses assignment pattern around given atom if possible.
+export function parseMaybeDefault(start, left) {
+  if (start == null) start = {...this.state.cur};
+  if (left == null) left = this.parseBindingAtomic();
+  let node;
+  if (this.eat(tt.eq)) {
+    node = this.startNode(start);
+    node.left = left;
+    node.right = this.parseExpression();
+    node = this.finishNode(node, "AssignmentPattern");
+  } else {
+    node = left;
+  }
+  return node;
+}
+
 // Parse the next token as an identifier. If `allowKeywords` is true (used
 // when parsing properties), it will also convert keywords into
 // identifiers, including the token type.
-
 export function parseIdentifier(identifierContext = {}) {
   // equivalent to `liberal` in acorn/babylon
   const allowKeywords = !!identifierContext.allowKeywords;
@@ -234,6 +243,7 @@ export function parseArrayLiteral(expressionContext) {
   return this.finishNode(node, "ArrayExpression");
 }
 
+// TODO: use for call expressions.
 export function parseExpressionList(close, expressionContext) {
   const {allowEmpty, allowTrailingComma} = expressionContext;
   let elements = [];
@@ -272,21 +282,22 @@ export function parseExpressionList(close, expressionContext) {
 
 // Parse an object literal
 export function parseObjectLiteral(expressionContext) {
-  return this._parseObject(false, expressionContext);
+  return this.parseObject(false, expressionContext);
 }
 
 // Parse an object binding pattern
 export function parseObjectBinding(expressionContext) {
-  return this._parseObject(true, expressionContext);
+  return this.parseObject(true, expressionContext);
 }
 
-export function _parseObject(isPattern, expressionContext) {
+export function parseObject(isPattern, expressionContext) {
   let decorators = [];
   let propHash = Object.create(null);
   let first = true;
+  let indented = false;
   let node = this.startNode();
-
   node.properties = [];
+
   this.next();
 
   while (!this.eat(indented ? tt.dedent : tt.braceR)) {
@@ -300,6 +311,7 @@ export function _parseObject(isPattern, expressionContext) {
       this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
       if (this.eat(indented ? tt.dedent : tt.braceR)) break;
     }
+    let propertyContext = {};
 
     while (this.match(tt.at)) {
       decorators.push(this.parseDecorator());
@@ -321,9 +333,16 @@ export function _parseObject(isPattern, expressionContext) {
       if (isPattern || expressionContext.shorthandDefaultPos) {
         start = {...this.state.cur};
       }
+      if (!isPattern) {
+        if (this.eat(tt._get)) {
+          propertyContext.kind = "get";
+        } else if (this.eat(tt._set)) {
+          propertyContext.kind = "set";
+        }
+      }
 
-      this.parsePropertyName(prop);
-      this.parsePropertyValue(prop, start, isPattern, expressionContext);
+      prop = this.parsePropertyName(prop);
+      prop = this.parsePropertyValue(prop, start, isPattern, propertyContext, expressionContext);
       this.checkPropClash(prop, propHash);
       prop = this.finishNode(prop, "Property");
     }
@@ -332,5 +351,57 @@ export function _parseObject(isPattern, expressionContext) {
   if (indented) {
     this.eat(tt.newline) && this.eat(tt.braceR) || this.unexpected();
   }
-  return elements;
+  return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression");
+}
+
+export function parsePropertyName(prop) {
+  if (this.eat(tt.bracketL)) {
+    prop.computed = true;
+    prop.key = this.parseExpression();
+    this.eat(tt.bracketR) || this.unexpected();
+  } else {
+    prop.computed = false;
+    prop.key = (this.match(tt.num) || this.match(tt.string))
+      ? this.parseExpressionAtomic()
+      : this.parseIdentifier({allowKeywords: true});
+  }
+  return prop;
+}
+
+export function parsePropertyValue(prop, start, isPattern, propertyContext, expressionContext) {
+  if (propertyContext.kind === "get" || propertyContext.kind === "set") {
+    prop.kind = propertyContext.kind;
+    prop = this.parseMethod(prop);
+    this.checkGetterSetterProperty(prop);
+    node = this.finishNode(prop, "ObjectMethod");
+  } else if (this.match(tt.parenL)) {
+    prop.kind = "method";
+    prop.method = true;
+    prop = this.parseMethod(prop, {allowEmpty: true});
+    prop = this.finishNode(prop, "ObjectMethod");
+  } else if (this.eat(tt.colon)) {
+    prop.kind = "init";
+    prop.value = isPattern
+      ? this.parseMaybeDefault()
+      : this.parseExpression(expressionContext);
+    prop = this.finishNode(prop, "ObjectProperty");
+  } else if (!prop.computed && prop.key.type === "Identifier") {
+    prop.kind = "init";
+    if (isPattern) {
+      this.checkShorthandPropertyBinding(prop);
+      prop.value = this.parseMaybeDefault(start, prop.key.__clone());
+    } else if (this.match(tt.eq) && expressionContext.shorthandDefaultPos) {
+      if (!expressionContext.shorthandDefaultPos.start) {
+        expressionContext.shorthandDefaultPos.start = this.state.cur.start;
+      }
+      prop.value = this.parseMaybeDefault(start, prop.key.__clone());
+    } else {
+      prop.value = prop.key.__clone();
+    }
+    prop.shorthand = true;
+    prop = this.finishNode(prop, "ObjectProperty");
+  } else {
+    this.unexpected();
+  }
+  return prop;
 }

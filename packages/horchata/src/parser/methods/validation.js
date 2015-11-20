@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2012-2014 by various contributors (see doc/ACORN_AUTHORS)
+ * Copyright (C) 2015 Jordan Klassen <forivall@gmail.com>
+ *
+ * See LICENSE for full license text
+ */
+
 import { types as tt } from "../../tokenizer/types";
 
 // To be overridden by plugins
@@ -85,6 +92,18 @@ export function checkFunctionAssignable(node, setStrict) {
   this.state.strict = oldStrict;
 }
 
+export function checkGetterSetterProperty(prop) {
+  let paramCount = prop.kind === "get" ? 0 : 1;
+  if (prop.params.length !== paramCount) {
+    let start = prop.start;
+    if (prop.kind === "get") {
+      this.raise(start, "getter should have no params");
+    } else {
+      this.raise(start, "setter should have exactly one param");
+    }
+  }
+}
+
 export function checkIdentifierName(identifierContext) {
   const allowKeywords = !!identifierContext.allowKeywords;
   // TODO: see if this still triggers with escaped words in
@@ -106,6 +125,53 @@ export function checkParams(node) {
   let nameHash = {};
   for (let i = 0; i < node.params.length; i++) {
     this.checkAssignable(node.params[i], true, nameHash);
+  }
+}
+
+// Check if property name clashes with already added.
+// Object/class getters and setters are not allowed to clash —
+// either with each other or with an init property — and in
+// strict mode, init properties are also not allowed to be repeated.
+export function checkPropClash(prop, propHash) {
+  if (prop.computed || prop.method || prop.shorthand) return;
+
+  let {key} = prop;
+  let name;
+
+  switch (key.type) {
+    case "Identifier": name = key.name; break;
+    case "StringLiteral": case "NumericLiteral": name = String(key.value); break;
+    default: return;
+  }
+  let {kind} = prop;
+  if (name === "__proto__" && kind === "init") {
+    if (propHash.proto) this.raise(key.start, "Redefinition of __proto__ property");
+    propHash.proto = true
+  }
+}
+
+export function checkPropRedefinition(name, prop, propHash) {
+  name = "$" + name;
+  let other = propHash[name]
+  if (other) {
+    let isGetSet = kind !== "init"
+    if ((this.strict || isGetSet) && other[kind] || !(isGetSet ^ other.init))
+      this.raise(key.start, "Redefinition of property")
+  } else {
+    other = propHash[name] = {
+      init: false,
+      get: false,
+      set: false
+    }
+  }
+  other[kind] = true;
+}
+
+export function checkShorthandPropertyBinding(prop) {
+  // TODO: allow if escaped
+  if (this.keywords.test(prop.key.name) ||
+      (this.state.strict ? this.reservedWordsStrictBind : this.reservedWords).test(prop.key.name)) {
+    this.raise(prop.key.start, "Binding " + prop.key.name);
   }
 }
 

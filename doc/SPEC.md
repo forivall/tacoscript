@@ -272,6 +272,8 @@ All of the following syntax is optional, but is default, and is part of the core
   * [ ] Implement a simpler & more performant version of lookahead compared to babylon's lookahead
     * [ ] use lookahead'd tokens when the context doesn't change
   * [ ] Instead of setting and unsetting the state on `this`, pass a scope object down the recursive descent.
+  * [ ] Add CST-in-AST nodes
+    * [ ] instead of setting node properties directly, use `Parser#assign` or `set` or `add`
 * [ ] Improve documentation
 * [ ] Implement each of the extended syntax as independent transforms
 * [ ] add whitespace and comment preservation to tacoscript-generator

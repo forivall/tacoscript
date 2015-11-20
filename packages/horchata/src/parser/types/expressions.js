@@ -39,8 +39,6 @@ import {types as tt} from "../../tokenizer/types";
 // and, *if* the syntactic construct they handle is present, wrap
 // the AST node that the inner parser gave them in another node.
 
-
-
 // Parse a full expression. The expressionContext is used to:
 // * forbid the `in` operator (in for loops initalization expressions)
 // * provide reference for storing '=' operator inside shorthand
@@ -465,7 +463,8 @@ export function parseExpressionAtomic(expressionContext) {
 // New's precedence is slightly tricky. It must allow its argument
 // to be a `[]` or dot subscript expression, but not a call — at
 // least, not without wrapping it in parentheses. Thus, it uses the
-const empty = [];
+// const empty = Symbol("EmptyArguments");
+const empty = "__emptyArguments";
 export function parseNew() {
   let node = this.startNode();
   let meta = this.parseIdentifier({allowKeywords: true});
@@ -486,7 +485,8 @@ export function parseNew() {
     } else if (this.eat(tt.excl)) {
       node.arguments = this.parseCallExpressionArguments(tt.newline, {exclCall: true})
     } else {
-      node.arguments = empty;
+      node.arguments = [];
+      node.arguments[empty] = true;
     }
     node = this.finishNode(node, "NewExpression");
   }
@@ -578,4 +578,4 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   return node;
 }
 
-export function _argumentsIsEmpty(args) { return args === empty; }
+export function _argumentsIsEmpty(args) { return !!args[empty]; }
