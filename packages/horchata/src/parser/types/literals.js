@@ -344,7 +344,6 @@ export function parseObject(isPattern, expressionContext) {
       prop = this.parsePropertyName(prop);
       prop = this.parsePropertyValue(prop, start, isPattern, propertyContext, expressionContext);
       this.checkPropClash(prop, propHash);
-      prop = this.finishNode(prop, "Property");
     }
     node.properties.push(prop);
   }
