@@ -45,14 +45,14 @@ suite("taco-printer", function () {
 function removeLocInfo(json) {
   if (Object.prototype.toString.call(json) === '[object Array]') {
     for (var i = 0, len = json.length; i < len; i++) {
-      removeLocInfo(json[i]);
+      if (json[i] != null) removeLocInfo(json[i]);
     }
   } else {
     delete json.start;
     delete json.end;
     delete json.loc;
     for (var k in json) {
-      if (json[k] != null && Object.prototype.toString.call(json) === '[object Object]') {
+      if (json[k] != null && (typeof json[k]) === 'object') {
         removeLocInfo(json[k]);
       }
     }
@@ -74,7 +74,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
           var expectedAst;
           try {
             expectedAst = removeLocInfo(JSON.parse(task.json.code));
-            delete expectedAst.program.sourceType;
+            if (expectedAst.program != null) delete expectedAst.program.sourceType;
           } catch(e) {}
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
