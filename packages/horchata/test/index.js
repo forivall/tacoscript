@@ -71,6 +71,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
           var taco = task.auto;
 
           var ast = horchata.parse(taco.code);
+          // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
           try {
             expectedAst = removeLocInfo(JSON.parse(task.json.code));

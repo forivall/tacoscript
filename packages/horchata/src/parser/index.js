@@ -45,7 +45,6 @@ export default class Parser extends Lexer {
     let program = this.startNode();
     this.nextToken();
     file = this.parseTopLevel(file, program);
-    if (file.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
     return file;
   }
 
