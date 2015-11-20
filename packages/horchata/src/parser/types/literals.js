@@ -308,7 +308,8 @@ export function parseObject(isPattern, expressionContext) {
     if (first) {
       first = false;
     } else {
-      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+      // TODO: make sure that functions only consume the dedent, not the newline
+      this.eat(tt.comma) || indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)) || this.unexpected();
       if (this.eat(indented ? tt.dedent : tt.braceR)) break;
     }
     let propertyContext = {};
@@ -372,7 +373,7 @@ export function parsePropertyValue(prop, start, isPattern, propertyContext, expr
     prop.kind = propertyContext.kind;
     prop = this.parseMethod(prop);
     this.checkGetterSetterProperty(prop);
-    node = this.finishNode(prop, "ObjectMethod");
+    prop = this.finishNode(prop, "ObjectMethod");
   } else if (this.match(tt.parenL)) {
     prop.kind = "method";
     prop.method = true;

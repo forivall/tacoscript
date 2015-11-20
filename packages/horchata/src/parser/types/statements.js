@@ -154,6 +154,23 @@ export function parseIfStatement(node) {
   return this.finishNode(node, "IfStatement");
 }
 
+export function parseReturnStatement(node) {
+  // TODO: move to validator
+  if (!this.state.inFunction && !this.options.allowReturnOutsideFunction)
+    this.raise(this.start, "'return' outside of function");
+  this.next();
+
+  // TODO: allow indented block-style return statement
+
+  if (this.eat(tt.newline)) {
+    node.argument = null;
+  } else {
+    node.argument = this.parseExpression();
+    this.eat(tt.newline) || this.unexpected();
+  }
+  return this.finishNode(node, "ReturnStatement")
+}
+
 export function parseStatementBody() {
   let node;
   if (this.eat(tt.indent)) {

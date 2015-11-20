@@ -86,6 +86,10 @@ export default class Lexer {
     return this.state.next.type === type;
   }
 
+  matchPrev(type) {
+    return this.state.prev.type === type;
+  }
+
   // Predicate that tests whether the next token is of the given
   // type, and if yes, consumes it as a side effect.
   eat(type) {
