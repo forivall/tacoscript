@@ -89,7 +89,7 @@
             },
             "properties": [
               {
-                "type": "Property",
+                "type": "ObjectMethod",
                 "start": 6,
                 "end": 22,
                 "loc": {
@@ -123,40 +123,26 @@
                   "raw": "\"undef\""
                 },
                 "kind": "get",
-                "value": {
-                  "type": "FunctionExpression",
-                  "start": 17,
+                "id": null,
+                "generator": false,
+                "expression": false,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "start": 20,
                   "end": 22,
                   "loc": {
                     "start": {
                       "line": 1,
-                      "column": 17
+                      "column": 20
                     },
                     "end": {
                       "line": 1,
                       "column": 22
                     }
                   },
-                  "id": null,
-                  "generator": false,
-                  "expression": false,
-                  "params": [],
-                  "body": {
-                    "type": "BlockStatement",
-                    "start": 20,
-                    "end": 22,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 20
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 22
-                      }
-                    },
-                    "body": []
-                  }
+                  "body": [],
+                  "directives": []
                 }
               }
             ]

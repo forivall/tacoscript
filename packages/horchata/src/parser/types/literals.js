@@ -334,7 +334,8 @@ export function parseObject(isPattern, expressionContext) {
       if (isPattern || expressionContext.shorthandDefaultPos) {
         start = {...this.state.cur};
       }
-      if (!isPattern) {
+
+      if (!isPattern && !this.matchNext(tt.colon)) {
         if (this.eat(tt._get)) {
           propertyContext.kind = "get";
         } else if (this.eat(tt._set)) {

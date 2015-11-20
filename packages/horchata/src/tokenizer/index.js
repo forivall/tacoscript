@@ -298,7 +298,12 @@ export default class Lexer {
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
 
-    if (!this.isLookahead && type === tt.star && prevType === tt.parenR) {
+    if (!this.isLookahead && (
+          type === tt.star && prevType === tt.parenR ||
+          type === tt._get ||
+          type === tt._set ||
+          false)
+        ) {
       this.lookahead.state = this.state.clone();
       this.lookahead.next();
       this.state.next = this.lookahead.state.cur;
