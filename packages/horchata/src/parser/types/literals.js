@@ -233,6 +233,7 @@ export function parseArrayExpression(expressionContext) {
   node.elements = this.parseExpressionList(tt.bracketR, {...expressionContext, allowEmpty: true, allowTrailingComma: true});
   return this.finishNode(node, "ArrayExpression");
 }
+
 export function parseExpressionList(close, expressionContext) {
   const {allowEmpty, allowTrailingComma} = expressionContext;
   let elements = [];

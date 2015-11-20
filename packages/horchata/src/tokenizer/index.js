@@ -322,6 +322,17 @@ export default class Lexer {
     return this.finishToken(type);
   }
 
+  // ### Token reading
+
+  // This is the function that is called to fetch the next token. It
+  // is somewhat obscure, because it works in character codes rather
+  // than characters, and because operator parsing has been inlined
+  // into it.
+  //
+  // All in the name of speed. And because it's a little bit more
+  // flexible than regex.
+  //
+
   // TODO: allow extension of each of these token endpoints to allow custom
   // multichar tokens.
   getTokenFromCode(code) {
@@ -652,6 +663,19 @@ export default class Lexer {
     }
     out += this.input.slice(chunkStart, this.state.pos++);
     return this.finishToken(tt.string, out);
+  }
+
+  readToken_dot() {
+    let next = this.input.charCodeAt(this.state.pos + 1);
+    if (next >= 48 && next <= 57) return this.readNumber(true);
+    let nextnext = this.input.charCodeAt(this.state.pos + 2);
+    if (next === 46 && nextnext === 46) {
+      this.state.pos += 3;
+      return this.finishToken(tt.ellipsis);
+    } else {
+      ++this.state.pos;
+      return this.finishToken(tt.dot);
+    }
   }
 
   readToken_eq() {

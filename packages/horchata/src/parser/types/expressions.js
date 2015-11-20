@@ -428,6 +428,37 @@ export function parseExpressionAtomic(expressionContext) {
 
 // The remaining functions here are for parsing atomic expressions, alphabetized
 
+// New's precedence is slightly tricky. It must allow its argument
+// to be a `[]` or dot subscript expression, but not a call — at
+// least, not without wrapping it in parentheses. Thus, it uses the
+const empty = [];
+export function parseNew() {
+  let node = this.startNode();
+  let meta = this.parseIdentifier({allowKeywords: true});
+  if (this.eat(tt.dot)) {
+    node.meta = meta;
+    node.property = this.parseIdentifier({allowKeywords: true});
+
+    if (node.property.name !== "target") {
+      this.raise(node.property.start, "The only valid meta property for new is new.target");
+    }
+    this.checkMetaProperty(node);
+    node = this.finishNode(node, "MetaProperty");
+  } else {
+    let start = {...this.state.cur};
+    node.callee = this.parseSubscripts(this.parseExpressionAtomic(), start, {isNew: true});
+    if (this.eat(tt.parenL)) {
+      node.arguments = this.parseCallExpressionArguments(tt.parenR)
+    } else if (this.eat(tt.excl)) {
+      node.arguments = this.parseCallExpressionArguments(tt.newline, {exclCall: true})
+    } else {
+      node.arguments = empty;
+    }
+    node = this.finishNode(node, "NewExpression");
+  }
+  return node;
+}
+
 // Parse an expression grouped by parenthises -- could be
 // * an expression
 // * a comprehension
@@ -512,3 +543,5 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
 
   return node;
 }
+
+export function _argumentsIsEmpty(args) { return args === empty; }

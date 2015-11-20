@@ -93,6 +93,12 @@ export function checkIdentifierName(identifierContext) {
   }
 }
 
+export function checkMetaProperty(node) {
+  if (this.state.inFunction) {
+    this.raise(node.start, "new.target can only be used in functions");
+  }
+}
+
 // Checks function params for various disallowed patterns such as using "eval"
 // or "arguments" and duplicate parameters.
 
