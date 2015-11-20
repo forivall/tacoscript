@@ -227,7 +227,7 @@ export function parseLiteral(value, type) {
 }
 
 // override me to implement array comprehensions, etc.
-export function parseArrayExpression(expressionContext) {
+export function parseArrayLiteral(expressionContext) {
   let node = this.startNode();
   this.next();
   node.elements = this.parseExpressionList(tt.bracketR, {...expressionContext, allowEmpty: true, allowTrailingComma: true});
@@ -266,6 +266,71 @@ export function parseExpressionList(close, expressionContext) {
   }
   if (indented) {
     this.eat(tt.newline) && this.eat(close) || this.unexpected();
+  }
+  return elements;
+}
+
+// Parse an object literal
+export function parseObjectLiteral(expressionContext) {
+  return this._parseObject(false, expressionContext);
+}
+
+// Parse an object binding pattern
+export function parseObjectBinding(expressionContext) {
+  return this._parseObject(true, expressionContext);
+}
+
+export function _parseObject(isPattern, expressionContext) {
+  let decorators = [];
+  let propHash = Object.create(null);
+  let first = true;
+  let node = this.startNode();
+
+  node.properties = [];
+  this.next();
+
+  while (!this.eat(indented ? tt.dedent : tt.braceR)) {
+    if (!indented) {
+      indented = this.eat(tt.indent);
+      if (indented && first) first = false;
+    }
+    if (first) {
+      first = false;
+    } else {
+      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+      if (this.eat(indented ? tt.dedent : tt.braceR)) break;
+    }
+
+    while (this.match(tt.at)) {
+      decorators.push(this.parseDecorator());
+    }
+
+    let prop;
+    let start;
+    if (decorators.length > 0) {
+      prop.decorators = decorators;
+      decorators = [];
+    }
+    if (this.match(tt.ellipsis)) {
+      prop = isPattern ? this.parseRest() : this.parseSpread();
+    } else {
+      prop = this.startNode();
+      prop.method = false;
+      prop.shorthand = false;
+
+      if (isPattern || expressionContext.shorthandDefaultPos) {
+        start = {...this.state.cur};
+      }
+
+      this.parsePropertyName(prop);
+      this.parsePropertyValue(prop, start, isPattern, expressionContext);
+      this.checkPropClash(prop, propHash);
+      prop = this.finishNode(prop, "Property");
+    }
+    node.properties.push(prop);
+  }
+  if (indented) {
+    this.eat(tt.newline) && this.eat(tt.braceR) || this.unexpected();
   }
   return elements;
 }

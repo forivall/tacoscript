@@ -357,11 +357,19 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
   return elements;
 }
 
+// TODO: move this and parseRest into literals
 export function parseSpread(expressionContext) {
   let node = this.startNode();
   this.next();
   node.argument = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
   return this.finishNode(node, "SpreadElement");
+}
+
+export function parseRest(identifierContext = {}) {
+  let node = this.startNode();
+  this.next();
+  node.argument = this.parseIdentifier();
+  return this.finishNode(node, "RestElement");
 }
 
 // Parse an atomic expression — either a single token that is an
@@ -422,11 +430,12 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt.bracketL:
-      node = this.parseArrayExpression(expressionContext);
+      node = this.parseArrayLiteral(expressionContext);
       break;
 
     case tt.braceL:
-      throw new Error("Not Implemented");
+      node = this.parseObjectLiteral(expressionContext);
+      break;
 
     case tt._function:
       node = this.parseFunctionExpressionNamed();
