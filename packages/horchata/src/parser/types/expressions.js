@@ -202,25 +202,51 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
 // Parse unary operators, both prefix and postfix.
 export function parseExpressionMaybeUnary(expressionContext = {}) {
   expressionContext = {...expressionContext, isFor: false}; // `in` is allowed in unary operators
+  let node;
   if (this.state.cur.type.prefix) {
-    throw new Error("Not Implemented");
-  }
-  let start = {...this.state.cur};
-  let node = this.parseExpressionSubscripts(expressionContext);
-  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
-    return node;
-  }
-  while (this.state.cur.type.postfix) {
-    let expr = node;
-    node = this.startNode(start);
-    node.operator = this.state.cur.value;
-    node.prefix = false;
-    node.argument = expr;
-    this.checkAssignable(expr);
-    this.next();
-    node = this.finishNode(node, "UpdateExpression");
+    node = this.parseExpressionPrefix(expressionContext);
+  } else {
+    let start = {...this.state.cur};
+    node = this.parseExpressionSubscripts(expressionContext);
+    if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+      // noop
+    } else while (this.state.cur.type.postfix) {
+      node = this.parseExpressionPostfix(node, start);
+    }
   }
   return node;
+}
+
+export function parseExpressionPrefix(expressionContext) {
+  let isUpdate = this.match(tt.incDec);
+  let node = this.startNode();
+  node.operator = this.state.cur.type.estreeValue || this.state.cur.value;
+  node.prefix = true;
+  this.next();
+
+  let type = this.state.type;
+  node.argument = this.parseExpressionMaybeUnary();
+
+  if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
+    this.unexpected(expressionContext.shorthandDefaultPos.start);
+  }
+
+  if (isUpdate) {
+    this.checkAssignable(node.argument);
+  } else {
+    this.checkUnaryExpression(node);
+  }
+  return this.finishNode(node, isUpdate ? "UpdateExpression" : "UnaryExpression");
+}
+
+export function parseExpressionPostfix(exprNode, start) {
+  let node = this.startNode(start);
+  node.operator = this.state.cur.value;
+  node.prefix = false;
+  node.argument = exprNode;
+  this.checkAssignable(exprNode);
+  this.next();
+  return this.finishNode(node, "UpdateExpression");
 }
 
 export function isArrowExpression(node) {

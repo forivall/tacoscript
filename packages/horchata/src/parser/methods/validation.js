@@ -108,3 +108,12 @@ export function checkParams(node) {
     this.checkAssignable(node.params[i], true, nameHash);
   }
 }
+
+export function checkUnaryExpression(node) {
+  return;
+  // TODO: move to plugin
+  if (this.state.strict && node.operator === "delete" &&
+      node.argument.type === "Identifier") {
+    this.raise(node.start, "Deleting local variable in strict mode");
+  }
+}

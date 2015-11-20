@@ -420,6 +420,7 @@ export default class Lexer {
         return this.readToken_eq();
 
       case 126: // '~'
+        ++this.state.pos;
         return this.finishToken(tt.bitwiseNOT);
     }
     this.raise(this.state.pos, "Unexpected character '" + codePointToString(code) + "'");
