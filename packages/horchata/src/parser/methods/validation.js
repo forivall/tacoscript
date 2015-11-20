@@ -36,6 +36,55 @@ export function checkExpressionOperatorLeft(node) {
   }
 }
 
+export function checkFunctionBody(node) {
+  // the following is from babylon.
+
+  // If this is a strict mode function, verify that argument names
+  // are not repeated, and it does not try to bind the words `eval`
+  // or `arguments`.
+  let checkLVal = this.state.strict;
+  let checkLValStrict = false;
+  let isStrict = false;
+
+  // normal function
+  if (node.body.directives.length) {
+    for (let directive of (node.body.directives: Array<Object>)) {
+      if (directive.value.value === "use strict") {
+        isStrict = true;
+        checkLVal = true;
+        checkLValStrict = true;
+        break;
+      }
+    }
+  }
+
+  //
+  if (isStrict && node.id && node.id.type === "Identifier" && node.id.name === "yield") {
+    this.raise(node.id.start, "Binding yield in strict mode");
+  }
+
+  if (checkLVal) {
+    this.checkFunctionAssignable(node, checkLValStrict);
+  }
+}
+
+export function checkArrowExpressionFunction(node) {
+  this.checkFunctionAssignable(node);
+}
+
+export function checkFunctionAssignable(node, setStrict) {
+  let nameHash = Object.create(null);
+  let oldStrict = this.state.strict;
+  if (setStrict) this.state.strict = true;
+  if (node.id) {
+    this.checkAssignable(node.id, {isBinding: true});
+  }
+  for (let param of (node.params: Array<Object>)) {
+    this.checkAssignable(param, {isBinding: true, checkClashes: nameHash});
+  }
+  this.state.strict = oldStrict;
+}
+
 export function checkIdentifierName(identifierContext) {
   const allowKeywords = !!identifierContext.allowKeywords;
   // TODO: see if this still triggers with escaped words in
@@ -51,32 +100,5 @@ export function checkParams(node) {
   let nameHash = {};
   for (let i = 0; i < node.params.length; i++) {
     this.checkAssignable(node.params[i], true, nameHash);
-  }
-}
-
-export function checkFunctionBody(node, functionContext) {
-  const {isArrowFunction} = functionContext;
-  let isExpression = isArrowFunction && !this.match(tt._indent) || functionContext.isExpression;
-
-  // If this is a strict mode function, verify that argument names
-  // are not repeated, and it does not try to bind the words `eval`
-  // or `arguments`.
-  let isStrict = !!this.state.strict;
-  if (!isStrict || !isExpression && node.body.directives.length) {
-    for (let directive of (node.body.directives: Array)) {
-      if (directive.value.value === "use strict") {
-        isStrict = true;
-      }
-    }
-  }
-
-  if (isArrowFunction) {
-    this.checkParams(node);
-  } else if (isStrict) {
-    let oldStrict = this.state.strict;
-    this.strict = true;
-    if (node.id) this.checkAssignable(node.id, true);
-    this.checkParams(node);
-    this.state.strict = oldStrict
   }
 }

@@ -79,4 +79,15 @@ export default class Token {
   static fromCode(code) {
     return Token.fromState(Token.stateFromCode(code));
   }
+
+  static isImplicitReturn(token) {
+    let {value} = token;
+    switch(token.type) {
+      case tt.unboundArrow: return value === "->>";
+      case tt.arrow: return value === "=>>";
+      case tt.asyncArrow: return value === "+>>";
+      case tt.asyncBoundArrow: return value === "+=>>";
+      default: throw new Error("Token type is not an arrow");
+    }
+  }
 }

@@ -6,7 +6,7 @@
  */
 
 import {types as tt} from "../../tokenizer/types";
-
+import Token from "../../tokenizer/token";
 
 // Initialize empty function node.
 
@@ -25,7 +25,7 @@ export function parseMethod(isGenerator) {
   this.eat(tt.parenL) || this.unexpected();
   node.params = this.parseBindingList(tt.parenR);
   node.generator = isGenerator;
-  this.parseFunctionBody(node, false);
+  this.parseFunctionBody(node);
   return this.finishNode(node, "FunctionExpression");
 }
 
@@ -35,44 +35,70 @@ export function parseMethod(isGenerator) {
 // so the first job of this function is to figure out what kind of function this is.
 export function parseArrowExpression(node, params) {
   this.initFunction(node);
-  throw new Error("Not Implemented")
-
   node.params = this.toArguments(params);
-  // this.parseFunctionBody(node, {isArrowFunction: true});
-  // return this.finishNode(node, "ArrowFunctionExpression");
+  node.generator = this.eat(tt.star);
+
+  let isArrowFunction;
+  let arrow = {...this.state.cur};
+  this.next();
+  switch (arrow.type) {
+    case tt.asyncBoundArrow:
+      node.async = true;
+      // fallthrough
+    case tt.arrow:
+      isArrowFunction = true;
+      if (Token.isImplicitReturn(arrow)) {
+        node = this.parseArrowExpressionFunction(node);
+      } else {
+        this.parseFunctionBody(node, {allowEmpty: true});
+      }
+      break;
+
+    case tt.asyncArrow:
+      node.async = true;
+      // fallthrough
+    case tt.unboundArrow:
+      isArrowFunction = false;
+      this.parseFunctionBody(node, {allowEmpty: true});
+      break;
+    default: this.unexpected();
+  }
+  node = this.finishNode(node, isArrowFunction ? "ArrowFunctionExpression" : "FunctionExpression");
+  return node;
+}
+
+export function parseArrowExpressionFunction(node) {
+  // TODO: override to allow implicit return expressions with a body
+  node.body = this.parseExpression();
+  node.expression = true;
+  this.checkArrowExpressionFunction();
+  return node;
 }
 
 // Parse function body and check parameters.
 
-export function parseFunctionBody(node, functionContext) {
-  const {isArrowFunction} = functionContext;
-  let isExpression = isArrowFunction && !this.match(tt._indent) || functionContext.isExpression;
+export function parseFunctionBody(node, functionContext = {}) {
+  let allowEmpty = !!functionContext.allowEmpty;
+  // Start a new scope with regard to labels and the `inFunction`
+  // flag (restore them to their old value afterwards).
 
-  if (isExpression) {
-    node.body = this.parseExpression();
-    node.expression = true
-  } else {
-    // Start a new scope with regard to labels and the `inFunction`
-    // flag (restore them to their old value afterwards).
+  // TODO: pass this down in the recursive descent in a `scope` argument instead of
+  // storing in state.
+  let oldInFunc = this.state.inFunction;
+  let oldInGen = this.state.inGenerator;
+  let oldLabels = this.state.labels;
+  this.state.inFunction = true;
+  this.state.inGenerator = node.generator;
+  this.state.labels = [];
 
-    // TODO: pass this down in the recursive descent in a `scope` argument instead of
-    // storing in state.
-    let oldInFunc = this.state.inFunction;
-    let oldInGen = this.state.inGenerator;
-    let oldLabels = this.state.labels;
-    this.state.inFunction = true;
-    this.state.inGenerator = node.generator;
-    this.state.labels = [];
+  node.body = this.parseBlock({allowDirectives: true, allowEmpty});
+  node.expression = false;
 
-    node.body = this.parseBlock({allowDirectives: true});
-    node.expression = false;
+  this.state.inFunction = oldInFunc;
+  this.state.inGenerator = oldInGen;
+  this.state.labels = oldLabels;
 
-    this.state.inFunction = oldInFunc;
-    this.state.inGenerator = oldInGen;
-    this.state.labels = oldLabels;
-  }
-
-  this.checkFunctionBody(node, functionContext);
+  this.checkFunctionBody(node);
   return node;
 }
 
@@ -86,7 +112,7 @@ export function parseFunctionDeclaration(node) {
 export function parseFunctionNamed(node, identifierContext, functionContext) {
   node.id = this.parseIdentifier(identifierContext);
   this.parseFunctionParams(node);
-  this.parseFunctionArrow(node, functionContext);
+  this.parseArrowNamed(node, functionContext);
   this.parseFunctionBody(node, functionContext);
   return node;
 }
@@ -96,7 +122,7 @@ export function parseFunctionParams(node) {
   node.params = this.parseBindingList(tt.parenR, {allowTrailingComma: true});
 }
 
-export function parseFunctionArrow(node) {
+export function parseArrowNamed(node) {
   node.generator = this.eat(tt.star);
   switch(this.state.cur.type) {
     case (tt.arrow):

@@ -47,13 +47,17 @@ export function parseBlockStatement(blockContext = {}) {
 
 // this can be any kind of block, not just detached (`!`) blocks
 export function parseBlock(blockContext = {}) {
+  let {allowEmpty} = blockContext;
   let node = this.startNode();
   if (this.eat(tt.newline) || this.eat(tt.eof)) {
-    this.initBlockBody(node);
-    return this.finishNode(node, "BlockStatement");
+    node = this.initBlockBody(node);
+  } else if (this.eat(tt.indent) && this.eat(tt.newline)) {
+    this.parseBlockBody(node, blockContext);
+  } else if (allowEmpty) {
+    node = this.initBlockBody(node);
+  } else {
+    this.unexpected();
   }
-  this.eat(tt.indent) && this.eat(tt.newline) || this.unexpected();
-  this.parseBlockBody(node, blockContext);
   return this.finishNode(node, "BlockStatement");
 }
 
@@ -91,4 +95,5 @@ export function parseBlockBody(node, blockContext = {}) {
     if (this.match(tt.eof)) this.warn("Missing newline at end of file");
     this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
   }
+  return node;
 }
