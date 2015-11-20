@@ -133,7 +133,7 @@ export function checkParams(node) {
 // either with each other or with an init property — and in
 // strict mode, init properties are also not allowed to be repeated.
 export function checkPropClash(prop, propHash) {
-  if (prop.computed || prop.method || prop.shorthand) return;
+  if (prop.computed) return;
 
   let {key} = prop;
   let name;
