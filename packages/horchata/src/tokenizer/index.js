@@ -568,6 +568,8 @@ export default class Lexer {
   // Read an integer in the given radix. Return null if zero digits
   // were read, the integer value otherwise. When `len` is given, this
   // will return `null` unless the integer has exactly `len` digits.
+
+  // Also used for reading escape sequences
   readNumber_int(radix, len) {
     let start = this.state.pos;
     let total = 0;
@@ -822,7 +824,7 @@ export default class Lexer {
         // when started with "\$"; for the purpose of parsing the actual name,
         // just skip the "\$"
 
-        if (first && this.input.charCodeAt(this.state.pos === 36)) {
+        if (first && this.input.charCodeAt(this.state.pos) === 36) {
           ++this.state.pos;
           chunkStart = this.state.pos;
           first = false;
@@ -849,6 +851,13 @@ export default class Lexer {
       this.raise(this.state.pos, "Invalid Identifier name")
     }
     return word;
+  }
+
+  readHexChar(len) {
+    let codePos = this.pos;
+    let n = this.readNumber_int(16, len);
+    if (n === null) this.raise(codePos, "Bad character escape sequence")
+    return n
   }
 
   ////////////// Token Storage //////////////
