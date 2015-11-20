@@ -109,6 +109,14 @@ export function parseFunctionDeclaration(node) {
   return this.finishNode(node, "FunctionDeclaration");
 }
 
+export function parseFunctionExpressionNamed() {
+  let node = this.startNode();
+  this.next();
+  this.initFunction(node);
+  node = this.parseFunctionNamed(node, {}, {allowEmpty: true});
+  return this.finishNode(node, "FunctionExpression");
+}
+
 export function parseFunctionNamed(node, identifierContext, functionContext) {
   node.id = this.parseIdentifier(identifierContext);
   this.parseFunctionParams(node);
