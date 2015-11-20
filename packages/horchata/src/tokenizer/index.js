@@ -556,7 +556,7 @@ export default class Lexer {
       val = parseFloat(str);
     } else if (!octal || str.length === 1) {
       val = parseInt(str, 10);
-    } else if (/[89]/.test(str) || this.state.strict) {
+    } else if (/[89]/.test(str) || !this.isOctalValid()) {
       this.raise(start, "Invalid number");
     } else {
       val = parseInt(str, 8);
@@ -592,6 +592,14 @@ export default class Lexer {
     if (this.state.pos === start || len != null && this.state.pos - start !== len) return null;
 
     return total;
+  }
+
+  readRadixNumber(radix) {
+    this.state.pos += 2; // 0x
+    let val = this.readNumber_int(radix);
+    if (val == null) this.raise(this.state.cur.start + 2, "Expected number in radix " + radix);
+    if (isIdentifierStart(this.fullCharCodeAtPos())) this.raise(this.state.pos, "Identifier directly after number");
+    return this.finishToken(tt.num, val);
   }
 
   // Read a string value, interpreting backslash-escapes.

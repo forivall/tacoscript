@@ -117,3 +117,8 @@ export function checkUnaryExpression(node) {
     this.raise(node.start, "Deleting local variable in strict mode");
   }
 }
+
+export function isOctalValid() {
+  return true;
+  // return !this.state.strict;
+}
