@@ -214,7 +214,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
   while (this.state.cur.type.postfix) {
     let expr = node;
     node = this.startNode(start);
-    node.operator = this.state.value;
+    node.operator = this.state.cur.value;
     node.prefix = false;
     node.argument = expr;
     this.checkAssignable(expr);
