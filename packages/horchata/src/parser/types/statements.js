@@ -160,6 +160,29 @@ export function parseJump(node, keyword) {
   return node;
 }
 
+export function parseDebuggerStatement(node) {
+  this.next();
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  return this.finishNode(node, "DebuggerStatement");
+}
+
+export function parseDoStatement(node) {
+  this.next();
+  this.state.labels.push(loopLabel);
+  node.body = this.parseStatementBody(); // TODO: allow empty
+  this.state.labels.pop();
+  this.eat(tt._while) || this.unexpected();
+  node.test = this.parseExpression();
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  return this.finishNode(node, "DoWhileStatement");
+}
+
+export function parseEmptyStatement(node) {
+  this.next();
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  return this.finishNode(node, "EmptyStatement");
+}
+
 // We overload the if keyword, so this intermediary parser is required until we
 // figure out what it is.
 export function parseIfStatementOrConditionalExpression(node) {
@@ -227,8 +250,14 @@ export function parseStatementBody() {
     this.parseBlockBody(node);
     node = this.finishNode(node, "BlockStatement");
   } else {
-    this.eat(tt._then);
-    node = this.parseStatement();
+    let ateThen = this.eat(tt._then);
+    if (!ateThen && this.eat(tt.newline)) {
+      node = this.startNode();
+      node = this.initBlockBody(node);
+      node = this.finishNode(node, "BlockStatement");
+    } else {
+      node = this.parseStatement();
+    }
   }
   return node;
 }
