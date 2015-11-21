@@ -419,6 +419,7 @@ export function parseExpressionAtomic(expressionContext) {
     case tt._true: case tt._false:
       node = this.startNode();
       node.value = this.match(tt._true);
+      node.raw = this.input.slice(this.state.cur.start, this.state.cur.end);
       this.next();
       node = this.finishNode(node, "BooleanLiteral");
       break;

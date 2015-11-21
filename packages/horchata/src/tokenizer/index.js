@@ -810,6 +810,11 @@ export default class Lexer {
           ++this.state.pos;
           return this.finishToken(tt.assign, type.keyword + "=");
         }
+      // } else if (type === tt._upto || type === tt._downto) {
+      //   throw new Error("Not Implemented");
+      //   if (this.input.charCodeAt(this.state.pos) === 61) { // upto=, downto=
+      //     // TODO
+      //   }
       }
     }
     return this.finishToken(type, type === tt.name ? {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)} : word);

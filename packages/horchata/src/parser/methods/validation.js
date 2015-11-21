@@ -112,6 +112,22 @@ export function checkIdentifierName(identifierContext) {
   }
 }
 
+export function checkJump(node, keyword) {
+  let isBreak = keyword === "break";
+  // Verify that there is an actual destination to break or
+  // continue to.
+  let i;
+  for (i = 0; i < this.state.labels.length; ++i) {
+    let label = this.state.labels[i];
+    if (node.label == null || label.name === node.label.name) {
+      if (label.kind != null && (isBreak || label.kind === "loop")) break;
+      if (node.label && isBreak) break;
+    }
+  }
+  // if not found
+  if (i === this.state.labels.length) this.raise(node.start, "Unsyntactic " + keyword);
+}
+
 export function checkMetaProperty(node) {
   if (this.state.inFunction) {
     this.raise(node.start, "new.target can only be used in functions");

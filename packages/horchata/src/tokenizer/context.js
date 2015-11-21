@@ -114,7 +114,6 @@ let blockStatementUpdateContext = function() {
 tt._if.updateContext = tt._for.updateContext = tt._with.updateContext = blockStatementUpdateContext;
 
 tt._while.updateContext = function() {
-  throw new Error("Not Implemented");
   if (this.state.inForHeader) return;
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;

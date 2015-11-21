@@ -7,6 +7,9 @@
 
 import { types as tt } from "../../tokenizer/types";
 
+// Atoms for marking loops
+const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"}
+
 // ### Statement parsing
 
 export function parseStatement(declaration = true, topLevel = false) {
@@ -80,7 +83,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       // next token is a colon and the expression was a simple
       // Identifier node, we switch to interpreting it as a label.
 
-      let maybeName = this.state.value;
+      let maybeName = this.state.cur.value.value || this.state.cur.value;
       let expr = this.parseExpression();
 
       if (startType === tt.name && expr.type === "Identifier" && this.eat(tt.colon)) {
@@ -110,7 +113,7 @@ export function parseOtherStatement() {
   // TODO: look at sweet.js for prior art.
 
   // usually would start with
-  // let startType = this.state.type;
+  // let startType = this.state.cur.type;
   // switch(startType) { case tt._myType: ...}
   // or
   // if (match(tt._myType)) ...
@@ -135,6 +138,28 @@ export function parseDecorators() {
 
 //// Statement parsers by type ////
 
+export function parseBreakStatement(node) {
+  return this.finishNode(this.parseJump(node, "break"), "BreakStatement");
+}
+
+export function parseContinueStatement(node) {
+  return this.finishNode(this.parseJump(node, "continue"), "ContinueStatement");
+}
+
+export function parseJump(node, keyword) {
+  let isBreak = keyword === "break";
+  this.next();
+  if (this.match(tt.name)) {
+    node.label = this.parseIdentifier();
+  } else {
+    node.label = null;
+  }
+  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+
+  this.checkJump(node, keyword);
+  return node;
+}
+
 // We overload the if keyword, so this intermediary parser is required until we
 // figure out what it is.
 export function parseIfStatementOrConditionalExpression(node) {
@@ -153,6 +178,29 @@ export function parseIfStatement(node) {
   node.alternate = this.eat(tt._else) ? this.parseStatementBody() : null;
   return this.finishNode(node, "IfStatement");
 }
+
+export function parseLabeledStatement(node, maybeName, expr) {
+  for (let i = 0; i < this.state.labels.length; ++i) {
+    let label = this.state.labels[i];
+    if (label.name === maybeName) {
+      this.raise(expr.start, "Label '" + maybeName + "' is already declared");
+    }
+  }
+  let kind = this.state.cur.type.isLoop ? "loop" : this.match(tt._switch) ? "switch" : null;
+  for (let i = this.state.labels.length - 1; i >= 0; i--) {
+    let label = this.state.labels[i]
+    if (label.statementStart == node.start) {
+      label.statementStart = this.state.start;
+      label.kind = kind;
+    } else break;
+  }
+  this.state.labels.push({name: maybeName, kind: kind, statementStart: this.start});
+  node.body = this.parseStatement(true);
+  this.state.labels.pop();
+  node.label = expr;
+  return this.finishNode(node, "LabeledStatement");
+}
+
 
 export function parseReturnStatement(node) {
   // TODO: move to validator
@@ -177,7 +225,7 @@ export function parseStatementBody() {
     node = this.startNode();
     this.eat(tt.newline) || this.unexpected();
     this.parseBlockBody(node);
-    node = this.finishNode();
+    node = this.finishNode(node, "BlockStatement");
   } else {
     this.eat(tt._then);
     node = this.parseStatement();
@@ -198,6 +246,15 @@ export function parseSwitchStatement(node) {
 // should be overridden by safe switch statement plugin
 export function parseSafeSwitchStatement(/*node*/) {
   this.raise(this.state.pos, "Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
+}
+
+export function parseWhileStatement(node) {
+  this.next();
+  node.test = this.parseExpression();
+  this.state.labels.push(loopLabel);
+  node.body = this.parseStatementBody();
+  this.state.labels.pop();
+  return this.finishNode(node, "WhileStatement");
 }
 
 // Parse a list of variable declarations, as a statement. Equivalent to `parseVarStatement`
