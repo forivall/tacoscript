@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 16,
+  "end": 18,
   "loc": {
     "start": {
       "line": 1,
@@ -9,13 +9,13 @@
     },
     "end": {
       "line": 1,
-      "column": 16
+      "column": 18
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 16,
+    "end": 18,
     "loc": {
       "start": {
         "line": 1,
@@ -23,7 +23,7 @@
       },
       "end": {
         "line": 1,
-        "column": 16
+        "column": 18
       }
     },
     "sourceType": "script",
@@ -31,7 +31,7 @@
       {
         "type": "VariableDeclaration",
         "start": 0,
-        "end": 16,
+        "end": 18,
         "loc": {
           "start": {
             "line": 1,
@@ -39,14 +39,14 @@
           },
           "end": {
             "line": 1,
-            "column": 16
+            "column": 18
           }
         },
         "declarations": [
           {
             "type": "VariableDeclarator",
             "start": 4,
-            "end": 16,
+            "end": 18,
             "loc": {
               "start": {
                 "line": 1,
@@ -54,7 +54,7 @@
               },
               "end": {
                 "line": 1,
-                "column": 16
+                "column": 18
               }
             },
             "id": {
@@ -74,9 +74,9 @@
               "name": "x"
             },
             "init": {
-              "type": "RegExpLiteral",
+              "type": "MemberExpression",
               "start": 8,
-              "end": 16,
+              "end": 18,
               "loc": {
                 "start": {
                   "line": 1,
@@ -84,17 +84,50 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 16
+                  "column": 18
                 }
               },
-              "raw": "/[x-z]/i",
-              "pattern": "[x-z]",
-              "flags": "i"
+              "object": {
+                "type": "RegExpLiteral",
+                "start": 8,
+                "end": 13,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13
+                  }
+                },
+                "raw": "/42/g",
+                "pattern": "42",
+                "flags": "g"
+              },
+              "property": {
+                "type": "Identifier",
+                "start": 14,
+                "end": 18,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 14
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18
+                  }
+                },
+                "name": "test"
+              },
+              "computed": false
             }
           }
         ],
         "kind": "var"
       }
-    ]
+    ],
+    "directives": []
   }
 }

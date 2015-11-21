@@ -87,14 +87,15 @@
                   "column": 16
                 }
               },
-              "raw": "/[x-z]/i",
-              "pattern": "[x-z]",
-              "flags": "i"
+              "raw": "/[a-z]/y",
+              "pattern": "[a-z]",
+              "flags": "y"
             }
           }
         ],
         "kind": "var"
       }
-    ]
+    ],
+    "directives": []
   }
 }
