@@ -12,7 +12,7 @@ export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
   file.program = program;
 
-  this.parseBlockBody(program, {allowDirectives: true, isTopLevel: true});
+  this.parseBlockBody(program, {allowDirectives: !this.options.noTopLevelDirectives, isTopLevel: true});
 
   file.program  = this.finishNode(program, "Program");
   file.comments = this.state.comments;

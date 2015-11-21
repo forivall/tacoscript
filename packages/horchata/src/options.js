@@ -45,6 +45,10 @@ export const defaultOptions = {
   // appearing at the top level of the program.
   allowImportExportEverywhere: false,
 
+  // When emabled, leading strings at the top level are parsed as
+  // expression statements and not directives
+  noTopLevelDirectives: false,
+
   // TODO: callbacks will be only added via plugin
 
   // TODO: create a `loose` preset that allows all of these "allowSomethingSomewhere"

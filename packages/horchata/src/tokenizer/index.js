@@ -877,6 +877,47 @@ export default class Lexer {
     return n
   }
 
+  // Used to read escaped characters
+
+  readEscapedChar(inTemplate) {
+    ++this.state.pos;
+    let ch = this.input.charCodeAt(this.state.pos);
+    ++this.state.pos;
+    switch (ch) {
+      case 110: return "\n"; // 'n' -> '\n'
+      case 114: return "\r"; // 'r' -> '\r'
+      case 120: return String.fromCharCode(this.readHexChar(2)); // 'x'
+      case 117: return codePointToString(this.readCodePoint()); // 'u'
+      case 116: return "\t"; // 't' -> '\t'
+      case 98: return "\b"; // 'b' -> '\b'
+      case 118: return "\u000b"; // 'v' -> '\u000b'
+      case 102: return "\f"; // 'f' -> '\f'
+      case 13:
+        if (this.input.charCodeAt(this.state.pos) === 10) ++this.state.pos; // '\r\n'
+        // fallthrough
+      case 10: // ' \n'
+        if (this.options.locations) {
+          this.state.lineStart = this.state.pos; ++this.state.curLine;
+        }
+        return ""
+      default:
+        if (ch >= 48 && ch <= 55) {
+          let octalStr = this.input.substr(this.state.pos - 1, 3).match(/^[0-7]+/)[0];
+          let octal = parseInt(octalStr, 8);
+          if (octal > 255) {
+            octalStr = octalStr.slice(0, -1);
+            octal = parseInt(octalStr, 8);
+          }
+          if (octal > 0 && (this.state.strict || inTemplate)) {
+            this.raise(this.state.pos - 2, "Octal literal in strict mode");
+          }
+          this.state.pos += octalStr.length - 1;
+          return String.fromCharCode(octal);
+        }
+        return String.fromCharCode(ch);
+    }
+  }
+
   ////////////// Token Storage //////////////
 
   onToken(token) {

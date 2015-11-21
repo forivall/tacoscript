@@ -9,12 +9,16 @@ var mochaFixtures = require("mocha-fixtures-generic");
 
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
   _.assign({}, specOptions.core, {
+    optionsPath: "parser-options",
     skip: function(test, testPath) {
-      return specOptions.core.skip(test, testPath) ||
-      testPath.indexOf("base-edgecase") !== -1 ||
-      test.indexOf("invalid-") === 0 ||
-      test.indexOf("unexpected-") === 0 ||
-      test.indexOf("malformed-") === 0;
+      return (
+        specOptions.core.skip(test, testPath) ||
+        testPath.indexOf("base-edgecase") !== -1 ||
+        test.indexOf("invalid-") === 0 ||
+        test.indexOf("unexpected-") === 0 ||
+        test.indexOf("malformed-") === 0 ||
+        test.indexOf("parser-options.json") !== -1 ||
+        false);
     }
   })
 );
@@ -70,7 +74,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
           // var taco = task.taco;
           var taco = task.auto;
 
-          var ast = horchata.parse(taco.code);
+          var ast = horchata.parse(taco.code, task.options);
           // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
           try {
