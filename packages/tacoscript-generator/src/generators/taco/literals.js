@@ -41,42 +41,52 @@ export function ObjectExpression(node) {
   this.push("}");
 }
 
-export { ObjectExpression as ObjectPattern };
+export {ObjectExpression as ObjectPattern};
 
 export function Property(node) {
+  if (node.method || node.kind === "get" || node.kind === "set") {
+    this.printMultiple(node, "decorators", { separator: null });
+    this._method(node, "value");
+  } else {
+    this.ObjectProperty(node);
+  }
+}
+
+export function ObjectMethod(node) {
+  this.printMultiple(node, "decorators", { separator: null });
+  this._method(node);
+}
+
+export function ObjectProperty(node) {
   this.printMultiple(node, "decorators", { separator: null });
 
-  if (node.method || node.kind === "get" || node.kind === "set") {
-    this._method(node);
+  if (node.computed) {
+    this.push("[");
+    this.print(node, "key");
+    this.push("]");
   } else {
-    if (node.computed) {
-      this.push("[");
-      this.print(node, "key");
-      this.push("]");
-    } else {
-      // print `({ foo: foo = 5 } = {})` as `({ foo = 5 } = {});`
-      if (t.isAssignmentPattern(node.value) && t.isIdentifier(node.key) && node.key.name === node.value.left.name) {
-        // but only if it was that same way in the source
-        if (node.key.start == null || node.key.start === node.value.left.start && node.key.end === node.value.left.end) {
-          this.print(node, "value");
-          return;
-        }
-      }
-
-      this.print(node, "key");
-
-      // shorthand!
-      if (node.shorthand &&
-        (t.isIdentifier(node.key) &&
-         t.isIdentifier(node.value) &&
-         node.key.name === node.value.name)) {
+    // print `({ foo: foo = 5 } = {})` as `({ foo = 5 } = {});`
+    if (t.isAssignmentPattern(node.value) && t.isIdentifier(node.key) && node.key.name === node.value.left.name) {
+      // but only if it was that same way in the source
+      if (node.key.start == null || node.key.start === node.value.left.start && node.key.end === node.value.left.end) {
+        this.print(node, "value");
         return;
       }
     }
 
-    this.push(":");
-    this.print(node, "value");
+    this.print(node, "key");
+
+    // shorthand!
+    if (node.shorthand &&
+      (t.isIdentifier(node.key) &&
+       t.isIdentifier(node.value) &&
+       node.key.name === node.value.name)) {
+      return;
+    }
   }
+
+  this.push(":");
+  this.print(node, "value");
 }
 
 export function ArrayExpression(node) {

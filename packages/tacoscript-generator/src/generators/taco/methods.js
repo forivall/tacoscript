@@ -42,7 +42,7 @@ export function _functionBody(parent, prop = "body") {
  */
 
 export function _method(node) {
-  let value = node.value;
+  let value = node.type === "ObjectMethod" ? node : node.value;
   let kind  = node.kind;
 
   if (kind === "get" || kind === "set") {
