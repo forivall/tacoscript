@@ -12,6 +12,7 @@ export function Identifier(node, parent) {
   let standalone = true;
   if (standalone) standalone = !(t.isMemberExpression(parent) && node === parent.property);
   if (standalone) standalone = !(t.isProperty(parent) && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/);
+  if (standalone) standalone = !((parent.type === "ObjectProperty" || parent.type === "ObjectMethod") && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/);
   if (standalone) standalone = !(t.isExportNamespaceSpecifier(parent) && node.name === "default");
   if (standalone) standalone = !(t.isImportSpecifier(parent) && parent.local);
   if (standalone) standalone = !(t.isExportSpecifier(parent) && node.name === parent.exported.name && node.name === "default");
@@ -125,11 +126,13 @@ export function Literal(node) {
   }
 }
 
-export function RegexLiteral(node) {
+export function RegExpLiteral(node) {
   // TODO: export this as regex token.tostring
   // this.push(`/${node.pattern}/${node.flags}`);
   this.push({type: 'regexp', value: {pattern: node.pattern, flags: node.flags, code: this._getCodeFromNode(node) }});
 }
+
+export {RegExpLiteral as RegexLiteral};
 
 export function BooleanLiteral(node) {
   this.push(node.value ? "true" : "false");
