@@ -54,7 +54,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       node = this.parseImportDeclaration(node); break;
     case tt._pass: node = this.parseEmptyStatement(node); break;
     case tt._return: node = this.parseReturnStatement(node); break;
-    case tt._switch: node = this.parseSwitchStatement(node); break;
+    case tt._switch: node = this.parseSwitchStatementMaybeSafe(node); break;
     case tt._throw: node = this.parseThrowStatement(node); break;
     case tt._try: node = this.parseTryStatement(node); break;
     case tt._while: node = this.parseWhileStatement(node); break;
@@ -335,13 +335,70 @@ export function parseStatementBody() {
 }
 
 // Parse a switch, as a statement.
-export function parseSwitchStatement(node) {
+export function parseSwitchStatementMaybeSafe(node) {
   this.next();
   if (this.eat(tt.excl)) {
-    throw new Error("Not Implemented");
+    node = this.parseSwitchStatement(node);
   } else {
-    this.parseSafeSwitchStatement(node)
+    node = this.parseSafeSwitchStatement(node)
   }
+  return node;
+}
+
+export function parseSwitchStatement(node) {
+  node.discriminant = this.parseExpression();
+  node.cases = [];
+  if (this.eat(tt.newline) || this.match(tt.eof)) return this.finishNode(node, "SwitchStatement");
+
+  this.eat(tt.indent) || this.unexpected();
+  this.eat(tt.newline);
+
+  this.state.labels.push(switchLabel);
+
+  // Statements under must be grouped (by label) in SwitchCase
+  // nodes. `cur` is used to keep the node that we are currently
+  // adding statements to.
+
+  let sawDefault = false;
+  while (!this.match(tt.dedent)) {
+    let cur = this.startNode();
+    if (this.eat(tt._case)) {
+      cur.test = this.parseExpression();
+      cur = this.parseSwitchCaseBody(cur);
+    } else if (this.eat(tt._default)) {
+      sawDefault = sawDefault ? this.raise(this.state.prev.start, "Multiple default clauses") : true;
+      cur.test = null;
+      cur = this.parseSwitchCaseBody(cur);
+    } else {
+      this.unexpected();
+    }
+    node.cases.push(this.finishNode(cur, "SwitchCase"));
+  }
+  this.next(); // dedent
+  this.state.labels.pop();
+
+  return this.finishNode(node, "SwitchStatement");
+}
+
+export function parseSwitchCaseBody(node) {
+  this.eat(tt.colon) || this.unexpected();
+  let finishedDirectives = false;
+  node.consequent = [];
+  let empty = false;
+  if (!this.match(tt.indent)) {
+    empty = this.eat(tt.newline);
+    if (!empty) {
+      node.consequent.push(this.parseStatement(true));
+    }
+  }
+  if (!empty && this.eat(tt.indent)) {
+    this.eat(tt.newline);
+    while (!this.eat(tt.dedent)) {
+      node.consequent.push(this.parseStatement(true));
+    }
+    this.eat(tt.newline);
+  }
+  return node;
 }
 
 // should be overridden by safe switch statement plugin
