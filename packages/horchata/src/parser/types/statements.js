@@ -169,7 +169,7 @@ export function parseDebuggerStatement(node) {
 export function parseDoStatement(node) {
   this.next();
   this.state.labels.push(loopLabel);
-  node.body = this.parseStatementBody(); // TODO: allow empty
+  node.body = this.parseStatementBody();
   this.state.labels.pop();
   this.eat(tt._while) || this.unexpected();
   node.test = this.parseExpression();
@@ -314,21 +314,31 @@ export function parseReturnStatement(node) {
   return this.finishNode(node, "ReturnStatement")
 }
 
-export function parseStatementBody() {
+export function parseStatementBody(blockContext = {}) {
+  const forceBlock = !!blockContext.forceBlock;
   let node;
   if (this.eat(tt.indent)) {
     node = this.startNode();
     this.eat(tt.newline) || this.unexpected();
-    this.parseBlockBody(node);
+    this.parseBlockBody(node, {...blockContext, forceBlock: false});
     node = this.finishNode(node, "BlockStatement");
   } else {
     let ateThen = this.eat(tt._then);
-    if (!ateThen && (this.eat(tt.newline) || this.match(tt.eof))) {
+    if (!ateThen && (this.match(tt.newline) || this.match(tt.eof))) {
       node = this.startNode();
-      node = this.initBlockBody(node);
+      node = this.initBlockBody(node, {});
+      this.eat(tt.newline);
       node = this.finishNode(node, "BlockStatement");
     } else {
-      node = this.parseStatement();
+      if (forceBlock) {
+        let bodyStatement = node;
+        node = this.startNode();
+        node = this.initBlockBody(node, {});
+        node.body.push(this.parseStatement());
+        node = this.finishNode(node, "BlockStatement");
+      } else {
+        node = this.parseStatement();
+      }
     }
   }
   return node;
@@ -414,6 +424,24 @@ export function parseThrowStatement(node) {
   if (indented) (this.eat(tt.newline), this.eat(tt.dedent)) || this.unexpected();
   this.eat(tt.newline) || this.match(tt.eof) || this.unexpected();
   return this.finishNode(node, "ThrowStatement");
+}
+
+export function parseTryStatement(node) {
+  this.next();
+  node.block = this.parseStatementBody({forceBlock: true});
+  node.handler = null;
+  node.guardedHandlers = []; // always empty in js
+  if (this.match(tt._catch)) {
+    let clause = this.startNode();
+    this.next();
+    clause.param = this.parseBindingAtomic();
+    this.checkAssignable(clause.param, {isBinding: true});
+    clause.body = this.parseStatementBody({forceBlock: true});
+    node.handler = this.finishNode(clause, "CatchClause");
+  }
+  node.finalizer = this.eat(tt._finally) ? this.parseStatementBody({forceBlock: true}) : null;
+  this.checkTryStatement(node);
+  return this.finishNode(node, "TryStatement");
 }
 
 export function parseWhileStatement(node) {

@@ -50,20 +50,20 @@ export function parseBlock(blockContext = {}) {
   let {allowEmpty} = blockContext;
   let node = this.startNode();
   if (this.eat(tt.newline) || this.eat(tt.eof)) {
-    node = this.initBlockBody(node);
+    node = this.initBlockBody(node, blockContext);
   } else if (this.eat(tt.indent) && this.eat(tt.newline)) {
     this.parseBlockBody(node, blockContext);
   } else if (allowEmpty) {
-    node = this.initBlockBody(node);
+    node = this.initBlockBody(node, blockContext);
   } else {
     this.unexpected();
   }
   return this.finishNode(node, "BlockStatement");
 }
 
-export function initBlockBody(node) {
+export function initBlockBody(node, blockContext) {
   node.body = [];
-  node.directives = [];
+  if (blockContext.allowDirectives) node.directives = [];
   return node;
 }
 
@@ -77,7 +77,7 @@ export function parseBlockBody(node, blockContext = {}) {
   const isTopLevel = !!blockContext.isTopLevel;
   let end = isTopLevel ? tt.eof : tt.dedent;
 
-  this.initBlockBody(node);
+  this.initBlockBody(node, blockContext);
 
   // let oldStrict;
   let finishedDirectives = false;

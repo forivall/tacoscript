@@ -13,7 +13,11 @@ export function checkReferencedList(expressions) { return expressions; }
 
 // equivalent to "checkLVal"
 // will be used by a validator plugin
-export function checkAssignable(/*node, assignableContext = {}*/) {}
+export function checkAssignable(node, assignableContext = {}) {
+  let isBinding = !!assignableContext.isBinding;
+  let checkClashes = !!assignableContext.checkClashes;
+  // TODO
+}
 
 export function checkDeclaration(decl, kind, declarationContext) {
   if (!decl.init) {
@@ -195,6 +199,28 @@ export function checkShorthandPropertyBinding(prop) {
     this.raise(prop.key.start, "Binding " + prop.key.name);
   }
 }
+
+export function checkTryStatement(node) {
+  if (!node.handler && !node.finalizer) {
+    this.raise(node.start, "Missing catch or finally clause");
+  }
+}
+
+// TODO: add the following as a plugin
+/*
+parser.extend("checkTryStatement", function(inner) {
+  if (!node.handler && !node.finalizer) {
+    node.handler = this.startNode()
+    let param = this.startNode();
+    param.name = "_";
+    node.handler.param = this.finishNode(param, "Identifier");
+    let body = this.startNode();
+    body = this.initBlockBody(body, {});
+    node.handler.body = this.finishNode(param, "BlockStatement");
+  }
+  return inner.call(this);
+});
+*/
 
 export function checkUnaryExpression(node) {
   return;
