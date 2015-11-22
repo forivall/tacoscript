@@ -370,10 +370,10 @@ export function parseRest(identifierContext = {}) {
   return this.finishNode(node, "RestElement");
 }
 
-// Parse an atomic expression — either a single token that is an
-// expression, an expression started by a keyword like `function` or
-// `new`, or an expression wrapped in punctuation like `()`, `[]`,
-// or `{}`.
+// Parse an atomic expression — an expression that can't be split.
+// This is either a single token that is an expression, an
+// expression started by a keyword like `function` or `new`, or an
+// expression wrapped in punctuation like `()`, `[]`, or `{}`.
 export function parseExpressionAtomic(expressionContext) {
   let node;
   let canBeArrow = this.state.potentialLambdaOn.start === this.state.cur.start;
@@ -464,6 +464,9 @@ export function parseExpressionAtomic(expressionContext) {
 // New's precedence is slightly tricky. It must allow its argument
 // to be a `[]` or dot subscript expression, but not a call — at
 // least, not without wrapping it in parentheses. Thus, it uses the
+// subscript, exprAtom and arguments parser functions directly, with
+// the `noCall` option of `parseSubscripts`.
+
 // const empty = Symbol("EmptyArguments");
 const empty = "__emptyArguments";
 export function parseNew() {
