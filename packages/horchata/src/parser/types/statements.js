@@ -406,6 +406,16 @@ export function parseSafeSwitchStatement(/*node*/) {
   this.raise(this.state.pos, "Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
 }
 
+export function parseThrowStatement(node) {
+  this.next();
+  let indented = this.eat(tt.indent);
+  if (indented) this.eat(tt.newline);
+  node.argument = this.parseExpression();
+  if (indented) (this.eat(tt.newline), this.eat(tt.dedent)) || this.unexpected();
+  this.eat(tt.newline) || this.match(tt.eof) || this.unexpected();
+  return this.finishNode(node, "ThrowStatement");
+}
+
 export function parseWhileStatement(node) {
   this.next();
   node.test = this.parseExpression();
