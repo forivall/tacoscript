@@ -26,7 +26,7 @@
         "column": 64
       }
     },
-    "sourceType": "script",
+    "sourceType": "module",
     "body": [
       {
         "type": "ForInStatement",
@@ -104,6 +104,7 @@
                 "id": null,
                 "generator": false,
                 "expression": false,
+                "async": false,
                 "params": [],
                 "body": {
                   "type": "BlockStatement",
@@ -149,7 +150,7 @@
                           }
                         },
                         "left": {
-                          "type": "Literal",
+                          "type": "NumericLiteral",
                           "start": 33,
                           "end": 35,
                           "loc": {

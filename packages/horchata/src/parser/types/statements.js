@@ -183,6 +183,79 @@ export function parseEmptyStatement(node) {
   return this.finishNode(node, "EmptyStatement");
 }
 
+// Disambiguating between a `for` and a `for`/`in` or `for`/`of`
+// loop is non-trivial. Basically, we have to parse the init `var`
+// statement or expression, disallowing the `in` operator (see
+// the second parameter to `parseExpression`), and then check
+// whether the next token is `in` or `of`. When there is no init
+// part (`while` immediately after the `for`), it is a regular
+// `for` loop.
+
+export function parseForStatement(node) {
+  this.next();
+  this.state.labels.push(loopLabel);
+
+  if (this.match(tt._while) ||
+      this.match(tt._update) ||
+      this.match(tt.indent) ||
+      this.match(tt._then) ||
+      this.match(tt.newline) ||
+      this.match(tt.eof) ||
+      false) {
+    node = this.parseFor(node, null);
+  } else if (this.match(tt._var) || this.match(tt._let) || this.match(tt._const)) {
+    let init = this.startNode();
+    let varKind = this.state.cur.type;
+    this.next();
+    this.parseDeclaration(init, varKind, {isFor: true});
+    this.finishNode(init, "VariableDeclaration")
+    if ((this.match(tt._in) || this.match(tt._of)) &&
+        init.declarations.length === 1 &&
+        (varKind === tt._var || !init.declarations[0].init)) {
+      node = this.parseForIn(node, init);
+    } else {
+      node = this.parseFor(node, init);
+    }
+  } else {
+    let expressionContext = {isFor: true, shorthandDefaultPos: {start: 0}};
+    let init = this.parseExpression(expressionContext);
+    if (this.match(tt._in) || this.match(tt._of)) {
+      this.toAssignable(init);
+      this.checkAssignable(init);
+      node = this.parseForIn(node, init);
+    } else {
+      this.checkExpression(init, expressionContext);
+      node = this.parseFor(node, init);
+    }
+  }
+  this.state.labels.pop();
+  return node;
+}
+
+// Parse a regular `for` loop. The disambiguation code in
+// `parseStatement` will already have parsed the init statement or
+// expression.
+
+export function parseFor(node, init) {
+  node.init = init;
+  node.test = this.eat(tt._while) ? this.parseExpression() : null;
+  node.update = this.eat(tt._update) ? this.parseExpression() : null;
+  node.body = this.parseStatementBody();
+  return this.finishNode(node, "ForStatement");
+}
+
+// Parse a `for`/`in` and `for`/`of` loop, which are almost
+// same from parser's perspective.
+
+export function parseForIn(node, init) {
+  let type = this.match(tt._in) ? "ForInStatement" : "ForOfStatement";
+  this.next();
+  node.left = init;
+  node.right = this.parseExpression();
+  node.body = this.parseStatementBody();
+  return this.finishNode(node, type);
+}
+
 // We overload the if keyword, so this intermediary parser is required until we
 // figure out what it is.
 export function parseIfStatementOrConditionalExpression(node) {
@@ -224,7 +297,6 @@ export function parseLabeledStatement(node, maybeName, expr) {
   return this.finishNode(node, "LabeledStatement");
 }
 
-
 export function parseReturnStatement(node) {
   // TODO: move to validator
   if (!this.state.inFunction && !this.options.allowReturnOutsideFunction)
@@ -251,7 +323,7 @@ export function parseStatementBody() {
     node = this.finishNode(node, "BlockStatement");
   } else {
     let ateThen = this.eat(tt._then);
-    if (!ateThen && this.eat(tt.newline)) {
+    if (!ateThen && (this.eat(tt.newline) || this.match(tt.eof))) {
       node = this.startNode();
       node = this.initBlockBody(node);
       node = this.finishNode(node, "BlockStatement");
@@ -291,7 +363,7 @@ export function parseDeclarationStatement(node, kind) {
   this.next();
   this.parseDeclaration(node, kind);
   if (this.match(tt.eof)) this.warn("No newline at end of file");
-  this.match(tt.dedent) || this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eat(tt.newline) || this.match(tt.eof) || this.unexpected();
   return this.finishNode(node, "VariableDeclaration");
 }
 
@@ -316,6 +388,7 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
     if (!isIndent) isIndent = this.eat(tt.indent);
     if (!(this.eat(tt.comma) || isIndent && this.eat(tt.newline))) break;
   }
+  if (isIndent) this.eat(tt.dedent);
   return node;
 }
 

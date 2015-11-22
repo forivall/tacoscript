@@ -82,6 +82,7 @@ tt.indent.updateContext = function(prevType) {
     this.state.context.push(types.return_expr);
   } else {
     if (this.curContext() === types.kw_stat) {
+      this.state.inForHeader = false;
       this.state.context.pop();
     }
     this.state.exprAllowed = false;
@@ -93,6 +94,7 @@ tt._then.updateContext = function() {
   if (this.curContext() === types.kw_stat) {
     this.state.context.pop();
   }
+  this.state.inForHeader = false;
   this.state.exprAllowed = true;
 }
 
@@ -111,11 +113,20 @@ let blockStatementUpdateContext = function() {
   this.state.context.push(types.kw_stat);
   this.state.exprAllowed = true;
 };
-tt._if.updateContext = tt._for.updateContext = tt._with.updateContext = blockStatementUpdateContext;
+tt._if.updateContext = tt._with.updateContext = blockStatementUpdateContext;
+
+tt._for.updateContext = function() {
+  this.state.inForHeader = true;
+  this.state.context.push(types.kw_stat);
+  this.state.exprAllowed = true;
+}
 
 tt._while.updateContext = function() {
-  if (this.state.inForHeader) return;
-  this.state.context.push(types.kw_stat);
+  if (this.state.inForHeader) {
+    this.state.inForHeader = false;
+  } else {
+    this.state.context.push(types.kw_stat);
+  }
   this.state.exprAllowed = true;
 };
 

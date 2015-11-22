@@ -80,7 +80,10 @@ _.forOwn(coreSpecs, function(suites, setName) {
           try {
             expectedAst = removeLocInfo(JSON.parse(task.json.code));
             if (expectedAst.program != null) delete expectedAst.program.sourceType;
-          } catch(e) {}
+          } catch(e) {
+            console.log(task.json.loc);
+            console.log(e.stack);
+          }
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
             fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});

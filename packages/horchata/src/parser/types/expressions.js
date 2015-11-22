@@ -146,7 +146,7 @@ export function parseConditionalExpression(expressionContext = {}) {
   node.consequent = this.parseExpression();
 
   this.eat(tt._else) || this.unexpected();
-  node.alternate = this.parseExpression();
+  node.alternate = this.parseExpression({isFor: expressionContext.isFor});
 
   return this.finishNode(node, "ConditionalExpression");
 }

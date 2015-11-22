@@ -17,10 +17,10 @@
 // The `beforeExpr` property is used to disambiguate between regular
 // expressions and divisions. It is set on all token types that can
 // be followed by an expression (thus, a slash after them would be a
-// regular expression).
+// regular expression). See [`context.js`](./context.js).
 //
 // The `startsExpr` property is used to indicate when a token starts
-// any type of expression statement.
+// any type of expression statement. See [`context.js`](./context.js).
 //
 // `isLoop` marks a keyword as starting a loop, which is important
 // to know when parsing a label, in order to allow or disallow
@@ -85,7 +85,7 @@ const
   beforeExpr = {beforeExpr: true},
   startsExpr = {startsExpr: true},
   continuesPreviousLine = {continuesPreviousLine: true},
-  isLoop = {isLoop: true};
+  loopHeader = {beforeExpr: true, startsExpr: true, isLoop: true};
 
 export const types = {
   num: new TokenType("num", "Numeric", startsExpr),
@@ -100,7 +100,7 @@ export const types = {
   indent: new TokenType("indent", "SignificantWhitespace"),
   dedent: new TokenType("dedent", "SignificantWhitespace"),
   whitespace: new TokenType("whitespace", "Whitespace"),
-  newline: new TokenType("newline", "SignificantWhitespace"),
+  newline: new TokenType("newline", "SignificantWhitespace", beforeExpr),
 
   blockCommentStart: new TokenType("#*", "Comment"),
   blockCommentBody: new TokenType("blockcomment", "Comment"),
@@ -201,22 +201,22 @@ kw("extern");
 kw("function"); // startsExpr // in tacoscript, function is only used as a declaration
 // control flow
 kw("then", {beforeExpr: true, startsExpr: true});
-kw("if");
-kw("else", beforeExpr);
-kw("switch");
+kw("if", {beforeExpr: true, startsExpr: true});
+kw("else", {beforeExpr: true, startsExpr: true});
+kw("switch", {beforeExpr: true, startsExpr: true});
 kw("case", beforeExpr);
 kw("default", beforeExpr);
 // iteration
-kw("for", isLoop);
-kw("update", beforeExpr);
-kw("upto", beforeExpr);
-kw("downto", beforeExpr);
-kw("while", isLoop);
-kw("do", isLoop);
+kw("for", loopHeader);
+kw("update", {beforeExpr: true, startsExpr: true});
+kw("upto", {beforeExpr: true, startsExpr: true});
+kw("downto", {beforeExpr: true, startsExpr: true});
+kw("while", loopHeader);
+kw("do", loopHeader);
 kw("continue");
 kw("break");
 kw("return", beforeExpr);
-kw("of");
+kw("of", beforeExpr); // TODO: add binop via plugin for `contains`
 // exceptions
 kw("throw", beforeExpr);
 kw("try");

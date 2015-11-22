@@ -43,6 +43,11 @@ export function checkExpressionOperatorLeft(node) {
   }
 }
 
+export function checkExpression(node, expressionContext) {
+  let pos = expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start;
+  if (pos) this.raise(pos, "Shorthand property assignments are valid only in destructuring patterns");
+}
+
 export function checkFunctionBody(node) {
   // the following is from babylon.
 
