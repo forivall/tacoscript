@@ -206,6 +206,10 @@ export function checkTryStatement(node) {
   }
 }
 
+export function checkWithStatementAllowed() {
+  if (this.state.strict) this.raise(this.state.cur.start, "'with' in strict mode");
+}
+
 // TODO: add the following as a plugin
 /*
 parser.extend("checkTryStatement", function(inner) {

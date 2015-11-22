@@ -453,6 +453,14 @@ export function parseWhileStatement(node) {
   return this.finishNode(node, "WhileStatement");
 }
 
+export function parseWithStatement(node) {
+  this.checkWithStatementAllowed();
+  this.next();
+  node.object = this.parseExpression();
+  node.body = this.parseStatementBody();
+  return this.finishNode(node, "WithStatement");
+}
+
 // Parse a list of variable declarations, as a statement. Equivalent to `parseVarStatement`
 export function parseDeclarationStatement(node, kind) {
   this.next();
