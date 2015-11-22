@@ -286,11 +286,11 @@ export function parseLabeledStatement(node, maybeName, expr) {
   for (let i = this.state.labels.length - 1; i >= 0; i--) {
     let label = this.state.labels[i]
     if (label.statementStart == node.start) {
-      label.statementStart = this.state.start;
+      label.statementStart = this.state.cur.start;
       label.kind = kind;
     } else break;
   }
-  this.state.labels.push({name: maybeName, kind: kind, statementStart: this.start});
+  this.state.labels.push({name: maybeName, kind: kind, statementStart: this.state.cur.start});
   node.body = this.parseStatement(true);
   this.state.labels.pop();
   node.label = expr;
