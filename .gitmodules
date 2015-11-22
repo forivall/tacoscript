@@ -1,4 +1,4 @@
 [submodule "babel"]
 	path = babel
-	url = git@github.com:babel/babel.git
+	url = git://github.com/babel/babel.git
 	branch = master
