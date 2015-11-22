@@ -57,7 +57,12 @@ export default class Parser extends Lexer {
 
   // Raise an unexpected token error
   unexpected(pos) {
-    this.raise(pos != null ? pos : this.state.cur.start, "Unexpected Token");
+    let message = "Unexpected Token";
+    if (pos == null) {
+      pos = this.state.cur.start;
+      message += ": " + this.state.cur.key + " (" + JSON.stringify(this.state.cur.value) + ")";
+    }
+    this.raise(pos, message);
   }
 
   // This function is used to raise exceptions on parse errors. It
@@ -66,7 +71,6 @@ export default class Parser extends Lexer {
   // of the error message, and then raises a `SyntaxError` with that
   // message.
   raise(pos, message) {
-    console.error(this.state.cur);
     throw this._createSyntaxError(pos, message);
   }
 

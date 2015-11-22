@@ -33,6 +33,7 @@
     "gulp-watch": "^4.3.5"
   },
   "scripts": {
+    "test": "./scripts/test.sh",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },
   "babel": {

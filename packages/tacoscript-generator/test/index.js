@@ -98,8 +98,9 @@ _.forOwn(coreSpecs, function(suites, setName) {
           // TODO: fix duplicate newlines properly -- this issue is only with object literals
           // console.log(result.tokens);
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
-          if (!taco.code && !fs.existsSync(tacoLoc)) {
-            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          // if (!taco.code && !fs.existsSync(tacoLoc)) {
+          //   fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          if (false) {
           } else {
             expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
           }
@@ -138,8 +139,9 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
           // TODO: fix duplicate newlines properly -- this issue is only with object literals
           // console.log(result.tokens);
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
-          if (!taco.code && !fs.existsSync(tacoLoc)) {
-            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          // if (!taco.code && !fs.existsSync(tacoLoc)) {
+          //   fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+          if (false) {
           } else {
             expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
           }

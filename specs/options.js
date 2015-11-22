@@ -3,7 +3,7 @@ var _ = require("lodash");
 var baseOptions = module.exports.base = {
   optionsPath: "options",
   skip: function(test, testPath) {
-    return test === "README.md" || test === "options.json";
+    return test === "README.md" || test.indexOf("options.json") !== -1;
   },
   fixtures: {
     // actual should preserve whitespace

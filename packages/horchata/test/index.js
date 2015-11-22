@@ -17,13 +17,12 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
         test.indexOf("invalid-") === 0 ||
         test.indexOf("unexpected-") === 0 ||
         test.indexOf("malformed-") === 0 ||
-        test.indexOf("parser-options.json") !== -1 ||
         false);
     }
   })
 );
 
-suite("taco-printer", function () {
+suite("horchata", function () {
   test("basic", function () {
     var code = "this\n";
     var ast = horchata.parse(code);
@@ -66,7 +65,7 @@ function removeLocInfo(json) {
 
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: (preserve=false) core/" + setName + "/" + testSuite.title, function () {
+    suite("horchata: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
@@ -86,9 +85,9 @@ _.forOwn(coreSpecs, function(suites, setName) {
           }
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
-            fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
-            console.log("code:");
-            console.log(taco.code);
+            // fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
+            // console.log("code:");
+            // console.log(taco.code);
             // console.dir(ast.program, {depth: null});
             throw new Error(mismatchMessage);
           }
