@@ -1,4 +1,4 @@
-Tacoscript
+Tacoscript [![Build Status](https://travis-ci.org/forivall/tacoscript.svg?branch=master)](https://travis-ci.org/forivall/tacoscript)
 ==========
 
 An es2015+-isomorphic altjs language, with syntax inspired by Coffeescript,
