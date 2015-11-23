@@ -139,6 +139,9 @@ export function parseFunctionParams(node/*, functionContext*/) {
 
 export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
+  if (Token.isImplicitReturn(this.state.cur)) {
+    throw new Error("Not Implemented");
+  }
   switch(this.state.cur.type) {
     case (tt.arrow):
       throw new Error("Not Implemented");

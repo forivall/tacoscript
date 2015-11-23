@@ -363,13 +363,13 @@ export default class Lexer {
       // Punctuation tokens.
       case 40: ++this.state.pos; return this.finishToken(tt.parenL);   // '('
       case 41: ++this.state.pos; return this.finishToken(tt.parenR);   // ')'
-      case 59: ++this.state.pos; return this.finishToken(tt.semi);     // ';'
       case 44: ++this.state.pos; return this.finishToken(tt.comma);    // ','
       case 91: ++this.state.pos; return this.finishToken(tt.bracketL); // '['
       case 93: ++this.state.pos; return this.finishToken(tt.bracketR); // ']'
       case 123: ++this.state.pos; return this.finishToken(tt.braceL);  // '{'
       case 125: ++this.state.pos; return this.finishToken(tt.braceR);  // '}'
 
+      case 59: ++this.state.pos; return this.finishToken(tt.semi);     // ';'
       case 33: return this.readToken_excl();     // '!'
 
       case 58:
@@ -783,6 +783,16 @@ export default class Lexer {
     }
     ++this.state.pos;
     return this.finishToken(tt.plusMin, code === 45 ? "-" : "+");
+  }
+
+  readToken_semi() {
+    if (this.input.charCodeAt(this.state.pos + 1) === 59) {
+      this.state.pos += 2;
+      return this.finishToken(tt.doublesemi); // ';;'
+    } else {
+      ++this.state.pos;
+      return this.finishToken(tt.semi); // ';'
+    }
   }
 
   readToken_slash() { // '/'

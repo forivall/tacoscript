@@ -116,7 +116,8 @@ export const types = {
   parenL:       punctuator("(",  {beforeExpr: true, startsExpr: true}),
   parenR:       punctuator(")"),
   comma:        punctuator(",",   beforeExpr),
-  semi:         punctuator(";",   beforeExpr),
+  semi:         punctuator(";",   beforeExpr), // double semicolons are used like single semicolons.
+  doublesemi:   punctuator(";;",   beforeExpr), // single semicolons are used for sequence expressions in tacoscript
   colon:        punctuator(":",   beforeExpr),
   doubleColon:  punctuator("::",  beforeExpr),
   dot:          punctuator(".", continuesPreviousLine),

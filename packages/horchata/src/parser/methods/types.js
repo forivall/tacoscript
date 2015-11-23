@@ -10,3 +10,21 @@ export function isForKeyword(type) {
 export function matchForKeyword() {
   return this.isForKeyword(this.state.cur.type);
 }
+
+export function isTerminator(type) {
+  return type === tt.newline || type === tt.doublesemi || type === tt.eof;
+}
+
+export function matchTerminator() {
+  return this.isTerminator(this.state.cur.type);
+}
+
+export function eatTerminator() {
+  if (this.matchTerminator()) {
+    if (!this.match(tt.eof)) {
+      this.next();
+    }
+    return true;
+  }
+  return false;
+}

@@ -80,6 +80,7 @@ export default class Token {
     return Token.fromState(Token.stateFromCode(code));
   }
 
+  // TODO: move to parser/methods/types.js
   static isImplicitReturn(token) {
     let {value} = token;
     switch(token.type) {
