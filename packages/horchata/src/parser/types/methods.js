@@ -70,6 +70,10 @@ export function parseArrowExpression(node, params) {
 export function parseArrowExpressionFunction(node) {
   // TODO: override to allow implicit return expressions with a body
   node.body = this.parseExpression();
+  // TODO: move this to validation functions
+  if (node.body.type === "ObjectExpression") {
+    node.body.parenthesizedExpression = true;
+  }
   node.expression = true;
   this.checkArrowExpressionFunction(node);
   return node;
