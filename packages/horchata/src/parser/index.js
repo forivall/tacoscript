@@ -60,7 +60,7 @@ export default class Parser extends Lexer {
     let message = "Unexpected Token";
     if (pos == null) {
       pos = this.state.cur.start;
-      message += ": " + this.state.cur.key + " (" + JSON.stringify(this.state.cur.value) + ")";
+      message += ": " + this.state.cur.type.key + " (" + JSON.stringify(this.state.cur.value) + ")";
     }
     this.raise(pos, message);
   }
@@ -93,27 +93,25 @@ import * as nodeMethods from "./methods/node";
 import * as typesMethods from "./methods/types";
 import * as validationMethods from "./methods/validation";
 import * as baseParsers from "./types/base";
-// import * as classesParsers from "./types/classes";
+import * as classesParsers from "./types/classes";
 import * as expressionsParsers from "./types/expressions";
 import * as literalsParsers from "./types/literals";
 import * as methodsParsers from "./types/methods";
 // import * as modulesParsers from "./types/modules";
 import * as statementsParsers from "./types/statements";
 // import * as templateLiteralsParsers from "./types/template-literals";
-// import * as typesParsers from "./types/types";
 for (let parserMethods of [
       nodeMethods,
       typesMethods,
       validationMethods,
       baseParsers,
-      // classesParsers,
+      classesParsers,
       expressionsParsers,
       literalsParsers,
       methodsParsers,
       // modulesParsers,
       statementsParsers,
       // templateLiteralsParsers,
-      // typesParsers,
     ]) {
   Object.assign(Parser.prototype, parserMethods);
 }

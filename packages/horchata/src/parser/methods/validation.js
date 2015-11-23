@@ -5,7 +5,8 @@
  * See LICENSE for full license text
  */
 
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../tokenizer/types";
+import {isIdentifierOrStringLiteral} from "../helpers";
 
 // To be overridden by plugins
 // equivalent to "toReferencedList" in babylon, used by flow plugin
@@ -17,6 +18,13 @@ export function checkAssignable(node, assignableContext = {}) {
   let isBinding = !!assignableContext.isBinding;
   let checkClashes = !!assignableContext.checkClashes;
   // TODO
+}
+
+export function checkClassMethodName(method) {
+  // disallow static prototype method
+  if (method.static && isIdentifierOrStringLiteral(method.key, "prototype")) {
+    this.raise(method.key.start, "Classes may not have static property named prototype");
+  }
 }
 
 export function checkDeclaration(decl, kind, declarationContext) {

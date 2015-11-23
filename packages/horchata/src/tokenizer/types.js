@@ -52,6 +52,8 @@ export class TokenType {
     this.prefix = !!conf.prefix;
     this.postfix = !!conf.postfix;
     this.binop = conf.binop || null;
+    // TODO: allow specifiying custom binops via plugins, that can plug into the OPP
+    this.binopRequiresPlugin = conf.binopRequiresPlugin || false;
     if (this.binop != null) this.binopExpressionName = conf.binopExpressionName || "BinaryExpression";
     this.updateContext = null; // for jsx parsing
 

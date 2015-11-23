@@ -11,17 +11,22 @@ export function matchForKeyword() {
   return this.isForKeyword(this.state.cur.type);
 }
 
-export function isTerminator(type) {
-  return type === tt.newline || type === tt.doublesemi || type === tt.eof;
+// TODO: replace relevant uses of `tt.newline` || `tt.eof` with `isLineTerminator()`
+export function isLineTerminator(type) {
+  return (
+    type === tt.newline ||
+    type === tt.doublesemi ||
+    this.state.indentation === 0 && type === tt.eof ||
+  false);
 }
 
-export function matchTerminator() {
-  return this.isTerminator(this.state.cur.type);
+export function matchLineTerminator() {
+  return this.isLineTerminator(this.state.cur.type);
 }
 
-export function eatTerminator() {
-  if (this.matchTerminator()) {
-    if (!this.match(tt.eof)) {
+export function eatLineTerminator() {
+  if (this.matchLineTerminator()) {
+    if (this.state.indentation > 0 || !this.match(tt.eof)) {
       this.next();
     }
     return true;

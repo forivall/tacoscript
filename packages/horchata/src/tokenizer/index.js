@@ -369,7 +369,7 @@ export default class Lexer {
       case 123: ++this.state.pos; return this.finishToken(tt.braceL);  // '{'
       case 125: ++this.state.pos; return this.finishToken(tt.braceR);  // '}'
 
-      case 59: ++this.state.pos; return this.finishToken(tt.semi);     // ';'
+      case 59: return this.readToken_semi();     // ';'
       case 33: return this.readToken_excl();     // '!'
 
       case 58:
