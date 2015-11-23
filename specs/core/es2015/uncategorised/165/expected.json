@@ -127,7 +127,6 @@
                   "name": "a"
                 },
                 "shorthand": true
-                }
               },
               {
                 "type": "ObjectProperty",
@@ -180,7 +179,6 @@
                   "name": "b"
                 },
                 "shorthand": true
-                }
               }
             ]
           }

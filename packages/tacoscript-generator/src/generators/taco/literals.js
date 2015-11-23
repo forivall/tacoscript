@@ -41,7 +41,6 @@ export function ObjectExpression(node) {
   if (node.hasTrailingComma || node.properties.hasTrailingComma) this.push(",")
   this.push("}");
 }
-
 export {ObjectExpression as ObjectPattern};
 
 export function Property(node) {
@@ -96,8 +95,7 @@ export function ArrayExpression(node) {
   if ((node.hasTrailingComma || node.elements.hasTrailingComma) && node.elements[node.elements.length - 1] !== null) this.push(",")
   this.push("]");
 }
-
-export { ArrayExpression as ArrayPattern };
+export {ArrayExpression as ArrayPattern};
 
 // TODO: can be removed when babel 6 drops
 export function Literal(node) {
@@ -131,7 +129,6 @@ export function RegExpLiteral(node) {
   // this.push(`/${node.pattern}/${node.flags}`);
   this.push({type: 'regexp', value: {pattern: node.pattern, flags: node.flags, code: this._getCodeFromNode(node) }});
 }
-
 export {RegExpLiteral as RegexLiteral};
 
 export function BooleanLiteral(node) {

@@ -139,7 +139,6 @@
                   "name": "y"
                 },
                 "shorthand": true
-                }
               },
               {
                 "type": "ObjectProperty",
@@ -192,7 +191,6 @@
                   "name": "z"
                 },
                 "shorthand": true
-                }
               }
             ]
           }
