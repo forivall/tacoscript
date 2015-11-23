@@ -466,7 +466,7 @@ export function parseDeclarationStatement(node, kind) {
   this.next();
   this.parseDeclaration(node, kind);
   if (this.match(tt.eof)) this.warn("No newline at end of file");
-  this.eat(tt.newline) || this.match(tt.eof) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "VariableDeclaration");
 }
 

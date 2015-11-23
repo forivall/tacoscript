@@ -42,8 +42,7 @@ export const keywords = reservedWords.keywords;
 import {keywords as keywordTokens} from "../tokenizer/types";
 
 for (let keyword in keywordTokens) {
-  if (keywords.indexOf(keyword) < 0 && reservedWords.es2015.indexOf(keyword) < 0  &&
-  reservedWords.strict.indexOf(keyword) < 0 && reservedWords.strictBind.indexOf(keyword) < 0) {
+  if (keywords.indexOf(keyword) < 0) {
     reservedWords.tacoscript.push(keyword);
   }
 }

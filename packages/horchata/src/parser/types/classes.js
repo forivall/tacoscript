@@ -18,8 +18,9 @@ export function parseClassDeclaration(node, classContext = {}) {
 }
 
 // Parse a class expression literal
-export function parseClassExpression(node, classContext = {}) {
+export function parseClassExpression(classContext = {}) {
   classContext.optionalId = true;
+  let node = this.startNode();
   this.next();
   node = this.parseClassId(node, classContext);
   node = this.parseClassSuper(node, classContext);
@@ -50,7 +51,7 @@ export function isClassConstructor(method) {
   return (
     method.kind !== "constructorCall" &&
     !method.static &&
-    isIdentifierOrStringLiteral(method.key) &&
+    isIdentifierOrStringLiteral(method.key, "constructor") &&
   true);
 }
 
@@ -132,11 +133,12 @@ export function parseClassBody(isDeclaration, classContext) {
       this.raise(method.start, "You can't attach decorators to a class constructor");
     }
 
-    this.parseClassMethod(node, method, classContext);
+    method = this.parseClassMethod(method, classContext);
 
     if (method.kind === "get" || method.kind === "set") {
       this.checkGetterSetterProperty(method);
     }
+    node.body.push(this.finishNode(method, "ClassMethod"));
   }
 
   if (decorators.length) this.raise(this.state.start, "Class has trailing decorators");

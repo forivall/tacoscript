@@ -441,7 +441,8 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt._class:
-      throw new Error("Not Implemented");
+      node = this.parseClassExpression();
+      break;
 
     case tt._new:
       node = this.parseNew();

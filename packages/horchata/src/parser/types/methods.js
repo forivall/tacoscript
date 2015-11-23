@@ -18,15 +18,28 @@ export function initFunction(node) {
 }
 
 // Parse object or class method.
-export function parseMethod(node, functionContext = {}) {
+export function parseMethod(node, functionContext = {}, callbacks = {}) {
   let oldInMethod = this.state.inMethod;
   this.state.inMethod = node.kind || true;
   this.initFunction(node);
   node = this.parseFunctionParams(node, functionContext);
   node = this.parseArrowNamed(node, functionContext);
+  let {afterArrowParse} = callbacks;
+  if (afterArrowParse) afterArrowParse.call(this, node, functionContext);
   node = this.parseFunctionBody(node, functionContext);
   this.state.inMethod = oldInMethod;
   return node;
+}
+
+export function parseClassMethod(method, functionContext) {
+  return this.parseMethod(method, functionContext, {
+    afterArrowParse(method, functionContext) {
+      if (method.kind === "constructor") {
+        if (method.generator) this.raise(method.key.start, "Constructor can't be a generator");
+        if (method.async) this.raise(method.key.start, "Constructor can't be an async function");
+      }
+    }
+  })
 }
 
 // Parse arrow function expression with given parameters.
