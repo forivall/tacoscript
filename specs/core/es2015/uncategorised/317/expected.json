@@ -100,7 +100,7 @@
                     }
                   },
                   "object": {
-                    "type": "RegexLiteral",
+                    "type": "RegExpLiteral",
                     "start": 3,
                     "end": 7,
                     "loc": {
@@ -219,6 +219,7 @@
           ]
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

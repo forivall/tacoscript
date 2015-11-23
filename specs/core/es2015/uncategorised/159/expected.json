@@ -154,11 +154,13 @@
                   "column": 22
                 }
               },
-              "body": []
+              "body": [],
+              "directives": []
             }
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

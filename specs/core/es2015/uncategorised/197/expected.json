@@ -56,7 +56,8 @@
               "column": 5
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         },
         "test": {
           "type": "BooleanLiteral",
@@ -72,8 +73,7 @@
               "column": 18
             }
           },
-          "value": false,
-          "raw": "false"
+          "value": false
         }
       },
       {
@@ -123,6 +123,7 @@
           "arguments": []
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

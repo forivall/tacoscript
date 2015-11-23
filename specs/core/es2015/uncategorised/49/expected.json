@@ -105,12 +105,14 @@
                     "column": 12
                   }
                 },
-                "body": []
+                "body": [],
+                "directives": []
               }
             }
           ]
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -104,7 +104,7 @@
                 },
                 "properties": [
                   {
-                    "type": "Property",
+                    "type": "ObjectProperty",
                     "start": 5,
                     "end": 15,
                     "loc": {
@@ -152,7 +152,7 @@
                       },
                       "properties": [
                         {
-                          "type": "Property",
+                          "type": "ObjectProperty",
                           "start": 9,
                           "end": 14,
                           "loc": {
@@ -232,6 +232,8 @@
                               "value": 1,
                               "raw": "1"
                             }
+                          },
+                          "shorthand": true
                           }
                         }
                       ]
@@ -260,6 +262,7 @@
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

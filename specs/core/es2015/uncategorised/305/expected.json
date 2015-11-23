@@ -73,7 +73,7 @@
               },
               "properties": [
                 {
-                  "type": "Property",
+                  "type": "ObjectProperty",
                   "start": 5,
                   "end": 28,
                   "loc": {
@@ -152,6 +152,8 @@
                       },
                       "name": "defaultValue"
                     }
+                  },
+                  "shorthand": true
                   }
                 }
               ]
@@ -176,6 +178,7 @@
         ],
         "kind": "var"
       }
-    ]
+    ],
+    "directives": []
   }
 }

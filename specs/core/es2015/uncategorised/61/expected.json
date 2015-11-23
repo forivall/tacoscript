@@ -89,7 +89,7 @@
             },
             "properties": [
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 6,
                 "end": 7,
                 "loc": {
@@ -137,10 +137,12 @@
                     }
                   },
                   "name": "y"
+                },
+                "shorthand": true
                 }
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 9,
                 "end": 10,
                 "loc": {
@@ -188,12 +190,15 @@
                     }
                   },
                   "name": "z"
+                },
+                "shorthand": true
                 }
               }
             ]
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

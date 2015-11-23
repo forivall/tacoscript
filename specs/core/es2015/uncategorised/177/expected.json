@@ -122,10 +122,12 @@
                 "column": 15
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

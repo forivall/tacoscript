@@ -110,6 +110,7 @@
         ],
         "kind": "const"
       }
-    ]
+    ],
+    "directives": []
   }
 }

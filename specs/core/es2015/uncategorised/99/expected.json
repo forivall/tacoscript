@@ -122,11 +122,13 @@
                   }
                 }
               }
-            ]
+            ],
+            "directives": []
           },
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

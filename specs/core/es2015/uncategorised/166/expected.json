@@ -93,7 +93,7 @@
             },
             "properties": [
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 16,
                 "end": 17,
                 "loc": {
@@ -141,6 +141,9 @@
                     }
                   },
                   "name": "a"
+                },
+                "extra": {
+                  "shorthand": true
                 }
               }
             ]
@@ -160,9 +163,11 @@
               "column": 22
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

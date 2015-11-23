@@ -73,7 +73,7 @@
               },
               "properties": [
                 {
-                  "type": "Property",
+                  "type": "ObjectProperty",
                   "start": 7,
                   "end": 10,
                   "loc": {
@@ -145,6 +145,7 @@
         ],
         "kind": "const"
       }
-    ]
+    ],
+    "directives": []
   }
 }

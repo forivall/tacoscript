@@ -139,11 +139,13 @@
                   }
                 }
               }
-            ]
+            ],
+            "directives": []
           },
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

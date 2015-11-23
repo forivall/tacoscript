@@ -139,11 +139,13 @@
                 "column": 23
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           },
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

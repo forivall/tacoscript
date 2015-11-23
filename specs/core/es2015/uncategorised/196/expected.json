@@ -43,7 +43,7 @@
           }
         },
         "expression": {
-          "type": "RegexLiteral",
+          "type": "RegExpLiteral",
           "start": 0,
           "end": 33,
           "loc": {
@@ -61,6 +61,7 @@
           "flags": "u"
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -155,10 +155,12 @@
                   "name": "label"
                 }
               }
-            ]
+            ],
+            "directives": []
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }
