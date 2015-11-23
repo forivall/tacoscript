@@ -135,8 +135,7 @@ export function parseBindingAtomic() {
       return this.finishNode(node, "ArrayPattern");
 
     case tt.braceL:
-      throw new Error("Not Implemented");
-      // return this.parseObj(true);
+      return this.parseObjectBinding();
 
     default:
       this.unexpected();
@@ -286,8 +285,8 @@ export function parseObjectLiteral(expressionContext) {
 }
 
 // Parse an object binding pattern
-export function parseObjectBinding(expressionContext) {
-  return this.parseObject(true, expressionContext);
+export function parseObjectBinding() {
+  return this.parseObject(true, {});
 }
 
 export function parseObject(isPattern, expressionContext) {

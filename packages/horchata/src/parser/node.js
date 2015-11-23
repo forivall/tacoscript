@@ -29,7 +29,7 @@ export default class Node {
   }
 
   __clone() {
-    let clone = new Node();
+    let clone = new Node({options: {}}, {});
     for (let k in this) clone[k] = this[k];
     if ("range" in this) {
       clone.range = [this.range[0], this.range[1]];
