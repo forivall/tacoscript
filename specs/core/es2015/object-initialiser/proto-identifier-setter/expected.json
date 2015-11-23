@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 41,
+  "end": 42,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 41
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 41,
+    "end": 42,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 41
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -58,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 3,
               "end": 18,
               "loc": {
@@ -108,7 +108,7 @@
               "kind": "init"
             },
             {
-              "type": "Property",
+              "type": "ObjectMethod",
               "start": 20,
               "end": 38,
               "loc": {
@@ -141,63 +141,50 @@
                 "name": "__proto__"
               },
               "kind": "set",
-              "value": {
-                "type": "FunctionExpression",
-                "start": 33,
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "start": 34,
+                  "end": 35,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 34
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 35
+                    }
+                  },
+                  "name": "x"
+                }
+              ],
+              "body": {
+                "type": "BlockStatement",
+                "start": 36,
                 "end": 38,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 33
+                    "column": 36
                   },
                   "end": {
                     "line": 1,
                     "column": 38
                   }
                 },
-                "id": null,
-                "generator": false,
-                "expression": false,
-                "params": [
-                  {
-                    "type": "Identifier",
-                    "start": 34,
-                    "end": 35,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 34
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 35
-                      }
-                    },
-                    "name": "x"
-                  }
-                ],
-                "body": {
-                  "type": "BlockStatement",
-                  "start": 36,
-                  "end": 38,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 36
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 38
-                    }
-                  },
-                  "body": []
-                }
+                "body": [],
+                "directives": []
               }
             }
           ],
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

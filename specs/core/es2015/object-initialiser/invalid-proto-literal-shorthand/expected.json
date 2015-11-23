@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 34,
+  "end": 35,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 34
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 34,
+    "end": 35,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 34
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -58,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 3,
               "end": 20,
               "loc": {
@@ -75,7 +75,7 @@
               "shorthand": false,
               "computed": false,
               "key": {
-                "type": "Literal",
+                "type": "StringLiteral",
                 "start": 3,
                 "end": 14,
                 "loc": {
@@ -92,7 +92,7 @@
                 "raw": "\"__proto__\""
               },
               "value": {
-                "type": "Literal",
+                "type": "NullLiteral",
                 "start": 16,
                 "end": 20,
                 "loc": {
@@ -104,14 +104,12 @@
                     "line": 1,
                     "column": 20
                   }
-                },
-                "value": null,
-                "raw": "null"
+                }
               },
               "kind": "init"
             },
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 22,
               "end": 31,
               "loc": {
@@ -159,12 +157,14 @@
                   }
                 },
                 "name": "__proto__"
-              }
+              },
+              "shorthand": true
             }
           ],
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -334,7 +334,7 @@ export function parseObject(isPattern, expressionContext) {
         start = {...this.state.cur};
       }
 
-      if (!isPattern && !this.matchNext(tt.colon)) {
+      if (!isPattern && !this.matchNext(tt.colon) && !this.matchNext(tt.parenL)) {
         if (this.eat(tt._get)) {
           propertyContext.kind = "get";
         } else if (this.eat(tt._set)) {

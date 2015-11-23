@@ -173,9 +173,7 @@
                           },
                           "name": "x"
                         },
-                        "extra": {
-                          "shorthand": true
-                        }
+                        "shorthand": true
                       }
                     ]
                   },
@@ -241,10 +239,7 @@
                               "column": 16
                             }
                           },
-                          "extra": {
-                            "rawValue": 10,
-                            "raw": "10"
-                          },
+                          "raw": "10",
                           "value": 10
                         }
                       }

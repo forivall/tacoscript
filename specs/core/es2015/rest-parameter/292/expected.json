@@ -107,9 +107,11 @@
               "column": 27
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

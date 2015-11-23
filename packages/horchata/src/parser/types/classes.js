@@ -93,11 +93,15 @@ export function parseClassBody(isDeclaration, classContext) {
     }
 
     method.static = this.eat(tt._static);
-    if (this.eat(tt._get)) {
-      method.kind = "get";
-    } else if (this.eat(tt._set)) {
-      method.kind = "set";
+
+    if (!this.matchNext(tt.eq) && !this.matchNext(tt.parenL)) {
+      if (this.eat(tt._get)) {
+        method.kind = "get";
+      } else if (this.eat(tt._set)) {
+        method.kind = "set";
+      }
     }
+
     this.parsePropertyName(method);
 
     if (method.key.type === "Identifier" && !method.computed && method.kind !== "get" && method.kind !== "set") {

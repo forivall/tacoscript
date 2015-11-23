@@ -139,10 +139,7 @@
                 "column": 20
               }
             },
-            "extra": {
-              "rawValue": 42,
-              "raw": "42"
-            },
+            "raw": "42",
             "value": 42
           }
         }

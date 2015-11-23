@@ -1,65 +1,33 @@
 {
   "type": "File",
   "start": 0,
-  "end": 30,
+  "end": 31,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 30
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 30,
+    "end": 31,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 30
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
     "body": [
-      {
-        "type": "ExpressionStatement",
-        "start": 0,
-        "end": 13,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 13
-          }
-        },
-        "expression": {
-          "type": "StringLiteral",
-          "start": 0,
-          "end": 12,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 12
-            }
-          },
-          "value": "use strict",
-          "raw": "\"use strict\""
-        }
-      },
       {
         "type": "ExpressionStatement",
         "start": 14,
@@ -90,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectMethod",
               "start": 17,
               "end": 27,
               "loc": {
@@ -122,45 +90,68 @@
                 },
                 "name": "yield"
               },
-              "kind": "init",
-              "value": {
-                "type": "FunctionExpression",
-                "start": 22,
+              "kind": "method",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "start": 25,
                 "end": 27,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 22
+                    "column": 25
                   },
                   "end": {
                     "line": 1,
                     "column": 27
                   }
                 },
-                "id": null,
-                "generator": false,
-                "expression": false,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "start": 25,
-                  "end": 27,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 25
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 27
-                    }
-                  },
-                  "body": []
-                }
+                "body": [],
+                "directives": []
               }
             }
           ],
           "parenthesizedExpression": true
+        }
+      }
+    ],
+    "directives": [
+      {
+        "type": "Directive",
+        "start": 0,
+        "end": 13,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 13
+          }
+        },
+        "value": {
+          "type": "DirectiveLiteral",
+          "start": 0,
+          "end": 12,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 12
+            }
+          },
+          "value": "use strict",
+          "extra": {
+            "raw": "\"use strict\"",
+            "rawValue": "use strict"
+          }
         }
       }
     ]

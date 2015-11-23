@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 32,
+  "end": 33,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 32
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 32,
+    "end": 33,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 32
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -58,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 3,
               "end": 18,
               "loc": {
@@ -91,7 +91,7 @@
                 "name": "__proto__"
               },
               "value": {
-                "type": "Literal",
+                "type": "NullLiteral",
                 "start": 14,
                 "end": 18,
                 "loc": {
@@ -103,14 +103,11 @@
                     "line": 1,
                     "column": 18
                   }
-                },
-                "value": null,
-                "raw": "null"
-              },
-              "kind": "init"
+                }
+              }
             },
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 20,
               "end": 29,
               "loc": {
@@ -142,7 +139,6 @@
                 },
                 "name": "__proto__"
               },
-              "kind": "init",
               "value": {
                 "type": "Identifier",
                 "start": 20,
@@ -158,12 +154,14 @@
                   }
                 },
                 "name": "__proto__"
-              }
+              },
+              "shorthand": true
             }
           ],
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

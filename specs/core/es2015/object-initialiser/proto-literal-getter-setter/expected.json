@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 62,
+  "end": 63,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 62
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 62,
+    "end": 63,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 62
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -58,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 3,
               "end": 20,
               "loc": {
@@ -109,7 +109,7 @@
               "kind": "init"
             },
             {
-              "type": "Property",
+              "type": "ObjectMethod",
               "start": 22,
               "end": 39,
               "loc": {
@@ -142,44 +142,30 @@
                 "name": "__proto__"
               },
               "kind": "get",
-              "value": {
-                "type": "FunctionExpression",
-                "start": 35,
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "start": 37,
                 "end": 39,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 35
+                    "column": 37
                   },
                   "end": {
                     "line": 1,
                     "column": 39
                   }
                 },
-                "id": null,
-                "generator": false,
-                "expression": false,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "start": 37,
-                  "end": 39,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 37
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 39
-                    }
-                  },
-                  "body": []
-                }
+                "body": [],
+                "directives": []
               }
             },
             {
-              "type": "Property",
+              "type": "ObjectMethod",
               "start": 41,
               "end": 59,
               "loc": {
@@ -212,63 +198,50 @@
                 "name": "__proto__"
               },
               "kind": "set",
-              "value": {
-                "type": "FunctionExpression",
-                "start": 54,
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "start": 55,
+                  "end": 56,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 55
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 56
+                    }
+                  },
+                  "name": "x"
+                }
+              ],
+              "body": {
+                "type": "BlockStatement",
+                "start": 57,
                 "end": 59,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 54
+                    "column": 57
                   },
                   "end": {
                     "line": 1,
                     "column": 59
                   }
                 },
-                "id": null,
-                "generator": false,
-                "expression": false,
-                "params": [
-                  {
-                    "type": "Identifier",
-                    "start": 55,
-                    "end": 56,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 55
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 56
-                      }
-                    },
-                    "name": "x"
-                  }
-                ],
-                "body": {
-                  "type": "BlockStatement",
-                  "start": 57,
-                  "end": 59,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 57
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 59
-                    }
-                  },
-                  "body": []
-                }
+                "body": [],
+                "directives": []
               }
             }
           ],
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

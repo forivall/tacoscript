@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 40,
+  "end": 41,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 40
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 40,
+    "end": 41,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 40
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -58,7 +58,7 @@
           },
           "properties": [
             {
-              "type": "Property",
+              "type": "ObjectProperty",
               "start": 3,
               "end": 18,
               "loc": {
@@ -104,11 +104,10 @@
                     "column": 18
                   }
                 }
-              },
-              "kind": "init"
+              }
             },
             {
-              "type": "Property",
+              "type": "ObjectMethod",
               "start": 20,
               "end": 37,
               "loc": {
@@ -141,46 +140,33 @@
                 "name": "__proto__"
               },
               "kind": "get",
-              "value": {
-                "type": "FunctionExpression",
-                "start": 33,
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "start": 35,
                 "end": 37,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 33
+                    "column": 35
                   },
                   "end": {
                     "line": 1,
                     "column": 37
                   }
                 },
-                "id": null,
-                "generator": false,
-                "expression": false,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "start": 35,
-                  "end": 37,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 35
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 37
-                    }
-                  },
-                  "body": []
-                }
+                "body": [],
+                "directives": []
               }
             }
           ],
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

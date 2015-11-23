@@ -169,10 +169,7 @@
                       "column": 38
                     }
                   },
-                  "extra": {
-                    "rawValue": "../lang/task",
-                    "raw": "'../lang/task'"
-                  },
+                  "raw": "'../lang/task'",
                   "value": "../lang/task"
                 }
               ]
