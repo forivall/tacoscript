@@ -99,7 +99,7 @@ export function toAssignableList(exprList, assignableContext = {}) {
       --end;
     }
 
-    if (isBinding && last.type === "RestElement" && last.argument.type !== "Identifier") {
+    if (isBinding && last && last.type === "RestElement" && last.argument.type !== "Identifier") {
       this.unexpected(last.argument.start);
     }
   }

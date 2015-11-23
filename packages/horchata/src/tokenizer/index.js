@@ -316,7 +316,7 @@ export default class Lexer {
 
   finishArrow(type, len) {
     let start = this.state.pos;
-    this.state.pos += len + ~~(this.input.charCodeAt(this.state.pos + len) === 62);
+    this.state.pos += len + ~~(this.input.charCodeAt(this.state.pos + len) === 62); // =>/=>>
     return this.finishToken(type, this.input.slice(start, this.state.pos));
   }
 

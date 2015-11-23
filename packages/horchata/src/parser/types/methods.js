@@ -71,7 +71,7 @@ export function parseArrowExpressionFunction(node) {
   // TODO: override to allow implicit return expressions with a body
   node.body = this.parseExpression();
   node.expression = true;
-  this.checkArrowExpressionFunction();
+  this.checkArrowExpressionFunction(node);
   return node;
 }
 
