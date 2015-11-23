@@ -41,8 +41,8 @@ export function _functionBody(parent, prop = "body") {
  * Prints method-like nodes, prints key, value, and body, handles async, generator, computed, and get or set.
  */
 
-export function _method(node) {
-  let value = node.type === "ObjectMethod" ? node : node.value;
+export function _method(node, isValue) {
+  let value = isValue ? node : node.value;
   let kind  = node.kind;
 
   if (kind === "get" || kind === "set") {

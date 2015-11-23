@@ -47,8 +47,7 @@ export default class Token {
       }
     }
     switch (code) {
-      case "=>":
-      case "=>>":
+      case "=>": case "=>>":
         return (Token._fromCodeCache[code] = { type: tt.arrow, value: code });
       case "->": case "->>":
         return (Token._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
@@ -72,6 +71,8 @@ export default class Token {
         return (Token._fromCodeCache[code] = { type: tt.bitShift, value: code });
       case "+": case "-":
         return (Token._fromCodeCache[code] = { type: tt.plusMin, value: code });
+      case ";": return (Token._fromCodeCache[code] = { type: tt.semi });
+      case ";;": return (Token._fromCodeCache[code] = { type: tt.doublesemi });
     }
     throw new Error(`Cannot construct token from code "${code}"`);
   }

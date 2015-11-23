@@ -40,6 +40,7 @@ tt.parenL.code = "(";
 tt.parenR.code = ")";
 tt.comma.code = ",";
 tt.semi.code = ";";
+tt.doublesemi.code = ";;";
 tt.colon.code = ":";
 tt.doubleColon.code = "::";
 tt.dot.code = ".";
@@ -102,6 +103,7 @@ tt.incDec.forceSpaceWhenAfter.plusMin = function(left, right) {
     (left.value === "-" && right.value === "--");
 };
 tt.name.forceSpaceWhenAfter.keyword = true;
+tt.name.forceSpaceWhenAfter.name = true;
 tt.num.forceSpaceWhenAfter.keyword = true;
 tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
   return (
@@ -185,6 +187,8 @@ tt.braceL.formattingSpaceWhenAfter.keyword = true;
 tt.colon.formattingSpaceAfter = true;
 // tt.comma.formattingSpaceAfter = true;
 tt.ellipsis.formattingSpaceWhenAfter.comma = true;
+tt.doublesemi.formattingSpaceWhenAfter.doublesemi = true;
+tt.doublesemi.formattingSpaceWhenAfter._then = true;
 tt.eq.formattingSpaceAfter = true;
 tt.eq.formattingSpaceWhenAfter.name = true;
 tt.eq.formattingSpaceWhenAfter.braceR = true;

@@ -47,7 +47,7 @@ export {ObjectExpression as ObjectPattern};
 export function Property(node) {
   if (node.method || node.kind === "get" || node.kind === "set") {
     this.printMultiple(node, "decorators", { separator: null });
-    this._method(node, "value");
+    this._method(node);
   } else {
     this.ObjectProperty(node);
   }
@@ -55,7 +55,7 @@ export function Property(node) {
 
 export function ObjectMethod(node) {
   this.printMultiple(node, "decorators", { separator: null });
-  this._method(node);
+  this._method(node, true);
 }
 
 export function ObjectProperty(node) {

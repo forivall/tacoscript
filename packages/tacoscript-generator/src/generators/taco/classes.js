@@ -23,6 +23,11 @@ export function _printClass(node) {
     this.printMultiple(node, "implements", { separator: "," });
   }
 
+  if (node.body.leadingSeparators) {
+    if (!node.body.body.length) this.push("then")
+    for (let i = node.body.leadingSeparators; i > 0; --i) this.push(";;");
+  }
+
   // NOTE: this is a classBody, not a block
   this.print(node, "body");
 }
@@ -72,5 +77,20 @@ export function MethodDefinition(node) {
   }
 
   this._method(node);
+  this.newline();
+}
+
+export function ClassMethod(node) {
+  this.printMultiple(node, "decorators", { separator: null });
+
+  if (node.static) {
+    this.push("static");
+  }
+
+  if (node.kind === "constructorCall") {
+    this.push({type: "name", value: {value: "call", raw: "call"}})
+  }
+
+  this._method(node, true);
   this.newline();
 }
