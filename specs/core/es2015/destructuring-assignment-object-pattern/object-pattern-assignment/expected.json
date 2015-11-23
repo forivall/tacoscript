@@ -73,7 +73,7 @@
             },
             "properties": [
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 7,
                 "end": 8,
                 "loc": {
@@ -124,7 +124,7 @@
                 }
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 14,
                 "end": 17,
                 "loc": {
@@ -175,7 +175,7 @@
                 "kind": "init"
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 23,
                 "end": 28,
                 "loc": {
@@ -257,7 +257,7 @@
                 "kind": "init"
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 34,
                 "end": 41,
                 "loc": {
@@ -305,7 +305,7 @@
                   },
                   "properties": [
                     {
-                      "type": "Property",
+                      "type": "ObjectProperty",
                       "start": 39,
                       "end": 40,
                       "loc": {
@@ -360,7 +360,7 @@
                 "kind": "init"
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 47,
                 "end": 63,
                 "loc": {
@@ -459,7 +459,7 @@
                 "kind": "init"
               },
               {
-                "type": "Property",
+                "type": "ObjectProperty",
                 "start": 69,
                 "end": 77,
                 "loc": {
