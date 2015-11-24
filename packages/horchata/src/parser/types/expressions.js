@@ -379,8 +379,8 @@ export function parseExpressionAtomic(expressionContext) {
   let canBeArrow = this.state.potentialLambdaOn.start === this.state.cur.start;
   switch (this.state.cur.type) {
     case tt._super:
-      this.checkSuperStatement();
-      throw new Error("Not Implemented");
+      node = this.parseSuper(node);
+      break;
     case tt._this:
       // TODO: move to a parse function
       node = this.startNode();
@@ -496,6 +496,18 @@ export function parseNew() {
     node = this.finishNode(node, "NewExpression");
   }
   return node;
+}
+
+export function parseSuper() {
+  this.preCheckSuper();
+  let node = this.startNode();
+  this.next();
+  if (!this.match(tt.parenL) && !this.match(tt.bracketL) && !this.match(tt.dot)) {
+    this.unexpected();
+  }
+
+  this.checkSuper(node);
+  return this.finishNode(node, "Super");
 }
 
 // Parses yield expression inside generator.

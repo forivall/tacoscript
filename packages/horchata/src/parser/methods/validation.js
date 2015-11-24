@@ -155,7 +155,7 @@ export function checkJump(node, keyword) {
 }
 
 export function checkMetaProperty(node) {
-  if (!this.state.inFunction) {
+  if (!this.state.inFunction && !this.options.allowNewTargetOutsideFunction) {
     this.raise(node.start, "new.target can only be used in functions");
   }
 }
@@ -214,6 +214,18 @@ export function checkShorthandPropertyBinding(prop) {
   if (this.keywords.test(prop.key.name) ||
       (this.state.strict ? this.reservedWordsStrictBind : this.reservedWords).test(prop.key.name)) {
     this.raise(prop.key.start, "Binding " + prop.key.name);
+  }
+}
+
+export function preCheckSuper() {
+  if (!this.state.inMethod && !this.options.allowSuperOutsideMethod) {
+    this.raise(this.state.cur.start, "`super` can only be used in a method")
+  }
+}
+
+export function checkSuper(node) {
+  if (this.match(tt.parenL) && this.state.inMethod !== "constructor" && !this.options.allowSuperOutsideMethod) {
+    this.raise(node.start, "super() outside of class constructor");
   }
 }
 

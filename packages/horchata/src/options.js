@@ -15,6 +15,9 @@ export const defaultOptions = {
   // When enabled, `super` is allowed anywhere.
   allowSuperOutsideMethod: false,
 
+  // When enabled, `new.target` is allowed anywhere.
+  allowNewTargetOutsideFunction: false,
+
   // map of plugins with their options
   plugins: emptyObject,
 
