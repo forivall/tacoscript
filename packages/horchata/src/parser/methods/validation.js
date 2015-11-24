@@ -155,7 +155,7 @@ export function checkJump(node, keyword) {
 }
 
 export function checkMetaProperty(node) {
-  if (this.state.inFunction) {
+  if (!this.state.inFunction) {
     this.raise(node.start, "new.target can only be used in functions");
   }
 }

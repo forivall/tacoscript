@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 36,
+  "end": 37,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 2,
-      "column": 6
+      "line": 3,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 36,
+    "end": 37,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 2,
-        "column": 6
+        "line": 3,
+        "column": 0
       }
     },
     "sourceType": "module",
@@ -43,7 +43,7 @@
           }
         },
         "declaration": {
-          "type": "FunctionExpression",
+          "type": "FunctionDeclaration",
           "start": 15,
           "end": 29,
           "loc": {
@@ -74,7 +74,8 @@
                 "column": 29
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         }
       },
@@ -110,6 +111,7 @@
           "parenthesizedExpression": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }
