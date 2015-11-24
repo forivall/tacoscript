@@ -208,6 +208,7 @@ export function parseMaybeDefault(start, left) {
 export function parseIdentifier(identifierContext = {}) {
   // equivalent to `liberal` in acorn/babylon
   const allowKeywords = !!identifierContext.allowKeywords;
+  const isOptional = !!identifierContext.isOptional;
 
   let node = this.startNode();
   if (this.match(tt.name)) {
@@ -218,6 +219,8 @@ export function parseIdentifier(identifierContext = {}) {
     this.state.cur.type = tt.name;
     // TODO: set this value accordingly
     // this.state.cur.value = {}
+  } else if (isOptional) {
+    return null;
   } else {
     this.unexpected();
   }

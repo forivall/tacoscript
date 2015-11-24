@@ -54,7 +54,7 @@ export function parseExpression(expressionContext = {}, callbacks = {}) {
 }
 
 // precedence: 0
-export function parseExpressionMaybeSequence(expressionContext, callbacks) {
+export function parseExpressionMaybeSequence(expressionContext, callbacks = {}) {
   let start = {...this.state.cur};
   let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks);
   if (this.match(tt.semi)) {

@@ -304,14 +304,24 @@ export default class Lexer {
           type === tt._set ||
           false)
         ) {
-      this.lookahead.state = this.state.clone();
-      this.lookahead.next();
-      this.state.next = this.lookahead.state.cur;
+      this._doLookahead();
     } else {
       this.state.resetNext();
     }
 
     return true;
+  }
+
+  ensureLookahead() {
+    if (this.state.next.type === tt.unknown) {
+      this._doLookahead();
+    }
+  }
+
+  _doLookahead() {
+    this.lookahead.state = this.state.clone();
+    this.lookahead.next();
+    this.state.next = this.lookahead.state.cur;
   }
 
   finishArrow(type, len) {

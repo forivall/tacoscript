@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 19,
+  "end": 20,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 19
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 19,
+    "end": 20,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 19
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "module",
@@ -59,6 +59,7 @@
           "name": "foo"
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

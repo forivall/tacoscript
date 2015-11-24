@@ -12,6 +12,8 @@ const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"}
 
 // ### Statement parsing
 
+// TODO: convert to use `statementContext` instead of explicit
+//       `declaration` and `topLevel`
 export function parseStatement(declaration = true, topLevel = false) {
   let parentStatementAllowed = this.state.statementAllowed;
   this.state.statementAllowed = true;
@@ -40,7 +42,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       if (!this.options.allowImportExportEverywhere && !topLevel) {
         this.raise(this.start, "`export` may only appear at the top level");
       }
-      node = this.parseExportDeclaration(node); break;
+      node = this.parseExport(node); break;
     case tt._for: node = this.parseForStatement(node); break;
     case tt._function:
       if (!declaration) this.unexpected();
@@ -51,7 +53,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       if (!this.options.allowImportExportEverywhere && !topLevel) {
         this.raise(this.start, "`import` may only appear at the top level");
       }
-      node = this.parseImportDeclaration(node); break;
+      node = this.parseImport(node); break;
     case tt._pass: node = this.parseEmptyStatement(node); break;
     case tt._return: node = this.parseReturnStatement(node); break;
     case tt._switch: node = this.parseSwitchStatementMaybeSafe(node); break;

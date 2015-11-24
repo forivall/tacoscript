@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2012-2015 by various contributors (see doc/ACORN_AUTHORS)
+ * Copyright (C) 2015 Jordan Klassen <forivall@gmail.com>
+ *
+ * See LICENSE for full license text
+ */
+
 import {types as tt} from "../../tokenizer/types";
 import {isNewline} from "../../util/whitespace";
 
@@ -89,7 +96,7 @@ export function parseBlockBody(node, blockContext = {}) {
       continue;
     }
     finishedDirectives = true;
-    node.body.push(this.parseStatement());
+    node.body.push(this.parseStatement(true, isTopLevel));
   }
   if (!isTopLevel) {
     if (this.match(tt.eof)) this.warn("Missing newline at end of file");

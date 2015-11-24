@@ -96,6 +96,15 @@ export function checkArrowExpressionFunction(node) {
   this.checkFunctionAssignable(node);
 }
 
+export function checkExport(node) {
+  if (this.state.decorators.length) {
+    let isClass = node.declaration && (node.declaration.type === "ClassDeclaration" || node.declaration.type === "ClassExpression");
+    if (!node.declaration || !isClass) {
+      this.raise(node.start, "Decorators can only be used on an export when exporting a class");
+    }
+  }
+};
+
 export function checkFunctionAssignable(node, setStrict) {
   let nameHash = Object.create(null);
   let oldStrict = this.state.strict;
