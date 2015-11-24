@@ -61,7 +61,6 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._try: node = this.parseTryStatement(node); break;
     case tt._while: node = this.parseWhileStatement(node); break;
     case tt._with: node = this.parseWithStatement(node); break;
-    case tt._yield: node = this.parseExpressionStatement(node, this.parseYieldExpression()); break;
 
     // Variable declaration
     case tt._let:

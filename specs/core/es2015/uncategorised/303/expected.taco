@@ -1,1 +1,1 @@
-var {get} = obj
+var {\$get} = obj
