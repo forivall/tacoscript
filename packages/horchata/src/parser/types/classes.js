@@ -60,10 +60,12 @@ export function parseClassBody(isDeclaration, classContext) {
   let hasConstructor = false;
   let hasConstructorCall = false;
   let decorators = [];
+  let isMultiline = false;
   node.body = [];
 
   let end;
   if (this.eat(tt.indent)) {
+    isMultiline = true;
     end = () => this.eat(tt.dedent);
     this.eat(tt.newline);
   } else if (this.eat(tt._then)) {
@@ -146,6 +148,11 @@ export function parseClassBody(isDeclaration, classContext) {
   }
 
   if (decorators.length) this.raise(this.state.start, "Class has trailing decorators");
+
+  if (!isDeclaration && isMultiline) {
+    this.eat(tt.newline);
+  }
+
   node = this.finishNode(node, "ClassBody");
   this.state.strict = oldStrict;
   return node;
