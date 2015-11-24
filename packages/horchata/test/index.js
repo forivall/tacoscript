@@ -85,9 +85,9 @@ _.forOwn(coreSpecs, function(suites, setName) {
           }
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) {
-            // fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
-            // console.log("code:");
-            // console.log(taco.code);
+            fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
+            console.log("code:");
+            console.log(taco.code);
             // console.dir(ast.program, {depth: null});
             throw new Error(mismatchMessage);
           }
