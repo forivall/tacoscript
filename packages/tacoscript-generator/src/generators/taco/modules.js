@@ -113,11 +113,14 @@ export function ImportDeclaration(node) {
     let specifiers = node.specifiers.slice(0);
     if (specifiers && specifiers.length) {
       let first = specifiers[0];
-      if (t.isImportDefaultSpecifier(first) || t.isImportNamespaceSpecifier(first)) {
+      if (t.isImportDefaultSpecifier(first)) {
         this._simplePrint(specifiers.shift(), node, {});
-        if (specifiers.length) {
-          this.push(",");
-        }
+        if (specifiers.length) this.push(",");
+      }
+      first = specifiers[0];
+      if (t.isImportNamespaceSpecifier(first)) {
+        this._simplePrint(specifiers.shift(), node, {});
+        if (specifiers.length) this.push(",");
       }
 
       if (specifiers.length) {

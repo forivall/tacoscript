@@ -208,6 +208,7 @@ tt.parenL.formattingSpaceWhenAfter.unboundArrow = true;
 tt.parenL.formattingSpaceWhenAfter.excl = true;
 tt.regexp.formattingSpaceWhenAfter.keyword = true;
 tt.semi.formattingSpaceAfter = true;
+tt.star.formattingSpaceWhenAfter.comma = true;
 tt.string.formattingSpaceWhenAfter.arrow = true;
 tt.string.formattingSpaceWhenAfter.asyncArrow = true;
 tt.string.formattingSpaceWhenAfter.asyncBoundArrow = true;

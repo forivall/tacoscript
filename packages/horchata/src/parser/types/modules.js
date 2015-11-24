@@ -111,5 +111,63 @@ export function parseExportDeclaration() {
   return this.parseStatement();
 }
 
+// const empty = Symbol("EmptySpecifiers");
+const empty = "__emptySpecifiers";
 // Parses module import declarations
-// TODO
+export function parseImport(node) {
+  this.next();
+
+  if (this.match(tt.string)) {
+    node.specifiers = [];
+    node.specifiers[empty] = true;
+    node.source = this.parseExpressionAtomic();
+  } else {
+    node.specifiers = [];
+    node = this.parseImportSpecifiers(node);
+    this.eat(tt._from) || this.unexpected();
+    this.match(tt.string) || this.unexpected();
+    node.source = this.parseExpressionAtomic();
+  }
+  this.eatLineTerminator();
+  return this.finishNode(node, "ImportDeclaration");
+}
+
+// Parses a comma-separated list of module imports.
+export function parseImportSpecifiers(node) {
+  let hasDefault = false;
+  if (this.match(tt.name)) {
+    // import defaultObj, { x, y as z } from '...'
+    let specifier = this.startNode();
+    specifier.local = this.parseIdentifier();
+    this.checkAssignable(specifier.local, {isBinding: true});
+    node.specifiers.push(this.finishNode(specifier, "ImportDefaultSpecifier"));
+    hasDefault = true;
+  }
+  if (!hasDefault || this.eat(tt.comma)) {
+    if (this.match(tt.star)) {
+      let specifier = this.startNode();
+      this.next();
+      this.eat(tt._as) || this.unexpected();
+      specifier.local = this.parseIdentifier();
+      this.checkAssignable(specifier.local, {isBinding: true});
+      node.specifiers.push(this.finishNode(specifier, "ImportNamespaceSpecifier"));
+    } else {
+      this.eat(tt.braceL) || this.unexpected();
+      let first = true;
+      while (!this.eat(tt.braceR)) {
+        if (first) first = false;
+        else {
+          this.eat(tt.comma) || this.unexpected();
+          if (this.eat(tt.braceR)) break;
+        }
+
+        let specifier = this.startNode();
+        specifier.imported = this.parseIdentifier({allowKeywords: true});
+        specifier.local = this.eat(tt._as) ? this.parseIdentifier() : specifier.imported.__clone();
+        this.checkAssignable(specifier.local, {isBinding: true});
+        node.specifiers.push(this.finishNode(specifier, "ImportSpecifier"));
+      }
+    }
+  }
+  return node;
+}

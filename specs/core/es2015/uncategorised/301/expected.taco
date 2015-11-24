@@ -1,1 +1,1 @@
-import foo, {* as bar} from 'baz'
+import foo, * as bar from 'baz'
