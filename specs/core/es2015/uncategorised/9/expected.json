@@ -104,10 +104,7 @@
                     "column": 34
                   }
                 },
-                "extra": {
-                  "rawValue": 0,
-                  "raw": "0O0"
-                },
+                "raw": "0O0",
                 "value": 0
               }
             }
