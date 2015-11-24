@@ -61,7 +61,7 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._try: node = this.parseTryStatement(node); break;
     case tt._while: node = this.parseWhileStatement(node); break;
     case tt._with: node = this.parseWithStatement(node); break;
-    case tt._yield: node = this.parseYieldStatement(node); break;
+    case tt._yield: node = this.parseExpressionStatement(node, this.parseYieldExpression()); break;
 
     // Variable declaration
     case tt._let:
@@ -501,6 +501,9 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
 // If we're not parsing a statement, it's an ExpressionStatement!
 export function parseExpressionStatement(node, expr) {
   node.expression = expr;
+  if (expr.type === "ObjectExpression") {
+    expr.parenthesizedExpression = true;
+  }
   // TODO: also allow `and then`
   // `and then` will be handled after boolean expressions are properly handled --
   // the posiition of the and will be stored, and then read here, similar to how

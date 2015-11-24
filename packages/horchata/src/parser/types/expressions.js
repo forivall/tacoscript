@@ -465,8 +465,8 @@ export function parseExpressionAtomic(expressionContext) {
 // New's precedence is slightly tricky. It must allow its argument
 // to be a `[]` or dot subscript expression, but not a call — at
 // least, not without wrapping it in parentheses. Thus, it uses the
-// subscript, exprAtom and arguments parser functions directly, with
-// the `noCall` option of `parseSubscripts`.
+// `noCall` option of `parseSubscripts` to prevent the parser from
+// consuming the arugment list.
 
 // const empty = Symbol("EmptyArguments");
 const empty = "__emptyArguments";
@@ -496,6 +496,20 @@ export function parseNew() {
     node = this.finishNode(node, "NewExpression");
   }
   return node;
+}
+
+// Parses yield expression inside generator.
+export function parseYieldExpression() {
+  let node = this.startNode();
+  this.next();
+  if (this.matchLineTerminator() || (!this.match(tt.star) && !this.state.cur.type.startsExpr)) {
+    node.delegate = false;
+    node.argument = null;
+  } else {
+    node.delegate = this.eat(tt.star);
+    node.argument = this.parseExpressionMaybeKeywordOrAssignment({});
+  }
+  return this.finishNode(node, "YieldExpression");
 }
 
 // Parse an expression grouped by parenthises -- could be

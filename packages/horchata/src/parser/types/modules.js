@@ -66,6 +66,7 @@ export function parseExportFrom(node, exportFromContext = {}) {
   return node;
 }
 
+// Parses a comma-separated list of module exports.
 export function parseExportSpecifiers(parent) {
   if (!parent.specifiers) parent.specifiers = [];
   let first = true;
@@ -109,3 +110,6 @@ export function isExportDefaultSpecifier() {
 export function parseExportDeclaration() {
   return this.parseStatement();
 }
+
+// Parses module import declarations
+// TODO
