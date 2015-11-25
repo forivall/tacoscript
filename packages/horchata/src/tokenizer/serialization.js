@@ -114,6 +114,13 @@ tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
     false
   );
 };
+tt.relational.forceSpaceWhenAfter.incDec = function(left, right) {
+  // http://javascript.spec.whatwg.org/#comment-syntax
+  return left.value === "--" && right.value === ">";
+};
+tt.incDec.forceSpaceWhenAfter.excl = function(left, right) {
+  return right.value === "--";
+}
 tt.string.forceSpaceWhenAfter.keyword = true;
 
 // formatting : todo: move to plugin

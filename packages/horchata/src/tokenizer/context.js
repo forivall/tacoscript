@@ -31,7 +31,7 @@ export const types = {
   b_tmpl: new TokContext("${", true),
   kw_stat: new TokContext("keyword", false), // implicit parenthises for keyword block starters
   p_expr: new TokContext("(", true),
-  q_tmpl: new TokContext("`", true, true, p => p.readTmplToken()),
+  q_tmpl: new TokContext("`", true, true, (lexer) => lexer.readTmplToken()),
   f_expr: new TokContext("function", true),
   // for a list of expressions
   // * arguments for a function definition

@@ -16,3 +16,5 @@ so for compilation, a let will be automatically declared if
 and the javascript that will be generated will follow the above two rules:
   * if the variable is used in a statement, generate a let in that location
   * if the variable is used in an expression, generate a let directly before the first available statement parent of the expression
+
+add some kind of warning about possible mistakes, i.e. if two uses of automatic variables are > 30 lines apart, or some amount of cyclic complexity apart. should be built as an eslint plugin

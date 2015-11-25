@@ -8,7 +8,7 @@
 import { types as tt } from "../../tokenizer/types";
 
 // Atoms for marking loops
-const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"}
+const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"};
 
 // ### Statement parsing
 

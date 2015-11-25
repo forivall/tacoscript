@@ -140,7 +140,7 @@ export default class Lexer {
       return this.finishToken(tt.eof);
     }
 
-    if (curContext.override) return this.finishToken(tt.eof);
+    if (curContext.override) return curContext.override(this);
     else return this.readToken(this.fullCharCodeAtPos());
   }
 
@@ -934,12 +934,59 @@ export default class Lexer {
             octal = parseInt(octalStr, 8);
           }
           if (octal > 0 && (this.state.strict || inTemplate)) {
-            this.raise(this.state.pos - 2, "Octal literal in strict mode");
+            this.raise(this.state.pos - 2, `Octal literal in ${inTemplate ? "template" : "strict mode"}`);
           }
           this.state.pos += octalStr.length - 1;
           return String.fromCharCode(octal);
         }
         return String.fromCharCode(ch);
+    }
+  }
+
+  ////////////// Template Tokenization //////////////
+
+  readTmplToken() {
+    let out = "";
+    let chunkStart = this.state.pos;
+    for (;;) {
+      if (this.state.pos >= this.input.length) this.raise(this.state.start, "Unterminated template");
+      let ch = this.input.charCodeAt(this.state.pos);
+      if (ch === 96 || ch === 36 && this.input.charCodeAt(this.state.pos + 1) === 123) { // '``', `${`
+        if (this.state.pos === this.state.cur.start && this.match(tt.template)) {
+          if (ch === 36) {
+            this.state.pos += 2;
+            return this.finishToken(tt.dollarBraceL);
+          } else {
+            ++this.state.pos;
+            return this.finishToken(tt.backQuote);
+          }
+        } else {
+          out += this.input.slice(chunkStart, this.state.pos);
+          return this.finishToken(tt.template, out);
+        }
+      } else if (ch === 92) {
+        out += this.input.slice(chunkStart, this.state.pos);
+        out += this.readEscapedChar(true);
+        chunkStart = this.state.pos;
+      } else if (isNewline(ch)) {
+        out += this.input.slice(chunkStart, this.state.pos);
+        ++this.state.pos;
+        switch (ch) {
+          case 13:
+            if (this.input.charCodeAt(this.state.pos) === 10) ++this.state.pos;
+            // fallthrough
+          case 10:
+            out += "\n";
+            break;
+          default:
+            out += String.fromCharCode(ch);
+        }
+        ++this.state.curLine;
+        this.state.lineStart = this.state.pos;
+        chunkStart = this.state.pos;
+      } else {
+        ++this.state.pos;
+      }
     }
   }
 

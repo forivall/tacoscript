@@ -100,7 +100,7 @@ import * as literalsParsers from "./types/literals";
 import * as methodsParsers from "./types/methods";
 import * as modulesParsers from "./types/modules";
 import * as statementsParsers from "./types/statements";
-// import * as templateLiteralsParsers from "./types/template-literals";
+import * as templateLiteralsParsers from "./types/template-literals";
 for (let parserMethods of [
       nodeMethods,
       stateMethods,
@@ -113,7 +113,7 @@ for (let parserMethods of [
       methodsParsers,
       modulesParsers,
       statementsParsers,
-      // templateLiteralsParsers,
+      templateLiteralsParsers,
     ]) {
   Object.assign(Parser.prototype, parserMethods);
 }

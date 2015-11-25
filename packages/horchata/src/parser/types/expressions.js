@@ -448,8 +448,9 @@ export function parseExpressionAtomic(expressionContext) {
       node = this.parseNew();
       break;
 
-    case tt.backquote:
-      throw new Error("Not Implemented");
+    case tt.backQuote:
+      node = this.parseTemplate();
+      break;
 
     // TODO:
     // case tt._do:
