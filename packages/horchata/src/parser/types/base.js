@@ -43,7 +43,7 @@ export function parseDirective() {
   this.next();
 
   directive.value = this.finishNode(directiveLiteral, "DirectiveLiteral");
-  this.eat(tt.newline) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(directive, "Directive");
 }
 
@@ -56,9 +56,10 @@ export function parseBlockStatement(blockContext = {}) {
 export function parseBlock(blockContext = {}) {
   let {allowEmpty} = blockContext;
   let node = this.startNode();
-  if (this.eat(tt.newline) || this.eat(tt.eof)) {
+  if (this.eatLineTerminator()) {
     node = this.initBlockBody(node, blockContext);
-  } else if (this.eat(tt.indent) && this.eat(tt.newline)) {
+  } else if (this.eat(tt.indent)) {
+    this.eat(tt.newline);
     this.parseBlockBody(node, blockContext);
   } else if (allowEmpty) {
     node = this.initBlockBody(node, blockContext);
@@ -99,8 +100,7 @@ export function parseBlockBody(node, blockContext = {}) {
     node.body.push(this.parseStatement(true, isTopLevel));
   }
   if (!isTopLevel) {
-    if (this.match(tt.eof)) this.warn("Missing newline at end of file");
-    this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+    this.eatLineTerminator() || this.unexpected();
   }
   return node;
 }
