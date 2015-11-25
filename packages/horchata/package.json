@@ -12,7 +12,7 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
-  "index": "lib/index.js",
+  "main": "lib/index.js",
   "dependencies": {
     "lodash": "^3.10.1",
     "to-fast-properties": "^1.0.1"

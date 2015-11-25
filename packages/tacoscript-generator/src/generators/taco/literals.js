@@ -9,14 +9,15 @@ export function _getCodeFromNode(node) {
 }
 
 export function Identifier(node, parent) {
-  let standalone = true;
-  if (standalone) standalone = !(t.isMemberExpression(parent) && node === parent.property);
-  if (standalone) standalone = !(t.isProperty(parent) && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/);
-  if (standalone) standalone = !((parent.type === "ObjectProperty" || parent.type === "ObjectMethod") && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/);
-  if (standalone) standalone = !(t.isExportNamespaceSpecifier(parent) && node.name === "default");
-  if (standalone) standalone = !(t.isImportSpecifier(parent) && parent.local);
-  if (standalone) standalone = !(t.isExportSpecifier(parent) && node.name === parent.exported.name && node.name === "default");
-  if (standalone) standalone = !t.isMetaProperty(parent);
+  let standalone = parent.shorthand || !(
+    (t.isMemberExpression(parent) && node === parent.property) ||
+    (t.isProperty(parent) && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/) ||
+    ((parent.type === "ObjectProperty" || parent.type === "ObjectMethod") && node === parent.key && !parent.computed/* && !parent.method && node.kind !== "get" && node.kind !== "set"*/) ||
+    (t.isExportNamespaceSpecifier(parent) && node.name === "default") ||
+    (t.isImportSpecifier(parent) && parent.local) ||
+    (t.isExportSpecifier(parent) && node.name === parent.exported.name && node.name === "default") ||
+    t.isMetaProperty(parent) ||
+  false);
   this.push({type: "name", value: {
     value: node.name,
     code: this._getCodeFromNode(node),
