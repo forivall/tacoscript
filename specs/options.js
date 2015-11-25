@@ -29,12 +29,19 @@ module.exports.core = {
   skip: function(test, testPath) {
     return (
       baseOptions.skip(test, testPath) ||
-      testPath.indexOf("/comments/") !== -1 ||
-      testPath.indexOf("/edgecase/") !== -1 ||
-      testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
       testPath.indexOf("/jsx/") !== -1 ||
       testPath.indexOf("/static-typing/") !== -1 ||
+      false
+    );
+  },
+  disabled: function(testName, testPath) {
+    return (
+      testName[0] === "." ||
+      testPath.indexOf("/comments/") !== -1 ||
+      testPath.indexOf("/edgecase/") !== -1 ||
       testPath.indexOf("/todo/") !== -1 ||
+      testPath.indexOf("/esnext/") !== -1 ||
+      testPath.indexOf("/experimental/") !== -1 ||
       false
     );
   },
