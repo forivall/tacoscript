@@ -28,7 +28,8 @@ export default class Lexer {
     this.isLookahead = !!options.isLookahead;
 
     // Construct regexes for reserved words, according to settings
-    this.keywords = keywordRegexp([].concat(keywords, reservedWords.tacoscript))
+    this.keywordsJs = keywordRegexp([].concat(keywords));
+    this.keywords = keywordRegexp([].concat(keywords, reservedWords.tacoscript));
     this.reservedWords = keywordRegexp(reservedWords.es2015);
     this.reservedWordsStrict = keywordRegexp([].concat(reservedWords.es2015, reservedWords.strict));
     this.reservedWordsStrictBind = keywordRegexp([].concat(reservedWords.es2015, reservedWords.strict, reservedWords.strictBind))

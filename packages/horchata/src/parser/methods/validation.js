@@ -211,7 +211,7 @@ export function checkPropRedefinition(name, prop, propHash) {
 
 export function checkShorthandPropertyBinding(prop) {
   // TODO: allow if escaped
-  if (this.keywords.test(prop.key.name) ||
+  if (this.keywordsJs.test(prop.key.name) ||
       (this.state.strict ? this.reservedWordsStrictBind : this.reservedWords).test(prop.key.name)) {
     this.raise(prop.key.start, "Binding " + prop.key.name);
   }

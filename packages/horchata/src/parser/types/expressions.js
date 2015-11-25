@@ -355,21 +355,6 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
   return elements;
 }
 
-// TODO: move this and parseRest into literals
-export function parseSpread(expressionContext) {
-  let node = this.startNode();
-  this.next();
-  node.argument = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
-  return this.finishNode(node, "SpreadElement");
-}
-
-export function parseRest(identifierContext = {}) {
-  let node = this.startNode();
-  this.next();
-  node.argument = this.parseIdentifier();
-  return this.finishNode(node, "RestElement");
-}
-
 // Parse an atomic expression — an expression that can't be split.
 // This is either a single token that is an expression, an
 // expression started by a keyword like `function` or `new`, or an

@@ -181,6 +181,21 @@ export function parseBindingList(close, bindingListContext = {}) {
   return elements;
 }
 
+// TODO: move this and parseRest into literals
+export function parseSpread(expressionContext) {
+  let node = this.startNode();
+  this.next();
+  node.argument = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+  return this.finishNode(node, "SpreadElement");
+}
+
+export function parseRest(identifierContext = {}) {
+  let node = this.startNode();
+  this.next();
+  node.argument = this.parseIdentifier();
+  return this.finishNode(node, "RestElement");
+}
+
 // for flow? probably.
 export function parseAssignableListItemTypes(param) {
   return param;
@@ -269,8 +284,6 @@ export function parseExpressionList(close, expressionContext) {
       break;
     } else if (this.match(tt.ellipsis)) {
       node = this.parseSpread(expressionContext);
-      // TODO: allow ellipsis after newline just before close
-      this.match(indented ? tt.dedent : close) || this.unexpected();
     } else {
       node = this.parseExpression();
     }
