@@ -24,11 +24,17 @@ export function matchLineTerminator() {
   return this.isLineTerminator(this.state.cur.type);
 }
 
-export function eatLineTerminator() {
+export function matchPrevTerminator() {
+  return this.isLineTerminator(this.state.prev.type);
+}
+
+export function eatLineTerminator(options = {}) {
   if (this.matchLineTerminator()) {
     if (this.state.indentation > 0 || !this.match(tt.eof)) {
       this.next();
     }
+    return true;
+  } else if (options.allowPrev && this.matchPrevTerminator()) {
     return true;
   }
   return false;

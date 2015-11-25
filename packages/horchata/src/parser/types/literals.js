@@ -32,6 +32,7 @@ export function toAssignable(node, assignableContext = {}) {
     case "Identifier":
     case "ObjectPattern":
     case "ArrayPattern":
+    case "AssignmentPattern":
       // already assignable
       break
 
@@ -59,11 +60,6 @@ export function toAssignable(node, assignableContext = {}) {
       } else {
         this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
         break;
-      }
-
-    case "AssignmentPattern":
-      if (node.right.type === "YieldExpression") {
-        this.raise(node.right.start, "Yield expression cannot be a default value");
       }
       break;
 

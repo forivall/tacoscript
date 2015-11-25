@@ -466,8 +466,7 @@ export function parseWithStatement(node) {
 export function parseDeclarationStatement(node, kind) {
   this.next();
   this.parseDeclaration(node, kind);
-  if (this.match(tt.eof)) this.warn("No newline at end of file");
-  this.eatLineTerminator() || this.unexpected();
+  this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   return this.finishNode(node, "VariableDeclaration");
 }
 
@@ -503,11 +502,6 @@ export function parseExpressionStatement(node, expr) {
   if (expr.type === "ObjectExpression") {
     expr.parenthesizedExpression = true;
   }
-  // TODO: also allow `and then`
-  // `and then` will be handled after boolean expressions are properly handled --
-  // the posiition of the and will be stored, and then read here, similar to how
-  // arrow functions work.
-  if (this.match(tt.eof)) this.warn(this.state.pos, "No newline at end of file");
-  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   return this.finishNode(node, "ExpressionStatement");
 }
