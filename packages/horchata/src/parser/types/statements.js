@@ -425,7 +425,7 @@ export function parseThrowStatement(node) {
   node.argument = this.parseExpression();
   if (indented) {
     this.eat(tt.newline);
-    this.eat(tt.dedent)) || this.unexpected();
+    this.eat(tt.dedent) || this.unexpected();
   }
   this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "ThrowStatement");
