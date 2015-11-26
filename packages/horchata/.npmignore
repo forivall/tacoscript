@@ -1,0 +1,6 @@
+src
+test
+*.log
+scripts
+CONTRIBUTING.md
+bin/generate-identifier-regex.js
