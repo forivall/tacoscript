@@ -12,6 +12,7 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "bin": "bin/horchata.js",
   "main": "lib/index.js",
   "dependencies": {
     "lodash": "^3.10.1",
