@@ -11,7 +11,6 @@ export function matchForKeyword() {
   return this.isForKeyword(this.state.cur.type);
 }
 
-// TODO: replace relevant uses of `tt.newline` || `tt.eof` with `isLineTerminator()`
 export function isLineTerminator(type) {
   return (
     type === tt.newline ||

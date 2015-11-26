@@ -155,7 +155,7 @@ export function parseJump(node, keyword) {
   } else {
     node.label = null;
   }
-  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
 
   this.checkJump(node, keyword);
   return node;
@@ -163,7 +163,7 @@ export function parseJump(node, keyword) {
 
 export function parseDebuggerStatement(node) {
   this.next();
-  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "DebuggerStatement");
 }
 
@@ -174,13 +174,13 @@ export function parseDoStatement(node) {
   this.state.labels.pop();
   this.eat(tt._while) || this.unexpected();
   node.test = this.parseExpression();
-  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "DoWhileStatement");
 }
 
 export function parseEmptyStatement(node) {
   this.next();
-  this.eat(tt.newline) || this.eat(tt.eof) || this.unexpected();
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "EmptyStatement");
 }
 
@@ -306,11 +306,11 @@ export function parseReturnStatement(node) {
 
   // TODO: allow indented block-style return statement
 
-  if (this.eat(tt.newline)) {
+  if (this.eatLineTerminator()) {
     node.argument = null;
   } else {
     node.argument = this.parseExpression();
-    this.eat(tt.newline) || this.unexpected();
+    this.eatLineTerminator() || this.unexpected();
   }
   return this.finishNode(node, "ReturnStatement")
 }
@@ -318,14 +318,15 @@ export function parseReturnStatement(node) {
 export function parseStatementBody(blockContext = {}) {
   const forceBlock = !!blockContext.forceBlock;
   let node;
-  if (this.eat(tt.indent)) {
+  if (this.match(tt.indent)) {
     node = this.startNode();
-    this.eat(tt.newline) || this.unexpected();
+    this.next();
+    this.eat(tt.newline);
     this.parseBlockBody(node, {...blockContext, forceBlock: false});
     node = this.finishNode(node, "BlockStatement");
   } else {
     let ateThen = this.eat(tt._then);
-    if (!ateThen && (this.match(tt.newline) || this.match(tt.eof))) {
+    if (!ateThen && this.matchLineTerminator()) {
       node = this.startNode();
       node = this.initBlockBody(node, {});
       this.eat(tt.newline);
@@ -359,7 +360,7 @@ export function parseSwitchStatementMaybeSafe(node) {
 export function parseSwitchStatement(node) {
   node.discriminant = this.parseExpression();
   node.cases = [];
-  if (this.eat(tt.newline) || this.match(tt.eof)) return this.finishNode(node, "SwitchStatement");
+  if (this.eatLineTerminator()) return this.finishNode(node, "SwitchStatement");
 
   this.eat(tt.indent) || this.unexpected();
   this.eat(tt.newline);
@@ -395,14 +396,14 @@ export function parseSwitchCaseBody(node) {
   this.eat(tt.colon) || this.unexpected();
   let finishedDirectives = false;
   node.consequent = [];
-  let empty = false;
+  let isEmpty = false;
   if (!this.match(tt.indent)) {
-    empty = this.eat(tt.newline);
-    if (!empty) {
+    isEmpty = this.eatLineTerminator() || this.match(tt._case);
+    if (!isEmpty) {
       node.consequent.push(this.parseStatement(true));
     }
   }
-  if (!empty && this.eat(tt.indent)) {
+  if (!isEmpty && this.eat(tt.indent)) {
     this.eat(tt.newline);
     while (!this.eat(tt.dedent)) {
       node.consequent.push(this.parseStatement(true));
@@ -422,8 +423,11 @@ export function parseThrowStatement(node) {
   let indented = this.eat(tt.indent);
   if (indented) this.eat(tt.newline);
   node.argument = this.parseExpression();
-  if (indented) (this.eat(tt.newline), this.eat(tt.dedent)) || this.unexpected();
-  this.eat(tt.newline) || this.match(tt.eof) || this.unexpected();
+  if (indented) {
+    this.eat(tt.newline);
+    this.eat(tt.dedent)) || this.unexpected();
+  }
+  this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "ThrowStatement");
 }
 
@@ -475,7 +479,7 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
   node.declarations = [];
   node.kind = kind.keyword;
   let isIndent = this.eat(tt.indent);
-  if (isIndent) this.eat(tt.newline) || this.unexpected();
+  if (isIndent) this.eat(tt.newline);
   for (;;) {
     if (isIndent && this.eat(tt.dedent)) break;
     let decl = this.startNode();

@@ -58,7 +58,7 @@ tt.bitwiseOR.code = "|";
 tt.bitwiseXOR.code = "^";
 tt.bitwiseAND.code = "&";
 tt.modulo.code = "%";
-tt.star.code = "*"
+tt.star.code = "*";
 tt.slash.code = "/";
 tt.exponent.code = "*";
 

@@ -172,7 +172,8 @@ export function parseBindingList(close, bindingListContext = {}) {
     elements.push(node);
   }
   if (indented) {
-    this.eat(tt.newline) && this.eat(close) || this.unexpected();
+    this.eat(tt.newline);
+    this.eat(close) || this.unexpected();
   }
   return elements;
 }
@@ -286,7 +287,8 @@ export function parseExpressionList(close, expressionContext) {
     elements.push(node);
   }
   if (indented) {
-    this.eat(tt.newline) && this.eat(close) || this.unexpected();
+    this.eat(tt.newline);
+    this.eat(close) || this.unexpected();
   }
   return elements;
 }
@@ -361,7 +363,8 @@ export function parseObject(isPattern, expressionContext) {
     node.properties.push(prop);
   }
   if (indented) {
-    this.eat(tt.newline) && this.eat(tt.braceR) || this.unexpected();
+    this.eat(tt.newline);
+    this.eat(tt.braceR) || this.unexpected();
   }
   return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression");
 }

@@ -113,7 +113,7 @@ export default class Lexer {
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
       } else {
-        if (this.state.cur.type === tt.newline) {
+        if (this.match(tt.newline)) {
           return this.finishToken(tt.dedent);
         } else {
           return this.finishToken(tt.newline);
