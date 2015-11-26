@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+try {require("source-map-support").install();} catch(e) {}
+
 var horchata = require("../lib/index");
 var fs = require("fs");
 

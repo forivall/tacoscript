@@ -72,7 +72,11 @@ export function parseArrowExpression(node, params) {
       // fallthrough
     case tt.unboundArrow:
       isArrowFunction = false;
-      node = this.parseFunctionBody(node, {allowEmpty: true});
+      if (Token.isImplicitReturn(arrow)) {
+        throw new Error("Not Implemented");
+      } else {
+        node = this.parseFunctionBody(node, {allowEmpty: true});
+      }
       break;
     default: this.unexpected();
   }

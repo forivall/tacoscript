@@ -42,6 +42,7 @@ export class TokenType {
     // parsing
     this.beforeExpr = !!conf.beforeExpr;
     this.startsExpr = !!conf.startsExpr;
+    this.startsStmt = !!conf.startsStmt;
     this.startsArguments = !!conf.startsArguments;
     this.continuesExpression = !!conf.continuesExpression;
     this.continuesPreviousLine = !!conf.continuesPreviousLine;
@@ -86,6 +87,7 @@ let kw = function kw(name, options = {}) {
 const
   beforeExpr = {beforeExpr: true},
   startsExpr = {startsExpr: true},
+  startsStmt = {startsStmt: true},
   continuesPreviousLine = {continuesPreviousLine: true},
   loopHeader = {beforeExpr: true, startsExpr: true, isLoop: true};
 
@@ -197,11 +199,11 @@ kw("typeof", {beforeExpr: true, prefix: true, startsExpr: true});
 kw("void", {beforeExpr: true, prefix: true, startsExpr: true});
 kw("delete", {beforeExpr: true, prefix: true, startsExpr: true});
 // declarations
-kw("var");
-kw("let");
-kw("const");
-kw("extern");
-kw("function"); // startsExpr // in tacoscript, function is only used as a declaration
+kw("var", startsStmt);
+kw("let", startsStmt);
+kw("const", startsStmt);
+kw("extern", startsStmt);
+kw("function", startsStmt); // startsExpr // in tacoscript, function is only used as a declaration
 // control flow
 kw("then", {beforeExpr: true, startsExpr: true});
 kw("if", {beforeExpr: true, startsExpr: true});
@@ -216,24 +218,24 @@ kw("upto", {beforeExpr: true, startsExpr: true});
 kw("downto", {beforeExpr: true, startsExpr: true});
 kw("while", loopHeader);
 kw("do", loopHeader);
-kw("continue");
-kw("break");
-kw("return", beforeExpr);
+kw("continue", startsStmt);
+kw("break", startsStmt);
+kw("return", {beforeExpr: true, startsStmt: true});
 kw("of", beforeExpr); // TODO: add binop via plugin for `contains`
 // exceptions
-kw("throw", beforeExpr);
-kw("try");
+kw("throw", {beforeExpr: true, startsStmt: true});
+kw("try", startsStmt);
 kw("catch");
 kw("finally");
 // blocks
-kw("with");
+kw("with", startsStmt);
 // expression modifiers
 kw("new", {beforeExpr: true, startsExpr: true});
 kw("yield", {beforeExpr: true, startsExpr: true});
 kw("await", {beforeExpr: true, startsExpr: true});
 // classes
 kw("static");
-kw("class");
+kw("class", startsStmt);
 kw("extends", beforeExpr);
 kw("private");
 kw("protected");
@@ -252,5 +254,5 @@ kw("false", startsExpr);
 kw("this", startsExpr);
 kw("super", startsExpr);
 
-kw("debugger");
-kw("pass");
+kw("debugger", startsStmt);
+kw("pass", startsStmt);

@@ -54,6 +54,7 @@ export function parseBlockStatement(blockContext = {}) {
 
 // this can be any kind of block, not just detached (`!`) blocks
 export function parseBlock(blockContext = {}) {
+  // TODO: rename allowEmpty
   let {allowEmpty} = blockContext;
   let node = this.startNode();
   if (this.eatLineTerminator()) {
@@ -63,6 +64,10 @@ export function parseBlock(blockContext = {}) {
     this.parseBlockBody(node, blockContext);
   } else if (allowEmpty) {
     node = this.initBlockBody(node, blockContext);
+    if (this.state.cur.type.startsExpr || this.state.cur.type.startsStmt) {
+      // TODO: allow multiple statements
+      node.body.push(this.parseStatement());
+    }
   } else {
     this.unexpected();
   }
