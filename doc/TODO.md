@@ -1,6 +1,2 @@
 
-Create subtree split script for when a package is ready to be split out
-to a separate repository
-
-Use `git subtree split`.
-
+See if it's possible to write plugins using https://github.com/zkat/mona, write a tutorial if so.
