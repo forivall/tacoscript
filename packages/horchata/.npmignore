@@ -4,3 +4,4 @@ test
 scripts
 CONTRIBUTING.md
 bin/generate-identifier-regex.js
+*.map
