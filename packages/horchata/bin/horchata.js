@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-try {require("source-map-support").install();} catch(e) {}
+try {require("source-map-support").install();} catch (e) {}
 
 var horchata = require("../lib/index");
 var fs = require("fs");
@@ -11,11 +11,11 @@ if (!filename) {
   process.exit(0);
 }
 
+var file = fs.readFileSync(filename, "utf8");
 var options = {};
 if (process.argv[3]) try {
   options = JSON.parse(process.argv[3]);
 } catch (e) {}
-var file = fs.readFileSync(filename, "utf8");
 var ast = horchata.parse(file, options);
 
 console.log(JSON.stringify(ast, null, "  "));

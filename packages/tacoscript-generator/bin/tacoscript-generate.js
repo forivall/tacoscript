@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-try { require('source-map-support').install(); } catch (e) {}
+
+try {require("source-map-support").install();} catch (e) {}
+
 var generate = require("../lib/index").default;
 var fs = require("fs");
 
@@ -9,10 +11,12 @@ if (!filename) {
   process.exit(0);
 }
 
-// TODO: add options for preserve, etc.
-
 var file = fs.readFileSync(filename, "utf8");
+var options = {format: {preserve: false}};
+if (process.argv[3]) try {
+  options = JSON.parse(process.argv[3]);
+} catch (e) {}
 var ast = JSON.parse(file);
-var generated = generate(ast, {format: {preserve: false}});
+var generated = generate(ast, {});
 
 process.stdout.write(generated.code);
