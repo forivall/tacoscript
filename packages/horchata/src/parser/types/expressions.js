@@ -325,7 +325,7 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
   let indented = false;
   let first = true;
 
-  while (!this.match(indented ? tt.dedent : close)) {
+  while (!this.eat(close)) {
     if (!indented) {
       indented = this.eat(tt.indent);
       if (indented && first) first = false;
@@ -333,7 +333,13 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
     if (first) {
       first = false;
     } else {
-      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
+      this.eat(tt.comma) || indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)) || this.unexpected();
+    }
+
+    if (indented && this.match(tt.dedent)) {
+      indented = false;
+      this.eat(tt.newline);
+      break;
     }
 
     if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
@@ -346,12 +352,12 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
       node = this.parseExpression(expressionContext);
     }
     elements.push(node);
+
   }
   if (indented) {
     if (close !== tt.newline) this.eat(tt.newline) || this.unexpected();
     this.eat(tt.dedent) || this.unexpected();
   }
-  this.eat(close) || this.unexpected();
   return elements;
 }
 
