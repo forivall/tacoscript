@@ -17,7 +17,6 @@ export function IfStatement(node) {
     this.keyword("else");
     this.printBlock(node, "alternate");
   }
-  if (!this.format.preserve) this.newline(true);
 }
 
 export function ForStatement(node) {

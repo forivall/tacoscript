@@ -193,6 +193,7 @@ tt.braceL.formattingSpaceWhenAfter.comma = true;
 tt.braceL.formattingSpaceWhenAfter.keyword = true;
 tt.colon.formattingSpaceAfter = true;
 // tt.comma.formattingSpaceAfter = true;
+tt.incDec.formattingSpaceWhenAfter.keyword = true;
 tt.ellipsis.formattingSpaceWhenAfter.comma = true;
 tt.doublesemi.formattingSpaceWhenAfter.doublesemi = true;
 tt.doublesemi.formattingSpaceWhenAfter._then = true;
