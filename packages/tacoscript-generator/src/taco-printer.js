@@ -202,9 +202,10 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       let after = () => {
         if (opts.iterator) { opts.iterator(argNode, i); }
         if (opts.separator && i < len - 1) {
-          if (!this.isLastType(tt.newline)) {
+          // TODO: reenable this special case
+          // if (!this.isLastType(tt.newline)) {
             this.push(",");
-          }
+          // }
         }
       };
 
