@@ -1,0 +1,283 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 79,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 6,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 79,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 6,
+        "column": 0
+      }
+    },
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "start": 0,
+        "end": 78,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 8
+          }
+        },
+        "expression": {
+          "type": "CallExpression",
+          "start": 0,
+          "end": 77,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 7
+            }
+          },
+          "callee": {
+            "type": "Identifier",
+            "start": 0,
+            "end": 10,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 10
+              }
+            },
+            "name": "setTimeout"
+          },
+          "arguments": [
+            {
+              "type": "FunctionExpression",
+              "start": 11,
+              "end": 71,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 11
+                },
+                "end": {
+                  "line": 5,
+                  "column": 1
+                }
+              },
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "start": 23,
+                "end": 71,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 23
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 1
+                  }
+                },
+                "body": [
+                  {
+                    "type": "IfStatement",
+                    "start": 27,
+                    "end": 69,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 2
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 3
+                      }
+                    },
+                    "test": {
+                      "type": "BooleanLiteral",
+                      "start": 31,
+                      "end": 35,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 6
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 10
+                        }
+                      },
+                      "value": true
+                    },
+                    "consequent": {
+                      "type": "BlockStatement",
+                      "start": 37,
+                      "end": 69,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 4,
+                          "column": 3
+                        }
+                      },
+                      "body": [
+                        {
+                          "type": "ExpressionStatement",
+                          "start": 43,
+                          "end": 65,
+                          "loc": {
+                            "start": {
+                              "line": 3,
+                              "column": 4
+                            },
+                            "end": {
+                              "line": 3,
+                              "column": 26
+                            }
+                          },
+                          "expression": {
+                            "type": "CallExpression",
+                            "start": 43,
+                            "end": 64,
+                            "loc": {
+                              "start": {
+                                "line": 3,
+                                "column": 4
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 25
+                              }
+                            },
+                            "callee": {
+                              "type": "MemberExpression",
+                              "start": 43,
+                              "end": 54,
+                              "loc": {
+                                "start": {
+                                  "line": 3,
+                                  "column": 4
+                                },
+                                "end": {
+                                  "line": 3,
+                                  "column": 15
+                                }
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "start": 43,
+                                "end": 50,
+                                "loc": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 4
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 11
+                                  }
+                                },
+                                "name": "console"
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "start": 51,
+                                "end": 54,
+                                "loc": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 12
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 15
+                                  }
+                                },
+                                "name": "log"
+                              },
+                              "computed": false
+                            },
+                            "arguments": [
+                              {
+                                "type": "StringLiteral",
+                                "start": 55,
+                                "end": 63,
+                                "loc": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 16
+                                  },
+                                  "end": {
+                                    "line": 3,
+                                    "column": 24
+                                  }
+                                },
+                                "raw": "\"Tacos!\"",
+                                "value": "Tacos!"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "directives": []
+                    },
+                    "alternate": null
+                  }
+                ],
+                "directives": []
+              }
+            },
+            {
+              "type": "NumericLiteral",
+              "start": 73,
+              "end": 76,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 3
+                },
+                "end": {
+                  "line": 5,
+                  "column": 6
+                }
+              },
+              "raw": "100",
+              "value": 100
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  }
+}

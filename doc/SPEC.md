@@ -151,7 +151,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
   Pending: https://github.com/wycats/javascript-private-state
 
   <code>*\\#</code> for parts of a block comment that contains <code>**#</code>
-
+<!--** syntax highlighting is broken here-->
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". It's implemented as custom parts of the AST that is transformed into a de-sugared form.
 
@@ -264,12 +264,12 @@ All of the following syntax is optional, but is default, and is part of the core
 
 ## Implementation Plan
 
-* [ ] Implement taco-generator to generate tacoscript (masascript) from babylon ASTs
-  * [ ] Publish tacoscript generator and make demo site
+* [x] Implement taco-generator to generate tacoscript (masascript) from babylon ASTs
+  * [x] Publish tacoscript generator and make demo site
 * [ ] Implement horchata, the tacoscript (including Phase 1 and 2 syntax) parser
   * [x] -Replace use of pos & loc with tokenIndex, and then read pos & loc from token-
-    * pass a proto-token object instead of pos and loc, which includes pos, loc and token index
-  * [ ] Implement a simpler & more performant version of lookahead compared to babylon's lookahead
+    * [x] pass a proto-token object instead of pos and loc, which includes pos, loc and token index
+  * [ ] (in progress) Implement a simpler & more performant version of lookahead compared to babylon's lookahead
     * [ ] use lookahead'd tokens when the context doesn't change
   * [ ] Instead of setting and unsetting the state on `this`, pass a scope object down the recursive descent.
   * [ ] Add CST-in-AST nodes
