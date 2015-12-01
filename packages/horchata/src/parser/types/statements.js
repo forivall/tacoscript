@@ -209,7 +209,7 @@ export function parseForStatement(node) {
     let varKind = this.state.cur.type;
     this.next();
     this.parseDeclaration(init, varKind, {isFor: true});
-    this.finishNode(init, "VariableDeclaration")
+    this.finishNode(init, "VariableDeclaration");
     if ((this.match(tt._in) || this.match(tt._of)) &&
         init.declarations.length === 1 &&
         (varKind === tt._var || !init.declarations[0].init)) {
@@ -478,7 +478,7 @@ export function parseDeclarationStatement(node, kind) {
 export function parseDeclaration(node, kind, declarationContext = {}) {
   node.declarations = [];
   node.kind = kind.keyword;
-  this.parseIndentableList(null, {optionalTerminator: true}, () => {
+  this.parseIndentableList(null, {noTerminator: declarationContext.isFor}, () => {
     let decl = this.startNode();
     decl = this.parseDeclarationAssignable(decl);
     if (this.eat(tt.eq)) {

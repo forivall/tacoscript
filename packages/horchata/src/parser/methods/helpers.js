@@ -1,7 +1,7 @@
 import { types as tt } from "../../tokenizer/types";
 
 export function parseIndentableList(close, context, inner) {
-  const {allowTrailingComma, separator = tt.comma, optionalTerminator} = context;
+  const {allowTrailingComma, separator = tt.comma, noTerminator} = context;
   let elements = [];
   let indented = false;
   let first = true;
@@ -22,7 +22,7 @@ export function parseIndentableList(close, context, inner) {
       if (firstSeparatorStart === undefined) firstSeparatorStart = this.state.cur.start;
       if (this.eat(tt.comma));
       else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)));
-      else if (close === null && (optionalTerminator || this.matchLineTerminator())) {
+      else if (close === null && (noTerminator || this.matchLineTerminator())) {
         break;
       } else this.unexpected();
     }
@@ -54,7 +54,7 @@ export function parseIndentableList(close, context, inner) {
     if (indented) {
       this.eat(tt.dedent) || this.unexpected();
     } else {
-      this.eatLineTerminator() || optionalTerminator || this.unexpected();
+      noTerminator || this.eatLineTerminator() || this.unexpected();
     }
   }
   return {firstSeparatorStart};
