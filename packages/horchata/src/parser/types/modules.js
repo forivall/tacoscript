@@ -75,13 +75,7 @@ export function parseExportSpecifiers(parent) {
   // export { x, y as z } [from '...']
   this.eat(tt.braceL) || this.unexpected();
 
-  while (!this.eat(tt.braceR)) {
-    if (first) first = false;
-    else {
-      this.eat(tt.comma) || this.unexpected();
-      if (this.eat(tt.braceR)) break;
-    }
-
+  this.parseIndentableList(tt.braceR, {allowTrailingComma: true}, () => {
     let isDefault = this.match(tt._default);
     if (isDefault && !needsFrom) needsFrom = true;
 
@@ -89,7 +83,7 @@ export function parseExportSpecifiers(parent) {
     node.local = this.parseIdentifier({allowKeywords: isDefault});
     node.exported = this.eat(tt._as) ? this.parseIdentifier({allowKeywords: true}) : node.local.__clone();
     parent.specifiers.push(this.finishNode(node, "ExportSpecifier"));
-  }
+  });
 
   // https://github.com/ember-cli/ember-cli/pull/3739
   if (needsFrom && !this.match(tt._from)) {
@@ -153,20 +147,13 @@ export function parseImportSpecifiers(node) {
       node.specifiers.push(this.finishNode(specifier, "ImportNamespaceSpecifier"));
     } else {
       this.eat(tt.braceL) || this.unexpected();
-      let first = true;
-      while (!this.eat(tt.braceR)) {
-        if (first) first = false;
-        else {
-          this.eat(tt.comma) || this.unexpected();
-          if (this.eat(tt.braceR)) break;
-        }
-
+      this.parseIndentableList(tt.braceR, {allowTrailingComma: true}, () => {
         let specifier = this.startNode();
         specifier.imported = this.parseIdentifier({allowKeywords: true});
         specifier.local = this.eat(tt._as) ? this.parseIdentifier() : specifier.imported.__clone();
         this.checkAssignable(specifier.local, {isBinding: true});
         node.specifiers.push(this.finishNode(specifier, "ImportSpecifier"));
-      }
+      });
     }
   }
   return node;

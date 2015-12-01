@@ -303,7 +303,7 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
       node.callee = base;
       // TODO: create a specific method for this: if an indent is found, then the ending is a dedent.
       // otherwise it stays a newline.
-      node.arguments = this.parseCallExpressionArguments(tt.newline, {exclCall: true});
+      node.arguments = this.parseCallExpressionArguments(null, {exclCall: true});
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (this.match(tt.backQuote)) {
@@ -320,32 +320,9 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
 
 // TODO: allow expr (!) auto closing call expressions.
 export function parseCallExpressionArguments(close, expressionContext = {}) {
-  const {allowTrailingComma} = expressionContext;
   let elements = [];
-  let indented = false;
-  let first = true;
 
-  while (!this.eat(close)) {
-    if (!indented) {
-      indented = this.eat(tt.indent);
-      if (indented && first) first = false;
-    }
-    if (first) {
-      first = false;
-    } else {
-      this.eat(tt.comma) || indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)) || this.unexpected();
-    }
-
-    if (indented && this.eat(tt.dedent)) {
-      indented = false;
-      this.eat(tt.newline);
-      this.eat(close);
-      break;
-    }
-
-    if (allowTrailingComma && this.eat(indented ? tt.dedent : close)) {
-      break;
-    }
+  this.parseIndentableList(close, expressionContext, () => {
     let node;
     if (this.match(tt.ellipsis)) {
       node = this.parseSpread(expressionContext);
@@ -353,12 +330,8 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
       node = this.parseExpression(expressionContext);
     }
     elements.push(node);
+  });
 
-  }
-  if (indented) {
-    if (close !== tt.newline) this.eat(tt.newline);
-    this.eat(tt.dedent) || this.unexpected();
-  }
   return elements;
 }
 
@@ -524,7 +497,7 @@ export function parseYieldExpression() {
 // * anything else that a plugin might want to add (ex. flow type annotations)
 // Our job is to distinguish which of these things it is, and
 export function parseParenAndDistinguishExpression(start, expressionContext = {}) {
-  const {canBeArrow, allowTrailingComma} = expressionContext;
+  const {canBeArrow} = expressionContext;
   if (start == null) start = {...this.state.cur};
 
   this.next();
@@ -534,41 +507,23 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   // TODO: add hook to parse comprehensions here
 
   let elements = [];
-  let indented = false;
-  let first = true;
 
   expressionContext.shorthandDefaultPos = {start: 0};
-  let node, spreadStart, firstSeparatorStart;
-  while (!this.match(indented ? tt.dedent : tt.parenR)) {
-    if (!indented) {
-      indented = this.eat(tt.indent);
-      if (indented && first) first = false;
-    }
-    if (first) {
-      first = false;
-    } else {
-      firstSeparatorStart = this.state.cur.start;
-      this.eat(tt.comma) || indented && this.eat(tt.newline) || this.unexpected();
-    }
+  let node, spreadStart;
 
-    if (allowTrailingComma && this.eat(indented ? tt.dedent : tt.parenR)) {
-      break;
-    }
-    let node;
+  let {firstSeparatorStart} =
+  this.parseIndentableList(tt.parenR, expressionContext, () => {
+    let element;
     if (this.match(tt.ellipsis)) {
       spreadStart = this.state.cur.start;
-      node = this.parseRest();
-      elements.push(node);
-      break;
+      element = this.parseRest();
+      elements.push(element);
+      return "break";
     } else {
-      node = this.parseExpression(expressionContext); // , {afterLeftParse: this.parseParenItem}
+      element = this.parseExpression(expressionContext); // , {afterLeftParse: this.parseParenItem}
     }
-    elements.push(node);
-  }
-  if (indented) {
-    this.eat(tt.dedent) && this.eat(tt.newline) || this.unexpected();
-  }
-  this.eat(tt.parenR) || this.unexpected();
+    elements.push(element);
+  });
 
   let maybeGenerator = this.match(tt.star);
   if (canBeArrow && (

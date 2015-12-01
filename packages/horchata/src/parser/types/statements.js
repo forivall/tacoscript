@@ -478,10 +478,7 @@ export function parseDeclarationStatement(node, kind) {
 export function parseDeclaration(node, kind, declarationContext = {}) {
   node.declarations = [];
   node.kind = kind.keyword;
-  let isIndent = this.eat(tt.indent);
-  if (isIndent) this.eat(tt.newline);
-  for (;;) {
-    if (isIndent && this.eat(tt.dedent)) break;
+  this.parseIndentableList(null, {optionalTerminator: true}, () => {
     let decl = this.startNode();
     decl = this.parseDeclarationAssignable(decl);
     if (this.eat(tt.eq)) {
@@ -491,11 +488,8 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
     }
     this.checkDeclaration(decl, kind, declarationContext);
     node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
-
-    if (!isIndent) isIndent = this.eat(tt.indent);
-    if (!(this.eat(tt.comma) || isIndent && this.eat(tt.newline))) break;
-  }
-  if (isIndent) this.eat(tt.dedent);
+  });
+  if (node.declarations.length === 0) this.unexpected();
   return node;
 }
 

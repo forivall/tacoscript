@@ -1,8 +1,8 @@
 
 # Now
 
+* [x] Refactor indented list parsing
 * [ ] Use "extra" style ast properties for ast properties other than gibson042's proposed CST node properties.
-* [ ] Refactor indented list parsing
 * [ ] Store cst data when parsing
 * [ ] Use cst data when generating
 
