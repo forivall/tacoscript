@@ -21,6 +21,7 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
     fixtures: _.assign({}, specOptions.core.fixtures, {
       "tacoAlt0": {loc: ["alternate0.taco"]},
       "tacoAlt1": {loc: ["alternate1.taco"]},
+      "tacoAlt2": {loc: ["alternate2.taco"]},
     })
   })
 );
@@ -73,6 +74,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
         testTask(task, task.auto);
         if (task.tacoAlt0.code) testTask(task, task.tacoAlt0, " (alternate)");
         if (task.tacoAlt1.code) testTask(task, task.tacoAlt1, " (alternate 2)");
+        if (task.tacoAlt2.code) testTask(task, task.tacoAlt2, " (alternate 3)");
       });
       function testTask(task, taco, subtitle) {
         test(task.title + (subtitle || ''), !task.disabled && function () {
