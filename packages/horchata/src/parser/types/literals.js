@@ -56,7 +56,6 @@ export function toAssignable(node, assignableContext = {}) {
       if (node.operator === "=") {
         node.type = "AssignmentPattern";
         delete node.operator;
-        // falls through to AssignmentPattern
       } else {
         this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
         break;
@@ -111,7 +110,7 @@ export function toArguments(elements) {
 
 // equivalent to parseVarId / parseVarHead
 export function parseDeclarationAssignable(node) {
-  node.id = this.parseBindingAtomic();
+  this.assign(node, "id", this.parseBindingAtomic());
   this.checkAssignable(node.id, {isBinding: true});
   return node;
 }
@@ -127,7 +126,7 @@ export function parseBindingAtomic() {
     case tt.bracketL:
       let node = this.startNode();
       this.next();
-      node.elements = this.parseBindingList(tt.bracketR, {allowEmpty: true, allowTrailingComma: true});
+      node = this.parseBindingList(node, "elements", tt.bracketR, {allowEmpty: true, allowTrailingComma: true});
       return this.finishNode(node, "ArrayPattern");
 
     case tt.braceL:
@@ -138,9 +137,9 @@ export function parseBindingAtomic() {
   }
 }
 
-export function parseBindingList(close, bindingListContext = {}) {
+export function parseBindingList(parent, key, close, bindingListContext = {}) {
   const {allowEmpty} = bindingListContext;
-  let elements = [];
+  parent[key] = [];
 
   this.parseIndentableList(close, bindingListContext, () => {
     let node;
@@ -152,24 +151,24 @@ export function parseBindingList(close, bindingListContext = {}) {
       node = this.parseMaybeDefault();
     }
     node = this.parseAssignableListItemTypes(node);
-    elements.push(node);
+    this.add(parent, key, node);
   });
 
-  return elements;
+  return parent;
 }
 
 // TODO: move this and parseRest into literals
 export function parseSpread(expressionContext) {
   let node = this.startNode();
   this.next();
-  node.argument = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
+  this.assign(node, "argument", this.parseExpressionMaybeKeywordOrAssignment(expressionContext));
   return this.finishNode(node, "SpreadElement");
 }
 
 export function parseRest(identifierContext = {}) {
   let node = this.startNode();
   this.next();
-  node.argument = this.parseIdentifier();
+  this.assign(node, "argument", this.parseIdentifier());
   return this.finishNode(node, "RestElement");
 }
 
@@ -185,8 +184,8 @@ export function parseMaybeDefault(start, left) {
   let node;
   if (this.eat(tt.eq)) {
     node = this.startNode(start);
-    node.left = left;
-    node.right = this.parseExpression();
+    this.assign(node, "left", left);
+    this.assign(node, "right", this.parseExpression());
     node = this.finishNode(node, "AssignmentPattern");
   } else {
     node = left;
@@ -205,10 +204,11 @@ export function parseIdentifier(identifierContext = {}) {
   let node = this.startNode();
   if (this.match(tt.name)) {
     this.checkIdentifierName(identifierContext);
-    node.name = this.state.cur.value.value;
+    this.assign(node, "name", this.state.cur.value.value, this.state.cur);
   } else if (allowKeywords && this.state.cur.type.keyword) {
-    node.name = this.state.cur.type.keyword;
+    let name = this.state.cur.type.keyword;
     this.state.cur.type = tt.name;
+    this.assign(node, "name", name, this.state.cur);
     // TODO: set this value accordingly
     // this.state.cur.value = {}
   } else if (isOptional) {
@@ -223,8 +223,8 @@ export function parseIdentifier(identifierContext = {}) {
 
 export function parseLiteral(value, type) {
   let node = this.startNode();
-  node.value = value;
-  node.raw = this.input.slice(this.state.cur.start, this.state.cur.end);
+  this.assign(node, "value", value, this.state.cur);
+  this.addRaw(node);
   this.next();
   return this.finishNode(node, type);
 }
@@ -233,14 +233,14 @@ export function parseLiteral(value, type) {
 export function parseArrayLiteral(expressionContext) {
   let node = this.startNode();
   this.next();
-  node.elements = this.parseExpressionList(tt.bracketR, {...expressionContext, allowEmpty: true, allowTrailingComma: true});
+  node = this.parseExpressionList(node, "elements", tt.bracketR, {...expressionContext, allowEmpty: true, allowTrailingComma: true});
   return this.finishNode(node, "ArrayExpression");
 }
 
 // TODO: use for call expressions.
-export function parseExpressionList(close, expressionContext) {
+export function parseExpressionList(parent, key, close, expressionContext) {
   const {allowEmpty} = expressionContext;
-  let elements = [];
+  parent[key] = [];
   this.parseIndentableList(close, expressionContext, () => {
     let node;
     if (allowEmpty && this.eat(tt._pass)) {
@@ -250,10 +250,10 @@ export function parseExpressionList(close, expressionContext) {
     } else {
       node = this.parseExpression();
     }
-    elements.push(node);
+    this.add(parent, key, node);
   });
 
-  return elements;
+  return parent;
 }
 
 // Parse an object literal
@@ -319,13 +319,13 @@ export function parseObject(isPattern, expressionContext) {
 export function parsePropertyName(prop) {
   if (this.eat(tt.bracketL)) {
     prop.computed = true;
-    prop.key = this.parseExpression();
+    this.assign(prop, "key", this.parseExpression());
     this.eat(tt.bracketR) || this.unexpected();
   } else {
     prop.computed = false;
-    prop.key = (this.match(tt.num) || this.match(tt.string))
+    this.assign(prop, "key", (this.match(tt.num) || this.match(tt.string))
       ? this.parseExpressionAtomic()
-      : this.parseIdentifier({allowKeywords: true});
+      : this.parseIdentifier({allowKeywords: true}));
   }
   return prop;
 }
@@ -343,24 +343,25 @@ export function parsePropertyValue(prop, start, isPattern, propertyContext, expr
     prop = this.finishNode(prop, "ObjectMethod");
   } else if (this.eat(tt.colon)) {
     prop.kind = "init";
-    prop.value = isPattern
+    this.assign(prop, "value", isPattern
       ? this.parseMaybeDefault()
-      : this.parseExpression(expressionContext);
+      : this.parseExpression(expressionContext));
     prop = this.finishNode(prop, "ObjectProperty");
   } else if (!prop.computed && prop.key.type === "Identifier") {
     prop.kind = "init";
     if (isPattern) {
       this.checkShorthandPropertyBinding(prop);
-      prop.value = this.parseMaybeDefault(start, prop.key.__clone());
+      this.assign(prop, "value", this.parseMaybeDefault(start, prop.key.__clone()));
     } else if (this.match(tt.eq) && expressionContext.shorthandDefaultPos) {
       if (!expressionContext.shorthandDefaultPos.start) {
         expressionContext.shorthandDefaultPos.start = this.state.cur.start;
       }
-      prop.value = this.parseMaybeDefault(start, prop.key.__clone());
+      this.assign(prop, "value", this.parseMaybeDefault(start, prop.key.__clone()));
     } else {
-      prop.value = prop.key.__clone();
+      this.assign(prop, "value", prop.key.__clone());
     }
     prop.shorthand = true;
+    this.addExtra(prop, "shorthand", true);
     prop = this.finishNode(prop, "ObjectProperty");
   } else {
     this.unexpected();

@@ -104,10 +104,12 @@
                     "column": 23
                   }
                 },
-                "value": 1,
-                "raw": "1"
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": 1,
+                  "raw": "1"
+                },
+                "value": 1
+              }
             }
           ]
         }

@@ -72,9 +72,13 @@
             },
             "name": "Button"
           },
-          "arguments": []
+          "arguments": [],
+          "extra": {
+            "noParens": true
+          }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

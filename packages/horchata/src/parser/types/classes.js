@@ -13,7 +13,7 @@ export function parseClassDeclaration(node, classContext = {}) {
   this.next();
   node = this.parseClassId(node, classContext);
   node = this.parseClassSuper(node, classContext);
-  node.body = this.parseClassBody(true, classContext);
+  this.assign(node, "body", this.parseClassBody(true, classContext));
   return this.finishNode(node, "ClassDeclaration");
 }
 
@@ -24,14 +24,14 @@ export function parseClassExpression(classContext = {}) {
   this.next();
   node = this.parseClassId(node, classContext);
   node = this.parseClassSuper(node, classContext);
-  node.body = this.parseClassBody(false, classContext);
+  this.assign(node, "body", this.parseClassBody(false, classContext));
   return this.finishNode(node, "ClassExpression");
 }
 
 export function parseClassId(node, classContext) {
   let optionalId = !!classContext.optionalId;
 
-  if (this.match(tt.name)) node.id = this.parseIdentifier();
+  if (this.match(tt.name)) this.assign(node, "id", this.parseIdentifier());
   else if (optionalId) node.id = null;
   else this.unexpected();
 
@@ -39,7 +39,7 @@ export function parseClassId(node, classContext) {
 }
 
 export function parseClassSuper(node) {
-  node.superClass = this.eat(tt._extends) ? this.parseExpressionSubscripts({}) : null;
+  this.assign(node, "superClass", this.eat(tt._extends) ? this.parseExpressionSubscripts({}) : null);
   return node;
 }
 
@@ -90,31 +90,32 @@ export function parseClassBody(isDeclaration, classContext) {
     let method = this.startNode();
 
     if (decorators.length) {
-      method.decorators = decorators;
+      this.assign(method, "decorators", decorators);
       decorators = [];
     }
 
     method.static = this.eat(tt._static);
+    if (method.static) this.assignToken(method, "static", this.state.prev);
 
     if (!this.matchNext(tt.eq) && !this.matchNext(tt.parenL)) {
       if (this.eat(tt._get)) {
-        method.kind = "get";
+        this.assign(method, "kind", "get", this.state.prev);
       } else if (this.eat(tt._set)) {
-        method.kind = "set";
+        this.assign(method, "kind", "set", this.state.prev);
       }
     }
 
-    this.parsePropertyName(method);
+    method = this.parsePropertyName(method);
 
     if (method.key.type === "Identifier" && !method.computed && method.kind !== "get" && method.kind !== "set") {
       if (this.isClassProperty()) {
-        node.body.push(this.parseClassProperty(method));
+        this.add(node, "body", this.parseClassProperty(method));
         continue;
       } else if (method.key.name === "call" && this.match(tt.name) && this.state.cur.value === "constructor") {
         if (hasConstructorCall) {
           this.raise(method.start, "Duplicate constructor call");
         }
-        method.kind = "constructorCall";
+        this.assign(method, "kind", "constructorCall", this.state.prev);
         hasConstructorCall = true;
       }
     }
@@ -138,7 +139,7 @@ export function parseClassBody(isDeclaration, classContext) {
     if (method.kind === "get" || method.kind === "set") {
       this.checkGetterSetterProperty(method);
     }
-    node.body.push(this.finishNode(method, "ClassMethod"));
+    this.add(node, "body", this.finishNode(method, "ClassMethod"));
   }
 
   if (decorators.length) this.raise(this.state.start, "Class has trailing decorators");
@@ -153,8 +154,8 @@ export function parseClassBody(isDeclaration, classContext) {
 }
 
 export function parseClassProperty(node) {
-  node.value = this.eat(tt.eq) ?
-    this.parseExpressionMaybeKeywordOrAssignment({}) : null;
+  this.assign(node, "value", this.eat(tt.eq) ?
+    this.parseExpressionMaybeKeywordOrAssignment({}) : null);
   this.eatLineTerminator();
   return this.finishNode(node, "ClassProperty");
 }

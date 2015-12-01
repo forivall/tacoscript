@@ -108,7 +108,10 @@
             }
           },
           "name": "foo",
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 30
+          }
         }
       }
     ],

@@ -119,7 +119,10 @@
                       "column": 14
                     }
                   },
-                  "raw": "'method'",
+                  "extra": {
+                    "rawValue": "method",
+                    "raw": "'method'"
+                  },
                   "value": "method"
                 },
                 "kind": "method",

@@ -104,7 +104,10 @@
                     "column": 34
                   }
                 },
-                "raw": "0O0",
+                "extra": {
+                  "rawValue": 0,
+                  "raw": "0O0"
+                },
                 "value": 0
               }
             }
@@ -139,7 +142,10 @@
                   }
                 },
                 "value": "use strict",
-                "raw": "'use strict'"
+                "extra": {
+                  "raw": "'use strict'",
+                  "rawValue": "use strict"
+                }
               }
             }
           ]

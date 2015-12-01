@@ -88,8 +88,11 @@
                     "column": 14
                   }
                 },
-                "value": "__proto__",
-                "raw": "\"__proto__\""
+                "extra": {
+                  "rawValue": "__proto__",
+                  "raw": "\"__proto__\""
+                },
+                "value": "__proto__"
               },
               "value": {
                 "type": "NullLiteral",
@@ -105,8 +108,7 @@
                     "column": 20
                   }
                 }
-              },
-              "kind": "init"
+              }
             },
             {
               "type": "ObjectMethod",
@@ -238,7 +240,10 @@
               }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

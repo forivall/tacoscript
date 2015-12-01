@@ -139,7 +139,10 @@
                         "column": 11
                       }
                     },
-                    "raw": "0",
+                    "extra": {
+                      "rawValue": 0,
+                      "raw": "0"
+                    },
                     "value": 0
                   }
                 }
@@ -162,7 +165,11 @@
                 "directives": []
               }
             }
-          ]
+          ],
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

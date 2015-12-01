@@ -56,7 +56,8 @@
               "column": 6
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         },
         "handler": {
           "type": "CatchClause",
@@ -102,7 +103,8 @@
                 "column": 23
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         },
         "guardedHandlers": [],

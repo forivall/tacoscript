@@ -45,9 +45,9 @@ export function parseClassMethod(method, functionContext) {
 
 // current token position is on the '*' or the arrow (of any arrow type)
 // so the first job of this function is to figure out what kind of function this is.
-export function parseArrowExpression(node, params) {
+export function parseArrowExpression(node) {
   this.initFunction(node);
-  node.params = this.toArguments(params);
+  node.params = this.toArguments(node.params);
   node.generator = this.eat(tt.star);
 
   let isArrowFunction;
@@ -85,10 +85,12 @@ export function parseArrowExpression(node, params) {
 
 export function parseArrowExpressionFunction(node) {
   // TODO: override to allow implicit return expressions with a body
-  node.body = this.parseExpression();
+  this.assign(node, "body", this.parseExpression());
   // TODO: move this to validation functions
-  if (node.body.type === "ObjectExpression") {
-    node.body.parenthesizedExpression = true;
+  let expr = node.body;
+  if (expr.type === "ObjectExpression" && !(expr.extra != null && expr.extra.parenthesized)) {
+    this.addExtra(expr, "parenthesized", true);
+    this.addExtra(expr, "fakeParens", true);
   }
   node.expression = true;
   this.checkArrowExpressionFunction(node);
@@ -112,7 +114,7 @@ export function parseFunctionBody(node, functionContext = {}) {
   this.state.inGenerator = node.generator;
   this.state.labels = [];
 
-  node.body = this.parseBlock({allowDirectives: true, allowEmpty});
+  this.assign(node, "body", this.parseBlock({allowDirectives: true, allowEmpty}));
   node.expression = false;
 
   this.state.inFunction = oldInFunc;
@@ -140,7 +142,7 @@ export function parseFunctionExpressionNamed() {
 }
 
 export function parseFunctionNamed(node, identifierContext, functionContext) {
-  node.id = this.parseIdentifier(identifierContext);
+  this.assign(node, "id", this.parseIdentifier(identifierContext));
   node = this.parseFunctionParams(node, functionContext);
   node = this.parseArrowNamed(node, functionContext);
   node = this.parseFunctionBody(node, functionContext);
@@ -149,12 +151,12 @@ export function parseFunctionNamed(node, identifierContext, functionContext) {
 
 export function parseFunctionParams(node/*, functionContext*/) {
   this.eat(tt.parenL) || this.unexpected();
-  node.params = this.parseBindingList(tt.parenR, {allowTrailingComma: true});
-  return node;
+  return this.parseBindingList(node, "params", tt.parenR, {allowTrailingComma: true});
 }
 
 export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
+  if (node.generator) this.assignToken(node, "generator", this.state.prev);
   if (Token.isImplicitReturn(this.state.cur)) {
     throw new Error("Not Implemented");
   }

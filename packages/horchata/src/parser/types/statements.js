@@ -68,7 +68,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       if (!declaration) this.unexpected();
       // fallthrough
     case tt._var:
-      node = this.parseDeclarationStatement(node, startType); break;
+      node = this.parseDeclarationStatement(node, {...this.state.cur}); break;
 
     // Symbols
     case tt.excl: node = this.parseBlockStatement(node); break;
@@ -151,7 +151,7 @@ export function parseJump(node, keyword) {
   let isBreak = keyword === "break";
   this.next();
   if (this.match(tt.name)) {
-    node.label = this.parseIdentifier();
+    this.assign(node, "label", this.parseIdentifier());
   } else {
     node.label = null;
   }
@@ -170,10 +170,10 @@ export function parseDebuggerStatement(node) {
 export function parseDoStatement(node) {
   this.next();
   this.state.labels.push(loopLabel);
-  node.body = this.parseStatementBody();
+  this.assign(node, "body", this.parseStatementBody());
   this.state.labels.pop();
   this.eat(tt._while) || this.unexpected();
-  node.test = this.parseExpression();
+  this.assign(node, "test", this.parseExpression());
   this.eatLineTerminator() || this.unexpected();
   return this.finishNode(node, "DoWhileStatement");
 }
@@ -206,13 +206,13 @@ export function parseForStatement(node) {
     node = this.parseFor(node, null);
   } else if (this.match(tt._var) || this.match(tt._let) || this.match(tt._const)) {
     let init = this.startNode();
-    let varKind = this.state.cur.type;
+    let varToken = {...this.state.cur};
     this.next();
-    this.parseDeclaration(init, varKind, {isFor: true});
-    this.finishNode(init, "VariableDeclaration");
+    init = this.parseDeclaration(init, varToken, {isFor: true});
+    init = this.finishNode(init, "VariableDeclaration");
     if ((this.match(tt._in) || this.match(tt._of)) &&
         init.declarations.length === 1 &&
-        (varKind === tt._var || !init.declarations[0].init)) {
+        (varToken.kind === tt._var || !init.declarations[0].init)) {
       node = this.parseForIn(node, init);
     } else {
       node = this.parseFor(node, init);
@@ -238,10 +238,10 @@ export function parseForStatement(node) {
 // expression.
 
 export function parseFor(node, init) {
-  node.init = init;
-  node.test = this.eat(tt._while) ? this.parseExpression() : null;
-  node.update = this.eat(tt._update) ? this.parseExpression() : null;
-  node.body = this.parseStatementBody();
+  this.assign(node, "init", init);
+  this.assign(node, "test", this.eat(tt._while) ? this.parseExpression() : null);
+  this.assign(node, "update", this.eat(tt._update) ? this.parseExpression() : null);
+  this.assign(node, "body", this.parseStatementBody());
   return this.finishNode(node, "ForStatement");
 }
 
@@ -251,9 +251,9 @@ export function parseFor(node, init) {
 export function parseForIn(node, init) {
   let type = this.match(tt._in) ? "ForInStatement" : "ForOfStatement";
   this.next();
-  node.left = init;
-  node.right = this.parseExpression();
-  node.body = this.parseStatementBody();
+  this.assign(node, "left", init);
+  this.assign(node, "right", this.parseExpression());
+  this.assign(node, "body", this.parseStatementBody());
   return this.finishNode(node, type);
 }
 
@@ -270,9 +270,9 @@ export function parseIfStatementOrConditionalExpression(node) {
 }
 
 export function parseIfStatement(node) {
-  node.test = this.parseExpression();
-  node.consequent = this.parseStatementBody();
-  node.alternate = this.eat(tt._else) ? this.parseStatementBody() : null;
+  this.assign(node, "test", this.parseExpression());
+  this.assign(node, "consequent", this.parseStatementBody());
+  this.assign(node, "alternate", this.eat(tt._else) ? this.parseStatementBody() : null);
   return this.finishNode(node, "IfStatement");
 }
 
@@ -287,9 +287,9 @@ export function parseLabeledStatement(node, maybeName, expr) {
     } else break;
   }
   this.state.labels.push({name: maybeName, kind: kind, statementStart: this.state.cur.start});
-  node.body = this.parseStatement(true);
+  this.assign(node, "body", this.parseStatement(true));
   this.state.labels.pop();
-  node.label = expr;
+  this.assign(node, "label", expr);
   return this.finishNode(node, "LabeledStatement");
 }
 
@@ -304,7 +304,7 @@ export function parseReturnStatement(node) {
   if (this.eatLineTerminator()) {
     node.argument = null;
   } else {
-    node.argument = this.parseExpression();
+    this.assign(node, "argument", this.parseExpression());
     this.eatLineTerminator() || this.unexpected();
   }
   return this.finishNode(node, "ReturnStatement")
@@ -331,7 +331,7 @@ export function parseStatementBody(blockContext = {}) {
         let bodyStatement = node;
         node = this.startNode();
         node = this.initBlockBody(node, {});
-        node.body.push(this.parseStatement());
+        this.add(node, "body", this.parseStatement());
         node = this.finishNode(node, "BlockStatement");
       } else {
         node = this.parseStatement();
@@ -353,7 +353,7 @@ export function parseSwitchStatementMaybeSafe(node) {
 }
 
 export function parseSwitchStatement(node) {
-  node.discriminant = this.parseExpression();
+  this.assign(node, "discriminant", this.parseExpression());
   node.cases = [];
   if (this.eatLineTerminator()) return this.finishNode(node, "SwitchStatement");
 
@@ -370,7 +370,7 @@ export function parseSwitchStatement(node) {
   while (!this.match(tt.dedent)) {
     let cur = this.startNode();
     if (this.eat(tt._case)) {
-      cur.test = this.parseExpression();
+      this.assign(cur, "test", this.parseExpression());
       cur = this.parseSwitchCaseBody(cur);
     } else if (this.eat(tt._default)) {
       sawDefault = sawDefault ? this.raise(this.state.prev.start, "Multiple default clauses") : true;
@@ -379,7 +379,7 @@ export function parseSwitchStatement(node) {
     } else {
       this.unexpected();
     }
-    node.cases.push(this.finishNode(cur, "SwitchCase"));
+    this.add(node, "cases", this.finishNode(cur, "SwitchCase"));
   }
   this.next(); // dedent
   this.state.labels.pop();
@@ -395,13 +395,13 @@ export function parseSwitchCaseBody(node) {
   if (!this.match(tt.indent)) {
     isEmpty = this.eatLineTerminator() || this.match(tt._case);
     if (!isEmpty) {
-      node.consequent.push(this.parseStatement(true));
+      this.add(node, "consequent", this.parseStatement(true));
     }
   }
   if (!isEmpty && this.eat(tt.indent)) {
     this.eat(tt.newline);
     while (!this.eat(tt.dedent)) {
-      node.consequent.push(this.parseStatement(true));
+      this.add(node, "consequent", this.parseStatement(true));
     }
     this.eat(tt.newline);
   }
@@ -417,7 +417,7 @@ export function parseThrowStatement(node) {
   this.next();
   let indented = this.eat(tt.indent);
   if (indented) this.eat(tt.newline);
-  node.argument = this.parseExpression();
+  this.assign(node, "argument", this.parseExpression());
   if (indented) {
     this.eat(tt.newline);
     this.eat(tt.dedent) || this.unexpected();
@@ -428,27 +428,27 @@ export function parseThrowStatement(node) {
 
 export function parseTryStatement(node) {
   this.next();
-  node.block = this.parseStatementBody({forceBlock: true});
+  this.assign(node, "block", this.parseStatementBody({forceBlock: true}));
   node.handler = null;
   node.guardedHandlers = []; // always empty in js
   if (this.match(tt._catch)) {
     let clause = this.startNode();
     this.next();
-    clause.param = this.parseBindingAtomic();
+    this.assign(clause, "param", this.parseBindingAtomic());
     this.checkAssignable(clause.param, {isBinding: true});
-    clause.body = this.parseStatementBody({forceBlock: true});
-    node.handler = this.finishNode(clause, "CatchClause");
+    this.assign(clause, "body", this.parseStatementBody({forceBlock: true}));
+    this.assign(node, "handler", this.finishNode(clause, "CatchClause"));
   }
-  node.finalizer = this.eat(tt._finally) ? this.parseStatementBody({forceBlock: true}) : null;
+  this.assign(node, "finalizer", this.eat(tt._finally) ? this.parseStatementBody({forceBlock: true}) : null);
   this.checkTryStatement(node);
   return this.finishNode(node, "TryStatement");
 }
 
 export function parseWhileStatement(node) {
   this.next();
-  node.test = this.parseExpression();
+  this.assign(node, "test", this.parseExpression());
   this.state.labels.push(loopLabel);
-  node.body = this.parseStatementBody();
+  this.assign(node, "body", this.parseStatementBody());
   this.state.labels.pop();
   return this.finishNode(node, "WhileStatement");
 }
@@ -456,33 +456,34 @@ export function parseWhileStatement(node) {
 export function parseWithStatement(node) {
   this.checkWithStatementAllowed();
   this.next();
-  node.object = this.parseExpression();
-  node.body = this.parseStatementBody();
+  this.assign(node, "object", this.parseExpression());
+  this.assign(node, "body", this.parseStatementBody());
   return this.finishNode(node, "WithStatement");
 }
 
 // Parse a list of variable declarations, as a statement. Equivalent to `parseVarStatement`
-export function parseDeclarationStatement(node, kind) {
+export function parseDeclarationStatement(node, kindToken) {
   this.next();
-  this.parseDeclaration(node, kind);
+  node = this.parseDeclaration(node, kindToken);
   this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   return this.finishNode(node, "VariableDeclaration");
 }
 
 // Parse a list of variable declarations. Equivalent to `parseVar`
-export function parseDeclaration(node, kind, declarationContext = {}) {
+export function parseDeclaration(node, kindToken, declarationContext = {}) {
   node.declarations = [];
-  node.kind = kind.keyword;
+  const kind = kindToken.type.keyword;
+  this.assign(node, "kind", kind, kindToken);
   this.parseIndentableList(null, {noTerminator: declarationContext.isFor}, () => {
     let decl = this.startNode();
     decl = this.parseDeclarationAssignable(decl);
     if (this.eat(tt.eq)) {
-      decl.init = this.parseExpression(declarationContext);
+      this.assign(decl, "init", this.parseExpression(declarationContext));
     } else {
       decl.init = null;
     }
     this.checkDeclaration(decl, kind, declarationContext);
-    node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
+    this.add(node, "declarations", this.finishNode(decl, "VariableDeclarator"));
   });
   if (node.declarations.length === 0) this.unexpected();
   return node;
@@ -491,9 +492,10 @@ export function parseDeclaration(node, kind, declarationContext = {}) {
 // keep this at the bottom.
 // If we're not parsing a statement, it's an ExpressionStatement!
 export function parseExpressionStatement(node, expr) {
-  node.expression = expr;
-  if (expr.type === "ObjectExpression") {
-    expr.parenthesizedExpression = true;
+  this.assign(node, "expression", expr);
+  if (expr.type === "ObjectExpression" && !(expr.extra != null && expr.extra.parenthesized)) {
+    this.addExtra(expr, "parenthesized", true);
+    this.addExtra(expr, "fakeParens", true);
   }
   this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   return this.finishNode(node, "ExpressionStatement");

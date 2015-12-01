@@ -104,13 +104,18 @@
                     "column": 9
                   }
                 },
-                "value": 10,
-                "raw": "10"
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": 10,
+                  "raw": "10"
+                },
+                "value": 10
+              }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

@@ -104,8 +104,7 @@
                     "column": 18
                   }
                 }
-              },
-              "kind": "init"
+              }
             },
             {
               "type": "ObjectMethod",
@@ -237,7 +236,10 @@
               }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

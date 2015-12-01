@@ -57,7 +57,10 @@
             }
           },
           "value": "Hello92World",
-          "raw": "\"Hello\\712World\""
+          "extra": {
+            "raw": "\"Hello\\712World\"",
+            "rawValue": "Hello\\712World"
+          }
         }
       }
     ]

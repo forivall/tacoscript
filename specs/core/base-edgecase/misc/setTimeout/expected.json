@@ -242,13 +242,17 @@
                                     "column": 24
                                   }
                                 },
-                                "raw": "\"Tacos!\"",
+                                "extra": {
+                                  "rawValue": "Tacos!",
+                                  "raw": "\"Tacos!\""
+                                },
                                 "value": "Tacos!"
                               }
                             ]
                           }
                         }
-                      ]
+                      ],
+                      "directives": []
                     },
                     "alternate": null
                   }
@@ -270,7 +274,10 @@
                   "column": 6
                 }
               },
-              "raw": "100",
+              "extra": {
+                "rawValue": 100,
+                "raw": "100"
+              },
               "value": 100
             }
           ]

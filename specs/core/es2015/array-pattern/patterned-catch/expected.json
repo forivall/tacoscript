@@ -56,7 +56,8 @@
               "column": 6
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         },
         "handler": {
           "type": "CatchClause",
@@ -167,7 +168,6 @@
                       },
                       "name": "c"
                     },
-                    "kind": "init",
                     "value": {
                       "type": "Identifier",
                       "start": 21,
@@ -183,6 +183,9 @@
                         }
                       },
                       "name": "c"
+                    },
+                    "extra": {
+                      "shorthand": true
                     }
                   },
                   {
@@ -262,11 +265,13 @@
                             "column": 29
                           }
                         },
-                        "value": 0,
-                        "raw": "0"
+                        "extra": {
+                          "rawValue": 0,
+                          "raw": "0"
+                        },
+                        "value": 0
                       }
-                    },
-                    "kind": "init"
+                    }
                   },
                   {
                     "type": "ObjectProperty",
@@ -345,11 +350,13 @@
                             "column": 38
                           }
                         },
-                        "value": 0,
-                        "raw": "0"
+                        "extra": {
+                          "rawValue": 0,
+                          "raw": "0"
+                        },
+                        "value": 0
                       }
-                    },
-                    "kind": "init"
+                    }
                   },
                   {
                     "type": "ObjectProperty",
@@ -384,7 +391,6 @@
                       },
                       "name": "h"
                     },
-                    "kind": "init",
                     "value": {
                       "type": "AssignmentPattern",
                       "start": 40,
@@ -431,6 +437,9 @@
                         },
                         "name": "i"
                       }
+                    },
+                    "extra": {
+                      "shorthand": true
                     }
                   }
                 ]
@@ -451,12 +460,14 @@
                 "column": 49
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         },
         "guardedHandlers": [],
         "finalizer": null
       }
-    ]
+    ],
+    "directives": []
   }
 }

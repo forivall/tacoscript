@@ -123,7 +123,10 @@
                   "column": 17
                 }
               },
-              "raw": "2",
+              "extra": {
+                "rawValue": 2,
+                "raw": "2"
+              },
               "value": 2
             }
           ]

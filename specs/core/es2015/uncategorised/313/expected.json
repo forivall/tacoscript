@@ -56,7 +56,8 @@
               "column": 6
             }
           },
-          "body": []
+          "body": [],
+          "directives": []
         },
         "handler": {
           "type": "CatchClause",
@@ -120,7 +121,6 @@
                   },
                   "name": "message"
                 },
-                "kind": "init",
                 "value": {
                   "type": "Identifier",
                   "start": 15,
@@ -137,7 +137,9 @@
                   },
                   "name": "message"
                 },
-                "shorthand": true
+                "extra": {
+                  "shorthand": true
+                }
               }
             ]
           },
@@ -155,7 +157,8 @@
                 "column": 27
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         },
         "guardedHandlers": [],

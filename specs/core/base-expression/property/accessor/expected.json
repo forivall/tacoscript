@@ -91,6 +91,7 @@
           "computed": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

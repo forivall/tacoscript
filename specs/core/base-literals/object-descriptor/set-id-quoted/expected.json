@@ -119,8 +119,11 @@
                       "column": 16
                     }
                   },
-                  "value": "null",
-                  "raw": "\"null\""
+                  "extra": {
+                    "rawValue": "null",
+                    "raw": "\"null\""
+                  },
+                  "value": "null"
                 },
                 "kind": "set",
                 "id": null,
@@ -230,6 +233,7 @@
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

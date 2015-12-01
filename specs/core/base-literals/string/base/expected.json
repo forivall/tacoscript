@@ -57,7 +57,10 @@
             }
           },
           "value": "Hello",
-          "raw": "\"Hello\""
+          "extra": {
+            "raw": "\"Hello\"",
+            "rawValue": "Hello"
+          }
         }
       }
     ]

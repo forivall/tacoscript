@@ -42,6 +42,8 @@
             "column": 19
           }
         },
+        "specifiers": [],
+        "source": null,
         "declaration": {
           "type": "VariableDeclaration",
           "start": 7,
@@ -91,10 +93,9 @@
             }
           ],
           "kind": "var"
-        },
-        "specifiers": [],
-        "source": null
+        }
       }
-    ]
+    ],
+    "directives": []
   }
 }

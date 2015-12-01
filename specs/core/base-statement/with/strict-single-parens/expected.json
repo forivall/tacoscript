@@ -153,7 +153,10 @@
             }
           },
           "value": "use\\x20strict",
-          "raw": "'use\\x20strict'"
+          "extra": {
+            "raw": "'use\\x20strict'",
+            "rawValue": "use\\x20strict"
+          }
         }
       }
     ]

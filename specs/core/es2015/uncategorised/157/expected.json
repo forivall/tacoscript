@@ -188,7 +188,9 @@
                             },
                             "name": "x"
                           },
-                          "shorthand": true
+                          "extra": {
+                            "shorthand": true
+                          }
                         }
                       ]
                     },
@@ -254,7 +256,10 @@
                                 "column": 22
                               }
                             },
-                            "raw": "10",
+                            "extra": {
+                              "rawValue": 10,
+                              "raw": "10"
+                            },
                             "value": 10
                           }
                         }
@@ -282,7 +287,10 @@
               }
             ]
           },
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

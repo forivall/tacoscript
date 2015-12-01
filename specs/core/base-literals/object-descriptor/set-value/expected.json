@@ -135,15 +135,18 @@
                       "column": 13
                     }
                   },
-                  "value": 43,
-                  "raw": "43"
-                },
-                "kind": "init"
+                  "extra": {
+                    "rawValue": 43,
+                    "raw": "43"
+                  },
+                  "value": 43
+                }
               }
             ]
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

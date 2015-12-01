@@ -120,8 +120,7 @@
                       }
                     },
                     "name": "y"
-                  },
-                  "kind": "init"
+                  }
                 }
               ]
             },
@@ -173,7 +172,6 @@
                     },
                     "name": "y"
                   },
-                  "kind": "init",
                   "value": {
                     "type": "Identifier",
                     "start": 16,
@@ -190,7 +188,9 @@
                     },
                     "name": "y"
                   },
-                  "shorthand": true
+                  "extra": {
+                    "shorthand": true
+                  }
                 }
               ]
             }

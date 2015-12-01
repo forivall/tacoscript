@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 85,
+  "end": 86,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 8,
-      "column": 7
+      "line": 9,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 85,
+    "end": 86,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 8,
-        "column": 7
+        "line": 9,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -105,7 +105,6 @@
                   },
                   "name": "a"
                 },
-                "kind": "init",
                 "value": {
                   "type": "Identifier",
                   "start": 7,
@@ -121,6 +120,9 @@
                     }
                   },
                   "name": "a"
+                },
+                "extra": {
+                  "shorthand": true
                 }
               },
               {
@@ -171,8 +173,7 @@
                     }
                   },
                   "name": "a"
-                },
-                "kind": "init"
+                }
               },
               {
                 "type": "ObjectProperty",
@@ -253,8 +254,7 @@
                     },
                     "name": "a"
                   }
-                },
-                "kind": "init"
+                }
               },
               {
                 "type": "ObjectProperty",
@@ -337,7 +337,6 @@
                         },
                         "name": "a"
                       },
-                      "kind": "init",
                       "value": {
                         "type": "Identifier",
                         "start": 39,
@@ -353,11 +352,13 @@
                           }
                         },
                         "name": "a"
+                      },
+                      "extra": {
+                        "shorthand": true
                       }
                     }
                   ]
-                },
-                "kind": "init"
+                }
               },
               {
                 "type": "ObjectProperty",
@@ -455,8 +456,7 @@
                     "name": "a"
                   },
                   "computed": true
-                },
-                "kind": "init"
+                }
               },
               {
                 "type": "ObjectProperty",
@@ -537,8 +537,7 @@
                     "name": "a"
                   },
                   "computed": false
-                },
-                "kind": "init"
+                }
               }
             ]
           },
@@ -556,12 +555,19 @@
                 "column": 5
               }
             },
-            "value": 0,
-            "raw": "0"
+            "extra": {
+              "rawValue": 0,
+              "raw": "0"
+            },
+            "value": 0
           },
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

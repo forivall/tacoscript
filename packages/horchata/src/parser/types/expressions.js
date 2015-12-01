@@ -59,9 +59,9 @@ export function parseExpressionMaybeSequence(expressionContext, callbacks = {}) 
   let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks);
   if (this.match(tt.semi)) {
     let node = this.startNode(start);
-    node.expressions = [expr];
+    this.add(node, "expressions", expr);
     while (this.eat(tt.semi)) {
-      node.expressions.push(this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks));
+      this.add(node, "expressions", this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks));
     }
     this.checkReferencedList(node.expressions);
     return this.finishNode(node, "SequenceExpression");
@@ -118,15 +118,15 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         let left = node;
         let type = this.state.cur.type;
         node = this.startNode(start);
-        node.operator = this.state.cur.value;
-        left = node.left = this.convertLeftAssign(left, type);
+        this.assign(node, "operator", this.state.cur.value, this.state.cur);
+        left = this.assign(node, "left", this.convertLeftAssign(left, type));
         expressionContext.shorthandDefaultPos.start = 0;  // reset because shorthand default was used correctly
 
         this.checkAssignable(left);
         this.next();
 
         let right = this.parseExpressionMaybeKeywordOrAssignment(expressionContext);
-        node.right = this.convertRightAssign(right, type);
+        right = this.assign(node, "right", this.convertRightAssign(right, type));
         node = this.finishNode(node, "AssignmentExpression");
         break;
       }
@@ -140,13 +140,13 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
 export function parseConditionalExpression(expressionContext = {}) {
   let node = this.startNode();
   this.eat(tt.excl);
-  node.test = this.parseExpression();
+  this.assign(node, "test", this.parseExpression());
 
   this.eat(tt._then) || this.unexpected();
-  node.consequent = this.parseExpression();
+  this.assign(node, "consequent", this.parseExpression());
 
   this.eat(tt._else) || this.unexpected();
-  node.alternate = this.parseExpression({isFor: expressionContext.isFor});
+  this.assign(node, "alternate", this.parseExpression({isFor: expressionContext.isFor}));
 
   return this.finishNode(node, "ConditionalExpression");
 }
@@ -181,16 +181,15 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
       prec > minPrec) {
     let left = node;
     node = this.startNode(start);
-    node.left = left;
-    node.operator = this.state.cur.type.estreeValue || this.state.cur.value;
+    this.assign(node, "left", left);
+    this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, this.state.cur);
     this.checkExpressionOperatorLeft(node);
 
     let op = this.state.cur.type;
     this.next();
 
-    node.right = this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
-      {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext
-    );
+    this.assign(node, "right", this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
+      {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext));
     node = this.finishNode(node, op.binopExpressionName);
     node = this.parseExpressionOperator(node, start, minPrec, expressionContext);
   }
@@ -218,12 +217,15 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
 export function parseExpressionPrefix(expressionContext) {
   let isUpdate = this.match(tt.incDec);
   let node = this.startNode();
-  node.operator = this.state.cur.type.estreeValue || this.state.cur.value;
+  this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, this.state.cur);
   node.prefix = true;
   this.next();
 
   let type = this.state.type;
-  node.argument = this.parseExpressionMaybeUnary();
+  // should be able to infer from child
+  // this.addExtra(node, "parenthesizedArgument", type === tt.parenL);
+  this.assign(node, "argument", this.parseExpressionMaybeUnary());
+  // this.addExtra(node, "parenthesizedArgument", node.argument.extra != null && node.argument.extra.parenthesized);
 
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     this.unexpected(expressionContext.shorthandDefaultPos.start);
@@ -239,9 +241,9 @@ export function parseExpressionPrefix(expressionContext) {
 
 export function parseExpressionPostfix(exprNode, start) {
   let node = this.startNode(start);
-  node.operator = this.state.cur.value;
+  this.assign(node, "operator", this.state.cur.value, this.state.cur);
   node.prefix = false;
-  node.argument = exprNode;
+  this.assign(node, "argument", exprNode);
   this.checkAssignable(exprNode);
   this.next();
   return this.finishNode(node, "UpdateExpression");
@@ -275,41 +277,39 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
   for (;;) {
     if (!noCalls && this.eat(tt.doubleColon)) {
       node = this.startNode(start);
-      node.object = base;
-      node.callee = this.parseNonCallExpression();
+      this.assign(node, "object", base);
+      this.assign(node, "callee", this.parseNonCallExpression());
       node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext);
       break;
     } else if (this.eat(tt.dot)) {
       node = this.startNode(start);
-      node.object = base;
-      node.property = this.parseIdentifier({allowKeywords: true});
+      this.assign(node, "object", base);
+      this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
       node.computed = false;
       base = node = this.finishNode(node, "MemberExpression");
     } else if (this.eat(tt.bracketL)) {
       node = this.startNode(start);
-      node.object = base;
-      node.property = this.parseExpression();
+      this.assign(node, "object", base);
+      this.assign(node, "property", this.parseExpression());
       node.computed = true;
       this.eat(tt.bracketR) || this.unexpected();
       base = node = this.finishNode(node, "MemberExpression");
     } else if (!noCalls && this.eat(tt.parenL)) {
       node = this.startNode(start);
-      node.callee = base;
-      node.arguments = this.parseCallExpressionArguments(tt.parenR);
+      this.assign(node, "callee", base);
+      node = this.parseCallExpressionArguments(node, tt.parenR);
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (!noCalls && this.eat(tt.excl)) {
       node = this.startNode(start);
-      node.callee = base;
-      // TODO: create a specific method for this: if an indent is found, then the ending is a dedent.
-      // otherwise it stays a newline.
-      node.arguments = this.parseCallExpressionArguments(null, {exclCall: true});
+      this.assign(node, "callee", base);
+      node = this.parseCallExpressionArguments(node, null, {exclCall: true});
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (this.match(tt.backQuote)) {
       node = this.startNode(start);
-      node.tag = base;
-      node.quasi = this.parseTemplate();
+      this.assign(node, "tag", base);
+      this.assign(node, "quasi", this.parseTemplate());
       base = node = this.finishNode(node, "TaggedTemplateExpression");
     } else {
       break;
@@ -319,20 +319,20 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
 }
 
 // TODO: allow expr (!) auto closing call expressions.
-export function parseCallExpressionArguments(close, expressionContext = {}) {
-  let elements = [];
+export function parseCallExpressionArguments(node, close, expressionContext = {}) {
+  node.arguments = [];
 
   this.parseIndentableList(close, {...expressionContext, allowTrailingComma: true}, () => {
-    let node;
+    let argument;
     if (this.match(tt.ellipsis)) {
-      node = this.parseSpread(expressionContext);
+      argument = this.parseSpread(expressionContext);
     } else {
-      node = this.parseExpression(expressionContext);
+      argument = this.parseExpression(expressionContext);
     }
-    elements.push(node);
+    this.add(node, "arguments", argument);
   });
 
-  return elements;
+  return node;
 }
 
 // Parse an atomic expression — an expression that can't be split.
@@ -360,8 +360,10 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt.regexp:
+      // TODO: move to literals
       let value = this.state.cur.value;
       node = this.parseLiteral(value.value, "RegExpLiteral");
+      this.addRaw(node, this.state.prev);
       node.pattern = value.pattern;
       node.flags = value.flags;
       break;
@@ -376,15 +378,18 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt._null:
+      // TODO: move to literals
       node = this.startNode();
+      this.assignAsToken(node);
       this.next();
       node = this.finishNode(node, "NullLiteral");
       break;
 
     case tt._true: case tt._false:
+      // TODO: move to literals
       node = this.startNode();
       node.value = this.match(tt._true);
-      node.raw = this.input.slice(this.state.cur.start, this.state.cur.end);
+      this.addRaw(node);
       this.next();
       node = this.finishNode(node, "BooleanLiteral");
       break;
@@ -434,14 +439,12 @@ export function parseExpressionAtomic(expressionContext) {
 // `noCall` option of `parseSubscripts` to prevent the parser from
 // consuming the arugment list.
 
-// const empty = Symbol("EmptyArguments");
-const empty = "__emptyArguments";
 export function parseNew() {
   let node = this.startNode();
   let meta = this.parseIdentifier({allowKeywords: true});
   if (this.eat(tt.dot)) {
-    node.meta = meta;
-    node.property = this.parseIdentifier({allowKeywords: true});
+    this.assign(node, "meta", meta);
+    this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
 
     if (node.property.name !== "target") {
       this.raise(node.property.start, "The only valid meta property for new is new.target");
@@ -450,14 +453,14 @@ export function parseNew() {
     node = this.finishNode(node, "MetaProperty");
   } else {
     let start = {...this.state.cur};
-    node.callee = this.parseSubscripts(this.parseExpressionAtomic(), start, {isNew: true});
+    this.assign(node, "callee", this.parseSubscripts(this.parseExpressionAtomic(), start, {isNew: true}));
     if (this.eat(tt.parenL)) {
-      node.arguments = this.parseCallExpressionArguments(tt.parenR)
+      node = this.parseCallExpressionArguments(node, tt.parenR)
     } else if (this.eat(tt.excl)) {
-      node.arguments = this.parseCallExpressionArguments(tt.newline, {exclCall: true})
+      node = this.parseCallExpressionArguments(node, tt.newline, {exclCall: true})
     } else {
       node.arguments = [];
-      node.arguments[empty] = true;
+      this.addExtra(node, "noParens", true);
     }
     node = this.finishNode(node, "NewExpression");
   }
@@ -485,7 +488,8 @@ export function parseYieldExpression() {
     node.argument = null;
   } else {
     node.delegate = this.eat(tt.star);
-    node.argument = this.parseExpressionMaybeKeywordOrAssignment({});
+    if (node.delegate) this.assignToken(node, "delegate", this.state.prev);
+    this.assign(node, "argument", this.parseExpressionMaybeKeywordOrAssignment({}));
   }
   return this.finishNode(node, "YieldExpression");
 }
@@ -500,13 +504,14 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   const {canBeArrow} = expressionContext;
   if (start == null) start = {...this.state.cur};
 
+  let maybeFunction = this.startNode(start);
+  maybeFunction.params = [];
+
   this.next();
 
   let innerStart = {...this.state.cur};
 
   // TODO: add hook to parse comprehensions here
-
-  let elements = [];
 
   expressionContext.shorthandDefaultPos = {start: 0};
   let node, spreadStart;
@@ -516,13 +521,12 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
     let element;
     if (this.match(tt.ellipsis)) {
       spreadStart = this.state.cur.start;
-      element = this.parseRest();
-      elements.push(element);
+      this.add(maybeFunction, "params", this.parseRest());
       return "break";
     } else {
       element = this.parseExpression(expressionContext); // , {afterLeftParse: this.parseParenItem}
     }
-    elements.push(element);
+    this.add(maybeFunction, "params", element);
   });
 
   let maybeGenerator = this.match(tt.star);
@@ -538,8 +542,8 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
       this.match(tt.asyncArrow) ||
       this.match(tt.asyncBoundArrow) ||
       false)) {
-    node = this.parseArrowExpression(this.startNode(start), elements, {}, expressionContext);
-  } else if (elements.length === 0) {
+    node = this.parseArrowExpression(maybeFunction, {}, expressionContext);
+  } else if (maybeFunction.params.length === 0) {
     this.unexpected(this.state.prev.start);
   } else if (spreadStart) {
     this.unexpected(spreadStart);
@@ -547,14 +551,18 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
     this.unexpected(expressionContext.shorthandDefaultPos.start);
   } else if (firstSeparatorStart) {
     this.unexpected(firstSeparatorStart);
-  } else if (elements.length > 1) {
+  } else if (maybeFunction.params.length > 1) {
     this.raise(this.state.pos, "Arguments list is not attached to a function");
   } else {
-    node = elements[0];
-    node.parenthesizedExpression = true;
+    node = maybeFunction.params[0];
+    this.addExtra(node, "parenthesized", true);
+    this.addExtra(node, "parenStart", maybeFunction.start);
+    this.addExtra(node, "parenEnd", maybeFunction.end);
+    (node.extra.parens == null ? node.extra.parens = [] : node.extra.parens).push({
+      start: maybeFunction.start,
+      end: maybeFunction.end,
+    });
   }
 
   return node;
 }
-
-export function _argumentsIsEmpty(args) { return !!args[empty]; }

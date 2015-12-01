@@ -170,7 +170,10 @@
                           "column": 11
                         }
                       },
-                      "raw": "1",
+                      "extra": {
+                        "rawValue": 1,
+                        "raw": "1"
+                      },
                       "value": 1
                     }
                   }

@@ -56,7 +56,9 @@
               "column": 33
             }
           },
-          "raw": "/[\\uD834\\uDF06-\\uD834\\uDF08a-z]/u",
+          "extra": {
+            "raw": "/[\\uD834\\uDF06-\\uD834\\uDF08a-z]/u"
+          },
           "pattern": "[\\uD834\\uDF06-\\uD834\\uDF08a-z]",
           "flags": "u"
         }

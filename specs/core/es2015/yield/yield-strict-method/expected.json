@@ -114,7 +114,10 @@
               }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 14
+          }
         }
       }
     ],
@@ -148,7 +151,10 @@
             }
           },
           "value": "use strict",
-          "raw": "\"use strict\""
+          "extra": {
+            "raw": "\"use strict\"",
+            "rawValue": "use strict"
+          }
         }
       }
     ]

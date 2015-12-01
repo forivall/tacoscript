@@ -151,8 +151,7 @@
                       },
                       "name": "defaultValue"
                     }
-                  },
-                  "kind": "init"
+                  }
                 }
               ]
             },

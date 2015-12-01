@@ -102,8 +102,11 @@
                       "column": 6
                     }
                   },
-                  "value": "x",
-                  "raw": "\"x\""
+                  "extra": {
+                    "rawValue": "x",
+                    "raw": "\"x\""
+                  },
+                  "value": "x"
                 },
                 "operator": "+",
                 "right": {
@@ -120,8 +123,11 @@
                       "column": 12
                     }
                   },
-                  "value": "y",
-                  "raw": "\"y\""
+                  "extra": {
+                    "rawValue": "y",
+                    "raw": "\"y\""
+                  },
+                  "value": "y"
                 }
               },
               "value": {
@@ -138,13 +144,18 @@
                     "column": 17
                   }
                 },
-                "value": 10,
-                "raw": "10"
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": 10,
+                  "raw": "10"
+                },
+                "value": 10
+              }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

@@ -119,7 +119,6 @@
                       },
                       "name": "x"
                     },
-                    "kind": "init",
                     "value": {
                       "type": "Identifier",
                       "start": 12,
@@ -136,7 +135,9 @@
                       },
                       "name": "x"
                     },
-                    "shorthand": true
+                    "extra": {
+                      "shorthand": true
+                    }
                   },
                   {
                     "type": "ObjectProperty",
@@ -171,7 +172,6 @@
                       },
                       "name": "y"
                     },
-                    "kind": "init",
                     "value": {
                       "type": "Identifier",
                       "start": 15,
@@ -188,7 +188,9 @@
                       },
                       "name": "y"
                     },
-                    "shorthand": true
+                    "extra": {
+                      "shorthand": true
+                    }
                   }
                 ]
               },

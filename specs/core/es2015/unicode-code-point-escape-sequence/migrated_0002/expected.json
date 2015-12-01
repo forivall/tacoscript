@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 34,
+  "end": 35,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 34
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 34,
+    "end": 35,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 34
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -87,13 +87,17 @@
                   "column": 33
                 }
               },
-              "value": "\"\\u{00000000034}\"",
-              "raw": "'\"\\\\u{00000000034}\"'"
+              "extra": {
+                "rawValue": "\"\\u{00000000034}\"",
+                "raw": "'\"\\\\u{00000000034}\"'"
+              },
+              "value": "\"\\u{00000000034}\""
             }
           }
         ],
         "kind": "var"
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -125,8 +125,11 @@
                 "column": 16
               }
             },
-            "value": 42,
-            "raw": "42"
+            "extra": {
+              "rawValue": 42,
+              "raw": "42"
+            },
+            "value": 42
           }
         }
       }

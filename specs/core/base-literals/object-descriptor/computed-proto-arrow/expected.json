@@ -127,7 +127,11 @@
                 }
               }
             }
-          ]
+          ],
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

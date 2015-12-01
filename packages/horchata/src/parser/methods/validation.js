@@ -268,13 +268,13 @@ export function checkWithStatementAllowed() {
 /*
 parser.extend("checkTryStatement", function(inner) {
   if (!node.handler && !node.finalizer) {
-    node.handler = this.startNode()
+    this.assign(node, "handler", this.startNode());
     let param = this.startNode();
     param.name = "_";
-    node.handler.param = this.finishNode(param, "Identifier");
+    this.assign(node.handler, "param", this.finishNode(param, "Identifier"));
     let body = this.startNode();
     body = this.initBlockBody(body, {});
-    node.handler.body = this.finishNode(param, "BlockStatement");
+    this.assign(node.handler, "body", this.finishNode(param, "BlockStatement"));
   }
   return inner.call(this);
 });

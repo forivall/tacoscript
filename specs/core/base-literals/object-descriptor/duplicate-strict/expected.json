@@ -237,7 +237,10 @@
             }
           },
           "value": "use strict",
-          "raw": "\"use strict\""
+          "extra": {
+            "raw": "\"use strict\"",
+            "rawValue": "use strict"
+          }
         }
       }
     ]

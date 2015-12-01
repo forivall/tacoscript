@@ -42,6 +42,8 @@
             "column": 21
           }
         },
+        "specifiers": [],
+        "source": null,
         "declaration": {
           "type": "ClassDeclaration",
           "start": 7,
@@ -89,10 +91,9 @@
             },
             "body": []
           }
-        },
-        "specifiers": [],
-        "source": null
+        }
       }
-    ]
+    ],
+    "directives": []
   }
 }

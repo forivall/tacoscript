@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 51,
+  "end": 52,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 51
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 51,
+    "end": 52,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 51
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -405,7 +405,6 @@
                                                                                                   },
                                                                                                   "name": "a"
                                                                                                 },
-                                                                                                "kind": "init",
                                                                                                 "value": {
                                                                                                   "type": "AssignmentPattern",
                                                                                                   "start": 21,
@@ -480,11 +479,17 @@
                                                                                                           "column": 26
                                                                                                         }
                                                                                                       },
-                                                                                                      "value": 0,
-                                                                                                      "raw": "0"
+                                                                                                      "extra": {
+                                                                                                        "rawValue": 0,
+                                                                                                        "raw": "0"
+                                                                                                      },
+                                                                                                      "value": 0
                                                                                                     },
                                                                                                     "computed": true
                                                                                                   }
+                                                                                                },
+                                                                                                "extra": {
+                                                                                                  "shorthand": true
                                                                                                 }
                                                                                               }
                                                                                             ]
@@ -543,11 +548,15 @@
                 "column": 50
               }
             },
-            "value": 0,
-            "raw": "0"
+            "extra": {
+              "rawValue": 0,
+              "raw": "0"
+            },
+            "value": 0
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

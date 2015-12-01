@@ -14,13 +14,13 @@ export function parseTemplate() {
   this.next();
   node.expressions = [];
   let cur = this.parseTemplateElement();
-  node.quasis = [cur];
+  this.add(node, "quasis", cur);
   while (!cur.tail) {
     this.eat(tt.dollarBraceL) || this.unexpected();
-    node.expressions.push(this.parseExpression());
+    this.add(node, "expressions", this.parseExpression());
     this.eat(tt.braceR) || this.unexpected();
     cur = this.parseTemplateElement();
-    node.quasis.push(cur);
+    this.add(node, "quasis", cur);
   }
   this.next();
   return this.finishNode(node, "TemplateLiteral");

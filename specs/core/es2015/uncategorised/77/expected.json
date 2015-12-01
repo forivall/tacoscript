@@ -42,6 +42,8 @@
             "column": 27
           }
         },
+        "specifiers": [],
+        "source": null,
         "declaration": {
           "type": "FunctionDeclaration",
           "start": 7,
@@ -89,12 +91,12 @@
                 "column": 27
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
-        },
-        "specifiers": [],
-        "source": null
+        }
       }
-    ]
+    ],
+    "directives": []
   }
 }

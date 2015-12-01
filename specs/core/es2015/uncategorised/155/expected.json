@@ -170,7 +170,6 @@
                             },
                             "name": "x"
                           },
-                          "kind": "init",
                           "value": {
                             "type": "Identifier",
                             "start": 15,
@@ -187,7 +186,9 @@
                             },
                             "name": "x"
                           },
-                          "shorthand": true
+                          "extra": {
+                            "shorthand": true
+                          }
                         }
                       ]
                     },
@@ -253,10 +254,12 @@
                                 "column": 26
                               }
                             },
-                            "value": 10,
-                            "raw": "10"
-                          },
-                          "kind": "init"
+                            "extra": {
+                              "rawValue": 10,
+                              "raw": "10"
+                            },
+                            "value": 10
+                          }
                         }
                       ]
                     }
@@ -279,11 +282,13 @@
                   "body": [],
                   "directives": []
                 }
-              },
-              "kind": "init"
+              }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

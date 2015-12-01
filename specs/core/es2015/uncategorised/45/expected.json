@@ -120,8 +120,11 @@
                     "column": 13
                   }
                 },
-                "value": 10,
-                "raw": "10"
+                "extra": {
+                  "rawValue": 10,
+                  "raw": "10"
+                },
+                "value": 10
               }
             }
           ],
@@ -139,7 +142,10 @@
                 "column": 20
               }
             },
-            "raw": "42",
+            "extra": {
+              "rawValue": 42,
+              "raw": "42"
+            },
             "value": 42
           }
         }

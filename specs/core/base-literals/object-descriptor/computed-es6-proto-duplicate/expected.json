@@ -88,7 +88,10 @@
                     "column": 14
                   }
                 },
-                "raw": "\"__proto__\"",
+                "extra": {
+                  "rawValue": "__proto__",
+                  "raw": "\"__proto__\""
+                },
                 "value": "__proto__"
               },
               "value": {
@@ -105,7 +108,10 @@
                     "column": 17
                   }
                 },
-                "raw": "0",
+                "extra": {
+                  "rawValue": 0,
+                  "raw": "0"
+                },
                 "value": 0
               }
             },
@@ -140,7 +146,10 @@
                     "column": 31
                   }
                 },
-                "raw": "\"__proto__\"",
+                "extra": {
+                  "rawValue": "__proto__",
+                  "raw": "\"__proto__\""
+                },
                 "value": "__proto__"
               },
               "value": {
@@ -157,11 +166,18 @@
                     "column": 34
                   }
                 },
-                "raw": "0",
+                "extra": {
+                  "rawValue": 0,
+                  "raw": "0"
+                },
                 "value": 0
               }
             }
-          ]
+          ],
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

@@ -40,3 +40,4 @@ export default class Node {
     return clone;
   }
 }
+Object.defineProperty(Node.prototype, "__isNode", {value: true});

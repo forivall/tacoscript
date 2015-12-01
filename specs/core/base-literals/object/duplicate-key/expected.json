@@ -135,10 +135,12 @@
                       "column": 10
                     }
                   },
-                  "value": 1,
-                  "raw": "1"
-                },
-                "kind": "init"
+                  "extra": {
+                    "rawValue": 1,
+                    "raw": "1"
+                  },
+                  "value": 1
+                }
               },
               {
                 "type": "ObjectProperty",
@@ -187,15 +189,18 @@
                       "column": 16
                     }
                   },
-                  "value": 2,
-                  "raw": "2"
-                },
-                "kind": "init"
+                  "extra": {
+                    "rawValue": 2,
+                    "raw": "2"
+                  },
+                  "value": 2
+                }
               }
             ]
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -113,7 +113,9 @@
                         "column": 7
                       }
                     },
-                    "raw": "/\\d/",
+                    "extra": {
+                      "raw": "/\\d/"
+                    },
                     "pattern": "\\d",
                     "flags": ""
                   },
@@ -150,8 +152,11 @@
                         "column": 16
                       }
                     },
-                    "value": "1",
-                    "raw": "'1'"
+                    "extra": {
+                      "rawValue": "1",
+                      "raw": "'1'"
+                    },
+                    "value": "1"
                   }
                 ]
               },
@@ -169,8 +174,11 @@
                     "column": 19
                   }
                 },
-                "value": 0,
-                "raw": "0"
+                "extra": {
+                  "rawValue": 0,
+                  "raw": "0"
+                },
+                "value": 0
               },
               "computed": true
             }

@@ -123,6 +123,7 @@
           "computed": false
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

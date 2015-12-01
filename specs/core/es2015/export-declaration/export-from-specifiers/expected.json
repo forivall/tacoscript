@@ -153,8 +153,11 @@
               "column": 28
             }
           },
-          "value": "foo",
-          "raw": "\"foo\""
+          "extra": {
+            "rawValue": "foo",
+            "raw": "\"foo\""
+          },
+          "value": "foo"
         }
       }
     ],

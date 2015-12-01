@@ -155,6 +155,7 @@
           "computed": false
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 28,
+  "end": 29,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 28
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 28,
+    "end": 29,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 28
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -192,12 +192,19 @@
                   "name": "z"
                 }
               ],
-              "parenthesizedExpression": true
+              "extra": {
+                "parenthesized": true,
+                "parenStart": 18
+              }
             },
-            "parenthesizedExpression": true
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 7
+            }
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

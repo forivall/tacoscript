@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 35,
+  "end": 36,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 35
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 35,
+    "end": 36,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 35
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -87,8 +87,11 @@
                 "column": 9
               }
             },
-            "value": 0,
-            "raw": "0"
+            "extra": {
+              "rawValue": 0,
+              "raw": "0"
+            },
+            "value": 0
           }
         },
         "test": {
@@ -136,8 +139,11 @@
                 "column": 17
               }
             },
-            "value": 42,
-            "raw": "42"
+            "extra": {
+              "rawValue": 42,
+              "raw": "42"
+            },
+            "value": 42
           }
         },
         "update": {
@@ -238,6 +244,7 @@
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

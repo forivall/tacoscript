@@ -74,8 +74,11 @@
                 "column": 12
               }
             },
-            "value": "test",
-            "raw": "\"test\""
+            "extra": {
+              "rawValue": "test",
+              "raw": "\"test\""
+            },
+            "value": "test"
           }
         }
       }

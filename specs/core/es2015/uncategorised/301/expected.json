@@ -120,10 +120,14 @@
               "column": 31
             }
           },
-          "value": "baz",
-          "raw": "'baz'"
+          "extra": {
+            "rawValue": "baz",
+            "raw": "'baz'"
+          },
+          "value": "baz"
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

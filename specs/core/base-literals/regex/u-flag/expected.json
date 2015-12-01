@@ -87,7 +87,9 @@
                   "column": 16
                 }
               },
-              "raw": "/[a-z]/u",
+              "extra": {
+                "raw": "/[a-z]/u"
+              },
               "pattern": "[a-z]",
               "flags": "u"
             }

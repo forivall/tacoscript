@@ -89,10 +89,12 @@
                 "column": 30
               }
             },
-            "body": []
+            "body": [],
+            "directives": []
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

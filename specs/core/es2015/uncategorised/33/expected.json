@@ -139,13 +139,18 @@
                       "column": 20
                     }
                   },
-                  "value": 42,
-                  "raw": "42"
-                },
-                "kind": "init"
+                  "extra": {
+                    "rawValue": 42,
+                    "raw": "42"
+                  },
+                  "value": 42
+                }
               }
             ],
-            "parenthesizedExpression": true
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 5
+            }
           }
         }
       }

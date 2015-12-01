@@ -17,7 +17,7 @@ export function parseExport(node) {
     this.next();
     if (this.eat(tt._as)) {
       firstSpecifier.exported = this.parseIdentifier();
-      node.specifiers = [this.finishNode(firstSpecifier, "ExportNamespaceSpecifier")];
+      this.add(node, "specifiers", this.finishNode(firstSpecifier, "ExportNamespaceSpecifier"));
       if (this.eat(tt.comma)) node = this.parseExportSpecifiers(node);
       node = this.parseExportFrom(node);
     } else {
@@ -38,12 +38,12 @@ export function parseExport(node) {
       expr = this.parseExpressionMaybeKeywordOrAssignment({});
       this.eatLineTerminator();
     }
-    node.declaration = expr;
+    this.assign(node, "declaration", expr);
     nodeType = "ExportDefaultDeclaration";
   } else if (this.state.cur.type.keyword) {
     node.specifiers = [];
     node.source = null;
-    node.declaration = this.parseExportDeclaration(node);
+    this.assign(node, "declaration", this.parseExportDeclaration(node));
   } else { // export { x, y as z } [from '...']
     node.declaration = null;
     node = this.parseExportSpecifiers(node);
@@ -60,7 +60,7 @@ export function parseExportFrom(node, exportFromContext = {}) {
   node.source = null;
   if (this.eat(tt._from)) {
     if (!this.match(tt.string)) this.unexpected();
-    node.source = this.parseExpressionAtomic();
+    this.assign(node, "source", this.parseExpressionAtomic());
   } else if (!isOptional) this.unexpected();
   this.eatLineTerminator();
   return node;
@@ -80,9 +80,9 @@ export function parseExportSpecifiers(parent) {
     if (isDefault && !needsFrom) needsFrom = true;
 
     let node = this.startNode();
-    node.local = this.parseIdentifier({allowKeywords: isDefault});
-    node.exported = this.eat(tt._as) ? this.parseIdentifier({allowKeywords: true}) : node.local.__clone();
-    parent.specifiers.push(this.finishNode(node, "ExportSpecifier"));
+    this.assign(node, "local", this.parseIdentifier({allowKeywords: isDefault}));
+    this.assign(node, "exported", this.eat(tt._as) ? this.parseIdentifier({allowKeywords: true}) : node.local.__clone());
+    this.add(parent, "specifiers", this.finishNode(node, "ExportSpecifier"));
   });
 
   // https://github.com/ember-cli/ember-cli/pull/3739
@@ -113,14 +113,14 @@ export function parseImport(node) {
 
   if (this.match(tt.string)) {
     node.specifiers = [];
-    node.specifiers[empty] = true;
-    node.source = this.parseExpressionAtomic();
+    this.addExtra(node, "noBrace", true);
+    this.assign(node, "source", this.parseExpressionAtomic());
   } else {
     node.specifiers = [];
     node = this.parseImportSpecifiers(node);
     this.eat(tt._from) || this.unexpected();
     this.match(tt.string) || this.unexpected();
-    node.source = this.parseExpressionAtomic();
+    this.assign(node, "source", this.parseExpressionAtomic());
   }
   this.eatLineTerminator();
   return this.finishNode(node, "ImportDeclaration");
@@ -132,9 +132,9 @@ export function parseImportSpecifiers(node) {
   if (this.match(tt.name)) {
     // import defaultObj, { x, y as z } from '...'
     let specifier = this.startNode();
-    specifier.local = this.parseIdentifier();
+    this.assign(specifier, "local", this.parseIdentifier());
     this.checkAssignable(specifier.local, {isBinding: true});
-    node.specifiers.push(this.finishNode(specifier, "ImportDefaultSpecifier"));
+    this.add(node, "specifiers", this.finishNode(specifier, "ImportDefaultSpecifier"));
     hasDefault = true;
   }
   if (!hasDefault || this.eat(tt.comma)) {
@@ -142,17 +142,17 @@ export function parseImportSpecifiers(node) {
       let specifier = this.startNode();
       this.next();
       this.eat(tt._as) || this.unexpected();
-      specifier.local = this.parseIdentifier();
+      this.assign(specifier, "local", this.parseIdentifier());
       this.checkAssignable(specifier.local, {isBinding: true});
-      node.specifiers.push(this.finishNode(specifier, "ImportNamespaceSpecifier"));
+      this.add(node, "specifiers", this.finishNode(specifier, "ImportNamespaceSpecifier"));
     } else {
       this.eat(tt.braceL) || this.unexpected();
       this.parseIndentableList(tt.braceR, {allowTrailingComma: true}, () => {
         let specifier = this.startNode();
-        specifier.imported = this.parseIdentifier({allowKeywords: true});
-        specifier.local = this.eat(tt._as) ? this.parseIdentifier() : specifier.imported.__clone();
+        this.assign(specifier, "imported", this.parseIdentifier({allowKeywords: true}));
+        this.assign(specifier, "local", this.eat(tt._as) ? this.parseIdentifier() : specifier.imported.__clone());
         this.checkAssignable(specifier.local, {isBinding: true});
-        node.specifiers.push(this.finishNode(specifier, "ImportSpecifier"));
+        this.add(node, "specifiers", this.finishNode(specifier, "ImportSpecifier"));
       });
     }
   }

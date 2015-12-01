@@ -123,7 +123,6 @@
                     },
                     "name": "x"
                   },
-                  "kind": "init",
                   "value": {
                     "type": "Identifier",
                     "start": 12,
@@ -140,7 +139,9 @@
                     },
                     "name": "x"
                   },
-                  "shorthand": true
+                  "extra": {
+                    "shorthand": true
+                  }
                 }
               ]
             },
@@ -206,10 +207,12 @@
                         "column": 23
                       }
                     },
-                    "value": 10,
-                    "raw": "10"
-                  },
-                  "kind": "init"
+                    "extra": {
+                      "rawValue": 10,
+                      "raw": "10"
+                    },
+                    "value": 10
+                  }
                 }
               ]
             }

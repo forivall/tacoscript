@@ -1,29 +1,29 @@
 {
   "type": "File",
   "start": 0,
-  "end": 11,
+  "end": 14,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 11
+      "line": 2,
+      "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 11,
+    "end": 14,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 1,
-        "column": 11
+        "line": 2,
+        "column": 0
       }
     },
     "sourceType": "script",
@@ -31,7 +31,7 @@
       {
         "type": "VariableDeclaration",
         "start": 0,
-        "end": 11,
+        "end": 13,
         "loc": {
           "start": {
             "line": 1,
@@ -39,14 +39,14 @@
           },
           "end": {
             "line": 1,
-            "column": 11
+            "column": 13
           }
         },
         "declarations": [
           {
             "type": "VariableDeclarator",
             "start": 4,
-            "end": 11,
+            "end": 13,
             "loc": {
               "start": {
                 "line": 1,
@@ -54,7 +54,7 @@
               },
               "end": {
                 "line": 1,
-                "column": 11
+                "column": 13
               }
             },
             "id": {
@@ -93,25 +93,29 @@
             },
             "init": {
               "type": "NumericLiteral",
-              "start": 10,
-              "end": 11,
+              "start": 12,
+              "end": 13,
               "loc": {
                 "start": {
                   "line": 1,
-                  "column": 10
+                  "column": 12
                 },
                 "end": {
                   "line": 1,
-                  "column": 11
+                  "column": 13
                 }
               },
-              "value": 0,
-              "raw": "0"
+              "extra": {
+                "rawValue": 0,
+                "raw": "0"
+              },
+              "value": 0
             }
           }
         ],
         "kind": "let"
       }
-    ]
+    ],
+    "directives": []
   }
 }

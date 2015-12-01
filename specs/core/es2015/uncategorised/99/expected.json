@@ -26,7 +26,7 @@
         "column": 26
       }
     },
-    "sourceType": "module",
+    "sourceType": "script",
     "body": [
       {
         "type": "ExpressionStatement",
@@ -125,7 +125,10 @@
             ],
             "directives": []
           },
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

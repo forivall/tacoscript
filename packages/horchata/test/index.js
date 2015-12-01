@@ -58,12 +58,28 @@ function removeLocInfo(json) {
     delete json.start;
     delete json.end;
     delete json.loc;
+    if (json.type === "BlockStatement" && json.directives != null && json.directives.length === 0) {
+      delete json.directives;
+    }
     for (var k in json) {
       if (json[k] != null && (typeof json[k]) === 'object') {
         removeLocInfo(json[k]);
+        if (k === "extra") {
+          delete json.extra.rawValue;
+          delete json.extra.parenStart; // it won't match up
+          // if (json.type === "ObjectExpression") {
+          //
+          //   delete json.extra.parenthesized;
+          // }
+          if (json.type === "UpdateExpression" || json.type === "UnaryExpression") {
+            delete json.extra.parenthesizedArgument;
+          }
+          if (Object.keys(json.extra).length === 0) delete json.extra;
+        }
       }
     }
   }
+  // TODO: store this modified JSON
   return json;
 }
 

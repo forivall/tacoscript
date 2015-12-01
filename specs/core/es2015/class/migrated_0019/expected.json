@@ -103,8 +103,11 @@
                     "column": 22
                   }
                 },
-                "value": "constructor",
-                "raw": "\"constructor\""
+                "extra": {
+                  "rawValue": "constructor",
+                  "raw": "\"constructor\""
+                },
+                "value": "constructor"
               },
               "static": false,
               "kind": "constructor",
@@ -159,8 +162,11 @@
                     "column": 41
                   }
                 },
-                "value": "constructor",
-                "raw": "\"constructor\""
+                "extra": {
+                  "rawValue": "constructor",
+                  "raw": "\"constructor\""
+                },
+                "value": "constructor"
               },
               "static": false,
               "kind": "method",

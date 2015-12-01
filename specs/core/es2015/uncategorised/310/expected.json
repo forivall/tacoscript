@@ -90,7 +90,6 @@
                 },
                 "name": "x"
               },
-              "kind": "init",
               "value": {
                 "type": "AssignmentPattern",
                 "start": 6,
@@ -135,11 +134,16 @@
                       "column": 11
                     }
                   },
-                  "value": 0,
-                  "raw": "0"
+                  "extra": {
+                    "rawValue": 0,
+                    "raw": "0"
+                  },
+                  "value": 0
                 }
               },
-              "shorthand": true
+              "extra": {
+                "shorthand": true
+              }
             }
           ]
         },

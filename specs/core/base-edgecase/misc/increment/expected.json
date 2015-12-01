@@ -153,6 +153,9 @@
                       },
                       "operator": "++",
                       "prefix": true,
+                      "extra": {
+                        "parenthesizedArgument": false
+                      },
                       "argument": {
                         "type": "Identifier",
                         "start": 34,

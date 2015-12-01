@@ -204,8 +204,7 @@
                     "body": [],
                     "directives": []
                   }
-                },
-                "kind": "init"
+                }
               }
             ]
           }

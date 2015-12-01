@@ -87,8 +87,11 @@
                   "column": 10
                 }
               },
-              "value": 0,
-              "raw": "0"
+              "extra": {
+                "rawValue": 0,
+                "raw": "0"
+              },
+              "value": 0
             }
           }
         ],

@@ -125,11 +125,13 @@
                   "body": [],
                   "directives": []
                 }
-              },
-              "kind": "init"
+              }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

@@ -160,11 +160,18 @@
                     "column": 21
                   }
                 },
-                "raw": "42",
+                "extra": {
+                  "rawValue": 42,
+                  "raw": "42"
+                },
                 "value": 42
               }
             }
-          ]
+          ],
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

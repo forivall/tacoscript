@@ -124,6 +124,7 @@
           "computed": true
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

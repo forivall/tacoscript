@@ -104,10 +104,12 @@
                     "column": 9
                   }
                 },
-                "value": 10,
-                "raw": "10"
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": 10,
+                  "raw": "10"
+                },
+                "value": 10
+              }
             },
             {
               "type": "ObjectProperty",
@@ -156,13 +158,18 @@
                     "column": 16
                   }
                 },
-                "value": 20,
-                "raw": "20"
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": 20,
+                  "raw": "20"
+                },
+                "value": 20
+              }
             }
           ],
-          "parenthesizedExpression": true
+          "extra": {
+            "parenthesized": true,
+            "parenStart": 0
+          }
         }
       }
     ],

@@ -56,7 +56,10 @@
               "column": 3
             }
           },
-          "raw": "0x0",
+          "extra": {
+            "rawValue": 0,
+            "raw": "0x0"
+          },
           "value": 0
         }
       }

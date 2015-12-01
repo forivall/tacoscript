@@ -26,7 +26,7 @@
         "column": 15
       }
     },
-    "sourceType": "module",
+    "sourceType": "script",
     "body": [
       {
         "type": "ExpressionStatement",

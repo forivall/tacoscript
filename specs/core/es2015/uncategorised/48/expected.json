@@ -192,9 +192,15 @@
                   "name": "z"
                 }
               ],
-              "parenthesizedExpression": true
+              "extra": {
+                "parenthesized": true,
+                "parenStart": 18
+              }
             },
-            "parenthesizedExpression": true
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 7
+            }
           }
         }
       }

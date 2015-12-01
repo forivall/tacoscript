@@ -119,8 +119,11 @@
                       "column": 17
                     }
                   },
-                  "value": "undef",
-                  "raw": "\"undef\""
+                  "extra": {
+                    "rawValue": "undef",
+                    "raw": "\"undef\""
+                  },
+                  "value": "undef"
                 },
                 "kind": "get",
                 "id": null,
@@ -149,6 +152,7 @@
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

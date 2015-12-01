@@ -17,11 +17,10 @@ import {isNewline} from "../../util/whitespace";
 
 export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
-  file.program = program;
 
-  this.parseBlockBody(program, {allowDirectives: !this.options.noTopLevelDirectives, isTopLevel: true});
+  program = this.parseBlockBody(program, {allowDirectives: !this.options.noTopLevelDirectives, isTopLevel: true});
 
-  file.program  = this.finishNode(program, "Program");
+  this.assign(file, "program", this.finishNode(program, "Program"));
   file.comments = this.state.comments;
   file.tokens   = this.state.tokens;
   file.warnings = this.state.warnings;
@@ -37,12 +36,12 @@ export function parseDirective() {
   let raw = this.input.slice(this.state.cur.start, this.state.cur.end);
   let value = raw.slice(1, -1); // remove quotes
 
-  directiveLiteral.value = value;
-  directiveLiteral.raw = raw;
+  this.assign(directiveLiteral, "value", value, this.state.cur);
+  this.addExtra(directiveLiteral, "raw", raw);
 
   this.next();
 
-  directive.value = this.finishNode(directiveLiteral, "DirectiveLiteral");
+  this.assign(directive, "value", this.finishNode(directiveLiteral, "DirectiveLiteral"));
   this.eatLineTerminator() || this.unexpected();
   return this.finishNode(directive, "Directive");
 }
@@ -61,12 +60,13 @@ export function parseBlock(blockContext = {}) {
     node = this.initBlockBody(node, blockContext);
   } else if (this.eat(tt.indent)) {
     this.eat(tt.newline);
-    this.parseBlockBody(node, blockContext);
+    node = this.parseBlockBody(node, blockContext);
   } else if (allowEmpty) {
     node = this.initBlockBody(node, blockContext);
     if (this.state.cur.type.startsExpr || this.state.cur.type.startsStmt) {
-      // TODO: allow multiple statements
-      node.body.push(this.parseStatement());
+      do {
+        this.add(node, "body", this.parseStatement());
+      } while (this.eat(tt.doublesemi));
     }
   } else {
     this.unexpected();
@@ -98,11 +98,11 @@ export function parseBlockBody(node, blockContext = {}) {
     if (allowDirectives && !finishedDirectives && this.match(tt.string) &&
         // TODO: use https://github.com/babel/babel/pull/3107 instead
         (this.state.cur.end >= this.input.length || isNewline(this.input.charCodeAt(this.state.cur.end)))) {
-      node.directives.push(this.parseDirective());
+      this.add(node, "directives", this.parseDirective());
       continue;
     }
     finishedDirectives = true;
-    node.body.push(this.parseStatement(true, isTopLevel));
+    this.add(node, "body", this.parseStatement(true, isTopLevel));
   }
   if (!isTopLevel) {
     this.eatLineTerminator() || this.unexpected();

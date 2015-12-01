@@ -106,10 +106,14 @@
               "column": 31
             }
           },
-          "value": "other",
-          "raw": "\"other\""
+          "extra": {
+            "rawValue": "other",
+            "raw": "\"other\""
+          },
+          "value": "other"
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

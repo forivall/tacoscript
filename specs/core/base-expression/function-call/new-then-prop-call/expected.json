@@ -101,7 +101,10 @@
                 "name": "foo"
               },
               "arguments": [],
-              "parenthesizedExpression": true
+              "extra": {
+                "parenthesized": true,
+                "parenStart": 0
+              }
             },
             "property": {
               "type": "Identifier",
@@ -124,6 +127,7 @@
           "arguments": []
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -56,7 +56,9 @@
               "column": 3
             }
           },
-          "raw": "/p/",
+          "extra": {
+            "raw": "/p/"
+          },
           "pattern": "p",
           "flags": ""
         }

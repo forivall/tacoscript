@@ -71,7 +71,9 @@
                   "column": 4
                 }
               },
-              "raw": "/q/",
+              "extra": {
+                "raw": "/q/"
+              },
               "pattern": "q",
               "flags": ""
             }

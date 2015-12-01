@@ -104,14 +104,17 @@
                     "column": 24
                   }
                 },
-                "value": "Error",
-                "raw": "\"Error\""
-              },
-              "kind": "init"
+                "extra": {
+                  "rawValue": "Error",
+                  "raw": "\"Error\""
+                },
+                "value": "Error"
+              }
             }
           ]
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -119,7 +119,10 @@
                       "column": 16
                     }
                   },
-                  "raw": "\"__proto__\"",
+                  "extra": {
+                    "rawValue": "__proto__",
+                    "raw": "\"__proto__\""
+                  },
                   "value": "__proto__"
                 },
                 "value": {
@@ -136,7 +139,10 @@
                       "column": 19
                     }
                   },
-                  "raw": "2",
+                  "extra": {
+                    "rawValue": 2,
+                    "raw": "2"
+                  },
                   "value": 2
                 }
               }
