@@ -9,6 +9,10 @@ import * as t from "babel-types";
 import TacoscriptTokenBuffer from "./taco-buffer";
 import {types as tt} from "horchata/lib/tokenizer/types";
 
+function isParenthesized(node) {
+  return node.extra != null && node.extra.parenthesized || node.parenthesizedExpression;
+}
+
 export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   constructor(ast, opts, code) {
     super(opts, code);
@@ -64,7 +68,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.start, pos: node.start}});
     }
-    if (node.parenthesizedExpression && !t.isObjectExpression(node)) this.push("(");
+    if (isParenthesized(node) && !t.isObjectExpression(node)) this.push("(");
   }
 
   _startPreservedPrint(parent, prop, opts) {
@@ -94,7 +98,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _finishSimplePrint(node, opts) {
-    if (node.parenthesizedExpression && !t.isObjectExpression(node)) this.push(")");
+    if (isParenthesized(node) && !t.isObjectExpression(node)) this.push(")");
     // push mapping end pseudo-token
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.end, pos: node.end}});

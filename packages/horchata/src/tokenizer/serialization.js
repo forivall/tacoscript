@@ -209,6 +209,7 @@ tt.name.formattingSpaceWhenAfter.comma = true;
 tt.name.formattingSpaceWhenAfter.excl = true;
 tt.num.formattingSpaceWhenAfter.arrow = true;
 tt.num.formattingSpaceWhenAfter.comma = true;
+tt.num.formattingSpaceWhenAfter.excl = true;
 tt.parenL.formattingSpaceWhenAfter.arrow = true;
 tt.parenL.formattingSpaceWhenAfter.asyncArrow = true;
 tt.parenL.formattingSpaceWhenAfter.asyncBoundArrow = true;
