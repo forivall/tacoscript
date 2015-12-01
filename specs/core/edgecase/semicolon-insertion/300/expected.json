@@ -104,6 +104,9 @@
               },
               "operator": "++",
               "prefix": true,
+              "extra": {
+                "parenthesizedArgument": false
+              },
               "argument": {
                 "type": "Identifier",
                 "start": 6,
@@ -122,8 +125,10 @@
               }
             }
           }
-        ]
+        ],
+        "directives": []
       }
-    ]
+    ],
+    "directives": []
   }
 }

@@ -18,7 +18,10 @@
               "type": "Identifier",
               "name": "y"
             },
-            "parenthesizedExpression": true
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 0
+            }
           },
           "operator": "^",
           "right": {
@@ -27,6 +30,7 @@
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

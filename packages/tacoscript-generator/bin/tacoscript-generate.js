@@ -17,6 +17,6 @@ if (process.argv[3]) try {
   options = JSON.parse(process.argv[3]);
 } catch (e) {}
 var ast = JSON.parse(file);
-var generated = generate(ast, {});
+var generated = generate(ast, options);
 
 process.stdout.write(generated.code);

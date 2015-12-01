@@ -2,9 +2,12 @@
 # Now
 
 * [x] Refactor indented list parsing
-* [x] Use "extra" style ast properties for ast properties other than gibson042's proposed CST node properties.
+* [x] Use "extra" style ast properties for ast properties that aren't gibson042's proposed CST node properties.
+* [ ] Use comments when generating
 * [ ] Store cst data when parsing
+* [ ] Store convert cst to comments when parsing
 * [ ] Use cst data when generating
+* [ ] Create cst-aware js generator
 
 # Far flung future
 

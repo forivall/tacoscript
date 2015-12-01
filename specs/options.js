@@ -38,7 +38,7 @@ module.exports.core = {
     return (
       testName[0] === "." ||
       testPath.indexOf("/comments/") !== -1 ||
-      testPath.indexOf("/edgecase/") !== -1 ||
+      testPath.indexOf("/invalid/") !== -1 ||
       testPath.indexOf("/todo/") !== -1 ||
       testPath.indexOf("/esnext/") !== -1 ||
       testPath.indexOf("/experimental/") !== -1 ||

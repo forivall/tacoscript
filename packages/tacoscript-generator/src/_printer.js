@@ -14,7 +14,73 @@ const commonPrinterMethods = {
   getMap() {
     let map = this.map;
     return map ? map.toJSON() : map;
-  }
+  },
+
+  // Comments printing methods. "borrowed" from babel-generator
+
+  getComments(key, node) {
+    return (node && node[key]) || [];
+  },
+
+  printComments(comments) {
+    if (!comments || !comments.length) return;
+
+    for (let comment of (comments: Array)) {
+      // language-specific printers should implement printComment
+      this.printComment(comment);
+    }
+  },
+
+  printAuxBeforeComment(wasInAux) {
+    let comment = this.format.auxiliaryCommentBefore;
+    if (!wasInAux && this.insideAux && !this.printAuxAfterOnNextUserNode) {
+      this.printAuxAfterOnNextUserNode = true;
+      if (comment) this.printComment({
+        type: "CommentBlock",
+        value: comment
+      });
+    }
+  },
+
+  printAuxAfterComment() {
+    if (this.printAuxAfterOnNextUserNode) {
+      this.printAuxAfterOnNextUserNode = false;
+      let comment = this.format.auxiliaryCommentAfter;
+      if (comment) this.printComment({
+        type: "CommentBlock",
+        value: comment
+      });
+    }
+  },
+
+  printLeadingComments(node, parent) {
+    this.printComments(this.getComments("leadingComments", node, parent));
+  },
+
+  printInnerComments(node, indent = true) {
+    if (!node.innerComments) return;
+    if (indent) this.indent();
+    this.printComments(node.innerComments);
+    if (indent) this.dedent();
+  },
+
+  printTrailingComments(node, parent) {
+    this.printComments(this.getComments("trailingComments", node, parent));
+  },
+
+  shouldPrintComment(comment) {
+    return true;
+    // if (this.format.shouldPrintComment) {
+    //   return this.format.shouldPrintComment(comment.value);
+    // } else {
+    //   if (comment.value.indexOf("@license") >= 0 || comment.value.indexOf("@preserve") >= 0) {
+    //     return true;
+    //   } else {
+    //     return this.format.comments;
+    //   }
+    // }
+  },
+
 };
 export default commonPrinterMethods;
 

@@ -1,6 +1,7 @@
 /*global suite,test*/
 require('source-map-support').install();
 var fs = require("fs");
+var path = require("path");
 var _ = require("lodash");
 var babylon = require('babylon');
 var generate = require('../lib/index').default;
@@ -88,6 +89,11 @@ _.forOwn(coreSpecs, function(suites, setName) {
                 filename: js.loc
               })
             );
+          // } finally {
+          //   if (expectedAst == null) {
+          //     var dirpath = path.dirname(js.loc)
+          //     fs.renameSync(dirpath, dirpath.replace(/\/([^/]+)$/, "/invalid-$1"))
+          //   }
           }
           var options = _.merge({format: {perserve: false}}, task.options);
           var result = generate(expectedAst, options, js.code);

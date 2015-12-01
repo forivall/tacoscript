@@ -5,7 +5,7 @@
 import * as t from "babel-types";
 
 export function _getCodeFromNode(node) {
-  if (this.code) return this.code.slice(node.start, node.end)
+  if (this.code && node.start != null && node.end != null) return this.code.slice(node.start, node.end);
 }
 
 export function Identifier(node, parent) {

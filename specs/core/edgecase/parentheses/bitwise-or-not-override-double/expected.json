@@ -23,10 +23,14 @@
               "type": "Identifier",
               "name": "z"
             },
-            "parenthesizedExpression": true
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 4
+            }
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }

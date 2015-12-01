@@ -105,8 +105,10 @@
               "name": "error"
             }
           }
-        ]
+        ],
+        "directives": []
       }
-    ]
+    ],
+    "directives": []
   }
 }

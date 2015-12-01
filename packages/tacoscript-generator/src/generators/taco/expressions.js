@@ -121,6 +121,14 @@ export function AssignmentExpression(node) {
 }
 
 export function BinaryExpression(node) {
+  // ensure valid
+  if (t.isFunctionExpression(node.left) && node.left.body.body.length === 0) {
+    let extra = node.left.extra == null ? node.left.extra = {} : node.left.extra;
+    if (extra && !extra.parenthesized) {
+      extra.parenthesized = true;
+      extra.autoParens = true;
+    }
+  }
   // all other binary operators
   this.print(node, "left");
   let operator = node.operator;
@@ -137,6 +145,14 @@ export function BinaryExpression(node) {
 }
 
 export function LogicalExpression(node) {
+  // ensure valid
+  if (t.isFunctionExpression(node.left) && node.left.body.body.length === 0) {
+    let extra = node.left.extra == null ? node.left.extra = {} : node.left.extra;
+    if (extra && !extra.parenthesized) {
+      extra.parenthesized = true;
+      extra.autoParens = true;
+    }
+  }
   this.print(node, "left");
   this.push(node.operator == "||" ? "or" : "and");
   this.print(node, "right");

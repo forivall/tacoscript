@@ -67,7 +67,7 @@ tt.blockCommentEnd.code = "$#";
 tt.lineCommentStart.code = "#";
 
 tt.whitespace.toCode = function(token) { return token.value.code; };
-tt.num.toCode = function(token) { return token.value.code || token.value.raw; };
+tt.num.toCode = function(token) { return token.value.code || token.value.raw || ("" + token.value.value); };
 tt.regexp.toCode = function(token) { return token.value.code || token.value.raw || ('/' + token.value.pattern + '/' + token.value.flags); };
 tt.string.toCode = function(token) { return token.value.code || token.value.raw || JSON.stringify(token.value.value); };
 tt.template.toCode = function(token) { return token.value.raw; };

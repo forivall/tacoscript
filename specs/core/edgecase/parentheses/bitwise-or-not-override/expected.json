@@ -23,24 +23,14 @@
               "type": "Identifier",
               "name": "z"
             },
-            "parenthesizedExpression": true,
-            "leadingTokens": [
-              {
-                "type": {
-                  "label": "("
-                }
-              }
-            ],
-            "trailingTokens": [
-              {
-                "type": {
-                  "label": ")"
-                }
-              }
-            ]
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 4
+            }
           }
         }
       }
-    ]
+    ],
+    "directives": []
   }
 }
