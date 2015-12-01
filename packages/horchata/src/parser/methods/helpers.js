@@ -20,8 +20,9 @@ export function parseIndentableList(close, context, inner) {
       first = false;
     } else {
       if (firstSeparatorStart === undefined) firstSeparatorStart = this.state.cur.start;
-      if (this.eat(tt.comma));
-      else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)));
+      if (this.eat(tt.comma)) {
+        indented && this.eat(tt.newline); // TODO: allow a strict mode where commas + newlines aren't allowed
+      } else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)));
       else if (close === null && (noTerminator || this.matchLineTerminator())) {
         break;
       } else this.unexpected();
@@ -34,7 +35,7 @@ export function parseIndentableList(close, context, inner) {
         this.match(close) || this.unexpected();
       }
       break;
-    } else if (allowTrailingComma && this.match(close)) {
+    } else if (allowTrailingComma && (close === null ? this.matchLineTerminator() : this.match(close))) {
       break;
     }
     switch (inner.call(this, {})) {

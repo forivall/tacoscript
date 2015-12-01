@@ -322,7 +322,7 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
 export function parseCallExpressionArguments(close, expressionContext = {}) {
   let elements = [];
 
-  this.parseIndentableList(close, expressionContext, () => {
+  this.parseIndentableList(close, {...expressionContext, allowTrailingComma: true}, () => {
     let node;
     if (this.match(tt.ellipsis)) {
       node = this.parseSpread(expressionContext);
