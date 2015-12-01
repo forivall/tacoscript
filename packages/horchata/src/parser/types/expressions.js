@@ -336,9 +336,10 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
       this.eat(tt.comma) || indented && (this.eat(tt.newline) || this.matchPrev(tt.newline)) || this.unexpected();
     }
 
-    if (indented && this.match(tt.dedent)) {
+    if (indented && this.eat(tt.dedent)) {
       indented = false;
       this.eat(tt.newline);
+      this.eat(close);
       break;
     }
 
@@ -355,7 +356,7 @@ export function parseCallExpressionArguments(close, expressionContext = {}) {
 
   }
   if (indented) {
-    if (close !== tt.newline) this.eat(tt.newline) || this.unexpected();
+    if (close !== tt.newline) this.eat(tt.newline);
     this.eat(tt.dedent) || this.unexpected();
   }
   return elements;

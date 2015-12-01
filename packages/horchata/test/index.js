@@ -13,12 +13,15 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
     skip: function(test, testPath) {
       return (
         specOptions.core.skip(test, testPath) ||
-        testPath.indexOf("base-edgecase") !== -1 ||
         test.indexOf("invalid-") === 0 ||
         test.indexOf("unexpected-") === 0 ||
         test.indexOf("malformed-") === 0 ||
         false);
-    }
+    },
+    fixtures: _.assign({}, specOptions.core.fixtures, {
+      "tacoAlt0": {loc: ["alternate0.taco"]},
+      "tacoAlt1": {loc: ["alternate1.taco"]},
+    })
   })
 );
 
@@ -66,13 +69,13 @@ function removeLocInfo(json) {
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     suite("horchata: core/" + setName + "/" + testSuite.title, function () {
-      _.each(testSuite.tests, function (task) {
-        // comment out the following line when generating new specs
-        // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
-        test(task.title, !task.disabled && function () {
-          // var taco = task.taco;
-          var taco = task.auto;
-
+      _.each(testSuite.tests, function(task) {
+        testTask(task, task.auto);
+        if (task.tacoAlt0.code) testTask(task, task.tacoAlt0, " (alternate)");
+        if (task.tacoAlt1.code) testTask(task, task.tacoAlt1, " (alternate 2)");
+      });
+      function testTask(task, taco, subtitle) {
+        test(task.title + (subtitle || ''), !task.disabled && function () {
           var ast = horchata.parse(taco.code, task.options);
           // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
@@ -88,11 +91,10 @@ _.forOwn(coreSpecs, function(suites, setName) {
             // fs.writeFileSync(task.json.loc.replace(".json", ".fail.json"), JSON.stringify(ast, null, "  "), {encoding: "utf-8"});
             // console.log("code:");
             // console.log(taco.code);
-            // console.dir(ast.program, {depth: null});
             throw new Error(mismatchMessage);
           }
         });
-      });
+      }
     });
   });
 });

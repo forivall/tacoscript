@@ -1,0 +1,6 @@
+setTimeout(
+  () ->
+    if true
+      console.log("Tacos!")
+  100
+)
