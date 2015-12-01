@@ -96,7 +96,7 @@ export function parseBlockBody(node, blockContext = {}) {
   let finishedDirectives = false;
   while (!this.eat(end)) {
     if (allowDirectives && !finishedDirectives && this.match(tt.string) &&
-        // TODO: implement a fast, trailing-whitespace ignoring lookahead for this
+        // TODO: use https://github.com/babel/babel/pull/3107 instead
         (this.state.cur.end >= this.input.length || isNewline(this.input.charCodeAt(this.state.cur.end)))) {
       node.directives.push(this.parseDirective());
       continue;

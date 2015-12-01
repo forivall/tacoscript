@@ -34,7 +34,7 @@ export function toAssignable(node, assignableContext = {}) {
     case "ArrayPattern":
     case "AssignmentPattern":
       // already assignable
-      break
+      break;
 
     // TODO: rcreate a child object that is a "Converter" that performs these kinds
     // of tasks
@@ -45,12 +45,12 @@ export function toAssignable(node, assignableContext = {}) {
         if (prop.kind !== "init") this.raise(prop.key.start, "Object pattern can't contain getter or setter");
         this.toAssignable(prop.value, assignableContext);
       }
-      break
+      break;
 
     case "ArrayExpression":
       node.type = "ArrayPattern";
       this.toAssignableList(node.elements, assignableContext);
-      break
+      break;
 
     case "AssignmentExpression":
       if (node.operator === "=") {

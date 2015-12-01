@@ -35,8 +35,7 @@ export function parseClassMethod(method, functionContext) {
   return this.parseMethod(method, functionContext, {
     afterArrowParse(method, functionContext) {
       if (method.kind === "constructor") {
-        if (method.generator) this.raise(method.key.start, "Constructor can't be a generator");
-        if (method.async) this.raise(method.key.start, "Constructor can't be an async function");
+        this.checkClassConstructorProperties(method);
       }
     }
   })

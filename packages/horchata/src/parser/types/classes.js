@@ -125,20 +125,14 @@ export function parseClassBody(isDeclaration, classContext) {
       let isConstructor = this.isClassConstructor(method);
       if (isConstructor) {
         if (hasConstructor) this.raise(method.key.start, "Duplicate constructor");
-        if (method.kind === "get") this.raise(method.key.start, "Constructor can't have get modifier");
-        if (method.kind === "set") this.raise(method.key.start, "Constructor can't have set modifier");
+        this.checkClassConstructorProperties(method);
         method.kind = "constructor";
         hasConstructor = true;
       }
       this.checkClassMethodName(method);
     }
 
-    // disallow decorators on class constructors
-    // TODO: move to check.
-    if ((method.kind === "constructor" || method.kind === "constructorCall") && method.decorators) {
-      this.raise(method.start, "You can't attach decorators to a class constructor");
-    }
-
+    this.checkClassMethodProperties(method);
     method = this.parseClassMethod(method, classContext);
 
     if (method.kind === "get" || method.kind === "set") {

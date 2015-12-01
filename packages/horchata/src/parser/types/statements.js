@@ -277,16 +277,11 @@ export function parseIfStatement(node) {
 }
 
 export function parseLabeledStatement(node, maybeName, expr) {
-  for (let i = 0; i < this.state.labels.length; ++i) {
-    let label = this.state.labels[i];
-    if (label.name === maybeName) {
-      this.raise(expr.start, "Label '" + maybeName + "' is already declared");
-    }
-  }
+  this.checkLabelName(maybeName, expr);
   let kind = this.state.cur.type.isLoop ? "loop" : this.match(tt._switch) ? "switch" : null;
   for (let i = this.state.labels.length - 1; i >= 0; i--) {
     let label = this.state.labels[i]
-    if (label.statementStart == node.start) {
+    if (label.statementStart === node.start) {
       label.statementStart = this.state.cur.start;
       label.kind = kind;
     } else break;

@@ -27,6 +27,22 @@ export function checkClassMethodName(method) {
   }
 }
 
+export function checkClassConstructorProperties(method) {
+  // note that this function gets called twice, once before parsing the
+  // arguments and once after parsing the arrow
+  if (method.kind === "get") this.raise(method.key.start, "Constructor can't have get modifier");
+  if (method.kind === "set") this.raise(method.key.start, "Constructor can't have set modifier");
+  if (method.generator) this.raise(method.key.start, "Constructor can't be a generator");
+  if (method.async) this.raise(method.key.start, "Constructor can't be an async function");
+}
+
+export function checkClassMethodProperties(method) {
+  // disallow decorators on class constructors
+  if ((method.kind === "constructor" || method.kind === "constructorCall") && method.decorators) {
+    this.raise(method.start, "You can't attach decorators to a class constructor");
+  }
+}
+
 export function checkDeclaration(decl, kind, declarationContext) {
   if (!decl.init) {
     const isFor = !!declarationContext.isFor;
@@ -152,6 +168,15 @@ export function checkJump(node, keyword) {
   }
   // if not found
   if (i === this.state.labels.length) this.raise(node.start, "Unsyntactic " + keyword);
+}
+
+export function checkLabelName(name, labelNode) {
+  for (let i = 0; i < this.state.labels.length; ++i) {
+    let label = this.state.labels[i];
+    if (label.name === name) {
+      this.raise(labelNode.start, "Label '" + name + "' is already declared");
+    }
+  }
 }
 
 export function checkMetaProperty(node) {
