@@ -3,11 +3,13 @@
 
 * [x] Refactor indented list parsing
 * [x] Use "extra" style ast properties for ast properties that aren't gibson042's proposed CST node properties.
-* [ ] Use comments when generating
+* [x] Use comments when generating
+* [ ] Write tacoscript mode for codemirror
 * [ ] Store cst data when parsing
 * [ ] Convert cst data to comments when parsing
-* [ ] Use cst data when generating
+* [ ] Use cst data when generating javascript
 * [ ] Create cst-aware js generator
+* [ ] Use cst data when generating tacoscript
 
 # Far flung future
 
