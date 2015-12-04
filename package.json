@@ -40,7 +40,7 @@
     "lint": "eslint packages/*/src",
     "test": "npm run lint && ./scripts/test.sh",
     "publish": "git pull --ff-only && npm run test && ./scripts/publish.sh && npm run clean",
-    "bootstrap": "npm install && (cd babel && make bootstrap) && ./scripts/bootstrap.js",
+    "bootstrap": "npm install && (cd babel && make bootstrap) && ./scripts/bootstrap.js && npm run build",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },
   "babel": {
