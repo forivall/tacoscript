@@ -119,7 +119,7 @@ export function checkExport(node) {
       this.raise(node.start, "Decorators can only be used on an export when exporting a class");
     }
   }
-};
+}
 
 export function checkFunctionAssignable(node, setStrict) {
   let nameHash = Object.create(null);
@@ -218,10 +218,11 @@ export function checkPropClash(prop, propHash) {
 }
 
 export function checkPropRedefinition(name, prop, propHash) {
+  let {kind, key} = prop;
   name = "$" + name;
   let other = propHash[name]
   if (other) {
-    let isGetSet = kind !== "init"
+    let isGetSet = kind !== "init";
     if ((this.strict || isGetSet) && other[kind] || !(isGetSet ^ other.init))
       this.raise(key.start, "Redefinition of property")
   } else {

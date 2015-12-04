@@ -161,5 +161,5 @@ export default class State {
 
       sourceFile: this.sourceFile,
     }
-  };
+  }
 }

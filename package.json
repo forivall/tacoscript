@@ -33,7 +33,14 @@
     "gulp-watch": "^4.3.5"
   },
   "scripts": {
-    "test": "./scripts/test.sh",
+    "build": "npm run clean && ./scripts/build.sh",
+    "watch": "npm run clean && ./scripts/build.sh --watch",
+    "watch-dev": "npm run clean && gulp watch",
+    "clean": "rm -rf packages/*/lib",
+    "lint": "eslint packages/*/src",
+    "test": "npm run lint && ./scripts/test.sh",
+    "publish": "git pull --ff-only && npm run test && ./scripts/publish.sh && npm run clean",
+    "bootstrap": "npm install && (cd babel && make bootstrap) && ./scripts/bootstrap.js",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },
   "babel": {
