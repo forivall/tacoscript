@@ -31,30 +31,8 @@ const commonPrinterMethods = {
     }
   },
 
-  printAuxBeforeComment(wasInAux) {
-    let comment = this.format.auxiliaryCommentBefore;
-    if (!wasInAux && this.insideAux && !this.printAuxAfterOnNextUserNode) {
-      this.printAuxAfterOnNextUserNode = true;
-      if (comment) this.printComment({
-        type: "CommentBlock",
-        value: comment
-      });
-    }
-  },
-
-  printAuxAfterComment() {
-    if (this.printAuxAfterOnNextUserNode) {
-      this.printAuxAfterOnNextUserNode = false;
-      let comment = this.format.auxiliaryCommentAfter;
-      if (comment) this.printComment({
-        type: "CommentBlock",
-        value: comment
-      });
-    }
-  },
-
-  printLeadingComments(node, parent) {
-    this.printComments(this.getComments("leadingComments", node, parent));
+  printLeadingComments(node) {
+    this.printComments(this.getComments("leadingComments", node));
   },
 
   printInnerComments(node, indent = true) {
@@ -64,8 +42,8 @@ const commonPrinterMethods = {
     if (indent) this.dedent();
   },
 
-  printTrailingComments(node, parent) {
-    this.printComments(this.getComments("trailingComments", node, parent));
+  printTrailingComments(node) {
+    this.printComments(this.getComments("trailingComments", node));
   },
 
   shouldPrintComment(comment) {

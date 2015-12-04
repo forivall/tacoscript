@@ -56,8 +56,11 @@
               "column": 2
             }
           },
+          "extra": {
+            "rawValue": 42,
+            "raw": "42"
+          },
           "value": 42,
-          "raw": "42",
           "leadingComments": null
         },
         "leadingComments": [
@@ -75,11 +78,7 @@
                 "line": 1,
                 "column": 16
               }
-            },
-            "range": [
-              0,
-              16
-            ]
+            }
           },
           {
             "type": "CommentLine",
@@ -95,15 +94,12 @@
                 "line": 3,
                 "column": 18
               }
-            },
-            "range": [
-              18,
-              36
-            ]
+            }
           }
         ]
       }
-    ]
+    ],
+    "directives": []
   },
   "comments": [
     {
@@ -120,11 +116,7 @@
           "line": 1,
           "column": 16
         }
-      },
-      "range": [
-        0,
-        16
-      ]
+      }
     },
     {
       "type": "CommentLine",
@@ -140,11 +132,7 @@
           "line": 3,
           "column": 18
         }
-      },
-      "range": [
-        18,
-        36
-      ]
+      }
     }
   ]
 }

@@ -6,6 +6,7 @@ export default class State {
     // TODO: decide if non-strict should be supported
     this.options = options;
     this.warnings = [];
+    this.comments = [];
 
     //////// File ////////
 
@@ -39,6 +40,8 @@ export default class State {
     // When tokenizing, we lookahead past a newline, athen insert the indent token before the newline
     this.indentStart = -1;
     this.indentEnd = -1;
+
+    this.endingLineComment = false;
 
     //////// Context ////////
 

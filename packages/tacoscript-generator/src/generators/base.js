@@ -3,6 +3,7 @@ export function File(node) {
 }
 
 export function Program(node) {
+  this.printInnerComments(node, false);
   this.printStatements(node, 'directives');
   this.printStatements(node, 'body');
 }

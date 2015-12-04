@@ -18,6 +18,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     super(opts, code);
     this.ast = ast;
     this.code = code;
+    this._printedCommentStarts = {};
   }
 
   tokenize() {
@@ -59,7 +60,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _simpleStartPrint(node, parent, opts) {
-    // TODO: print leading comments
+    this.printLeadingComments(node, parent);
+
     // TODO: catchup newlines
 
     if (opts.before) { opts.before(); }
@@ -105,7 +107,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     }
 
     if (opts.after) { opts.after(); }
-    // TODO: print trailing comments
+
+    this.printTrailingComments(node);
   }
 
   printMultiple(parent, prop, opts = {}) {
@@ -151,12 +154,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (opts.indent) { this.indent(); }
 
     let after = separatorIsNewline ? () => {
-      if (opts.iterator) { opts.iterator(node, i); }
+      if (opts.iterator) opts.iterator(node, i);
       if (opts.separator && i < len - 1) {
         this.newline();
       }
     } : () => {
-      if (opts.iterator) { opts.iterator(node, i); }
+      if (opts.iterator) opts.iterator(node, i);
       if (opts.separator && i < len - 1) {
         this.push(...separator);
       }
@@ -178,7 +181,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       }
     }
 
-    if (opts.indent) { this.dedent(); }
+    if (opts.indent) this.dedent();
   }
 
   printStatements(parent, prop, opts = {}) {
@@ -200,7 +203,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this.push("(");
       opts.separator = ",";
 
-      if (opts.indent) { this.indent(); }
+      if (opts.indent) this.indent();
 
       let argNode, i, len = node.length;
       let after = () => {
@@ -229,7 +232,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
         }
       }
 
-      if (opts.indent) { this.dedent(); }
+      if (opts.indent) this.dedent();
       this.push(")");
     }
   }
@@ -242,19 +245,20 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       throw new Error('Not Implemented');
     } else {
       let useNewlines = true;
-      if (parent.type === "ArrayExpression" && node.length <= 5) { useNewlines = false; }
+      if (parent.type === "ArrayExpression" && node.length <= 5) useNewlines = false;
       if (parent.type === "ArrayPattern") { useNewlines = false; }
-      // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) { useNewlines = false; }
-      if ((parent.type === "ObjectExpression") && node.length === 0) { useNewlines = false; }
-      if (t.isObjectPattern(parent) && node.length <= 2) { useNewlines = false; }
+      // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) useNewlines = false;
+      if ((parent.type === "ObjectExpression") && node.length === 0) useNewlines = false;
+      if (t.isObjectPattern(parent) && node.length <= 2) useNewlines = false;
       // TODO: implement the following line:
-      //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) { useNewlines = false; }
+      //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) useNewlines = false;
       // TODO: always use newlines if the literal contains a function
       opts.separator = useNewlines ? {type: "newline"} : ",";
       opts.indent = useNewlines;
-      if (useNewlines) { this.newline(); }
+      if (useNewlines) this.newline();
+      this.printInnerComments(parent);
       this._simplePrintMultiple(node, parent, opts);
-      if (useNewlines) { this.newline(); }
+      if (useNewlines) this.newline();
     }
   }
 
@@ -294,6 +298,34 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       noThen = noThen || t.isDoWhileStatement(parent) && prop === 'body'
       if (!noThen) this.push('then');
       this.print(parent, prop);
+    }
+  }
+
+  printComment(comment) {
+    if (!this.shouldPrintComment(comment)) return;
+
+    if (comment.ignore) return;
+    comment.ignore = true;
+
+    if (comment.start != null) {
+      if (this._printedCommentStarts[comment.start]) return;
+      this._printedCommentStarts[comment.start] = true;
+    }
+
+    if (comment.type === "CommentBlock") {
+      this._push({type: tt.blockCommentStart, value: {kind: "#*", code: "#*"}});
+      // TODO: encode/decode comment value for output in javascript
+      this._push({type: tt.blockCommentBody, value: {kind: "#*", code: comment.value}});
+      this._push({type: tt.blockCommentEnd, value: {kind: "#*", code: "*#"}});
+    } else {
+      let commentKind; switch (comment.end - comment.start - comment.value.length) {
+        case 3: commentKind = "-->"; break;
+        case 4: commentKind = "<!--"; break;
+        default: commentKind = "#"
+      }
+      this._push({type: tt.lineCommentStart, value: {kind: commentKind, code: commentKind}});
+      this._push({type: tt.lineCommentBody, value: {kind: commentKind, code: comment.value}});
+      this.newline();
     }
   }
 }

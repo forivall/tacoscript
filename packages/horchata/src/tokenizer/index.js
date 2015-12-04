@@ -13,6 +13,7 @@ import {isNewline, nonASCIIwhitespace, lineBreak} from "../util/whitespace";
 import State from "./state";
 import {getOptions} from "../options";
 // export {default as Token} from "./token";
+import {SourceLocation} from "../util/location";
 import Token from "./token";
 export {Token};
 
@@ -113,7 +114,7 @@ export default class Lexer {
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
       } else {
-        if (this.match(tt.newline)) {
+        if (this.matchPrev(tt.newline)) {
           return this.finishToken(tt.dedent);
         } else {
           return this.finishToken(tt.newline);
@@ -204,7 +205,12 @@ export default class Lexer {
 
       // newline characters:  10, 8232, 8233, 13 (when followed by 10)
       let nextCh;
-      if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
+      if (this.state.endingLineComment) {
+        this.state.endingLineComment = false;
+        if (isNewline(ch)) {
+          this.state.pos += ch === 13 && this.input.charCodeAt(this.state.pos + 1) === 10 ? 2 : 1
+        }
+      } else if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
       } else if (!(significantWhitespace && isNewline(ch) && this.state.cur.type !== tt.newline) &&
@@ -222,8 +228,12 @@ export default class Lexer {
           ));
         }
         if (ch === 35) { // '#'
-          if (this.input.charCodeAt(this.state.pos + 1) === 42) { // '*'
+          let next = this.input.charCodeAt(this.state.pos + 1);
+          let maybeNewline;
+          if (next === 42 || next === 37) { // '*', '%'
             this.skipBlockComment();
+          } else if (next === 35 && this.input.charCodeAt(this.state.pos + 2) === 35 && isNewline(maybeNewline = this.input.charCodeAt(this.state.pos + 3))) {
+            this.skipBlockComment(3);
           } else {
             this.skipLineComment();
           }
@@ -236,48 +246,105 @@ export default class Lexer {
     }
   }
 
-  skipLineComment(startLength = 1) {
-    let start = this.state.pos;
-    let startLoc = this.curPosition();
-    this.state.pos += startLength;
-    this.onNonToken(new Token(tt.lineCommentStart, null,
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
-    ));
-
-    start = this.state.pos;
-    startLoc = this.curPosition();
-    for (let ch; ch = this.input.charCodeAt(this.state.pos),
-    this.state.pos < this.input.length &&
-    ch !== 10 && ch !== 13 && ch !== 8232 && ch !== 8233; ++this.state.pos);
-
-    this.onNonToken(new Token(tt.lineCommentBody, this.input.slice(start, this.state.pos),
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
-    ));
+  _startCommentNode(loc) {
+    return {
+      type: "",
+      start: this.state.pos,
+      end: 0,
+      tokenStart: this.state.sourceElementTokens.length,
+      tokenEnd: 0,
+      loc: new SourceLocation(this.state, loc),
+    }
   }
 
-  skipBlockComment() {
+  _finishCommentNode(node, type, loc) {
+    node.type = type;
+    node.end = this.state.pos;
+    node.tokenEnd = this.state.sourceElementTokens.length;
+    node.loc.end = loc;
+    return node;
+  }
+
+  skipLineComment(startLength = 1) {
     let start = this.state.pos;
-    let startLoc = this.curPosition();
-    this.state.pos += 2;
-    this.onNonToken(new Token(tt.blockCommentStart, null,
+    let startLoc = this.state.curPosition(), endLoc;
+    let node = this._startCommentNode(startLoc);
+    this.state.pos += startLength;
+    let startKind = this.input.slice(start, this.state.pos);
+    this.onNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind},
       start, startLoc, this.state.pos, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
-    startLoc = this.curPosition();
-    let end = this.input.indexOf("*#", this.state.pos);
+    startLoc = this.state.curPosition();
+    for (let ch; ch = this.input.charCodeAt(this.state.pos),
+    this.state.pos < this.input.length && !isNewline(ch); ++this.state.pos);
+    let len = this.state.pos - start;
+
+    this.onNonToken(new Token(tt.lineCommentBody, node.value = this.input.slice(start, this.state.pos),
+      start, startLoc, this.state.pos, endLoc = this.state.curPosition(), this.state
+    ));
+    this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
+    this.state.endingLineComment = true;
+  }
+
+  static blockCommentMeta = {
+    "#*": {
+      terminator: "*#",
+      terminatorRe: /\*#/,
+      terminatorReG: /\*#/g,
+      terminatorEscape: "* #",
+      terminatorEscapeReG: /\* #/g,
+      isCanonical: true // this is the only block comment type that will be included in generation
+    },
+    // formatting directives
+    "#%": {
+      terminator: "%#",
+      terminatorRe: /%#/,
+    },
+    // commented code. Will _not_ be included in cst
+    "###": {
+      terminator: "###",
+      terminatorRe: new RegExp(lineBreak.source + "###"),
+
+    }
+  };
+
+  skipBlockComment(startLength = 2) {
+    let start = this.state.pos;
+    let startLoc = this.state.curPosition(), endLoc;
+    let node = this._startCommentNode(startLoc);
+    this.state.pos += startLength;
+    let commentKind = this.input.slice(start, this.state.pos);
+    let meta = Lexer.blockCommentMeta[commentKind];
+    this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind},
+      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    ));
+
+    start = this.state.pos;
+    startLoc = this.state.curPosition();
+    let end = this.input.indexOf(meta.terminator, this.state.pos);
+    // TODO: make sure that ending `###` is alone on a line (and starts alone on a line)
     if (end === -1) this.raise(this.state.pos, "Unterminated comment");
     this.state.pos = end;
-    this.onNonToken(new Token(tt.blockCommentBody, this.input.slice(start, this.state.pos),
+    let raw = this.input.slice(start, this.state.pos);
+    let commentBody = raw;
+    // TODO: move to "encode/decode comment" function
+    if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeReG, meta.terminator);
+    commentBody = node.value = commentBody.replace(/\*/g, "* /");
+
+    this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody},
       start, startLoc, this.state.pos, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
-    startLoc = this.curPosition();
+    startLoc = this.state.curPosition();
     this.state.pos += 2;
-    this.onNonToken(new Token(tt.blockCommentEnd, null,
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+    this.onNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos)},
+      start, startLoc, this.state.pos, endLoc = this.state.curPosition(), this.state
     ));
+
+    if (meta.isCanonical) this.state.comments.push(this._finishCommentNode(node, "CommentBlock", endLoc));
   }
 
   // Called at the end of each token. Sets type, val, end, endLoc.
@@ -527,7 +594,7 @@ export default class Lexer {
         } else if (ch === indentCharCode) {
           ++pos;
         } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
-            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
+            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch))) {
           inconsistentIndentation = true;
         } else {
           break;
@@ -754,12 +821,10 @@ export default class Lexer {
       return this.finishToken(tt.bitShift, this.input.slice(start, this.state.pos));
     }
 
-    if (next === 33 && code === 60 && this.input.charCodeAt(this.state.pos + 2) === 45 && this.input.charCodeAt(this.state.pos + 3) === 45) {
-      if (this.inModule) this.unexpected();
+    if (!this.state.inModule && next === 33 && code === 60 && this.input.charCodeAt(this.state.pos + 2) === 45 && this.input.charCodeAt(this.state.pos + 3) === 45) {
       // `<!--`, an XML-style comment that should be interpreted as a line comment
-      throw new Error("Not Implemented");
       this.skipLineComment(4);
-      this.skipSpace();
+      this.skipNonTokens();
       return this.nextToken();
     }
 
@@ -775,9 +840,11 @@ export default class Lexer {
     let next = this.input.charCodeAt(this.state.pos + 1);
     let nextnext = this.input.charCodeAt(this.state.pos + 2);
     if (next === code) {
-      if (next === 45 && nextnext === 62 && lineBreak.test(this.input.slice(this.state.prev.end, this.state.pos))) {
+      if (!this.state.inModule && next === 45 && nextnext === 62 && lineBreak.test(this.input.slice(this.state.prev.end, this.state.pos))) {
         // A `-->` line comment
-        throw new Error("Not Implemented");
+        this.skipLineComment(3);
+        this.skipNonTokens();
+        return this.nextToken();
       }
       this.state.pos += 2;
       return this.finishToken(tt.incDec, next === 45 ? '--' : '++');
@@ -953,7 +1020,7 @@ export default class Lexer {
       if (this.state.pos >= this.input.length) this.raise(this.state.start, "Unterminated template");
       let ch = this.input.charCodeAt(this.state.pos);
       if (ch === 96 || ch === 36 && this.input.charCodeAt(this.state.pos + 1) === 123) { // '``', `${`
-        if (this.state.pos === this.state.cur.start && this.match(tt.template)) {
+        if (this.state.pos === this.state.cur.start && this.matchPrev(tt.template)) {
           if (ch === 36) {
             this.state.pos += 2;
             return this.finishToken(tt.dollarBraceL);

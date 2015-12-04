@@ -145,8 +145,9 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
       return false
   ```
 
-11. (maybe) `#` for line comments, `#*` for block comments. `#\*` for a line comment that starts with a \*.
+11. (maybe) `#` for line comments, `#*` for block comments, `#%` for directive comments, `###` (alone on a line) for _temporarily_ commenting out blocks of code (like `#if 0` in C). `# *` for a line comment that starts with a \*.
   Pending: https://github.com/wycats/javascript-private-state
+  *Note:* Possible alternatives for the slot token are `@@`, `@!` or `//`
 
   <code>\*\\#</code> for parts of a block comment that contains <code>\*#</code>. etc.
 
@@ -210,6 +211,7 @@ All of the following syntax is optional, but is default, and is part of the core
     bar or baz
     this.makesSense()
   ```
+* [ ] "literate" mode
 
 #### Phase 4
 * [ ] array and object comprehensions
@@ -269,8 +271,8 @@ All of the following syntax is optional, but is default, and is part of the core
 
 
 ### formatting directives (work in progress)
-notes: special formatting directives: `#$DIRECTIVE_HERE$#`
-include raw js (for empty statements): ```#$`;// javascript here`$#```
+notes: special formatting directives: `#%DIRECTIVE_HERE%#`
+include raw js (for empty statements): ```#%`;// javascript here`%#```
 
 Since whitespace is significant, we need some way to control whitespace output for oddly formatted js
 

@@ -103,6 +103,7 @@ export function parseBlockBody(node, blockContext = {}) {
     }
     finishedDirectives = true;
     this.add(node, "body", this.parseStatement(true, isTopLevel));
+    this.eat(tt.newline);
   }
   if (!isTopLevel) {
     this.eatLineTerminator() || this.unexpected();

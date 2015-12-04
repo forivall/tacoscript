@@ -17,6 +17,7 @@ export default class File extends Node {
     // populated by from the tokenizer's `state` after parsing is complete
     this.tokens = null;
     this.sourceElementTokens = null;
+    this.comments = null;
     // populated by parser after parsing is complete
     this.map = null;
   }
@@ -30,6 +31,7 @@ export default class File extends Node {
       format: this.format,
       tokens: this.tokens,
       sourceElements: this.sourceElements,
+      comments: this.comments,
     }
   }
 }

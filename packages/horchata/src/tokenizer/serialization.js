@@ -62,9 +62,9 @@ tt.star.code = "*";
 tt.slash.code = "/";
 tt.exponent.code = "*";
 
-tt.blockCommentStart.code = "#$";
-tt.blockCommentEnd.code = "$#";
-tt.lineCommentStart.code = "#";
+tt.blockCommentStart.code = "#*";
+tt.blockCommentEnd.code = "*#";
+tt.lineCommentStart.toCode = function(token) { return token.value.code || "#"; };
 
 tt.whitespace.toCode = function(token) { return token.value.code; };
 tt.num.toCode = function(token) { return token.value.code || token.value.raw || ("" + token.value.value); };
@@ -88,6 +88,14 @@ tt.dedent.toCode = function(token, state) {
   // marker to parser that indentation has decreased
   return "";
 };
+// TODO: encode & decode comments
+tt.lineCommentBody.toCode = function(token) {
+  return token.value.code;
+};
+tt.blockCommentBody.toCode = function(token) {
+  return token.value.code;
+};
+
 // NOTE: proper serialization of an invalid stream of tokens is not guaranteed.
 
 // spacing required for proper parsing
@@ -116,9 +124,11 @@ tt.plusMin.forceSpaceWhenAfter.plusMin = function(left, right) {
 };
 tt.relational.forceSpaceWhenAfter.incDec = function(left, right) {
   // http://javascript.spec.whatwg.org/#comment-syntax
+  // TODO: not necessary if generating for module mode
   return left.value === "--" && right.value === ">";
 };
 tt.incDec.forceSpaceWhenAfter.excl = function(left, right) {
+  // TODO: not necessary if generating for module mode
   return right.value === "--";
 }
 tt.string.forceSpaceWhenAfter.keyword = true;
@@ -181,10 +191,6 @@ tt.bracketL.formattingSpaceWhenAfter.keyword = function(left) {
     true
   );
 };
-tt.parenL.formattingSpaceWhenAfter.comma = true;
-tt.parenL.formattingSpaceWhenAfter.keyword = function(left) {
-  return left.type !== tt._super;
-};
 tt.braceL.formattingSpaceWhenAfter.arrow = true;
 tt.braceL.formattingSpaceWhenAfter.asyncArrow = true;
 tt.braceL.formattingSpaceWhenAfter.asyncBoundArrow = true;
@@ -214,7 +220,11 @@ tt.parenL.formattingSpaceWhenAfter.arrow = true;
 tt.parenL.formattingSpaceWhenAfter.asyncArrow = true;
 tt.parenL.formattingSpaceWhenAfter.asyncBoundArrow = true;
 tt.parenL.formattingSpaceWhenAfter.unboundArrow = true;
+tt.parenL.formattingSpaceWhenAfter.comma = true;
 tt.parenL.formattingSpaceWhenAfter.excl = true;
+tt.parenL.formattingSpaceWhenAfter.keyword = function(left) {
+  return left.type !== tt._super;
+};
 tt.regexp.formattingSpaceWhenAfter.keyword = true;
 tt.semi.formattingSpaceAfter = true;
 tt.star.formattingSpaceWhenAfter.comma = true;

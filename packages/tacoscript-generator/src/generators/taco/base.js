@@ -6,6 +6,7 @@
 export function BlockStatement(node, parent) {
   this.push("!");
   this.newline();
+  this.printInnerComments(node);
   if (!node.directives || !node.directives.length) {
     if (!node.body || !node.body.length) {
       return;

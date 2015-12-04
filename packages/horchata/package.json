@@ -15,7 +15,9 @@
   "bin": "bin/horchata.js",
   "main": "lib/index.js",
   "dependencies": {
+    "babel-runtime": "^5.8.34",
     "lodash": "^3.10.1",
+    "repeating": "^2.0.0",
     "to-fast-properties": "^1.0.1"
   }
 }

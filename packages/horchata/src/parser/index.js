@@ -45,6 +45,8 @@ export default class Parser extends Lexer {
     let program = this.startNode();
     this.nextToken();
     file = this.parseTopLevel(file, program);
+    file.comments = this.state.comments;
+    this.close();
     return file;
   }
 

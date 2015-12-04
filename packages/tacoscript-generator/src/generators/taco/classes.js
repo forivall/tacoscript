@@ -46,7 +46,7 @@ export function ClassExpression(node, parent) {
 
 export function ClassBody(node) {
   this.indent();
-  // TODO: this.printInnerComments(node);
+  this.printInnerComments(node);
   if (node.body.length === 0) {
     // this.push("pass");
   } else {

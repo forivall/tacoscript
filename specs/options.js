@@ -37,7 +37,7 @@ module.exports.core = {
   disabled: function(testName, testPath) {
     return (
       testName[0] === "." ||
-      testPath.indexOf("/comments/") !== -1 ||
+      testPath.indexOf("/comments/edgecase/") !== -1 ||
       testPath.indexOf("/invalid/") !== -1 ||
       testPath.indexOf("/todo/") !== -1 ||
       testPath.indexOf("/esnext/") !== -1 ||
