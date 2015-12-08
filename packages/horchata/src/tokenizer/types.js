@@ -56,7 +56,7 @@ export class TokenType {
     // TODO: allow specifiying custom binops via plugins, that can plug into the OPP
     this.binopRequiresPlugin = conf.binopRequiresPlugin || false;
     if (this.binop != null) this.binopExpressionName = conf.binopExpressionName || "BinaryExpression";
-    this.updateContext = null; // for jsx parsing
+    this.updateContext = null;
 
     // serialization
     this.forceSpaceWhenAfter = {};
@@ -228,7 +228,7 @@ kw("try", startsStmt);
 kw("catch");
 kw("finally");
 // blocks
-kw("with", startsStmt);
+kw("with", {beforeExpr: true, startsStmt: true});
 // expression modifiers
 kw("new", {beforeExpr: true, startsExpr: true});
 kw("yield", {beforeExpr: true, startsExpr: true});

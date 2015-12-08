@@ -248,6 +248,37 @@ All of the following syntax is optional, but is default, and is part of the core
       break
   ```
 
+* [ ] allow variable declarations in while, if/else and switch statements
+  ```
+  { let result; while (result = test()) {
+    // body
+  }}
+  ```
+  ↔
+  ```
+  while let result = test()
+    # body
+  ```
+
+  ```
+  {let instance; if (instance = getInstance())._isRightType) {
+    // do something
+  } else {
+    // something else
+    // but if instance is used here, decompilation does not occur
+  }}
+  ```
+  ↔
+  ```
+  if (let instance = getInstance())._isRightType
+    # do something
+  else
+    # something else
+    # but throw parsing error if instance is used here
+
+  ```
+
+
 # Phase 5
 * [ ] Hygenic Macros, aka, port sweet.js
 

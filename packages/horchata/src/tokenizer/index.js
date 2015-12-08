@@ -361,7 +361,7 @@ export default class Lexer {
     // TODO: add option to disable this
     this.state.cur.meta = {};
 
-    this.updateContext(prevType);
+    this.updateContext(type, prevType);
 
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;

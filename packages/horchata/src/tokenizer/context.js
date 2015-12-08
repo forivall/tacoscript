@@ -49,12 +49,14 @@ sp.initialContext = function() {
 
 const lp = Lexer.prototype;
 
-lp.updateContext = function(prevType) {
-  let update, type = this.state.cur.type;
+// called in `finishToken()`
+lp.updateContext = function(type, prevType) {
+  let update;
   if (type.keyword && prevType == tt.dot) {
+    // meta property
     this.state.exprAllowed = false;
   } else if (update = type.updateContext) {
-    update.call(this, prevType);
+    update.call(this, type, prevType);
   } else {
     this.state.exprAllowed = type.beforeExpr;
   }
@@ -66,7 +68,7 @@ lp.curContext = function() {
 
 // Token-specific context update code
 
-tt.indent.updateContext = function(prevType) {
+tt.indent.updateContext = function(type, prevType) {
   // we need to check if the indent introduces a block, or continues a
   // * call expression's arguments
   // * function declaration/expression's arguments
@@ -90,76 +92,79 @@ tt.indent.updateContext = function(prevType) {
   }
 };
 
-tt._then.updateContext = function() {
+tt._then.updateContext = function(type) {
   if (this.curContext() === types.kw_stat) {
     this.state.context.pop();
   }
   this.state.inForHeader = false;
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 }
 
-tt.braceL.updateContext = function() {
+tt.braceL.updateContext = function(type) {
   this.state.context.push(types.b_expr);
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 };
 
-tt.dollarBraceL.updateContext = function() {
+tt.dollarBraceL.updateContext = function(type) {
   this.state.context.push(types.b_tmpl);
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 };
 
-let blockStatementUpdateContext = function() {
+let blockStatementUpdateContext = function(type) {
   // TODO: don't push kw_stat for `if` when it's an implicit conditional
   this.state.context.push(types.kw_stat);
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 };
 tt._if.updateContext = tt._with.updateContext = blockStatementUpdateContext;
 
-tt._for.updateContext = function() {
+tt._for.updateContext = function(type) {
   this.state.inForHeader = true;
   this.state.context.push(types.kw_stat);
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 }
 
-tt._while.updateContext = function() {
+tt._while.updateContext = function(type) {
   if (this.state.inForHeader) {
     this.state.inForHeader = false;
   } else {
     this.state.context.push(types.kw_stat);
   }
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 };
 
-tt.excl.updateContext = function(prevType) {
+tt.excl.updateContext = function(type, prevType) {
   if (prevType === tt._if) {
     this.state.context.pop();
+    this.state.exprAllowed = true;
+  } else if (prevType === tt._switch) {
+    this.state.exprAllowed = true;
   }
 }
 
 // TODO: do we need to detect if this is a list of parameters
-tt.parenL.updateContext = function() {
+tt.parenL.updateContext = function(type) {
   this.state.context.push(types.p_expr);
-  this.state.exprAllowed = true;
+  this.state.exprAllowed = type.beforeExpr;
 };
 
 tt.incDec.updateContext = function() {
   // keep `this.state.exprAllowed` unchanged
 };
 
-tt._function.updateContext = function() {
+tt._function.updateContext = function(type) {
   if (this.curContext() !== types.i_stat) {
     this.state.context.push(types.f_expr);
   }
-  this.exprAllowed = false;
+  this.exprAllowed = type.beforeExpr;
 };
 
-tt.backQuote.updateContext = function() {
+tt.backQuote.updateContext = function(type) {
   if (this.curContext() === types.q_tmpl) {
     this.state.context.pop();
   } else {
     this.state.context.push(types.q_tmpl);
   }
-  this.exprAllowed = false;
+  this.exprAllowed = type.beforeExpr;
 };
 
 
@@ -176,13 +181,13 @@ tt.braceR.updateContext = function() {
   }
 };
 
-tt.parenR.updateContext = function() {
+tt.parenR.updateContext = function(type) {
   if (this.state.context.length === 1) {
     this.state.exprAllowed = true;
     return;
   }
   let out = this.state.context.pop();
-  this.state.exprAllowed = false;
+  this.state.exprAllowed = type.beforeExpr;
 };
 
 tt.dedent.updateContext = function() {
