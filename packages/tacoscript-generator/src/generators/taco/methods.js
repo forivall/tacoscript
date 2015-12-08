@@ -26,7 +26,7 @@ export function _functionBody(parent, prop = "body") {
     this._startPrint(parent, prop, opts);
     if (node.directives) this.printStatements(node, 'directives', opts);
     this.printStatements(node, prop, opts);
-    this._finishPrint(node, opts);
+    this._finishPrint(node, parent, opts);
     this.dedent();
   // } else if (t.isEmptyStatement(node)) {
   //   // probably not needed

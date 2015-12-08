@@ -1,34 +1,43 @@
-var shell = require('shelljs')
-var gulp = require('gulp')
-var changed = require('gulp-changed')
-var babel = require('gulp-babel')
-var size = require('gulp-size')
-var sourcemaps = require('gulp-sourcemaps')
-var watch = require('gulp-watch')
-var plumber = require('gulp-plumber')
-var rename = require('gulp-rename')
+var gulp = require('gulp');
+var babel = require('gulp-babel');
+var newer = require('gulp-newer');
+var plumber = require('gulp-plumber');
+var rename = require('gulp-rename');
+var size = require('gulp-size');
+var sourcemaps = require('gulp-sourcemaps');
+var gutil = require('gulp-util');
+var gwatch = require('gulp-watch');
+var rimraf = require('rimraf');
+var path = require('path');
 
-gulp.task('clean', function() {
-  shell.ls('packages').forEach(function(dir) {
-    shell.rm('-r', 'packages/' + dir + '/lib/*');
-  });
-  // shell.rm('-r', 'packages/*/lib/*');
-})
+function srcToLib(pathInfo) {
+  pathInfo.dirname = pathInfo.dirname.replace("/src", "/lib");
+}
+function srcToLibStr(filePath) {
+  var pathInfo = path.parse(filePath);
+  pathInfo.dir = pathInfo.dir.replace("/src", "/lib");
+  return path.format(pathInfo);
+}
 
-var buildFn = function(options) { return function() {
-  var s = gulp.src('packages/*/src/**/*.js').pipe(plumber());
-  if (options.watch) s = s.pipe(watch('packages/*/src/**/*.js'));
-  // if (!options.force) s = s.pipe(changed('packages'));
-  return s.pipe(sourcemaps.init())
-  .pipe(babel())
-  .pipe(rename(function(path) {
-    path.dirname = path.dirname.replace("/src", "/lib");
-  }))
-  .pipe(size({showFiles: true}))
-  .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: process.cwd() + "/packages"}))
-  .pipe(gulp.dest('packages'))
+function buildFn(options) { return function() {
+  var watch = !!options.watch, dist = !!options.dist, force = !!options.force;
+  var s = gulp.src('packages/*/src/**/*.js');
+  s = s.pipe(plumber({errorHandler: function (err) { gutil.log(err.stack); }}));
+  if (watch) s = s.pipe(gwatch('packages/*/src/**/*.js'));
+  if (!dist) s = s.pipe(sourcemaps.init());
+  if (!force) s = s.pipe(newer({dest: 'packages', map: srcToLibStr}));
+  s = s.pipe(babel());
+  s = s.pipe(rename(srcToLib));
+  s = s.pipe(size({showFiles: true}));
+  if (!dist) s = s.pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: process.cwd() + "/packages"}));
+  s = s.pipe(gulp.dest('packages'));
+  return s;
 }}
 
-gulp.task('default', buildFn({}))
-gulp.task('watch', buildFn({watch: true}))
-gulp.task('force', buildFn({force: true}))
+gulp.task('default', buildFn({}));
+gulp.task('clean-build', ['clean'], buildFn({}));
+gulp.task('clean-watch', ['clean'], buildFn({watch: true}));
+gulp.task('watch', buildFn({watch: true}));
+gulp.task('force', buildFn({force: true}));
+gulp.task('dist', ['clean'], buildFn({force: true, dist: true}));
+gulp.task('clean', function(cb) { rimraf('packages/*/lib', cb); });

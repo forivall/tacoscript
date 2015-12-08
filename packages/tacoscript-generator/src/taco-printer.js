@@ -7,10 +7,17 @@ import isArray from "lodash/lang/isArray";
 import * as t from "babel-types";
 
 import TacoscriptTokenBuffer from "./taco-buffer";
-import {types as tt} from "horchata/lib/tokenizer/types";
+import {tokTypes as tt} from "horchata";
 
 function isParenthesized(node) {
   return node.extra != null && node.extra.parenthesized || node.parenthesizedExpression;
+}
+
+function canOmitParens(node, parent) {
+  return (
+    t.isObjectExpression(node) ||
+    t.isFunctionExpression(node) && node.id === null && t.isExportDefaultDeclaration(parent) ||
+  false);
 }
 
 export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
@@ -25,7 +32,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     let ast = this.ast;
     // prints the ast down into the buffer
     this._simplePrint(ast, null, {});
-    this._finishPrint(ast, {});
+    this._finishPrint(ast, null, {});
   }
 
   print(parent, prop, opts = {}) {
@@ -40,7 +47,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     this._simpleStartPrint(node, parent, opts);
     if (!this[node.type]) { throw new Error(`Cannot print node of type ${node.type}`); }
     this[node.type](node, parent, opts);
-    this._finishSimplePrint(node, opts);
+    this._finishSimplePrint(node, parent, opts);
   }
 
   _preservedPrint(parent, prop, opts) {
@@ -48,7 +55,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     this._startPreservedPrint(parent, prop, opts);
     if (!this[node.type]) { throw new Error(`Cannot print node of type ${node.type}`); }
     this[node.type](node, parent, opts);
-    this._finishPrint(node, opts);
+    this._finishPrint(node, parent, opts);
   }
 
   _startPrint(parent, prop, opts) {
@@ -70,7 +77,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.start, pos: node.start}});
     }
-    if (isParenthesized(node) && !t.isObjectExpression(node)) this.push("(");
+    if (isParenthesized(node) && !canOmitParens(node, parent)) this.push("(");
   }
 
   _startPreservedPrint(parent, prop, opts) {
@@ -83,7 +90,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     // run opts.before
   }
 
-  _finishPrint(node, opts) {
+  _finishPrint(node, parent, opts) {
     if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
       throw new Error('Not Implemented');
       // print all remaining unprinted tokens
@@ -94,13 +101,13 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       // * keep state to indicate if trailing parens, etc. were printed
       // run opts.after
     } else {
-      this._finishSimplePrint(node, opts)
+      this._finishSimplePrint(node, parent, opts);
     }
     this.flush();
   }
 
-  _finishSimplePrint(node, opts) {
-    if (isParenthesized(node) && !t.isObjectExpression(node)) this.push(")");
+  _finishSimplePrint(node, parent, opts) {
+    if (isParenthesized(node) && !canOmitParens(node, parent)) this.push(")");
     // push mapping end pseudo-token
     if (this.opts.sourceMaps) {
       this.push({type: 'mappingMark', value: {loc: node.loc.end, pos: node.end}});
@@ -287,7 +294,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this._startPrint(parent, prop, opts);
       this.printStatements(node, 'directives', opts);
       this.printStatements(node, 'body', opts);
-      this._finishPrint(node, opts);
+      this._finishPrint(node, parent, opts);
       this.dedent();
     // } else if (t.isEmptyStatement(node)) {
     //   // probably not needed

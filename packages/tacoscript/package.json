@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
-    "tacoscript-generator": "0.0.1-pre"
+    "tacoscript-generator": "^0.2.0"
   }
 }

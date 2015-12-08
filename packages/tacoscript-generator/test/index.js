@@ -32,12 +32,14 @@ var babylonParseOpts = {
   strictMode: false,
   sourceType: "module",
   // 6.0
-  // plugins: {
-  //   "asyncFunctions": true,
-  //   "classProperties": true,
-  //   "exponentiationOperator": true,
-  //   "functionBind": true,
-  // },
+  plugins: [
+    "asyncFunctions",
+    "classProperties",
+    "decorators",
+    "exponentiationOperator",
+    "exportExtensions",
+    "functionBind",
+  ],
   features: {
     "es7.asyncFunctions": true,
     "es7.classProperties": true,

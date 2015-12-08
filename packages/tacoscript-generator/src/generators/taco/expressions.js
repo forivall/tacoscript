@@ -3,7 +3,7 @@ import isInteger from "is-integer";
 import isNumber from "lodash/lang/isNumber";
 import clone from "lodash/lang/clone";
 import * as t from "babel-types";
-import {Token} from "horchata/lib/tokenizer";
+import {Token} from "horchata";
 
 const SCIENTIFIC_NOTATION = /e/i;
 

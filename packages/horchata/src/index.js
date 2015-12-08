@@ -4,7 +4,8 @@ import "./tokenizer/context";
 import "./tokenizer/serialization";
 
 // Export bindings from lexer
-export {types as tokTypes} from "./tokenizer/types";
+export {TokenType, types as tokTypes, keywords as keywordTypes} from "./tokenizer/types";
+export Lexer, {Token} from "./tokenizer"
 
 // Main API
 import Parser from "./parser";

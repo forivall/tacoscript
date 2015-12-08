@@ -16,6 +16,6 @@
   "main": "lib/index.js",
   "dependencies": {
     "babylon": "^5.8.23",
-    "horchata": "0.0.1-pre"
+    "horchata": "^0.2.0"
   }
 }
