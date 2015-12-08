@@ -44,7 +44,7 @@
     "clean": "rm -rf packages/*/lib",
     "lint": "eslint packages/*/src",
     "test": "npm run lint && ./scripts/test.sh",
-    "publish": "git pull --ff-only && npm run test && lerna publish && npm run clean",
+    "publish": "git pull --ff-only && npm run build && npm test && lerna publish && npm run clean",
     "bootstrap": "npm install && lerna bootstrap && npm run build",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },

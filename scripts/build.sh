@@ -2,8 +2,8 @@
 set -e
 
 PARALLEL=false
-[[ "$1" == "--parallel" ]] && PARALLEL=true && shift
-[[ "$1" == "--watch" ]] && PARALLEL=true
+[ "$1" = "--parallel" ] && PARALLEL=true && shift
+[ "$1" = "--watch" ] && PARALLEL=true
 
 run() {
   node node_modules/babel/bin/babel "$f/src" --out-dir "$f/lib" --copy-files "$@"
