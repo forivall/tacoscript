@@ -384,6 +384,7 @@ export default class Lexer {
     if (this.state.next.type === tt.unknown) {
       this._doLookahead();
     }
+    return true;
   }
 
   _doLookahead() {

@@ -196,7 +196,7 @@ console.log("=== SCROLL TO BOTTOM FOR FINAL RESULTS ===");
 
 // Parsing
 // var input = document.getElementById("source").text
-var input = require('fs').readFileSync(process.argv[2]);
+var input = require('fs').readFileSync(process.argv[2], 'utf-8');
 var nodes = {};
 var cst = parseCST(input, {
   logger: function( evt ) {

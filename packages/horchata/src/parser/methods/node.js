@@ -6,11 +6,14 @@
  */
 
 import Node from "../node";
+import {SourceLocation} from "../../util/location";
 
 // Start an AST node, attaching location information.
 
 export function startNode(token = this.state.cur) {
-  return new Node(this, token);
+  let node = new Node(this, token);
+  node._childReferences = [];
+  return node;
 }
 
 // Finish an AST node, adding `type` and `end` properties.
@@ -34,17 +37,30 @@ export function assign(parent, key, value, token) {
   parent[key] = value;
   if (token) {
     // TODO: store cst info
-  } else if (value != null && value.__isNode || value instanceof Node) {
-    // TODO: store cst info
-  } else {
-    // warn or try to infer the relevent token
+    parent._childReferences.push({
+      reference: key,
+      element: token.type.key,
+      start: token.start,
+      end: token.end,
+      loc: new SourceLocation(this.state, token.startLoc, token.endLoc),
+      extra: {tokenValue: token.value, tokenIndex: token.index},
+    });
+  } else if (value != null) {
+    if (value.__isNode || value instanceof Node) {
+      // TODO: store cst info
+      parent._childReferences.push({reference: key});
+    } else {
+      // warn or try to infer the relevent token
+      console.log("assigning a non-node value without relevant token", parent, key);
+    }
   }
   return value;
 }
 
 export function add(parent, key, node) {
-  // TODO: store cst info
   (parent[key] == null ? parent[key] = [] : parent[key]).push(node);
+  // store cst info
+  parent._childReferences.push({reference: key + '#next'});
   return node;
 }
 

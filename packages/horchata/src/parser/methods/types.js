@@ -27,6 +27,10 @@ export function matchPrevTerminator() {
   return this.isLineTerminator(this.state.prev.type);
 }
 
+export function matchNextTerminator() {
+  return this.isLineTerminator(this.state.next.type);
+}
+
 export function eatLineTerminator(options = {}) {
   if (this.matchLineTerminator()) {
     if (this.state.indentation > 0 || !this.match(tt.eof)) {

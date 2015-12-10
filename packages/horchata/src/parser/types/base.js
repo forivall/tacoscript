@@ -92,13 +92,14 @@ export function parseBlockBody(node, blockContext = {}) {
 
   this.initBlockBody(node, blockContext);
 
-  // let oldStrict;
+  let oldStrict = this.state.strict;
   let finishedDirectives = false;
   while (!this.eat(end)) {
     if (allowDirectives && !finishedDirectives && this.match(tt.string) &&
-        // TODO: use https://github.com/babel/babel/pull/3107 instead
-        (this.state.cur.end >= this.input.length || isNewline(this.input.charCodeAt(this.state.cur.end)))) {
-      this.add(node, "directives", this.parseDirective());
+        this.ensureLookahead() && this.matchNextTerminator(tt.newline)) {
+      let directive = this.parseDirective();
+      if (!oldStrict && directive.value === "use strict") this.state.strict = true;
+      this.add(node, "directives", directive);
       continue;
     }
     finishedDirectives = true;
@@ -108,5 +109,6 @@ export function parseBlockBody(node, blockContext = {}) {
   if (!isTopLevel) {
     this.eatLineTerminator() || this.unexpected();
   }
+  this.state.strict = oldStrict;
   return node;
 }

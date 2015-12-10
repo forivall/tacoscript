@@ -20,6 +20,9 @@ export default class File extends Node {
     this.comments = null;
     // populated by parser after parsing is complete
     this.map = null;
+
+    // internal
+    this._childReferences = [];
   }
 
   toJSON() {
