@@ -186,7 +186,7 @@ export default class Lexer {
     // TODO: ...
     // throw new Error("Not Implemented");
     this.skipNonTokens(this.state.indentEnd);
-    this.onNonToken(new Token(tt.tab, this.state.indentation));
+    this.onNonToken(new Token(tt.tab, this.state.indentation, this.state.indentStart, this.state.indentEnd));
     this.state.eol = false;
     if (this.state.indentEnd > this.state.pos) {
       this.state.pos = this.state.indentEnd;
@@ -576,6 +576,11 @@ export default class Lexer {
         this.state.indentCharCode = indentCharCode;
         this.state.indentRepeat = indentRepeat;
         this.state.nextIndentation = expectedLevels;
+        this.file.format.indent = {
+          amount: indentRepeat,
+          type: indentCharCode === 9 ? 'tab' : 'space',
+          indent: this.state.indentString,
+        }
         return true;
       }
     } else {

@@ -9,29 +9,32 @@ export default class Token {
     this.end = end;
     this.meta = meta || {};
     this.loc = new SourceLocation(parent, startLoc, endLoc);
+    this.index = -1;
+  }
+
+  static fromCode(code) {
+    return Token.fromState(Token.stateFromCode(code));
   }
 
   static fromState(spec) {
-    return new Token(spec.type, spec.value,
+    let token = new Token(spec.type, spec.value,
       spec.start, spec.end, spec.startLoc, spec.endLoc, spec, spec.meta);
-  }
-
-  valueOf() {
-    return this.type.toCode(this);
-  }
-
-  static from(babelToken) {
-    let type = TokenType.from(babelToken.type);
-    let state = {
-      type: type,
-      value: type.convertValue(babelToken.value)
-    };
-    let token = new Token(state);
-    token.origLoc = babelToken.loc;
-    token.origStart = babelToken.start;
-    token.origEnd = babelToken.end;
+    token.index = spec.index;
     return token;
   }
+
+  // static from(babelToken) {
+  //   let type = TokenType.from(babelToken.type);
+  //   let state = {
+  //     type: type,
+  //     value: type.convertValue(babelToken.value)
+  //   };
+  //   let token = new Token(state);
+  //   token.origLoc = babelToken.loc;
+  //   token.origStart = babelToken.start;
+  //   token.origEnd = babelToken.end;
+  //   return token;
+  // }
   static _fromCodeCache = {};
   // should not be used on regex, etc.
   static stateFromCode(code) {
@@ -75,10 +78,6 @@ export default class Token {
       case ";;": return (Token._fromCodeCache[code] = { type: tt.doublesemi });
     }
     throw new Error(`Cannot construct token from code "${code}"`);
-  }
-
-  static fromCode(code) {
-    return Token.fromState(Token.stateFromCode(code));
   }
 
   // TODO: move to parser/methods/types.js

@@ -39,11 +39,11 @@ export function assign(parent, key, value, token) {
     // TODO: store cst info
     parent._childReferences.push({
       reference: key,
-      element: token.type.key,
+      element: token.type.alias,
       start: token.start,
       end: token.end,
       loc: new SourceLocation(this.state, token.startLoc, token.endLoc),
-      extra: {tokenValue: token.value, tokenIndex: token.index},
+      extra: {tokenValue: token.value, tokenIndex: token.index, tokenType: token.type.key},
     });
   } else if (value != null) {
     if (value.__isNode || value instanceof Node) {
@@ -57,10 +57,18 @@ export function assign(parent, key, value, token) {
   return value;
 }
 
-export function add(parent, key, node) {
+export function add(parent, key, node, token) {
   (parent[key] == null ? parent[key] = [] : parent[key]).push(node);
   // store cst info
-  parent._childReferences.push({reference: key + '#next'});
+  let info = {reference: key + '#next'}
+  if (token) {
+    info.element = token.type.alias;
+    info.start = token.start;
+    info.end = token.end;
+    info.loc = new SourceLocation(this.state, token.startLoc, token.endLoc);
+    info.extra = {tokenValue: token.value, tokenIndex: token.index};
+  }
+  parent._childReferences.push(info);
   return node;
 }
 

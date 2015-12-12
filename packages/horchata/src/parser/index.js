@@ -8,6 +8,7 @@
 import Lexer from "../tokenizer";
 import SourceFile from "../file";
 import {getLineInfo} from "../util/location";
+import addCst from "../postprocessors/cst"
 
 // Registered plugins
 export const plugins = {};
@@ -46,7 +47,10 @@ export default class Parser extends Lexer {
     this.nextToken();
     file = this.parseTopLevel(file, program);
     file.comments = this.state.comments;
+    // TODO: add option
+    addCst(file, this.state.sourceElementTokens);
     this.close();
+    // TODO: strip _childReferences
     return file;
   }
 

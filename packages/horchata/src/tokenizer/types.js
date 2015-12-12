@@ -77,10 +77,10 @@ function punctuator(name, conf) {
 export const keywords = {};
 
 // Succinct definitions of keyword token types
-let kw = function kw(name, options = {}) {
+let kw = function kw(name, options = {}, alias = "Keyword") {
   options.keyword = name;
   options.code = name;
-  let type = new TokenType(name, "Keyword", options);
+  let type = new TokenType(name, alias, options);
   keywords[name] = type;
   return type;
 }
@@ -92,25 +92,25 @@ const
   loopHeader = {beforeExpr: true, startsExpr: true, isLoop: true};
 
 export const types = {
-  num: new TokenType("num", "Numeric", startsExpr),
+  num: new TokenType("num", "NumericLiteral", startsExpr),
   // value in format {}
-  regexp: new TokenType("regexp", "RegularExpression", startsExpr),
-  string: new TokenType("string", "String", startsExpr),
-  name: new TokenType("name", "Identifier", startsExpr),
+  regexp: new TokenType("regexp", "RegularExpressionLiteral", startsExpr),
+  string: new TokenType("string", "StringLiteral", startsExpr),
+  name: new TokenType("name", "IdentifierName", startsExpr),
 
   eof: new TokenType("eof", "EOF"),
   unknown: new TokenType("unknown"), // for fixed lookahead
-  tab: new TokenType("tab", "Whitespace"),
-  indent: new TokenType("indent", "SignificantWhitespace"),
-  dedent: new TokenType("dedent", "SignificantWhitespace"),
-  whitespace: new TokenType("whitespace", "Whitespace"),
-  newline: new TokenType("newline", "SignificantWhitespace", beforeExpr),
+  tab: new TokenType("tab", "WhiteSpaceLeading"),
+  indent: new TokenType("indent", "Indent"),
+  dedent: new TokenType("dedent", "Dedent"),
+  whitespace: new TokenType("whitespace", "WhiteSpace"),
+  newline: new TokenType("newline", "LineTerminator", beforeExpr),
 
-  blockCommentStart: new TokenType("#*", "Comment"),
-  blockCommentBody: new TokenType("blockcomment", "Comment"),
-  blockCommentEnd: new TokenType("*#", "Comment"),
-  lineCommentStart: new TokenType("#", "Comment"),
-  lineCommentBody: new TokenType("linecomment", "Comment"),
+  blockCommentStart: new TokenType("#*", "CommentHead"),
+  blockCommentBody: new TokenType("blockcomment", "CommentBody"),
+  blockCommentEnd: new TokenType("*#", "CommentTail"),
+  lineCommentStart: new TokenType("#", "CommentHead"),
+  lineCommentBody: new TokenType("linecomment", "CommentTail"),
 
   // Punctuation token types.
   bracketL:     punctuator("[",  {beforeExpr: true, startsExpr: true}),
@@ -188,10 +188,10 @@ export const types = {
   exponent:   punctuator("**", {beforeExpr: true, binop: 11, rightAssociative: true}),
 };
 
-kw = function kw(name, options = {}) {
+kw = function kw(name, options = {}, alias = "Keyword") {
   options.keyword = name;
   options.code = name;
-  let type = new TokenType(name, "Keyword", options);
+  let type = new TokenType(name, alias, options);
   types["_" + name] = keywords[name] = type;
 }
 
@@ -246,11 +246,11 @@ kw("set");
 kw("export");
 kw("import");
 kw("from");
-kw("as");
+kw("as"); // NOTE: not included in es2016 keywords
 // special types
-kw("null", startsExpr);
-kw("true", startsExpr);
-kw("false", startsExpr);
+kw("null", startsExpr, "NullLiteral");
+kw("true", startsExpr, "BooleanLiteral");
+kw("false", startsExpr, "BooleanLiteral");
 kw("this", startsExpr);
 kw("super", startsExpr);
 

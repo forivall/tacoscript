@@ -142,16 +142,17 @@ export function parseBindingList(parent, key, close, bindingListContext = {}) {
   parent[key] = [];
 
   this.parseIndentableList(close, bindingListContext, () => {
-    let node;
+    let node, token;
     if (allowEmpty && this.eat(tt._pass)) {
       node = null;
+      token = this.state.prev;
     } else if (this.match(tt.ellipsis)) {
       node = this.parseRest();
     } else {
       node = this.parseMaybeDefault();
     }
     node = this.parseAssignableListItemTypes(node);
-    this.add(parent, key, node);
+    this.add(parent, key, node, token);
   });
 
   return parent;
@@ -242,15 +243,16 @@ export function parseExpressionList(parent, key, close, expressionContext) {
   const {allowEmpty} = expressionContext;
   parent[key] = [];
   this.parseIndentableList(close, expressionContext, () => {
-    let node;
+    let node, token;
     if (allowEmpty && this.eat(tt._pass)) {
       node = null;
+      token = this.state.prev;
     } else if (this.match(tt.ellipsis)) {
       node = this.parseSpread(expressionContext);
     } else {
       node = this.parseExpression();
     }
-    this.add(parent, key, node);
+    this.add(parent, key, node, token);
   });
 
   return parent;

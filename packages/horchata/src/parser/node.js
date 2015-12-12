@@ -40,14 +40,14 @@ export default class Node {
     return clone;
   }
 
-  // toJSON() {
-  //   let out = {};
-  //   for (let k of (Object.keys(this): Array)) {
-  //     if (k[0] !== "_") {
-  //       out[k] = this[k];
-  //     }
-  //   }
-  //   return out;
-  // }
+  toJSON() {
+    let out = {};
+    for (let k of (Object.keys(this): Array)) {
+      if (k[0] !== "_") {
+        out[k] = this[k];
+      }
+    }
+    return out;
+  }
 }
 Object.defineProperty(Node.prototype, "__isNode", {value: true});
