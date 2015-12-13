@@ -88,6 +88,19 @@ function removeLocInfo(json) {
   return json;
 }
 
+// from gibson042's proof of concept for CSTs
+// Render by depth-first reference traversal
+function render(node, nodeMap) {
+  return node.sourceElements.map(function(el) {
+    if ( el.type === "ref" ) {
+      return render(nodeMap[el.value], nodeMap);
+    } else if ( el.type !== "eof" ) {
+      return el.value || el.type;
+    }
+  }).join("");
+}
+
+
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     suite("horchata: core/" + setName + "/" + testSuite.title, function () {
