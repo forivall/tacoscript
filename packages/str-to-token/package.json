@@ -1,6 +1,6 @@
 {
   "name": "str-to-token",
-  "version": "0.0.1-pre",
+  "version": "0.2.1",
   "description": "str-to-token",
   "main": "lib/index.js",
   "repository": {
@@ -13,9 +13,8 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
-  "main": "lib/index.js",
   "dependencies": {
     "babylon": "^5.8.23",
-    "horchata": "^0.2.0"
+    "horchata": "^0.2.1"
   }
 }

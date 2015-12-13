@@ -1,6 +1,6 @@
 {
   "name": "tacoscript",
-  "version": "0.0.1-pre",
+  "version": "0.2.1",
   "description": "CLI for tacoscript",
   "repository": {
     "type": "git",
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
-    "tacoscript-generator": "^0.2.0"
+    "tacoscript-generator": "^0.2.1"
   }
 }
