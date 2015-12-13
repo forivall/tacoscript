@@ -272,7 +272,7 @@ export default class Lexer {
     this.state.pos += startLength;
     let startKind = this.input.slice(start, this.state.pos);
     this.onNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind},
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+      start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
@@ -282,7 +282,7 @@ export default class Lexer {
     let len = this.state.pos - start;
 
     this.onNonToken(new Token(tt.lineCommentBody, node.value = this.input.slice(start, this.state.pos),
-      start, startLoc, this.state.pos, endLoc = this.state.curPosition(), this.state
+      start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
     this.state.endingLineComment = true;
@@ -318,7 +318,7 @@ export default class Lexer {
     let commentKind = this.input.slice(start, this.state.pos);
     let meta = Lexer.blockCommentMeta[commentKind];
     this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind},
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+      start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
@@ -334,14 +334,14 @@ export default class Lexer {
     commentBody = node.value = commentBody.replace(/\*/g, "* /");
 
     this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody},
-      start, startLoc, this.state.pos, this.state.curPosition(), this.state
+      start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
     startLoc = this.state.curPosition();
     this.state.pos += 2;
     this.onNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos)},
-      start, startLoc, this.state.pos, endLoc = this.state.curPosition(), this.state
+      start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
 
     if (meta.isCanonical) this.state.comments.push(this._finishCommentNode(node, "CommentBlock", endLoc));
