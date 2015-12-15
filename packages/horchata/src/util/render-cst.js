@@ -11,13 +11,13 @@ export default function render(node, path = "") {
         let i = lists[key] || 0;
         lists[key] = i + 1;
         if (el.element) {
-          return el.value || node[el.reference];
+          return el.value != null ? el.value : node[el.reference];
         } else {
           return render(node[key][i], path + '.' + key + '[' + i + ']');
         }
       } else {
         if (el.element) {
-          return el.value || node[el.reference];
+          return  el.value != null ? el.value : node[el.reference];
         } else {
           return render(node[key], path + '.' + key);
         }

@@ -121,7 +121,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         left = this.assign(node, "left", this.convertLeftAssign(left, type));
         expressionContext.shorthandDefaultPos.start = 0;  // reset because shorthand default was used correctly
 
-        this.assign(node, "operator", this.state.cur.value, this.state.cur);
+        this.assign(node, "operator", this.state.cur.value, {token: this.state.cur});
 
         this.checkAssignable(left);
         this.next();
@@ -183,7 +183,7 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
     let left = node;
     node = this.startNode(start);
     this.assign(node, "left", left);
-    this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, this.state.cur);
+    this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, {token: this.state.cur});
     this.checkExpressionOperatorLeft(node);
 
     let op = this.state.cur.type;
@@ -220,7 +220,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
 export function parseExpressionPrefix(expressionContext) {
   let isUpdate = this.match(tt.incDec);
   let node = this.startNode();
-  this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, this.state.cur);
+  this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, {token: this.state.cur});
   node.prefix = true;
   this.next();
 
@@ -246,7 +246,7 @@ export function parseExpressionPostfix(exprNode, start) {
   let node = this.startNode(start);
   node.prefix = false;
   this.assign(node, "argument", exprNode);
-  this.assign(node, "operator", this.state.cur.value, this.state.cur);
+  this.assign(node, "operator", this.state.cur.value, {token: this.state.cur});
   this.checkAssignable(exprNode);
   this.next();
   return this.finishNode(node, "UpdateExpression");
@@ -489,7 +489,7 @@ export function parseYieldExpression() {
     node.argument = null;
   } else {
     node.delegate = this.eat(tt.star);
-    if (node.delegate) this.assignToken(node, "delegate", this.state.prev, "*");
+    if (node.delegate) this.assignToken(node, "delegate", "*", {token: this.state.prev});
     this.assign(node, "argument", this.parseExpressionMaybeKeywordOrAssignment({}));
   }
   return this.finishNode(node, "YieldExpression");

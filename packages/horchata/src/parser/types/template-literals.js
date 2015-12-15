@@ -28,10 +28,10 @@ export function parseTemplate() {
 
 export function parseTemplateElement() {
   let elem = this.startNode();
-  elem.value = {
+  this.assignRaw(elem, "value", {
     raw: this.input.slice(this.state.cur.start, this.state.cur.end).replace(/\r\n?/g, "\n"),
     cooked: this.state.cur.value
-  };
+  });
   this.next();
   elem.tail = this.match(tt.backQuote);
   return this.finishNode(elem, "TemplateElement");

@@ -39,7 +39,7 @@ export function _toChildReferenceToken(token, reference, value) {
   let element = {};
   if (reference) element.reference = reference;
   if (!reference || token.type.estreeValue !== null) element.value = token.value;
-  else if (value) element.value = value;
+  else if (value != null) element.value = value;
   element = {
     ...element,
     element: token.type.alias,
@@ -51,9 +51,17 @@ export function _toChildReferenceToken(token, reference, value) {
   return element;
 }
 
-export function assign(parent, key, value, token) {
+export function popReference(parent, expected) {
+  let el = parent._childReferences.pop();
+  if (expected && el.reference !== expected) throw new Error("Replacing incorrect reference");
+  return true;
+}
+
+export function assign(parent, key, value, options = {}) {
   // TODO: throw error if already set
   parent[key] = value;
+
+  let {token} = options;
   if (token) {
     parent._childReferences.push(this._toChildReferenceToken(token, key));
   } else if (value != null) {
@@ -68,17 +76,48 @@ export function assign(parent, key, value, token) {
   return value;
 }
 
-export function assignRaw(node, key, value, token = this.state.cur) {
+export function unassign(parent, key) {
+  let value = parent[key];
+  // Currently only supports unassigning simple values
+  if (value.__isNode) throw new Error("Not Implemented")
+  delete parent[key];
+
+  // Update partial CST
+  let el, index = -1;
+  for (let i = 0, len = parent._childReferences.length; i < len; i++) {
+    let testEl = parent._childReferences[i];
+    if (testEl.reference === key) {
+      index = i;
+      el = testEl;
+      break;
+    }
+  }
+  if (index !== -1) {
+    parent._childReferences.splice(index, 1);
+  }
+  return !!el;
+}
+
+export function assignRaw(node, key, value, options = {}) {
+  let {token = this.state.cur} = options;
   // TODO: throw error if already set
   node[key] = value;
-  this.addRaw(node, token);
-  node._childReferences.push(this._toChildReferenceToken(token, key, node.extra.raw));
+  let raw;
+  if (options.noExtra) {
+    raw = this.input.slice(token.start, token.end);
+  } else {
+    this.addRaw(node, token);
+    raw = node.extra.raw;
+  }
+  node._childReferences.push(this._toChildReferenceToken(token, key, raw));
   return value;
 }
 
-export function add(parent, key, node, token) {
+export function add(parent, key, node, options = {}) {
   (parent[key] == null ? parent[key] = [] : parent[key]).push(node);
+
   // store cst info
+  let {token} = options;
   let el = {reference: key + '#next'};
 
   // When the node cannot store its own data, it's stored here. Primarily used
@@ -104,7 +143,8 @@ export function addRaw(node, token = this.state.cur) {
   this.addExtra(node, "raw", this.input.slice(token.start, token.end));
 }
 
-export function assignToken(node, key, token, value) {
+export function assignToken(node, key, value, options = {}) {
+  let {token = this.state.cur} = options;
   node._childReferences.push(this._toChildReferenceToken(token, key, value));
   return node;
 }

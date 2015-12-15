@@ -95,14 +95,14 @@ export function parseClassBody(isDeclaration, classContext) {
     }
 
     method.static = this.eat(tt._static);
-    if (method.static) this.assignToken(method, "static", this.state.prev, "static");
+    if (method.static) this.assignToken(method, "static", "static", {token: this.state.prev});
 
 
     if (!this.matchNext(tt.eq) && !this.matchNext(tt.parenL)) {
       if (this.eat(tt._get)) {
-        this.assign(method, "kind", "get", this.state.prev);
+        this.assign(method, "kind", "get", {token: this.state.prev});
       } else if (this.eat(tt._set)) {
-        this.assign(method, "kind", "set", this.state.prev);
+        this.assign(method, "kind", "set", {token: this.state.prev});
       }
     }
 
@@ -116,7 +116,7 @@ export function parseClassBody(isDeclaration, classContext) {
         if (hasConstructorCall) {
           this.raise(method.start, "Duplicate constructor call");
         }
-        this.assign(method, "kind", "constructorCall", this.state.prev);
+        this.assign(method, "kind", "constructorCall", {token: this.state.prev});
         hasConstructorCall = true;
       }
     }

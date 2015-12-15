@@ -55,7 +55,7 @@ export function toAssignable(node, assignableContext = {}) {
     case "AssignmentExpression":
       if (node.operator === "=") {
         node.type = "AssignmentPattern";
-        delete node.operator;
+        this.unassign(node, "operator");
       } else {
         this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
         break;
@@ -152,7 +152,7 @@ export function parseBindingList(parent, key, close, bindingListContext = {}) {
       node = this.parseMaybeDefault();
     }
     node = this.parseAssignableListItemTypes(node);
-    this.add(parent, key, node, token);
+    this.add(parent, key, node, {token});
   });
 
   return parent;
@@ -252,7 +252,7 @@ export function parseExpressionList(parent, key, close, expressionContext) {
     } else {
       node = this.parseExpression();
     }
-    this.add(parent, key, node, token);
+    this.add(parent, key, node, {token});
   });
 
   return parent;
@@ -351,6 +351,7 @@ export function parsePropertyValue(prop, start, isPattern, propertyContext, expr
     prop = this.finishNode(prop, "ObjectProperty");
   } else if (!prop.computed && prop.key.type === "Identifier") {
     prop.kind = "init";
+    this.popReference(prop, "key"); // since this is shorthand, only the value will be in sourceElements
     if (isPattern) {
       this.checkShorthandPropertyBinding(prop);
       this.assign(prop, "value", this.parseMaybeDefault(start, prop.key.__clone()));

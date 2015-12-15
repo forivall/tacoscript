@@ -473,7 +473,7 @@ export function parseDeclarationStatement(node, kindToken) {
 export function parseDeclaration(node, kindToken, declarationContext = {}) {
   node.declarations = [];
   const kind = kindToken.type.keyword;
-  this.assign(node, "kind", kind, kindToken);
+  this.assign(node, "kind", kind, {token: kindToken});
   this.parseIndentableList(null, {noTerminator: declarationContext.isFor}, () => {
     let decl = this.startNode();
     decl = this.parseDeclarationAssignable(decl);

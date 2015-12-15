@@ -80,8 +80,13 @@ export function parseExportSpecifiers(parent) {
     if (isDefault && !needsFrom) needsFrom = true;
 
     let node = this.startNode();
-    this.assign(node, "local", this.parseIdentifier({allowKeywords: isDefault}));
-    this.assign(node, "exported", this.eat(tt._as) ? this.parseIdentifier({allowKeywords: true}) : node.local.__clone());
+    this.assign(node, "local", this.parseIdentifier({allowKeywords: isDefault, convertKeywordToken: false}));
+    if (this.eat(tt._as)) {
+      this.assign(node, "exported", this.parseIdentifier({allowKeywords: true}));
+    } else {
+      this.popReference(node, "local");
+      this.assign(node, "exported", node.local.__clone());
+    }
     this.add(parent, "specifiers", this.finishNode(node, "ExportSpecifier"));
   });
 
@@ -150,7 +155,12 @@ export function parseImportSpecifiers(node) {
       this.parseIndentableList(tt.braceR, {allowTrailingComma: true}, () => {
         let specifier = this.startNode();
         this.assign(specifier, "imported", this.parseIdentifier({allowKeywords: true}));
-        this.assign(specifier, "local", this.eat(tt._as) ? this.parseIdentifier() : specifier.imported.__clone());
+        if (this.eat(tt._as)) {
+          this.assign(specifier, "local", this.parseIdentifier());
+        } else {
+          this.assign(specifier, "local", specifier.imported.__clone());
+          this.popReference(specifier, "local");
+        }
         this.checkAssignable(specifier.local, {isBinding: true});
         this.add(node, "specifiers", this.finishNode(specifier, "ImportSpecifier"));
       });
