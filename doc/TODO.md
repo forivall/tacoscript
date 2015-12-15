@@ -6,8 +6,8 @@
 * [x] Use comments when generating
 * [x] Store cst data when parsing
   * [x] Fix tests (core/comments/base/\*)
-  * [ ] Add tests to make sure that original source can be constructed from cst
-* [ ] Convert cst data to comment  when parsing
+  * [x] Add tests to make sure that original source can be constructed from cst
+* [x] Convert cst data to comment attachment when parsing
 * [ ] Create cst-aware js generator; use cst data when generating javascript
 * [ ] Write tacoscript mode for codemirror
 * [ ] Use cst data when generating tacoscript

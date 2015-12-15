@@ -60,11 +60,9 @@ function removeLocInfo(json) {
     delete json.start;
     delete json.end;
     delete json.loc;
-    // if (json.leadingComments === null) { delete json.leadingComments; }
-    // TODO: attach comments like babylon
-    delete json.leadingComments;
-    delete json.innerComments;
-    delete json.trailingComments;
+    if (json.leadingComments == null) delete json.leadingComments;
+    if (json.innerComments == null) delete json.innerComments;
+    if (json.trailingComments == null) delete json.trailingComments;
     if (json.type === "BlockStatement" && json.directives != null && json.directives.length === 0) {
       delete json.directives;
     }

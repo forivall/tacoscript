@@ -260,6 +260,7 @@ export default class Lexer {
       end: 0,
       tokenStart: this.state.sourceElementTokens.length,
       tokenEnd: 0,
+      index: this.state.comments.length,
       loc: new SourceLocation(this.state, loc),
     }
   }
@@ -278,7 +279,7 @@ export default class Lexer {
     let node = this._startCommentNode(startLoc);
     this.state.pos += startLength;
     let startKind = this.input.slice(start, this.state.pos);
-    this.onNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind},
+    this.onNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -290,7 +291,7 @@ export default class Lexer {
 
     let raw = this.input.slice(start, this.state.pos);
     node.value = raw;
-    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: raw},
+    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: raw, index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
@@ -326,7 +327,7 @@ export default class Lexer {
     this.state.pos += startLength;
     let commentKind = this.input.slice(start, this.state.pos);
     let meta = Lexer.blockCommentMeta[commentKind];
-    this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind},
+    this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -342,14 +343,14 @@ export default class Lexer {
     if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeReG, meta.terminator);
     commentBody = node.value = commentBody.replace(/\*/g, "* /");
 
-    this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody},
+    this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
     startLoc = this.state.curPosition();
     this.state.pos += 2;
-    this.onNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos)},
+    this.onNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos), index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
 

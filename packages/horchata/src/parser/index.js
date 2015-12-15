@@ -9,6 +9,7 @@ import Lexer from "../tokenizer";
 import SourceFile from "../file";
 import {getLineInfo} from "../util/location";
 import addCst from "../postprocessors/cst"
+import attachComments from "../postprocessors/comments"
 
 // Registered plugins
 export const plugins = {};
@@ -49,6 +50,7 @@ export default class Parser extends Lexer {
     file.comments = this.state.comments;
     // TODO: add option
     addCst(file, this.state.sourceElementTokens);
+    attachComments(file);
     this.close();
     // TODO: strip _childReferences
     return file;
