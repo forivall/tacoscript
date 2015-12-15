@@ -110,7 +110,7 @@ export const types = {
   blockCommentBody: new TokenType("blockcomment", "CommentBody"),
   blockCommentEnd: new TokenType("*#", "CommentTail"),
   lineCommentStart: new TokenType("#", "CommentHead"),
-  lineCommentBody: new TokenType("linecomment", "CommentTail"),
+  lineCommentBody: new TokenType("linecomment", "CommentBody"),
 
   // Punctuation token types.
   bracketL:     punctuator("[",  {beforeExpr: true, startsExpr: true}),

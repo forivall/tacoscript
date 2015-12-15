@@ -23,12 +23,19 @@ export class Postprocessor {
     let [key, list] = childReference.reference.split('#');
     let node;
     if (list === "next") {
-      node = parent[key][state.list[key] || 0];
-      state.list[key] = (state.list[key] || 0) + 1;
+      let i = state.list[key] || 0;
+      node = parent[key][i];
+      state.list[key] = i + 1;
     } else {
       node = parent[key];
     }
     return node;
+  }
+
+  nextSourceTokenIndex(el, node) {
+    if (el.extra && el.extra.tokenIndex != null) return el.extra.tokenIndex;
+    if (node) return node.tokenStart;
+    throw new Error("Cannot get index of el " + JSON.stringify(el));
   }
 
   // TODO: convert to use a traverse helper, similar to babel's traversal helpers
@@ -43,9 +50,12 @@ export class Postprocessor {
     while (this.index < this.tokens.length) {
       let token = this.tokens[this.index];
       while (
-          token != null &&
-          (!nextChild || nextChild.element == null || token.index < nextChild.extra.tokenIndex) &&
-          (!nextNode || token.index < nextNode.tokenStart) &&
+          token != null && (
+            !nextChild ||
+            nextChild.element == null ||
+            (token.index !== -1 ? token.index < this.nextSourceTokenIndex(nextChild, nextNode) : token.start < (nextChild.start || nextNode.start)) ||
+          false) &&
+          (!nextNode || !nextNode.__isNode || token.index < nextNode.tokenStart) &&
           token.end <= node.end &&
           token.index <= node.tokenEnd &&
       true) {
@@ -69,11 +79,12 @@ export class Postprocessor {
           this.traverse(nextNode);
         } else {
           if (token && token.index != null && token.index === nextChild.extra.tokenIndex) {
-            // sourceElement is for a token, skip the token.
+            // sourceElement is for a token, skip the token, since it's already been included while parsing
             this.index++;
           }
         }
-        nextChild = children[i += 1];
+        i += 1;
+        nextChild = children[i];
         nextNode = this.dereference(node, nextChild, state);
       } else {
         break;

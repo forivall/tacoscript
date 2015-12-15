@@ -244,6 +244,13 @@ export default class Lexer {
         }
       }
     }
+    if (this.state.pos >= this.input.length && this.state.pos > start) {
+      this.onNonToken(new Token(tt.whitespace,
+        {code: this.input.slice(start, this.state.pos)},
+        start, this.state.pos, startLoc, this.state.curPosition(),
+        this.state
+      ));
+    }
   }
 
   _startCommentNode(loc) {
@@ -281,7 +288,9 @@ export default class Lexer {
     this.state.pos < this.input.length && !isNewline(ch); ++this.state.pos);
     let len = this.state.pos - start;
 
-    this.onNonToken(new Token(tt.lineCommentBody, node.value = this.input.slice(start, this.state.pos),
+    let raw = this.input.slice(start, this.state.pos);
+    node.value = raw;
+    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: raw},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));

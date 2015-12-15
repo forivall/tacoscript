@@ -49,6 +49,7 @@ export function parseArrowExpression(node) {
   this.initFunction(node);
   node.params = this.toArguments(node.params);
   node.generator = this.eat(tt.star);
+  if (node.generator) this.assignToken(node, "generator", this.state.prev, "*");
 
   let isArrowFunction;
   let arrow = {...this.state.cur};
@@ -156,7 +157,7 @@ export function parseFunctionParams(node/*, functionContext*/) {
 
 export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
-  if (node.generator) this.assignToken(node, "generator", this.state.prev);
+  if (node.generator) this.assignToken(node, "generator", this.state.prev, "*");
   if (Token.isImplicitReturn(this.state.cur)) {
     throw new Error("Not Implemented");
   }

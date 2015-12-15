@@ -88,7 +88,7 @@ tt.dedent.toCode = function(token, state) {
   // marker to parser that indentation has decreased
   return "";
 };
-// TODO: encode & decode comments
+
 tt.lineCommentBody.toCode = function(token) {
   return token.value.code;
 };

@@ -5,7 +5,7 @@
 * [x] Use "extra" style ast properties for ast properties that aren't gibson042's proposed CST node properties.
 * [x] Use comments when generating
 * [x] Store cst data when parsing
-  * [ ] Fix tests (core/comments/base/\*)
+  * [x] Fix tests (core/comments/base/\*)
   * [ ] Add tests to make sure that original source can be constructed from cst
 * [ ] Convert cst data to comments when parsing
 * [ ] Use cst data when generating javascript

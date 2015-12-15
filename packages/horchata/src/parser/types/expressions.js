@@ -104,7 +104,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
       // accomodate [frappe lambdas][fl], etc from within a plugin
       // fl: https://github.com/lydell/frappe#consistently-short-arrow-function-syntax
       if (this.match(tt.parenL)) {
-        this.state.potentialLambdaOn = {...this.state.cur};
+        this.state.potentialLambdaOn = start;
       }
 
       // tacoscript conditional expressions always start with `if` or `if!`,
@@ -118,9 +118,10 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         let left = node;
         let type = this.state.cur.type;
         node = this.startNode(start);
-        this.assign(node, "operator", this.state.cur.value, this.state.cur);
         left = this.assign(node, "left", this.convertLeftAssign(left, type));
         expressionContext.shorthandDefaultPos.start = 0;  // reset because shorthand default was used correctly
+
+        this.assign(node, "operator", this.state.cur.value, this.state.cur);
 
         this.checkAssignable(left);
         this.next();
@@ -188,8 +189,10 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
     let op = this.state.cur.type;
     this.next();
 
+    // rightStart needs to be stored here, since `parseExpressionMaybeUnary` will advance the parser
+    let rightStart = {...this.state.cur};
     this.assign(node, "right", this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
-      {...this.state.cur}, op.rightAssociative ? prec - 1 : prec, expressionContext));
+      rightStart, op.rightAssociative ? prec - 1 : prec, expressionContext));
     node = this.finishNode(node, op.binopExpressionName);
     node = this.parseExpressionOperator(node, start, minPrec, expressionContext);
   }
@@ -241,9 +244,9 @@ export function parseExpressionPrefix(expressionContext) {
 
 export function parseExpressionPostfix(exprNode, start) {
   let node = this.startNode(start);
-  this.assign(node, "operator", this.state.cur.value, this.state.cur);
   node.prefix = false;
   this.assign(node, "argument", exprNode);
+  this.assign(node, "operator", this.state.cur.value, this.state.cur);
   this.checkAssignable(exprNode);
   this.next();
   return this.finishNode(node, "UpdateExpression");
@@ -380,7 +383,6 @@ export function parseExpressionAtomic(expressionContext) {
     case tt._null:
       // TODO: move to literals
       node = this.startNode();
-      this.assignAsToken(node);
       this.next();
       node = this.finishNode(node, "NullLiteral");
       break;
@@ -388,8 +390,7 @@ export function parseExpressionAtomic(expressionContext) {
     case tt._true: case tt._false:
       // TODO: move to literals
       node = this.startNode();
-      node.value = this.match(tt._true);
-      this.addRaw(node);
+      this.assignRaw(node, "value", this.match(tt._true));
       this.next();
       node = this.finishNode(node, "BooleanLiteral");
       break;
@@ -441,7 +442,7 @@ export function parseExpressionAtomic(expressionContext) {
 
 export function parseNew() {
   let node = this.startNode();
-  let meta = this.parseIdentifier({allowKeywords: true});
+  let meta = this.parseIdentifier({allowKeywords: true, convertKeywordToken: false});
   if (this.eat(tt.dot)) {
     this.assign(node, "meta", meta);
     this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
@@ -488,7 +489,7 @@ export function parseYieldExpression() {
     node.argument = null;
   } else {
     node.delegate = this.eat(tt.star);
-    if (node.delegate) this.assignToken(node, "delegate", this.state.prev);
+    if (node.delegate) this.assignToken(node, "delegate", this.state.prev, "*");
     this.assign(node, "argument", this.parseExpressionMaybeKeywordOrAssignment({}));
   }
   return this.finishNode(node, "YieldExpression");

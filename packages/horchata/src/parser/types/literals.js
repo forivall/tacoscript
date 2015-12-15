@@ -200,16 +200,17 @@ export function parseMaybeDefault(start, left) {
 export function parseIdentifier(identifierContext = {}) {
   // equivalent to `liberal` in acorn/babylon
   const allowKeywords = !!identifierContext.allowKeywords;
+  const convertKeywordToken = !(identifierContext.convertKeywordToken === false);
   const isOptional = !!identifierContext.isOptional;
 
   let node = this.startNode();
   if (this.match(tt.name)) {
     this.checkIdentifierName(identifierContext);
-    this.assign(node, "name", this.state.cur.value.value, this.state.cur);
+    this.assignRaw(node, "name", this.state.cur.value.value);
   } else if (allowKeywords && this.state.cur.type.keyword) {
     let name = this.state.cur.type.keyword;
-    this.state.cur.type = tt.name;
-    this.assign(node, "name", name, this.state.cur);
+    if (convertKeywordToken) this.state.cur.type = tt.name;
+    this.assignRaw(node, "name", name);
     // TODO: set this value accordingly
     // this.state.cur.value = {}
   } else if (isOptional) {
@@ -224,8 +225,7 @@ export function parseIdentifier(identifierContext = {}) {
 
 export function parseLiteral(value, type) {
   let node = this.startNode();
-  this.assign(node, "value", value, this.state.cur);
-  this.addRaw(node);
+  this.assignRaw(node, "value", value);
   this.next();
   return this.finishNode(node, type);
 }
@@ -312,7 +312,7 @@ export function parseObject(isPattern, expressionContext) {
       prop = this.parsePropertyValue(prop, start, isPattern, propertyContext, expressionContext);
       this.checkPropClash(prop, propHash);
     }
-    node.properties.push(prop);
+    this.add(node, "properties", prop);
   });
 
   return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression");

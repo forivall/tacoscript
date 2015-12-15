@@ -36,8 +36,7 @@ export function parseDirective() {
   let raw = this.input.slice(this.state.cur.start, this.state.cur.end);
   let value = raw.slice(1, -1); // remove quotes
 
-  this.assign(directiveLiteral, "value", value, this.state.cur);
-  this.addExtra(directiveLiteral, "raw", raw);
+  this.assignRaw(directiveLiteral, "value", value);
 
   this.next();
 

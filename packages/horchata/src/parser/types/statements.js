@@ -286,10 +286,10 @@ export function parseLabeledStatement(node, maybeName, expr) {
       label.kind = kind;
     } else break;
   }
+  this.assign(node, "label", expr);
   this.state.labels.push({name: maybeName, kind: kind, statementStart: this.state.cur.start});
   this.assign(node, "body", this.parseStatement(true));
   this.state.labels.pop();
-  this.assign(node, "label", expr);
   return this.finishNode(node, "LabeledStatement");
 }
 

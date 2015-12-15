@@ -95,7 +95,8 @@ export function parseClassBody(isDeclaration, classContext) {
     }
 
     method.static = this.eat(tt._static);
-    if (method.static) this.assignToken(method, "static", this.state.prev);
+    if (method.static) this.assignToken(method, "static", this.state.prev, "static");
+
 
     if (!this.matchNext(tt.eq) && !this.matchNext(tt.parenL)) {
       if (this.eat(tt._get)) {
