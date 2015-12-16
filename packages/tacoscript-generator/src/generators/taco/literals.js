@@ -39,14 +39,14 @@ export {
 export function ObjectExpression(node) {
   this.push("{");
   this.printLiteralBody(node, "properties");
-  if (node.hasTrailingComma || node.properties.hasTrailingComma) this.push(",")
+  if (node.hasTrailingComma || node.properties.hasTrailingComma) this.push(",");
   this.push("}");
 }
 export {ObjectExpression as ObjectPattern};
 
 export function Property(node) {
   if (node.method || node.kind === "get" || node.kind === "set") {
-    this.printMultiple(node, "decorators", { separator: null });
+    this.printMultiple(node, "decorators", {separator: null});
     this._method(node);
   } else {
     this.ObjectProperty(node);
@@ -54,12 +54,12 @@ export function Property(node) {
 }
 
 export function ObjectMethod(node) {
-  this.printMultiple(node, "decorators", { separator: null });
+  this.printMultiple(node, "decorators", {separator: null});
   this._method(node, true);
 }
 
 export function ObjectProperty(node) {
-  this.printMultiple(node, "decorators", { separator: null });
+  this.printMultiple(node, "decorators", {separator: null});
 
   if (node.computed) {
     this.push("[");
