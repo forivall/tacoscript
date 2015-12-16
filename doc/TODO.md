@@ -8,7 +8,7 @@
   * [x] Fix tests (core/comments/base/\*)
   * [x] Add tests to make sure that original source can be constructed from cst
 * [x] Convert cst data to comment attachment when parsing
-  * [ ] Add tests for in-comment escaping (`/*` ⇆ `/ *`, `# *` ⇆ `#*`)
+  * [x] Add tests for in-comment escaping (`/*` ⇆ `/ *`, `# *` ⇆ `#*`)
 * [ ] Create cst-aware js generator; use cst data when generating javascript
 * [ ] Write tacoscript mode for codemirror
 * [ ] Use cst data when generating tacoscript

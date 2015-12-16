@@ -14,6 +14,8 @@ import State from "./state";
 import {getOptions} from "../options";
 // export {default as Token} from "./token";
 import {SourceLocation} from "../util/location";
+import {blockCommentMeta} from "./comments";
+const blockCommentJs = blockCommentMeta['/*'];
 import Token from "./token";
 export {Token};
 
@@ -298,35 +300,13 @@ export default class Lexer {
     this.state.endingLineComment = true;
   }
 
-  static blockCommentMeta = {
-    "#*": {
-      terminator: "*#",
-      terminatorRe: /\*#/,
-      terminatorReG: /\*#/g,
-      terminatorEscape: "* #",
-      terminatorEscapeReG: /\* #/g,
-      isCanonical: true // this is the only block comment type that will be included in generation
-    },
-    // formatting directives
-    "#%": {
-      terminator: "%#",
-      terminatorRe: /%#/,
-    },
-    // commented code. Will _not_ be included in cst
-    "###": {
-      terminator: "###",
-      terminatorRe: new RegExp(lineBreak.source + "###"),
-
-    }
-  };
-
   skipBlockComment(startLength = 2) {
     let start = this.state.pos;
     let startLoc = this.state.curPosition(), endLoc;
     let node = this._startCommentNode(startLoc);
     this.state.pos += startLength;
     let commentKind = this.input.slice(start, this.state.pos);
-    let meta = Lexer.blockCommentMeta[commentKind];
+    let meta = blockCommentMeta[commentKind];
     this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
@@ -341,7 +321,7 @@ export default class Lexer {
     let commentBody = raw;
     // TODO: move to "encode/decode comment" function
     if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeReG, meta.terminator);
-    commentBody = node.value = commentBody.replace(/\*\//g, "* /");
+    commentBody = node.value = commentBody.replace(blockCommentJs.terminatorReG, blockCommentJs.terminatorEscape);
 
     this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state

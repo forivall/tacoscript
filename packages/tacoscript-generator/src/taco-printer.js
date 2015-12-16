@@ -7,7 +7,10 @@ import isArray from "lodash/lang/isArray";
 import * as t from "babel-types";
 
 import TacoscriptTokenBuffer from "./taco-buffer";
-import {tokTypes as tt} from "horchata";
+import {tokTypes as tt, tokComments} from "horchata";
+const
+  blockCommentJs = tokComments.blockCommentMeta['/*'],
+  blockCommentTaco = tokComments.blockCommentMeta['#*'];
 
 function isParenthesized(node) {
   return node.extra != null && node.extra.parenthesized || node.parenthesizedExpression;
@@ -322,7 +325,11 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     if (comment.type === "CommentBlock") {
       this._push({type: tt.blockCommentStart, value: {kind: "#*", code: "#*"}});
       // TODO: encode/decode comment value for output in javascript
-      this._push({type: tt.blockCommentBody, value: {kind: "#*", code: comment.value}});
+      let commentBody = comment.value;
+      commentBody = commentBody.replace(blockCommentJs.terminatorEscapeReG, blockCommentJs.terminator);
+      commentBody = commentBody.replace(blockCommentTaco.terminatorReG, blockCommentTaco.terminatorEscape);
+
+      this._push({type: tt.blockCommentBody, value: {kind: "#*", code: commentBody, value: comment.value}});
       this._push({type: tt.blockCommentEnd, value: {kind: "#*", code: "*#"}});
     } else {
       let commentKind; switch (comment.end - comment.start - comment.value.length) {
