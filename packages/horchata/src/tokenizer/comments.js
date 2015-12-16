@@ -4,9 +4,10 @@ export const blockCommentMeta = {
   "#*": {
     terminator: "*#",
     terminatorRe: /\*#/,
-    terminatorReG: /\*#/g,
-    terminatorEscape: "* #",
-    terminatorEscapeReG: /\* #/g,
+    terminatorSub: "*$1#",
+    terminatorSubRe: /\*( *)#/g,
+    terminatorEscapeSub: "* $1#",
+    terminatorEscapeSubRe: /\* ( *)#/g,
     isCanonical: true // this is the only block comment type that will be included in generation
   },
   // formatting directives
@@ -18,14 +19,14 @@ export const blockCommentMeta = {
   "###": {
     terminator: "###",
     terminatorRe: new RegExp(lineBreak.source + "###"),
-
   },
   "/*": {
     terminator: "*/",
     terminatorRe: /\*\//,
-    terminatorReG: /\*\//g,
-    terminatorEscape: "* /",
-    terminatorEscapeReG: /\* \//g,
+    terminatorSub: "*$1/",
+    terminatorSubRe: /\*( *)\//g,
+    terminatorEscapeSub: "* $1/",
+    terminatorEscapeSubRe: /\* ( *)\//g,
     isJs: true
   }
 };

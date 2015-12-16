@@ -320,8 +320,8 @@ export default class Lexer {
     let raw = this.input.slice(start, this.state.pos);
     let commentBody = raw;
     // TODO: move to "encode/decode comment" function
-    if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeReG, meta.terminator);
-    commentBody = node.value = commentBody.replace(blockCommentJs.terminatorReG, blockCommentJs.terminatorEscape);
+    if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeSubRe, meta.terminatorSub);
+    commentBody = node.value = commentBody.replace(blockCommentJs.terminatorSubRe, blockCommentJs.terminatorEscapeSub);
 
     this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state

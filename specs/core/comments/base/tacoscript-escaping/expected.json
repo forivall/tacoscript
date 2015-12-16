@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 17,
+  "end": 28,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 17,
+    "end": 28,
     "loc": {
       "start": {
         "line": 1,
@@ -30,8 +30,8 @@
     "body": [
       {
         "type": "EmptyStatement",
-        "start": 8,
-        "end": 9,
+        "start": 14,
+        "end": 15,
         "loc": {
           "start": {
             "line": 2,
@@ -45,9 +45,9 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "* /",
+            "value": "* /  *  /",
             "start": 0,
-            "end": 7,
+            "end": 13,
             "loc": {
               "start": {
                 "line": 1,
@@ -55,7 +55,7 @@
               },
               "end": {
                 "line": 1,
-                "column": 7
+                "column": 13
               }
             }
           }
@@ -63,9 +63,9 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*#",
-            "start": 10,
-            "end": 16,
+            "value": "*#  * #",
+            "start": 16,
+            "end": 27,
             "loc": {
               "start": {
                 "line": 3,
@@ -73,7 +73,7 @@
               },
               "end": {
                 "line": 3,
-                "column": 6
+                "column": 11
               }
             }
           }
@@ -85,9 +85,9 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "* /",
+      "value": "* /  *  /",
       "start": 0,
-      "end": 7,
+      "end": 13,
       "loc": {
         "start": {
           "line": 1,
@@ -95,15 +95,15 @@
         },
         "end": {
           "line": 1,
-          "column": 7
+          "column": 13
         }
       }
     },
     {
       "type": "CommentBlock",
-      "value": "*#",
-      "start": 10,
-      "end": 16,
+      "value": "*#  * #",
+      "start": 16,
+      "end": 27,
       "loc": {
         "start": {
           "line": 3,
@@ -111,7 +111,7 @@
         },
         "end": {
           "line": 3,
-          "column": 6
+          "column": 11
         }
       }
     }

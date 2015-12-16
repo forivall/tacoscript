@@ -326,8 +326,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this._push({type: tt.blockCommentStart, value: {kind: "#*", code: "#*"}});
       // TODO: encode/decode comment value for output in javascript
       let commentBody = comment.value;
-      commentBody = commentBody.replace(blockCommentJs.terminatorEscapeReG, blockCommentJs.terminator);
-      commentBody = commentBody.replace(blockCommentTaco.terminatorReG, blockCommentTaco.terminatorEscape);
+      commentBody = commentBody.replace(blockCommentJs.terminatorEscapeSubRe, blockCommentJs.terminatorSub);
+      commentBody = commentBody.replace(blockCommentTaco.terminatorSubRe, blockCommentTaco.terminatorEscapeSub);
 
       this._push({type: tt.blockCommentBody, value: {kind: "#*", code: commentBody, value: comment.value}});
       this._push({type: tt.blockCommentEnd, value: {kind: "#*", code: "*#"}});
