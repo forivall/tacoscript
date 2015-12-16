@@ -10,8 +10,12 @@
 * [x] Convert cst data to comment attachment when parsing
   * [x] Add tests for in-comment escaping (`/*` ⇆ `/ *`, `# *` ⇆ `#*`)
 * [ ] Create cst-aware js generator; use cst data when generating javascript
+  * [ ] Clone the tree, replace tacoscript cst elements with js cst elements,
+        then simply print the CST.
 * [ ] Write tacoscript mode for codemirror
 * [ ] Use cst data when generating tacoscript
+  * [ ] Instead of pushing tokens to a continuous token stream, enrich the ast
+        with cst elements. https://github.com/estools/escodegen/wiki/CST-Proposals
 
 # Far flung future
 
