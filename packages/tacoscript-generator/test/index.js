@@ -11,6 +11,8 @@ var misMatch = require("../../tacoscript-dev-utils").misMatch;
 require("babylon-plugin-cst").install();
 var specOptions = require("../../../specs/options");
 
+var GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
+
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
   _.assign({}, specOptions.core, {
     fixtures: _.assign({}, specOptions.core.fixtures, {
@@ -104,12 +106,9 @@ _.forOwn(coreSpecs, function(suites, setName) {
           // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
           // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
           var tacoLoc = taco.loc.replace('expected.json/', '');
-          // TODO: fix duplicate newlines properly -- this issue is only with object literals
-          // console.log(result.tokens);
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
-          // if (!taco.code && !fs.existsSync(tacoLoc)) {
-          //   fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
-          if (false) {
+          if (GENERATE && !taco.code && !fs.existsSync(tacoLoc)) {
+            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
           } else {
             expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
           }
@@ -145,12 +144,10 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
           // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
           // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
           var tacoLoc = taco.loc.replace('expected.json/', '');
-          // TODO: fix duplicate newlines properly -- this issue is only with object literals
-          // console.log(result.tokens);
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
-          // if (!taco.code && !fs.existsSync(tacoLoc)) {
-          //   fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
-          if (false) {
+
+          if (GENERATE && !taco.code && !fs.existsSync(tacoLoc)) {
+            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
           } else {
             expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
           }
