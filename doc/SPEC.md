@@ -281,6 +281,7 @@ All of the following syntax is optional, but is default, and is part of the core
 
 # Phase 5
 * [ ] Hygenic Macros, aka, port sweet.js
+* [ ] Overloading infix operators, ``` !arith(a + b) ``` or `a +! b` to use raw operators; type inference would also be used to use raw operators when possible.
 
 
 ## Implementation Plan
