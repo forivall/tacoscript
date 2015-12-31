@@ -80,22 +80,25 @@ export function CallExpression(node) {
   this.printArguments(node);
 }
 
-function buildYieldAwait(keyword) {
-  return function (node) {
-    this.push(keyword);
+export function YieldExpression(node) {
+  this.push("yield");
 
-    if (node.delegate || node.all) {
-      this.push("*");
-    }
+  if (node.delegate) {
+    this.push("*");
+  }
 
-    if (node.argument) {
-      this.print(node, "argument");
-    }
-  };
+  if (node.argument) {
+    this.print(node, "argument");
+  }
 }
 
-export let YieldExpression = buildYieldAwait("yield");
-export let AwaitExpression = buildYieldAwait("await");
+export function AwaitExpression(node) {
+  this.push("await");
+
+  if (node.argument) {
+    this.print(node, "argument");
+  }
+}
 
 export function EmptyStatement() {
   this.push("pass");
