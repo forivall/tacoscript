@@ -28,7 +28,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
     let foo = 1
   ```
 
-  In general, `!` is used similar to how CSS uses it for `!important`. See more uses below.
+  In ge neral, `!` is used similar to how CSS uses it for `!important`. See more uses below.
 
 2. Braces are only used for object literals, and are always required for object literals
 
@@ -174,6 +174,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] null coalsecing and soak operator (`?` and `?.` and `?[]`)
 * [ ] simplify `!!` ↔ `not not` to `asbool` (still a prefix operator)
 * [ ] lower the precedence of `not` _Feedback requested_, `is not` same as `isnt`
+* [ ] `typeof a === b` -> `(a === null ? 'null' : typeof a) === b`
 
 #### Phase 3
 * [ ] non-fallthrough `switch` [(spec)](./safe-switch.md)
