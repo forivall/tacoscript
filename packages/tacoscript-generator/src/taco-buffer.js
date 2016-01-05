@@ -242,13 +242,8 @@ export default class TacoBuffer {
     return false;
   }
 
-  // TODO: move this documentation elsewhere
-  // syntax: -! is used to encode a semicolon that doesn't have a trailing newline
-  // example is in the following function
-
   _insertFormattingSpace(state) {
-    if (this.format.compact || this.format.preserve) { return false; }
-    // if this.format.compact or this.format.preserve then! return false
+    if (this.format.compact || this.format.preserve) return false;
     let last = this._last();
     let insertFormatting = last && last.type.formattingSpaceAfter;
     if (insertFormatting === true && state.type === tt.newline) insertFormatting = false;

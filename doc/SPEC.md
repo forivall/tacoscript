@@ -159,7 +159,7 @@ All of the following syntax is optional, but is default, and is part of the core
   * `fs.readFile! "package.json", (err, data) ->`
   * [x] parse - TODO: store in extra
   * [ ] generate (requires inference)
-* [ ] Automatic `let`, `extern` to assign undeclared variables. [(spec)](./auto-let.md)
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 * [ ] IIFE syntax
   * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 * [ ] `@.` ↔ `this.` ([frappe])
@@ -292,10 +292,10 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] Implement horchata, the tacoscript (including Phase 1 and 2 syntax) parser
   * [x] -Replace use of pos & loc with tokenIndex, and then read pos & loc from token-
     * [x] pass a proto-token object instead of pos and loc, which includes pos, loc and token index
-  * [ ] (partially done) Implement a simpler & more performant version of lookahead compared to babylon's lookahead
+  * [x] (partially done) Implement a simpler & more performant version of lookahead compared to babylon's lookahead
     * [ ] use lookahead'd tokens when the context doesn't change
   * [ ] Instead of setting and unsetting the state on `this`, pass a scope object down the recursive descent.
-  * [ ] Add CST-in-AST nodes
+  * [x] Add CST-in-AST nodes
     * [x] instead of setting node properties directly, use `Parser#assign` or `set` or `add`
 * [ ] Improve documentation
 * [ ] Implement each of the extended syntax as independent transforms
