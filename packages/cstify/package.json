@@ -1,0 +1,23 @@
+{
+  "name": "cstify",
+  "version": "0.2.4",
+  "description": "Adds cst elements to an ast",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
+  "contributors": [
+    "Richard Gibson (https://twitter.com/gibson042)"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "babylon": "^6.3.26"
+  },
+  "dependencies": {
+    "babel-types": "^6.3.24",
+    "heapjs": "^1.0.4",
+    "tacoscript-cst-utils": "^0.2.4"
+  }
+}

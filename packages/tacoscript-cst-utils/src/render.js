@@ -16,7 +16,7 @@ export default function render(node, sourceElementsKey = "sourceElements", path 
         }
       } else {
         if (el.element) {
-          return  el.value != null ? el.value : node[el.reference];
+          return el.value != null ? el.value : node[el.reference];
         } else {
           return render(node[key], sourceElementsKey, path + '.' + key);
         }
