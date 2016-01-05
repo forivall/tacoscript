@@ -7,7 +7,7 @@ var fs = require("fs");
 var specOptions = require("../../../specs/options");
 var misMatch = require("../../tacoscript-dev-utils").misMatch;
 var mochaFixtures = require("mocha-fixtures-generic");
-var render = require("../lib/util/render-cst");
+var render = require("tacoscript-cst-utils").render;
 
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
   _.assign({}, specOptions.core, {

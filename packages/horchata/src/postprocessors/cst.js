@@ -4,6 +4,7 @@
  */
 
 import {SourceLocation} from "../util/location";
+import {dereference} from "tacoscript-cst-utils";
 
 export default function(ast, tokens) { new Postprocessor().process(ast, tokens); return ast; }
 
@@ -18,20 +19,6 @@ export class Postprocessor {
     }
   }
 
-  dereference(parent, childReference, state) {
-    if (childReference === undefined) return undefined;
-    let [key, list] = childReference.reference.split('#');
-    let node;
-    if (list === "next") {
-      let i = state.list[key] || 0;
-      node = parent[key][i];
-      state.list[key] = i + 1;
-    } else {
-      node = parent[key];
-    }
-    return node;
-  }
-
   nextSourceTokenIndex(el, node) {
     if (el.extra && el.extra.tokenIndex != null) return el.extra.tokenIndex;
     if (node) return node.tokenStart;
@@ -44,7 +31,7 @@ export class Postprocessor {
     let children = node._childReferences || [];
     let i = 0;
     let nextChild = children[i];
-    let nextNode = this.dereference(node, nextChild, state);
+    let nextNode = dereference(node, nextChild, state);
 
     // TODO: simplify control flow
     while (this.index < this.tokens.length) {
@@ -85,7 +72,7 @@ export class Postprocessor {
         }
         i += 1;
         nextChild = children[i];
-        nextNode = this.dereference(node, nextChild, state);
+        nextNode = dereference(node, nextChild, state);
       } else {
         break;
       }
