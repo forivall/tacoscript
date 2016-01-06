@@ -1,12 +1,16 @@
 {
   "name": "tacoscript-cst-utils",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Adds cst elements to an ast",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha"
   },
-  "keywords": ["cst", "tacoscript", "babylon"],
+  "keywords": [
+    "cst",
+    "tacoscript",
+    "babylon"
+  ],
   "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
   "license": "ISC"
 }

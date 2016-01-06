@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-generator",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Generator for tacoscript",
   "main": "lib/index.js",
   "bin": {
@@ -24,10 +24,10 @@
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
     "babel-types": "^6.2.0",
-    "horchata": "^0.2.4",
+    "horchata": "^0.2.5",
     "lodash": "^3.10.1"
   },
   "devDependencies": {
-    "babylon-plugin-cst": "^0.2.1"
+    "babylon-plugin-cst": "^0.2.5"
   }
 }
