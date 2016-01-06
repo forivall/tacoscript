@@ -19,16 +19,36 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
         test.indexOf("invalid-") === 0 ||
         test.indexOf("unexpected-") === 0 ||
         test.indexOf("malformed-") === 0 ||
-        // TODO: fix these tests
-        testPath.indexOf("core/base-literals/string") !== -1 ||
+        // TODO: fix this test: need to analyse cst for data
         testPath.indexOf("core/base-expression/function-call") !== -1 && test === "new-no-parens" ||
+        // TODO: fix these tests -- they have issues with babylon, not cstify
+        testPath.indexOf("core/base-literals/string") !== -1 ||
         testPath.indexOf("core/es2015/uncategorised") !== -1 && (test === "1" || test === "2" || test === "23") ||
         testPath.indexOf("core/es2015/yield") !== -1 && test === "yield-generator-arrow-concise-body" ||
         false);
     }
   })
 );
-
+var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
+  _.extend({}, specOptions.unified, {
+    fixtures: _.assign({}, specOptions.unified.fixtures, {
+      // "json": { loc: ["expected.json", "expected.cst.json"] }
+    })
+  })
+);
+var babylonParseOpts = {
+  strictMode: false,
+  sourceType: "module",
+  // 6.0
+  plugins: [
+    "asyncFunctions",
+    "classProperties",
+    "decorators",
+    "exponentiationOperator",
+    "exportExtensions",
+    "functionBind",
+  ],
+};
 suite("cstify", function () {
   test("basic", function () {
     var code = "this;\n";
@@ -72,6 +92,20 @@ _.forOwn(coreSpecs, function(suites, setName) {
           }
           var mismatchMessage = misMatch(expectedAst, ast);
           if (mismatchMessage) throw new Error(mismatchMessage);
+          // console.log(JSON.stringify(ast, null, ' '))
+          expect(render(ast)).to.equal(task.js.code, "reconstructed" + " !== " + task.js.loc);
+        });
+      });
+    });
+  });
+});
+
+_.forOwn(unifiedSpecs, function(suites, setName) {
+  suites.forEach(function (testSuite) {
+    suite("cstify: unified/" + setName + "/" + testSuite.title, function () {
+      _.each(testSuite.tests, function(task) {
+        test(task.title, !(task.disabled || task.title === "Decorator") && function () {
+          var ast = cstify(babylon.parse(task.js.code, _.assign({}, babylonParseOpts, task.options)), task.js.code);
           // console.log(JSON.stringify(ast, null, ' '))
           expect(render(ast)).to.equal(task.js.code, "reconstructed" + " !== " + task.js.loc);
         });

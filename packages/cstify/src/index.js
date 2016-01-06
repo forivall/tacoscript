@@ -119,6 +119,7 @@ export class Processor {
     return childReferences;
   }
 
+  // this function adapted from gibson042's POC
   captureWhitespace(start, end) {
     let sourceElements = [];
     // Capture preceding whitespace, separating out line terminators
@@ -145,6 +146,7 @@ function nodePos(parent, key, listState) {
     // let n = c[listState[key] ?= 0]
     if (c.length <= 0) return -1;
     let n = c[listState[key] != null ? listState[key] : (listState[key] = 0)];
+    if (n == null) return -1;
     return avg(n.start, n.end);
   } else {
     if (c == null) return -1;
