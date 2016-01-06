@@ -1,3 +1,4 @@
+
 // Render by depth-first reference traversal
 
 export default function render(node, sourceElementsKey = "sourceElements", path = "") {

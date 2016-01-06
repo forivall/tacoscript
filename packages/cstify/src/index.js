@@ -1,3 +1,4 @@
+
 import {VISITOR_KEYS} from 'babel-types';
 import heap from 'heapjs';
 import TYPE_TO_ELEMENT from './type-to-element';
@@ -31,21 +32,40 @@ export class Processor {
     let children = this.childReferences(node);
     let sourceElements = node.sourceElements = [];
 
-    let prevNode = null;
+    let prevNode;
     for (let l = children.length, i = 0; i < l; i++) {
       let nextChild = children[i];
       let nextNode = dereference(node, nextChild, state);
+      if (nextNode === null && (node.type === "ArrayExpression" || node.type === "ArrayPattern")) {
+        // Find postiion of hole, & create pseudo node
+
+        // if it's the first item, the first comma we see is where the hole is,
+        // otherwise, it's after the first comma, at the start of the next comma
+        let seenComma = i === 0;
+        for (let token, j = this.index; j < this.tokensLength && (token = this.tokens[j]).end <= node.end; j++) {
+          if (token.type && token.type.label === ',') {
+            if (seenComma) {
+              nextNode = {start: token.start, end: token.start};
+              Object.assign(nextChild, nextNode); // TODO: add loc
+              break;
+            } else {
+              seenComma = true;
+            }
+          }
+        }
+        if (nextNode === null) throw new Error("Could not find postition of ArrayHole");
+      }
       this.collect(node, prevNode, nextNode);
       sourceElements.push(nextChild);
       this.traverse(nextNode);
       prevNode = nextNode;
     }
-    this.collect(node, prevNode, null);
+    this.collect(node, prevNode);
   }
 
   collect(node, prevChild, nextChild) {
-    let start = prevChild != null ? prevChild.end : node.start;
-    let end = nextChild != null ? nextChild.start : node.end;
+    let start = prevChild !== undefined ? prevChild.end : node.start;
+    let end = nextChild !== undefined ? nextChild.start : node.end;
     let {sourceElements} = node;
     for (let token; this.index < this.tokensLength && (token = this.tokens[this.index]).end <= end; this.index++) {
       sourceElements.push(...this.captureWhitespace(start, token.start));
@@ -88,9 +108,10 @@ export class Processor {
           continue;
         }
         let childReference = {reference: `${nextChild}#next`};
-        prevChild = node[nextChild][listState[nextChild]];
+        // prevChild = node[listState[nextChild] ?= 0]
+        prevChild = node[nextChild][listState[nextChild] != null ? listState[nextChild] : (listState[nextChild] = 0)];
         if (prevChild === null) {
-          childReference.kind = "Hole";
+          childReference.element = "ArrayHole";
           childReference.value = "";
         }
         childReferences.push(childReference);
@@ -142,9 +163,9 @@ export class Processor {
 function nodePos(parent, key, listState) {
   let c = parent[key];
   if (Array.isArray(c)) {
+    if (c.length <= 0) return -1;
     // NOTE: with soak operator;
     // let n = c[listState[key] ?= 0]
-    if (c.length <= 0) return -1;
     let n = c[listState[key] != null ? listState[key] : (listState[key] = 0)];
     if (n == null) return -1;
     return avg(n.start, n.end);
