@@ -37,23 +37,8 @@ export class Processor {
       let nextChild = children[i];
       let nextNode = dereference(node, nextChild, state);
       if (nextNode === null && (node.type === "ArrayExpression" || node.type === "ArrayPattern")) {
-        // Find postiion of hole, & create pseudo node
-
-        // if it's the first item, the first comma we see is where the hole is,
-        // otherwise, it's after the first comma, at the start of the next comma
-        let seenComma = i === 0;
-        for (let token, j = this.index; j < this.tokensLength && (token = this.tokens[j]).end <= node.end; j++) {
-          if (token.type && token.type.label === ',') {
-            if (seenComma) {
-              nextNode = {start: token.start, end: token.start};
-              Object.assign(nextChild, nextNode); // TODO: add loc
-              break;
-            } else {
-              seenComma = true;
-            }
-          }
-        }
-        if (nextNode === null) throw new Error("Could not find postition of ArrayHole");
+        nextNode = this.findAndCreateArrayHole(node, i === 0);
+        Object.assign(nextChild, nextNode); // TODO: add loc
       }
       this.collect(node, prevNode, nextNode);
       sourceElements.push(nextChild);
@@ -61,6 +46,25 @@ export class Processor {
       prevNode = nextNode;
     }
     this.collect(node, prevNode);
+  }
+
+  findAndCreateArrayHole(node, isFirstChild) {
+    // Find postiion of hole, & create pseudo node
+
+    // if it's the first item, the first comma we see is where the hole is,
+    // otherwise, it's after the first comma, at the start of the next comma
+    let seenComma = isFirstChild;
+    for (let token, j = this.index; j < this.tokensLength && (token = this.tokens[j]).end <= node.end; j++) {
+      if (token.type && token.type.label === ',') {
+        if (seenComma) {
+          return {start: token.start, end: token.start};
+          break;
+        } else {
+          seenComma = true;
+        }
+      }
+    }
+    throw new Error("Could not find postition of ArrayHole");
   }
 
   collect(node, prevChild, nextChild) {
