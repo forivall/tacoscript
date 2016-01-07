@@ -1,6 +1,6 @@
 {
   "name": "cstify",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Adds cst elements to an ast",
   "main": "lib/index.js",
   "scripts": {
