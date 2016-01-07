@@ -51,7 +51,38 @@ var babylonParseOpts = {
 };
 suite("cstify", function () {
   test("basic", function () {
-    var code = "this;\n";
+    var code = "this ;\n";
+    var ast = cstify(babylon.parse(code, babylonParseOpts), code);
+    var mismatchMessage = misMatch({
+      type: "File",
+      sourceElements: [{reference: "program"}],
+      program: {
+        type: "Program",
+        sourceElements: [
+          {reference: "body#next"},
+          {element: "LineTerminator", value: "\n"},
+          {element: "EOF"}
+        ],
+        body: [
+          {
+            type: "ExpressionStatement",
+            sourceElements: [
+              {reference: "expression"},
+              {element: "WhiteSpace", value: " ", start: 4, end: 5},
+              {element: "Punctuator", value: ";"}],
+            expression: {
+              type: "ThisExpression",
+              sourceElements: [{element: "Keyword", value: "this"}]
+            }
+          }
+        ]
+      }
+    }, ast);
+    if (mismatchMessage) throw new Error(mismatchMessage);
+  });
+
+  test("arrayHole", function () {
+    var code = "[,,];\n";
     var ast = cstify(babylon.parse(code, babylonParseOpts), code);
     var mismatchMessage = misMatch({
       type: "File",
@@ -64,13 +95,55 @@ suite("cstify", function () {
             type: "ExpressionStatement",
             sourceElements: [{reference: "expression"}, {element: "Punctuator", value: ";"}],
             expression: {
-              type: "ThisExpression",
-              sourceElements: [{element: "Keyword", value: "this"}]
+              type: "ArrayExpression",
+              sourceElements: [
+                {element: "Punctuator", value: "["},
+                {element: "ArrayHole", reference: "elements#next"},
+                {element: "Punctuator", value: ","},
+                {element: "ArrayHole", reference: "elements#next"},
+                {element: "Punctuator", value: ","},
+                {element: "Punctuator", value: "]"},
+              ],
+              elements: [null, null]
             }
           }
         ]
       }
     }, ast);
+    if (mismatchMessage) throw new Error(mismatchMessage);
+  });
+  test("templates", function () {
+    var code = "`a${b}c${d}e`;\n";
+    var ast = cstify(babylon.parse(code, babylonParseOpts), code);
+    var mismatchMessage = misMatch({
+      type: "File",
+      program: {
+        type: "Program",
+        body: [
+          {
+            type: "ExpressionStatement",
+            sourceElements: [{reference: "expression"}, {element: "Punctuator", value: ";"}],
+            expression: {
+              type: "TemplateLiteral",
+              sourceElements: [
+                {element: "Punctuator", value: "`"},
+                {reference: "quasis#next"},
+                {element: "Punctuator", value: "${"},
+                {reference: "expressions#next"},
+                {element: "Punctuator", value: "}"},
+                {reference: "quasis#next"},
+                {element: "Punctuator", value: "${"},
+                {reference: "expressions#next"},
+                {element: "Punctuator", value: "}"},
+                {reference: "quasis#next"},
+                {element: "Punctuator", value: "`"},
+              ],
+            }
+          }
+        ]
+      }
+    }, ast);
+    // console.log(ast.program.body[0].expression.sourceElements)
     if (mismatchMessage) throw new Error(mismatchMessage);
   });
 });
