@@ -31,6 +31,7 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
 );
 var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
   _.extend({}, specOptions.unified, {
+    optionsPath: "options",
     fixtures: _.assign({}, specOptions.unified.fixtures, {
       // "json": { loc: ["expected.json", "expected.cst.json"] }
     })
@@ -38,7 +39,6 @@ var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../
 );
 var babylonParseOpts = {
   strictMode: false,
-  sourceType: "module",
   // 6.0
   plugins: [
     "asyncFunctions",
@@ -52,7 +52,7 @@ var babylonParseOpts = {
 suite("cstify", function () {
   test("basic", function () {
     var code = "this;\n";
-    var ast = cstify(babylon.parse(code), code);
+    var ast = cstify(babylon.parse(code, babylonParseOpts), code);
     var mismatchMessage = misMatch({
       type: "File",
       sourceElements: [{reference: "program"}],
@@ -80,7 +80,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
     suite("cstify: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function(task) {
         test(task.title, !task.disabled && function () {
-          var ast = cstify(babylon.parse(task.js.code, task.options), task.js.code);
+          var ast = cstify(babylon.parse(task.js.code, _.assign({}, babylonParseOpts, task.options)), task.js.code);
           // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
           try {
