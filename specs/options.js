@@ -64,4 +64,23 @@ var unifiedOptions = module.exports.unified = {
   },
   fixtures: baseOptions.fixtures,
   getTaskOptions: baseOptions.getTaskOptions,
-}
+};
+module.exports['unified-loc'] = {
+  optionsPath: unifiedOptions.optionsPath,
+  skip: function(test, testPath) {
+    return (
+      unifiedOptions.skip(test, testPath) ||
+      testPath.indexOf("/base/auto-indentation/") !== -1 ||
+      testPath.indexOf("/base/edgecase/") !== -1 ||
+      testPath.indexOf("/base/parentheses/") !== -1 ||
+      false
+    );
+  },
+  fixtures: {
+    "source": { loc: ["actual.taco"] },
+    "ast": { loc: ["actual.taco.ast.json"] },
+  },
+  getTaskOptions: function(suite) {
+    return suite.options;
+  },
+};

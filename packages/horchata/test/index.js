@@ -3,7 +3,6 @@ require('source-map-support').install();
 var horchata = require("../lib/index");
 var _ = require("lodash");
 var expect = require("chai").expect;
-var fs = require("fs");
 var specOptions = require("../../../specs/options");
 var misMatch = require("../../tacoscript-dev-utils").misMatch;
 var mochaFixtures = require("mocha-fixtures-generic");

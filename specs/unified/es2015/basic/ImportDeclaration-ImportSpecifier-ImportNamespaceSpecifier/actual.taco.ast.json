@@ -1,0 +1,3114 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 265,
+    "tokenStart": 0,
+    "tokenEnd": 71,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 10,
+        "column": 0
+      }
+    },
+    "sourceElements": [
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "element": "EOF",
+        "value": "",
+        "start": 265,
+        "end": 265,
+        "loc": {},
+        "extra": {
+          "tokenValue": "eof",
+          "tokenType": "eof",
+          "tokenIndex": 71
+        }
+      }
+    ],
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ImportDeclaration",
+        "start": 0,
+        "end": 13,
+        "tokenStart": 0,
+        "tokenEnd": 2,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 0,
+            "end": 6,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 0
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 6,
+            "end": 7,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 12,
+            "end": 13,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 2
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 13,
+            "end": 13,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [],
+        "extra": {
+          "noBrace": true
+        },
+        "source": {
+          "type": "StringLiteral",
+          "start": 7,
+          "end": 12,
+          "tokenStart": 1,
+          "tokenEnd": 1,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 12
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 7,
+              "end": 12,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 12
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 1,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 13,
+        "end": 35,
+        "tokenStart": 3,
+        "tokenEnd": 7,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 13,
+            "end": 19,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 3
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 19,
+            "end": 20,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 23,
+            "end": 24,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 24,
+            "end": 28,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 5
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 28,
+            "end": 29,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 34,
+            "end": 35,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 7
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 35,
+            "end": 35,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportDefaultSpecifier",
+            "start": 20,
+            "end": 23,
+            "tokenStart": 4,
+            "tokenEnd": 4,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 7
+              },
+              "end": {
+                "line": 2,
+                "column": 10
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "local"
+              }
+            ],
+            "local": {
+              "type": "Identifier",
+              "start": 20,
+              "end": 23,
+              "tokenStart": 4,
+              "tokenEnd": 4,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 7
+                },
+                "end": {
+                  "line": 2,
+                  "column": 10
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "foo",
+                  "element": "IdentifierName",
+                  "start": 20,
+                  "end": 23,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 7
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 10
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "foo",
+                      "raw": "foo"
+                    },
+                    "tokenIndex": 4,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "foo",
+              "extra": {
+                "raw": "foo"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 29,
+          "end": 34,
+          "tokenStart": 6,
+          "tokenEnd": 6,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 16
+            },
+            "end": {
+              "line": 2,
+              "column": 21
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 29,
+              "end": 34,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 16
+                },
+                "end": {
+                  "line": 2,
+                  "column": 21
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 6,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 35,
+        "end": 72,
+        "tokenStart": 8,
+        "tokenEnd": 16,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 35,
+            "end": 41,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 8
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 41,
+            "end": 42,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 42,
+            "end": 43,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 9
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 43,
+            "end": 44,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 58,
+            "end": 59,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 59,
+            "end": 60,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 13
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 60,
+            "end": 61,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 61,
+            "end": 65,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 14
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 65,
+            "end": 66,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 71,
+            "end": 72,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 16
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 72,
+            "end": 72,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "start": 44,
+            "end": 58,
+            "tokenStart": 10,
+            "tokenEnd": 12,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 23
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 51,
+                "end": 52,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "element": "Keyword",
+                "value": "as",
+                "start": 52,
+                "end": 54,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "as",
+                  "tokenType": "_as",
+                  "tokenIndex": 11
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 54,
+                "end": 55,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "reference": "local"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 44,
+              "end": 51,
+              "tokenStart": 10,
+              "tokenEnd": 10,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 9
+                },
+                "end": {
+                  "line": 3,
+                  "column": 16
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "default",
+                  "element": "IdentifierName",
+                  "start": 44,
+                  "end": 51,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 16
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": "default",
+                    "tokenIndex": 10,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "default",
+              "extra": {
+                "raw": "default"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 55,
+              "end": 58,
+              "tokenStart": 12,
+              "tokenEnd": 12,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 20
+                },
+                "end": {
+                  "line": 3,
+                  "column": 23
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "foo",
+                  "element": "IdentifierName",
+                  "start": 55,
+                  "end": 58,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 20
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 23
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "foo",
+                      "raw": "foo"
+                    },
+                    "tokenIndex": 12,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "foo",
+              "extra": {
+                "raw": "foo"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 66,
+          "end": 71,
+          "tokenStart": 15,
+          "tokenEnd": 15,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 31
+            },
+            "end": {
+              "line": 3,
+              "column": 36
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 66,
+              "end": 71,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 31
+                },
+                "end": {
+                  "line": 3,
+                  "column": 36
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 15,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 72,
+        "end": 99,
+        "tokenStart": 17,
+        "tokenEnd": 23,
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 72,
+            "end": 78,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 17
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 78,
+            "end": 79,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 87,
+            "end": 88,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 88,
+            "end": 92,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 21
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 92,
+            "end": 93,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 98,
+            "end": 99,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 23
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 99,
+            "end": 99,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportNamespaceSpecifier",
+            "start": 79,
+            "end": 87,
+            "tokenStart": 18,
+            "tokenEnd": 20,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 7
+              },
+              "end": {
+                "line": 4,
+                "column": 15
+              }
+            },
+            "sourceElements": [
+              {
+                "element": "Punctuator",
+                "value": "*",
+                "start": 79,
+                "end": 80,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "*",
+                  "tokenType": "star",
+                  "tokenIndex": 18
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 80,
+                "end": 81,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "element": "Keyword",
+                "value": "as",
+                "start": 81,
+                "end": 83,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "as",
+                  "tokenType": "_as",
+                  "tokenIndex": 19
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 83,
+                "end": 84,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "reference": "local"
+              }
+            ],
+            "local": {
+              "type": "Identifier",
+              "start": 84,
+              "end": 87,
+              "tokenStart": 20,
+              "tokenEnd": 20,
+              "loc": {
+                "start": {
+                  "line": 4,
+                  "column": 12
+                },
+                "end": {
+                  "line": 4,
+                  "column": 15
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "foo",
+                  "element": "IdentifierName",
+                  "start": 84,
+                  "end": 87,
+                  "loc": {
+                    "start": {
+                      "line": 4,
+                      "column": 12
+                    },
+                    "end": {
+                      "line": 4,
+                      "column": 15
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "foo",
+                      "raw": "foo"
+                    },
+                    "tokenIndex": 20,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "foo",
+              "extra": {
+                "raw": "foo"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 93,
+          "end": 98,
+          "tokenStart": 22,
+          "tokenEnd": 22,
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 21
+            },
+            "end": {
+              "line": 4,
+              "column": 26
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 93,
+              "end": 98,
+              "loc": {
+                "start": {
+                  "line": 4,
+                  "column": 21
+                },
+                "end": {
+                  "line": 4,
+                  "column": 26
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 22,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 99,
+        "end": 137,
+        "tokenStart": 24,
+        "tokenEnd": 34,
+        "loc": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 99,
+            "end": 105,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 24
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 105,
+            "end": 106,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "Punctuator",
+            "value": ",",
+            "start": 109,
+            "end": 110,
+            "loc": {},
+            "extra": {
+              "tokenValue": ",",
+              "tokenType": "comma",
+              "tokenIndex": 26
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 110,
+            "end": 111,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 111,
+            "end": 112,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 27
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 112,
+            "end": 113,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 123,
+            "end": 124,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 124,
+            "end": 125,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 31
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 125,
+            "end": 126,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 126,
+            "end": 130,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 32
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 130,
+            "end": 131,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 136,
+            "end": 137,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 34
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 137,
+            "end": 137,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportDefaultSpecifier",
+            "start": 106,
+            "end": 109,
+            "tokenStart": 25,
+            "tokenEnd": 25,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 7
+              },
+              "end": {
+                "line": 5,
+                "column": 10
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "local"
+              }
+            ],
+            "local": {
+              "type": "Identifier",
+              "start": 106,
+              "end": 109,
+              "tokenStart": 25,
+              "tokenEnd": 25,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 7
+                },
+                "end": {
+                  "line": 5,
+                  "column": 10
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "foo",
+                  "element": "IdentifierName",
+                  "start": 106,
+                  "end": 109,
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 7
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 10
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "foo",
+                      "raw": "foo"
+                    },
+                    "tokenIndex": 25,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "foo",
+              "extra": {
+                "raw": "foo"
+              }
+            }
+          },
+          {
+            "type": "ImportSpecifier",
+            "start": 113,
+            "end": 123,
+            "tokenStart": 28,
+            "tokenEnd": 30,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 14
+              },
+              "end": {
+                "line": 5,
+                "column": 24
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 116,
+                "end": 117,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "element": "Keyword",
+                "value": "as",
+                "start": 117,
+                "end": 119,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "as",
+                  "tokenType": "_as",
+                  "tokenIndex": 29
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 119,
+                "end": 120,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "reference": "local"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 113,
+              "end": 116,
+              "tokenStart": 28,
+              "tokenEnd": 28,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 14
+                },
+                "end": {
+                  "line": 5,
+                  "column": 17
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "baz",
+                  "element": "IdentifierName",
+                  "start": 113,
+                  "end": 116,
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 14
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 17
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "baz",
+                      "raw": "baz"
+                    },
+                    "tokenIndex": 28,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "baz",
+              "extra": {
+                "raw": "baz"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 120,
+              "end": 123,
+              "tokenStart": 30,
+              "tokenEnd": 30,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 21
+                },
+                "end": {
+                  "line": 5,
+                  "column": 24
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "xyz",
+                  "element": "IdentifierName",
+                  "start": 120,
+                  "end": 123,
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 21
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 24
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "xyz",
+                      "raw": "xyz"
+                    },
+                    "tokenIndex": 30,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "xyz",
+              "extra": {
+                "raw": "xyz"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 131,
+          "end": 136,
+          "tokenStart": 33,
+          "tokenEnd": 33,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 32
+            },
+            "end": {
+              "line": 5,
+              "column": 37
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 131,
+              "end": 136,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 32
+                },
+                "end": {
+                  "line": 5,
+                  "column": 37
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 33,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 137,
+        "end": 163,
+        "tokenStart": 35,
+        "tokenEnd": 41,
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 137,
+            "end": 143,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 35
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 143,
+            "end": 144,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 144,
+            "end": 145,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 36
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 145,
+            "end": 146,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 149,
+            "end": 150,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 150,
+            "end": 151,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 38
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 151,
+            "end": 152,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 152,
+            "end": 156,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 39
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 156,
+            "end": 157,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 162,
+            "end": 163,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 41
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 163,
+            "end": 163,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "start": 146,
+            "end": 149,
+            "tokenStart": 37,
+            "tokenEnd": 37,
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 9
+              },
+              "end": {
+                "line": 6,
+                "column": 12
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 146,
+              "end": 149,
+              "tokenStart": 37,
+              "tokenEnd": 37,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 9
+                },
+                "end": {
+                  "line": 6,
+                  "column": 12
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "bar",
+                  "element": "IdentifierName",
+                  "start": 146,
+                  "end": 149,
+                  "loc": {
+                    "start": {
+                      "line": 6,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 6,
+                      "column": 12
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "bar",
+                      "raw": "bar"
+                    },
+                    "tokenIndex": 37,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 146,
+              "end": 149,
+              "tokenStart": 37,
+              "tokenEnd": 37,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 9
+                },
+                "end": {
+                  "line": 6,
+                  "column": 12
+                }
+              },
+              "sourceElements": [],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 157,
+          "end": 162,
+          "tokenStart": 40,
+          "tokenEnd": 40,
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 20
+            },
+            "end": {
+              "line": 6,
+              "column": 25
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 157,
+              "end": 162,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 20
+                },
+                "end": {
+                  "line": 6,
+                  "column": 25
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 40,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 163,
+        "end": 194,
+        "tokenStart": 42,
+        "tokenEnd": 50,
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 0
+          },
+          "end": {
+            "line": 8,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 163,
+            "end": 169,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 42
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 169,
+            "end": 170,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 170,
+            "end": 171,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 43
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 171,
+            "end": 172,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "Punctuator",
+            "value": ",",
+            "start": 175,
+            "end": 176,
+            "loc": {},
+            "extra": {
+              "tokenValue": ",",
+              "tokenType": "comma",
+              "tokenIndex": 45
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 176,
+            "end": 177,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 180,
+            "end": 181,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 181,
+            "end": 182,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 47
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 182,
+            "end": 183,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 183,
+            "end": 187,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 48
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 187,
+            "end": 188,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 193,
+            "end": 194,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 50
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 194,
+            "end": 194,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "start": 172,
+            "end": 175,
+            "tokenStart": 44,
+            "tokenEnd": 44,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 12
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 172,
+              "end": 175,
+              "tokenStart": 44,
+              "tokenEnd": 44,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 9
+                },
+                "end": {
+                  "line": 7,
+                  "column": 12
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "bar",
+                  "element": "IdentifierName",
+                  "start": 172,
+                  "end": 175,
+                  "loc": {
+                    "start": {
+                      "line": 7,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 7,
+                      "column": 12
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "bar",
+                      "raw": "bar"
+                    },
+                    "tokenIndex": 44,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 172,
+              "end": 175,
+              "tokenStart": 44,
+              "tokenEnd": 44,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 9
+                },
+                "end": {
+                  "line": 7,
+                  "column": 12
+                }
+              },
+              "sourceElements": [],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            }
+          },
+          {
+            "type": "ImportSpecifier",
+            "start": 177,
+            "end": 180,
+            "tokenStart": 46,
+            "tokenEnd": 46,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 14
+              },
+              "end": {
+                "line": 7,
+                "column": 17
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 177,
+              "end": 180,
+              "tokenStart": 46,
+              "tokenEnd": 46,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 14
+                },
+                "end": {
+                  "line": 7,
+                  "column": 17
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "baz",
+                  "element": "IdentifierName",
+                  "start": 177,
+                  "end": 180,
+                  "loc": {
+                    "start": {
+                      "line": 7,
+                      "column": 14
+                    },
+                    "end": {
+                      "line": 7,
+                      "column": 17
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "baz",
+                      "raw": "baz"
+                    },
+                    "tokenIndex": 46,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "baz",
+              "extra": {
+                "raw": "baz"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 177,
+              "end": 180,
+              "tokenStart": 46,
+              "tokenEnd": 46,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 14
+                },
+                "end": {
+                  "line": 7,
+                  "column": 17
+                }
+              },
+              "sourceElements": [],
+              "name": "baz",
+              "extra": {
+                "raw": "baz"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 188,
+          "end": 193,
+          "tokenStart": 49,
+          "tokenEnd": 49,
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 25
+            },
+            "end": {
+              "line": 7,
+              "column": 30
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 188,
+              "end": 193,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 25
+                },
+                "end": {
+                  "line": 7,
+                  "column": 30
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 49,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 194,
+        "end": 227,
+        "tokenStart": 51,
+        "tokenEnd": 59,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 0
+          },
+          "end": {
+            "line": 9,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 194,
+            "end": 200,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 51
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 200,
+            "end": 201,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 201,
+            "end": 202,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 52
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 202,
+            "end": 203,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 213,
+            "end": 214,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 214,
+            "end": 215,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 56
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 215,
+            "end": 216,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 216,
+            "end": 220,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 57
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 220,
+            "end": 221,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 226,
+            "end": 227,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 59
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 227,
+            "end": 227,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "start": 203,
+            "end": 213,
+            "tokenStart": 53,
+            "tokenEnd": 55,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 9
+              },
+              "end": {
+                "line": 8,
+                "column": 19
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 206,
+                "end": 207,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "element": "Keyword",
+                "value": "as",
+                "start": 207,
+                "end": 209,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "as",
+                  "tokenType": "_as",
+                  "tokenIndex": 54
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 209,
+                "end": 210,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "reference": "local"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 203,
+              "end": 206,
+              "tokenStart": 53,
+              "tokenEnd": 53,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 9
+                },
+                "end": {
+                  "line": 8,
+                  "column": 12
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "bar",
+                  "element": "IdentifierName",
+                  "start": 203,
+                  "end": 206,
+                  "loc": {
+                    "start": {
+                      "line": 8,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 12
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "bar",
+                      "raw": "bar"
+                    },
+                    "tokenIndex": 53,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 210,
+              "end": 213,
+              "tokenStart": 55,
+              "tokenEnd": 55,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 16
+                },
+                "end": {
+                  "line": 8,
+                  "column": 19
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "baz",
+                  "element": "IdentifierName",
+                  "start": 210,
+                  "end": 213,
+                  "loc": {
+                    "start": {
+                      "line": 8,
+                      "column": 16
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 19
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "baz",
+                      "raw": "baz"
+                    },
+                    "tokenIndex": 55,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "baz",
+              "extra": {
+                "raw": "baz"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 221,
+          "end": 226,
+          "tokenStart": 58,
+          "tokenEnd": 58,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 27
+            },
+            "end": {
+              "line": 8,
+              "column": 32
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 221,
+              "end": 226,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 27
+                },
+                "end": {
+                  "line": 8,
+                  "column": 32
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 58,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "start": 227,
+        "end": 265,
+        "tokenStart": 60,
+        "tokenEnd": 70,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "import",
+            "start": 227,
+            "end": 233,
+            "loc": {},
+            "extra": {
+              "tokenValue": "import",
+              "tokenType": "_import",
+              "tokenIndex": 60
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 233,
+            "end": 234,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "{",
+            "start": 234,
+            "end": 235,
+            "loc": {},
+            "extra": {
+              "tokenValue": "{",
+              "tokenType": "braceL",
+              "tokenIndex": 61
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 235,
+            "end": 236,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "Punctuator",
+            "value": ",",
+            "start": 246,
+            "end": 247,
+            "loc": {},
+            "extra": {
+              "tokenValue": ",",
+              "tokenType": "comma",
+              "tokenIndex": 65
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 247,
+            "end": 248,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "specifiers#next"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 251,
+            "end": 252,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Punctuator",
+            "value": "}",
+            "start": 252,
+            "end": 253,
+            "loc": {},
+            "extra": {
+              "tokenValue": "}",
+              "tokenType": "braceR",
+              "tokenIndex": 67
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 253,
+            "end": 254,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "from",
+            "start": 254,
+            "end": 258,
+            "loc": {},
+            "extra": {
+              "tokenValue": "from",
+              "tokenType": "_from",
+              "tokenIndex": 68
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 258,
+            "end": 259,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "source"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 264,
+            "end": 265,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 70
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 265,
+            "end": 265,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "start": 236,
+            "end": 246,
+            "tokenStart": 62,
+            "tokenEnd": 64,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 9
+              },
+              "end": {
+                "line": 9,
+                "column": 19
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 239,
+                "end": 240,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "element": "Keyword",
+                "value": "as",
+                "start": 240,
+                "end": 242,
+                "loc": {},
+                "extra": {
+                  "tokenValue": "as",
+                  "tokenType": "_as",
+                  "tokenIndex": 63
+                }
+              },
+              {
+                "element": "WhiteSpace",
+                "value": " ",
+                "start": 242,
+                "end": 243,
+                "loc": {},
+                "extra": {
+                  "tokenValue": {
+                    "code": " "
+                  },
+                  "tokenType": "whitespace"
+                }
+              },
+              {
+                "reference": "local"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 236,
+              "end": 239,
+              "tokenStart": 62,
+              "tokenEnd": 62,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 9
+                },
+                "end": {
+                  "line": 9,
+                  "column": 12
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "bar",
+                  "element": "IdentifierName",
+                  "start": 236,
+                  "end": 239,
+                  "loc": {
+                    "start": {
+                      "line": 9,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 12
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "bar",
+                      "raw": "bar"
+                    },
+                    "tokenIndex": 62,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 243,
+              "end": 246,
+              "tokenStart": 64,
+              "tokenEnd": 64,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 16
+                },
+                "end": {
+                  "line": 9,
+                  "column": 19
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "baz",
+                  "element": "IdentifierName",
+                  "start": 243,
+                  "end": 246,
+                  "loc": {
+                    "start": {
+                      "line": 9,
+                      "column": 16
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 19
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "baz",
+                      "raw": "baz"
+                    },
+                    "tokenIndex": 64,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "baz",
+              "extra": {
+                "raw": "baz"
+              }
+            }
+          },
+          {
+            "type": "ImportSpecifier",
+            "start": 248,
+            "end": 251,
+            "tokenStart": 66,
+            "tokenEnd": 66,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 21
+              },
+              "end": {
+                "line": 9,
+                "column": 24
+              }
+            },
+            "sourceElements": [
+              {
+                "reference": "imported"
+              }
+            ],
+            "imported": {
+              "type": "Identifier",
+              "start": 248,
+              "end": 251,
+              "tokenStart": 66,
+              "tokenEnd": 66,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 21
+                },
+                "end": {
+                  "line": 9,
+                  "column": 24
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "name",
+                  "value": "xyz",
+                  "element": "IdentifierName",
+                  "start": 248,
+                  "end": 251,
+                  "loc": {
+                    "start": {
+                      "line": 9,
+                      "column": 21
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 24
+                    }
+                  },
+                  "extra": {
+                    "tokenValue": {
+                      "value": "xyz",
+                      "raw": "xyz"
+                    },
+                    "tokenIndex": 66,
+                    "tokenType": "name"
+                  }
+                }
+              ],
+              "name": "xyz",
+              "extra": {
+                "raw": "xyz"
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 248,
+              "end": 251,
+              "tokenStart": 66,
+              "tokenEnd": 66,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 21
+                },
+                "end": {
+                  "line": 9,
+                  "column": 24
+                }
+              },
+              "sourceElements": [],
+              "name": "xyz",
+              "extra": {
+                "raw": "xyz"
+              }
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 259,
+          "end": 264,
+          "tokenStart": 69,
+          "tokenEnd": 69,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 32
+            },
+            "end": {
+              "line": 9,
+              "column": 37
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "\"foo\"",
+              "element": "StringLiteral",
+              "start": 259,
+              "end": 264,
+              "loc": {
+                "start": {
+                  "line": 9,
+                  "column": 32
+                },
+                "end": {
+                  "line": 9,
+                  "column": 37
+                }
+              },
+              "extra": {
+                "tokenValue": "foo",
+                "tokenIndex": 69,
+                "tokenType": "string"
+              }
+            }
+          ],
+          "value": "foo",
+          "extra": {
+            "raw": "\"foo\""
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "sourceElements": [
+    {
+      "element": "WhiteSpaceLeading",
+      "value": "",
+      "start": -1,
+      "end": -1,
+      "loc": {},
+      "extra": {
+        "tokenValue": 0,
+        "tokenType": "tab"
+      }
+    },
+    {
+      "reference": "program"
+    }
+  ],
+  "comments": []
+}
