@@ -48,15 +48,15 @@ module.exports.core = {
   fixtures: baseOptions.fixtures,
   getTaskOptions: baseOptions.getTaskOptions,
 }
-module.exports.unified = {
+var unifiedOptions = module.exports.unified = {
   optionsPath: baseOptions.optionsPath,
   skip: function(test, testPath) {
     return (
       baseOptions.skip(test, testPath) ||
       test.indexOf("TODO") === 0 || // TODO: implement comprehensions
       testPath.indexOf("/esnext/") !== -1 || // TODO: implement comprehensions
-      testPath.indexOf("/jsx/") !== -1 ||
-      testPath.indexOf("/static-typing/") !== -1 ||
+      testPath.indexOf("/plugins/jsx/") !== -1 ||
+      testPath.indexOf("/plugins/static-typing/") !== -1 ||
       testPath.indexOf("/todo/") !== -1 ||
       testPath.indexOf("/comments/") !== -1 ||
       false

@@ -9,7 +9,7 @@
 
 import {types as tt, keywords as keywordTypes} from "./types";
 import {reservedWords, keywords, isIdentifierChar, isIdentifierStart, codePointToString} from "../util/identifier";
-import {isNewline, nonASCIIwhitespace, lineBreak} from "../util/whitespace";
+import {isNewline, nonASCIIwhitespace, lineBreak, lineBreakG} from "../util/whitespace";
 import State from "./state";
 import {getOptions} from "../options";
 // export {default as Token} from "./token";
@@ -210,11 +210,13 @@ export default class Lexer {
       if (this.state.endingLineComment) {
         this.state.endingLineComment = false;
         if (isNewline(ch)) {
-          this.state.pos += ch === 13 && this.input.charCodeAt(this.state.pos + 1) === 10 ? 2 : 1
+          this.state.pos += ch === 13 && this.input.charCodeAt(this.state.pos + 1) === 10 ? 2 : 1;
+          this.state.curLine++; this.state.lineStart = this.state.pos;
         }
       } else if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
+        this.state.curLine++; this.state.lineStart = this.state.pos;
       } else if (!(significantWhitespace && isNewline(ch) && this.state.cur.type !== tt.newline) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
@@ -317,6 +319,15 @@ export default class Lexer {
     // TODO: make sure that ending `###` is alone on a line (and starts alone on a line)
     if (end === -1) this.raise(this.state.pos, "Unterminated comment");
     this.state.pos = end;
+
+    // properly set curLine
+    lineBreakG.lastIndex = start;
+    let match;
+    while ((match = lineBreakG.exec(this.input)) && match.index < this.state.pos) {
+      ++this.state.curLine;
+      this.state.lineStart = match.index + match[0].length;
+    }
+
     let raw = this.input.slice(start, this.state.pos);
     let commentBody = raw;
     // TODO: move to "encode/decode comment" function
@@ -421,7 +432,10 @@ export default class Lexer {
           ++this.state.pos;
         }
       case 10: case 8232: case 8233:
-        ++this.state.pos; return this.finishToken(tt.newline);
+        ++this.state.pos;
+        ++this.state.curLine;
+        this.state.lineStart = this.state.pos;
+        return this.finishToken(tt.newline);
 
       // The interpretation of a dot depends on whether it is followed
       // by a digit or another two dots.
