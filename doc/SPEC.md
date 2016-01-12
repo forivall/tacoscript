@@ -154,29 +154,35 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
 
-#### Phase 1
+#### Phase 1 (Jan 2016)
+* [ ] sharp non-double arrows, multiline sharp arrow functions
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 * [ ] Function calls without parenthises, with the `!` operator
   * `fs.readFile! "package.json", (err, data) ->`
   * [x] parse - TODO: store in extra
   * [ ] generate (requires inference)
-* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 * [ ] IIFE syntax
   * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
-* [ ] `@.` ↔ `this.` ([frappe])
+* [ ] `@` ↔ `this.` ([frappe])
 * [ ] extended assign - `or=`, `and=`, `?=`
-* [ ] sharp non-double arrows, multiline sharp arrow functions
 
 #### Phase 2
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])
 * [ ] `%%` ([frappe])
+* [ ] `unless` ([frappe])
+* [ ] `until` ([frappe])
+* [ ] allow omitting `!` for parenthises-less function calls when used as statements ([frappe])
+  * tagged template literals will have higher precedence though
 * [ ] null coalsecing and soak operator (`?` and `?.` and `?[]`)
 * [ ] simplify `!!` ↔ `not not` to `asbool` (still a prefix operator)
 * [ ] lower the precedence of `not` _Feedback requested_, `is not` same as `isnt`
 * [ ] `typeof a === b` -> `(a === null ? 'null' : typeof a) === b`
 
 #### Phase 3
+* [ ] loose string parsing, unify string interpolation behaviour ([frappe])
+  * tagged template strings will still require `\`\``
 * [ ] non-fallthrough `switch` [(spec)](./safe-switch.md)
 * [ ] boolean switch statements (a la Coffeescript)
 * [ ] expression version of boolean switch statements
