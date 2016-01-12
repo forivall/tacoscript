@@ -62,3 +62,9 @@ export function parseIndentableList(close, context, inner) {
   }
   return {firstSeparatorStart};
 }
+
+import { getLineInfo } from "../../util/location";
+
+export function _getLineInfo(pos) {
+  return getLineInfo(this.input, pos);
+}

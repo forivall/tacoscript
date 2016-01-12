@@ -49,6 +49,12 @@ export default class Lexer {
     throw new Error("Not Implemented");
   }
 
+  hasFeature(featureName) {
+    // equivalent to babylon "hasPlugin"
+    // TODO: set from options
+    return true;
+  }
+
   // call this prior to start parsing
   // TODO: who's responsible for creating the file object?
   open(file) {
