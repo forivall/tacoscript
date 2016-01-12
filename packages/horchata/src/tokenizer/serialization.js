@@ -148,12 +148,14 @@ tt.plusMin.formattingSpaceWhenAfter.name = true;
 tt.plusMin.formattingSpaceWhenAfter.num = true;
 tt.plusMin.formattingSpaceWhenAfter.parenR = true;
 tt.plusMin.formattingSpaceWhenAfter.string = true;
+tt.plusMin.formattingSpaceWhenAfter.backQuote = true;
 tt.star.formattingSpaceWhenAfter._export = true;
 tt.star.formattingSpaceWhenAfter._import = true;
 tt.star.formattingSpaceWhenAfter.name = true;
 tt.star.formattingSpaceWhenAfter.num = true;
 tt.star.formattingSpaceWhenAfter.parenR = true;
 tt.star.formattingSpaceWhenAfter.string = true;
+tt.star.formattingSpaceWhenAfter.backQuote = true;
 tt.star.formattingSpaceAfter = function(left, right) {
   switch (right.type) {
     case tt.arrow: case tt.unboundArrow: case tt.asyncArrow: case tt.asyncBoundArrow: return false;
@@ -211,6 +213,7 @@ tt.name.formattingSpaceWhenAfter.arrow = true;
 tt.name.formattingSpaceWhenAfter.asyncArrow = true;
 tt.name.formattingSpaceWhenAfter.asyncBoundArrow = true;
 tt.name.formattingSpaceWhenAfter.unboundArrow = true;
+tt.name.formattingSpaceWhenAfter.backQuote = true;
 tt.name.formattingSpaceWhenAfter.comma = true;
 tt.name.formattingSpaceWhenAfter.excl = true;
 tt.num.formattingSpaceWhenAfter.arrow = true;
