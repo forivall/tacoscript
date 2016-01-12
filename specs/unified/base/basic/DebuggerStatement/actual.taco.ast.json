@@ -79,17 +79,6 @@
               "tokenType": "newline",
               "tokenIndex": 1
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 9,
-            "end": 9,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ]
       },
@@ -133,17 +122,6 @@
               "tokenType": "newline",
               "tokenIndex": 3
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 14,
-            "end": 14,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ]
       }
@@ -154,17 +132,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

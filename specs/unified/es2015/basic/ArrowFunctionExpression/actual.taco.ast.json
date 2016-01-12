@@ -110,17 +110,6 @@
               "tokenType": "newline",
               "tokenIndex": 10
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 24,
-            "end": 24,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "declarations": [
@@ -612,17 +601,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 23
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 51,
-            "end": 51,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1192,17 +1170,6 @@
               "tokenType": "newline",
               "tokenIndex": 34
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 76,
-            "end": 76,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "declarations": [
@@ -1694,17 +1661,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 47
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 104,
-            "end": 104,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -2216,17 +2172,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

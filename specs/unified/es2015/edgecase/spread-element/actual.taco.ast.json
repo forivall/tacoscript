@@ -110,17 +110,6 @@
               "tokenType": "newline",
               "tokenIndex": 11
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 28,
-            "end": 28,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "declarations": [
@@ -584,17 +573,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 23
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 58,
-            "end": 58,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1459,17 +1437,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 37
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 89,
-              "end": 89,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": [],
@@ -1886,17 +1853,6 @@
                   "tokenType": "newline",
                   "tokenIndex": 49
                 }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 110,
-                "end": 110,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
-                }
               }
             ],
             "body": [],
@@ -1911,17 +1867,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

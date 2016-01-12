@@ -348,17 +348,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 5
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 14,
-              "end": 14,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -863,17 +852,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 15
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 40,
-              "end": 40,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -1512,17 +1490,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 28
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 77,
-              "end": 77,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -2356,17 +2323,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 44
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 120,
-              "end": 120,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -3078,17 +3034,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 58
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 160,
-              "end": 160,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -3771,17 +3716,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 72
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 198,
-              "end": 198,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -4539,17 +4473,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 87
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 239,
-              "end": 239,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -4562,17 +4485,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

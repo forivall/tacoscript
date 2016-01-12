@@ -116,17 +116,6 @@
               "tokenType": "newline",
               "tokenIndex": 2
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 13,
-            "end": 13,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "specifiers": [],
@@ -275,17 +264,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 7
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 35,
-            "end": 35,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -553,17 +531,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 16
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 72,
-            "end": 72,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -867,17 +834,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 23
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 99,
-            "end": 99,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1223,17 +1179,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 34
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 137,
-            "end": 137,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1661,17 +1606,6 @@
               "tokenType": "newline",
               "tokenIndex": 41
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 163,
-            "end": 163,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "specifiers": [
@@ -1988,17 +1922,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 50
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 194,
-            "end": 194,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -2380,17 +2303,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 59
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 227,
-            "end": 227,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -2776,17 +2688,6 @@
               "tokenType": "newline",
               "tokenIndex": 70
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 265,
-            "end": 265,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "specifiers": [
@@ -3095,17 +2996,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

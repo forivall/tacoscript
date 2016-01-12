@@ -25,14 +25,16 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 40,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 39,
         "end": 40,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
@@ -45,14 +47,16 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 102,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 101,
         "end": 102,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
@@ -238,17 +242,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 6
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 21,
-              "end": 21,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -786,17 +779,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 19
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 47,
-              "end": 47,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -1006,17 +988,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 29
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 62,
-              "end": 62,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": [
@@ -1181,17 +1152,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 34
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 73,
-              "end": 73,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -1481,17 +1441,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 44
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 88,
-              "end": 88,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -2043,17 +1992,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 63
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 117,
-              "end": 117,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": [
@@ -2378,17 +2316,6 @@
                   "tokenType": "newline",
                   "tokenIndex": 74
                 }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 140,
-                "end": 140,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
-                }
               }
             ],
             "body": [
@@ -2601,17 +2528,6 @@
                   "tokenType": "newline",
                   "tokenIndex": 83
                 }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 153,
-                "end": 153,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
-                }
               }
             ],
             "body": [
@@ -2759,17 +2675,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

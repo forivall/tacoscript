@@ -22,56 +22,64 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 14,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 13,
         "end": 14,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 37,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 36,
         "end": 37,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 66,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 65,
         "end": 66,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 95,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 94,
         "end": 95,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
@@ -626,17 +634,6 @@
                   }
                 },
                 {
-                  "element": "WhiteSpaceLeading",
-                  "value": "",
-                  "start": 34,
-                  "end": 34,
-                  "loc": {},
-                  "extra": {
-                    "tokenValue": 0,
-                    "tokenType": "tab"
-                  }
-                },
-                {
                   "element": "Punctuator",
                   "value": "}",
                   "start": 34,
@@ -1159,17 +1156,6 @@
                     "tokenValue": "newline",
                     "tokenType": "newline",
                     "tokenIndex": 35
-                  }
-                },
-                {
-                  "element": "WhiteSpaceLeading",
-                  "value": "",
-                  "start": 63,
-                  "end": 63,
-                  "loc": {},
-                  "extra": {
-                    "tokenValue": 0,
-                    "tokenType": "tab"
                   }
                 },
                 {
@@ -1800,17 +1786,6 @@
                   }
                 },
                 {
-                  "element": "WhiteSpaceLeading",
-                  "value": "",
-                  "start": 92,
-                  "end": 92,
-                  "loc": {},
-                  "extra": {
-                    "tokenValue": 0,
-                    "tokenType": "tab"
-                  }
-                },
-                {
                   "element": "Punctuator",
                   "value": "}",
                   "start": 92,
@@ -2195,17 +2170,6 @@
               "tokenType": "newline",
               "tokenIndex": 107
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 208,
-            "end": 208,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "declarations": [
@@ -2504,17 +2468,6 @@
                     "tokenValue": "newline",
                     "tokenType": "newline",
                     "tokenIndex": 105
-                  }
-                },
-                {
-                  "element": "WhiteSpaceLeading",
-                  "value": "",
-                  "start": 206,
-                  "end": 206,
-                  "loc": {},
-                  "extra": {
-                    "tokenValue": 0,
-                    "tokenType": "tab"
                   }
                 },
                 {
@@ -3845,17 +3798,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

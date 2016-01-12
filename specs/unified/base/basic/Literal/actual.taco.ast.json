@@ -100,17 +100,6 @@
               "tokenType": "newline",
               "tokenIndex": 1
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 2,
-            "end": 2,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -189,17 +178,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 3
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 6,
-            "end": 6,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -280,17 +258,6 @@
               "tokenType": "newline",
               "tokenIndex": 5
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 15,
-            "end": 15,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -370,17 +337,6 @@
               "tokenType": "newline",
               "tokenIndex": 7
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 34,
-            "end": 34,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -459,17 +415,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 9
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 44,
-            "end": 44,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -554,17 +499,6 @@
               "tokenType": "newline",
               "tokenIndex": 11
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 49,
-            "end": 49,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -629,17 +563,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 13
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 54,
-            "end": 54,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -720,17 +643,6 @@
               "tokenType": "newline",
               "tokenIndex": 15
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 60,
-            "end": 60,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -809,17 +721,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 17
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 63,
-            "end": 63,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -900,17 +801,6 @@
               "tokenType": "newline",
               "tokenIndex": 19
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 68,
-            "end": 68,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -989,17 +879,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 21
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 73,
-            "end": 73,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1080,17 +959,6 @@
               "tokenType": "newline",
               "tokenIndex": 23
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 78,
-            "end": 78,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -1146,17 +1014,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

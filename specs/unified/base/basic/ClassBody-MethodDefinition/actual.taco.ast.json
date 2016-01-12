@@ -34,17 +34,6 @@
         }
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 186,
-        "end": 186,
-        "loc": {},
-        "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
-        }
-      },
-      {
         "element": "EOF",
         "value": "",
         "start": 186,
@@ -267,6 +256,19 @@
             },
             {
               "reference": "body#next"
+            },
+            {
+              "element": "WhiteSpace",
+              "value": "\n",
+              "start": 80,
+              "end": 81,
+              "loc": {},
+              "extra": {
+                "tokenValue": {
+                  "code": "\n"
+                },
+                "tokenType": "whitespace"
+              }
             },
             {
               "element": "WhiteSpaceLeading",
@@ -2453,17 +2455,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

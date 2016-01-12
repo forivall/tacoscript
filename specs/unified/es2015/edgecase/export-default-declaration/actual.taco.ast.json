@@ -283,17 +283,6 @@
                   "tokenType": "newline",
                   "tokenIndex": 7
                 }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 31,
-                "end": 31,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
-                }
               }
             ],
             "body": [],
@@ -309,17 +298,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

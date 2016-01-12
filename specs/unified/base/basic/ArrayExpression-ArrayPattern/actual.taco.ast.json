@@ -79,17 +79,6 @@
               "tokenType": "newline",
               "tokenIndex": 7
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 10,
-            "end": 10,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -371,17 +360,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 21
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 27,
-            "end": 27,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -781,17 +759,6 @@
               "tokenType": "newline",
               "tokenIndex": 30
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 40,
-            "end": 40,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -1043,17 +1010,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 42
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 62,
-            "end": 62,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1363,17 +1319,6 @@
               "tokenType": "newline",
               "tokenIndex": 52
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 77,
-            "end": 77,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "expression": {
@@ -1666,17 +1611,6 @@
     "indent": null
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

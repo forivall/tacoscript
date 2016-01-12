@@ -25,7 +25,7 @@
 
   static set [set1](value) ->
 
-  static *[gen1]() ->
+  static [gen1]() *->
 )
 (class ComputedMethods
   [n2]() ->
@@ -36,4 +36,4 @@
 
   [gen1]() *->
 )
-(class then #` `#);
+(class)

@@ -139,17 +139,6 @@
               "tokenType": "newline",
               "tokenIndex": 4
             }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 22,
-            "end": 22,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
           }
         ],
         "specifiers": [
@@ -366,17 +355,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 11
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 49,
-            "end": 49,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -757,17 +735,6 @@
             }
           },
           {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 103,
-            "end": 103,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
-            }
-          },
-          {
             "element": "Punctuator",
             "value": "}",
             "start": 103,
@@ -830,17 +797,6 @@
               "tokenValue": "newline",
               "tokenType": "newline",
               "tokenIndex": 33
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 116,
-            "end": 116,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           }
         ],
@@ -1383,17 +1339,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

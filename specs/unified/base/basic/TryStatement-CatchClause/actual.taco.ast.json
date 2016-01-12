@@ -22,56 +22,64 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 15,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 14,
         "end": 15,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 36,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 35,
         "end": 36,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 65,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 64,
         "end": 65,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 110,
+        "element": "WhiteSpace",
+        "value": "\n",
+        "start": 109,
         "end": 110,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
@@ -155,17 +163,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 1
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 4,
-              "end": 4,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -417,17 +414,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 11
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 25,
-              "end": 25,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -762,17 +748,6 @@
                 "tokenValue": "newline",
                 "tokenType": "newline",
                 "tokenIndex": 21
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 46,
-              "end": 46,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],
@@ -1303,17 +1278,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 38
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 75,
-              "end": 75,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": [
@@ -1575,17 +1539,6 @@
                   "tokenValue": "newline",
                   "tokenType": "newline",
                   "tokenIndex": 48
-                }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 93,
-                "end": 93,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
                 }
               }
             ],
@@ -2065,17 +2018,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 64
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 120,
-              "end": 120,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": [
@@ -2338,17 +2280,6 @@
                   "tokenType": "newline",
                   "tokenIndex": 74
                 }
-              },
-              {
-                "element": "WhiteSpaceLeading",
-                "value": "",
-                "start": 138,
-                "end": 138,
-                "loc": {},
-                "extra": {
-                  "tokenValue": 0,
-                  "tokenType": "tab"
-                }
               }
             ],
             "body": [
@@ -2513,17 +2444,6 @@
                 "tokenType": "newline",
                 "tokenIndex": 76
               }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 146,
-              "end": 146,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
-              }
             }
           ],
           "body": []
@@ -2540,17 +2460,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

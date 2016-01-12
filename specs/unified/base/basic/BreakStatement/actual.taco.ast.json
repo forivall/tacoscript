@@ -22,14 +22,16 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 27,
+        "element": "WhiteSpace",
+        "value": "\n\n",
+        "start": 25,
         "end": 27,
         "loc": {},
         "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
+          "tokenValue": {
+            "code": "\n\n"
+          },
+          "tokenType": "whitespace"
         }
       },
       {
@@ -46,17 +48,6 @@
             "code": "\n"
           },
           "tokenType": "whitespace"
-        }
-      },
-      {
-        "element": "WhiteSpaceLeading",
-        "value": "",
-        "start": 62,
-        "end": 62,
-        "loc": {},
-        "extra": {
-          "tokenValue": 0,
-          "tokenType": "tab"
         }
       },
       {
@@ -1038,17 +1029,6 @@
     }
   },
   "sourceElements": [
-    {
-      "element": "WhiteSpaceLeading",
-      "value": "",
-      "start": -1,
-      "end": -1,
-      "loc": {},
-      "extra": {
-        "tokenValue": 0,
-        "tokenType": "tab"
-      }
-    },
     {
       "reference": "program"
     }

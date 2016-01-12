@@ -185,19 +185,24 @@ export default class Lexer {
   }
 
   skipIndentation() {
-    // TODO: ...
-    // throw new Error("Not Implemented");
-    this.skipNonTokens(this.state.indentEnd);
-    this.onNonToken(new Token(tt.tab, this.state.indentation, this.state.indentStart, this.state.indentEnd));
-    this.state.eol = false;
+    if (this.state.indentStart > this.state.pos) {
+      this.skipNonTokens(this.state.indentStart);
+    }
+    if (this.state.indentEnd > this.state.indentStart) {
+      this.onNonToken(new Token(tt.tab, this.state.indentation, this.state.indentStart, this.state.indentEnd));
+    }
     if (this.state.indentEnd > this.state.pos) {
       this.state.pos = this.state.indentEnd;
     }
+    this.state.eol = false;
   }
 
   // based on acorn's skipSpace
   // parse & skip whitespace and comments
   skipNonTokens(end = this.input.length) {
+    const storeWhitespace = (start, end, startLoc, endLoc) => {
+      this.onNonToken(new Token(tt.whitespace, {code: this.input.slice(start, end)}, start, end, startLoc, endLoc, this.state))
+    };
     let start = this.state.pos;
     let startLoc = this.state.curPosition();
     let significantWhitespace = this.isSignificantWhitespace();
@@ -228,18 +233,13 @@ export default class Lexer {
         }
       } else {
         if (this.state.pos > start) {
-          this.onNonToken(new Token(tt.whitespace,
-            {code: this.input.slice(start, this.state.pos)},
-            start, this.state.pos, startLoc, this.state.curPosition(),
-            this.state
-          ));
+          storeWhitespace(start, this.state.pos, startLoc, this.state.curPosition());
         }
         if (ch === 35) { // '#'
           let next = this.input.charCodeAt(this.state.pos + 1);
-          let maybeNewline;
           if (next === 42 || next === 37) { // '*', '%'
             this.skipBlockComment();
-          } else if (next === 35 && this.input.charCodeAt(this.state.pos + 2) === 35 && isNewline(maybeNewline = this.input.charCodeAt(this.state.pos + 3))) {
+          } else if (next === 35 && this.input.charCodeAt(this.state.pos + 2) === 35 && isNewline(this.input.charCodeAt(this.state.pos + 3))) {
             this.skipBlockComment(3);
           } else {
             this.skipLineComment();
@@ -251,12 +251,8 @@ export default class Lexer {
         }
       }
     }
-    if (this.state.pos >= this.input.length && this.state.pos > start) {
-      this.onNonToken(new Token(tt.whitespace,
-        {code: this.input.slice(start, this.state.pos)},
-        start, this.state.pos, startLoc, this.state.curPosition(),
-        this.state
-      ));
+    if (this.state.pos >= end && this.state.pos > start) {
+      storeWhitespace(start, this.state.pos, startLoc, this.state.curPosition());
     }
   }
 
@@ -330,6 +326,7 @@ export default class Lexer {
       ++this.state.curLine;
       this.state.lineStart = match.index + match[0].length;
     }
+    lineBreakG.lastIndex = 0; // reset lineBreakG
 
     let raw = this.input.slice(start, this.state.pos);
     let commentBody = raw;
@@ -349,6 +346,42 @@ export default class Lexer {
     ));
 
     if (meta.isCanonical) this.state.comments.push(this._finishCommentNode(node, "CommentBlock", endLoc));
+  }
+
+  _isCommentStart(ch, pos) {
+    if (ch === 35) return true; // '#'
+    if (this.state.inModule) return false;
+    const next = this.input.charCodeAt(pos + 1);
+    // <!--
+    if (ch === 60 && next === 33 && this.input.charCodeAt(pos + 2) === 45 && this.input.charCodeAt(pos + 3) === 45) return true;
+    // -->
+    if (ch === 45 && next === 45 && this.input.charCodeAt(pos + 2) === 62) return true;
+    return false;
+  }
+
+  // Simplified version of skipComment for indentation detection
+  // possible optimization: store the locations found here so that this can be done quickly
+  _findCommentEnd(ch, pos) {
+    const next = this.input.charCodeAt(pos + 1);
+    const isXmlLine = !this.state.inModule && ch !== 35;
+    const blockCommentKind = !isXmlLine && (
+      next === 42 ? "#*" :
+      next === 37 ? "#$" :
+      next === 35 && this.input.charCodeAt(this.state.pos + 2) === 35 && isNewline(this.input.charCodeAt(this.state.pos + 3)) ? "###" : false
+    )
+    if (blockCommentKind) {
+      const meta = blockCommentMeta[blockCommentKind];
+      let end = this.input.indexOf(meta.terminator, pos + meta.startLen);
+      // TODO: make sure that ending `###` is alone on a line (and starts alone on a line)
+      if (end === -1) this.raise(pos, "Unterminated comment");
+      pos = end + meta.endLen;
+    } else {
+      lineBreakG.lastIndex = pos;
+      const match = lineBreakG.exec(this.input)
+      pos = match ? match.index : this.input.length;
+      lineBreakG.lastIndex = 0; // reset lineBreakG
+    }
+    return pos;
   }
 
   // Called at the end of each token. Sets type, val, end, endLoc.
@@ -518,7 +551,7 @@ export default class Lexer {
         ++this.state.pos;
         return this.finishToken(tt.bitwiseNOT);
     }
-    this.raise(this.state.pos, "Unexpected character '" + codePointToString(code) + "'");
+    this.raise(this.state.pos, `Unexpected character '${codePointToString(code)}' (${code})`);
   }
 
   // NOTE: please alphabetize read* functions
@@ -544,6 +577,8 @@ export default class Lexer {
     if (this.state.indentCharCode === -1) {
       // detect indent
       let pos = this.state.indentStart;
+      let indentLen = 0;
+      let indentEnd = -1;
       let indentCharCode = -1;
       let inconsistentIndentation = false;
       while (pos < this.input.length) {
@@ -554,31 +589,43 @@ export default class Lexer {
           ++pos;
           if (ch === 13 && this.input.charCodeAt(pos) === 10) ++pos;
           this.state.indentStart = pos;
-          inconsistentIndentation = false;
+          indentLen = 0;
+          indentEnd = -1;
           indentCharCode = -1;
+          inconsistentIndentation = false;
+        // TODO: also restart check when there's comments.
         } else if (ch === indentCharCode) {
-          ++pos;
+          ++pos; ++indentLen;
         } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233) {
           if (indentCharCode !== -1) {
             inconsistentIndentation = true;
-            ++pos;
+            ++pos; ++indentLen;
             continue;
           }
           indentCharCode = ch;
-          ++pos;
+          ++pos; ++indentLen;
+        } else if (this._isCommentStart(ch, pos)) {
+          if (indentEnd === -1) indentEnd = pos;
+          pos = this._findCommentEnd(ch, pos);
+          ch = this.input.charCodeAt(pos);
+          if (!isNewline(ch) && (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+              ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
+            break;
+          }
         } else {
           break;
         }
       }
       if (inconsistentIndentation) this.raise(this.state.pos, "Inconsistent Indentation");
 
-      this.state.indentEnd = pos;
-      if (this.state.indentEnd === this.state.indentStart) {
+      this.state.indentEnd = indentEnd === -1 ? pos : indentEnd;
+
+      if (indentLen === 0) {
         // No indent yet, just return.
         return false;
       } else {
-        let indentRepeat = (this.state.indentEnd - this.state.indentStart) / expectedLevels;
+        let indentRepeat = indentLen / expectedLevels;
         if (Math.floor(indentRepeat) !== indentRepeat) this.raise(this.state.pos, "Invalid Indentation");
         this.state.indentString = this.input.slice(this.state.indentStart, this.state.indentStart + indentRepeat);
         this.state.indentCharCode = indentCharCode;
@@ -594,31 +641,48 @@ export default class Lexer {
     } else {
       // we have already detected the indentation settings, see if the level of indentation is different.
       let pos = this.state.indentStart;
+      let indentLen = 0;
+      let indentEnd = -1;
       let indentCharCode = this.state.indentCharCode;
       let inconsistentIndentation = false;
       while (pos < this.input.length) {
         let ch = this.input.charCodeAt(pos);
         // TODO: this should be overhauled at some point
-        // TODO: look at cpython's code, or just for + use detect-indnet
+        // TODO: look at cpython's code, or just use detect-indnet
         if (isNewline(ch)) {
           ++pos;
           if (ch === 13 && this.input.charCodeAt(pos) === 10) ++pos;
           this.state.indentStart = pos;
+          indentLen = 0;
+          indentEnd = -1;
           inconsistentIndentation = false;
-        } else if (ch === indentCharCode) {
-          ++pos;
+        } else if (ch === indentCharCode && indentEnd === -1) {
+          ++pos; ++indentLen;
         } else if (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch))) {
-          inconsistentIndentation = true;
+          if (indentEnd === -1) {
+            inconsistentIndentation = true;
+          } else {
+            ++pos;
+          }
+        } else if (this._isCommentStart(ch, pos)) {
+          if (indentEnd === -1) indentEnd = pos;
+          pos = this._findCommentEnd(ch, pos);
+          ch = this.input.charCodeAt(pos);
+          if (!isNewline(ch) && (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
+              ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
+            break;
+          }
         } else {
           break;
         }
+
         if (inconsistentIndentation) this.raise(this.state.pos, "Inconsistent Indentation");
       }
 
-      this.state.indentEnd = pos;
+      this.state.indentEnd = indentEnd === -1 ? pos : indentEnd;
 
-      let indentCount = (this.state.indentEnd - this.state.indentStart) / this.state.indentRepeat;
+      let indentCount = indentLen / this.state.indentRepeat;
       if (Math.floor(indentCount) !== indentCount) this.raise(this.state.pos, "Invalid Indentation");
       this.state.nextIndentation = indentCount;
       return this.state.nextIndentation !== this.state.indentation;

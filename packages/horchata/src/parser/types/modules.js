@@ -99,6 +99,11 @@ export function parseExportSpecifiers(parent) {
 }
 
 export function isExportDefaultSpecifier() {
+  if (this.match(tt.name)) {
+    // TODO: flow plugin should ignore flow-specific contextual keywords
+    return true;
+  }
+
   if (!this.match(tt._default)) {
     return false;
   }
