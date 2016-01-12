@@ -1,40 +1,35 @@
-switch foo
+switch! foo
 
-switch foo
+switch! foo
   case "foo"
 
-
-switch foo
+switch! foo
   default
 
-
-switch foo
+switch! foo
   case "foo"
-  and default
+  default
 
-
-switch foo
+switch! foo
   case "foo"
-  and case "bar"
-  default donothing
+  case "bar"
+  default
 
-
-switch foo
+switch! foo
   case "foo"
     foo()
-
+    break
 
   case "bar"
     bar()
-
+    break
 
   default
     yay()
 
-
-switch foo
+switch! foo
   case "foo" then foo()
-  and case "bar"
+  case "bar"
     bar()
-  and default
+  default
     yay()

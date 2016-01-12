@@ -13,7 +13,7 @@
         "column": 0
       },
       "end": {
-        "line": 3,
+        "line": 4,
         "column": 0
       }
     },
@@ -242,11 +242,11 @@
         "tokenEnd": 7,
         "loc": {
           "start": {
-            "line": 2,
-            "column": 1
+            "line": 3,
+            "column": 0
           },
           "end": {
-            "line": 3,
+            "line": 4,
             "column": 0
           }
         },
@@ -286,12 +286,12 @@
           "tokenEnd": 6,
           "loc": {
             "start": {
-              "line": 2,
-              "column": 1
+              "line": 3,
+              "column": 0
             },
             "end": {
-              "line": 2,
-              "column": 9
+              "line": 3,
+              "column": 8
             }
           },
           "sourceElements": [
@@ -336,12 +336,12 @@
               "tokenEnd": 4,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 1
+                  "line": 3,
+                  "column": 0
                 },
                 "end": {
-                  "line": 2,
-                  "column": 4
+                  "line": 3,
+                  "column": 3
                 }
               },
               "sourceElements": [
@@ -353,12 +353,12 @@
                   "end": 13,
                   "loc": {
                     "start": {
-                      "line": 2,
-                      "column": 1
+                      "line": 3,
+                      "column": 0
                     },
                     "end": {
-                      "line": 2,
-                      "column": 4
+                      "line": 3,
+                      "column": 3
                     }
                   },
                   "extra": {
@@ -395,12 +395,12 @@
               "tokenEnd": 6,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 6
+                  "line": 3,
+                  "column": 5
                 },
                 "end": {
-                  "line": 2,
-                  "column": 9
+                  "line": 3,
+                  "column": 8
                 }
               },
               "sourceElements": [
@@ -412,12 +412,12 @@
                   "end": 18,
                   "loc": {
                     "start": {
-                      "line": 2,
-                      "column": 6
+                      "line": 3,
+                      "column": 5
                     },
                     "end": {
-                      "line": 2,
-                      "column": 9
+                      "line": 3,
+                      "column": 8
                     }
                   },
                   "extra": {

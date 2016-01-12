@@ -8,16 +8,16 @@ function foo() *->
 
 function foo() ->
 
-function foo() async ->
+function foo() +>
 
 var foo = function foo() *->
 
 var foo = function foo() ->
 
-var foo = function foo() ~>
+var foo = function foo() +>
 
 var foo = () *->
 
 var foo = () ->
 
-var foo = () ~>
+var foo = () +>

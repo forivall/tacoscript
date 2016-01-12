@@ -1,1 +1,1 @@
-toggle foo on foo off bar
+(if foo then foo else bar)

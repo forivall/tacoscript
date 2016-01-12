@@ -1,35 +1,34 @@
 switch! foo
 
 switch! foo
-  case "foo":
+  case "foo"
 
 switch! foo
-  default:
+  default
 
 switch! foo
-  case "foo":
-  default:
+  case "foo"
+  default
 
 switch! foo
-  case "foo":
-  case "bar":
-  default:
+  case "foo"
+  case "bar"
+  default
 
 switch! foo
-  case "foo":
+  case "foo"
     foo()
     break
-  case "bar":
+  case "bar"
     bar()
     break
-  default:
+  default
     yay()
 
 switch! foo
-  case "foo":
+  case "foo"
     foo()
-  case "bar":
+  case "bar"
     bar()
-  default:
+  default
     yay()
-

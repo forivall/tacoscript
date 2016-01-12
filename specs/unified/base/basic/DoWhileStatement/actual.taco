@@ -2,4 +2,4 @@ do
   test()
 while true
 
-do while true
+do ;; while true

@@ -1,3 +1,4 @@
-function foo() ->>
-function bar() ->>
-  "foo"
+function foo() -> return
+
+function bar() ->
+  return "foo"
