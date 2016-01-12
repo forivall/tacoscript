@@ -3,6 +3,10 @@
   "version": "0.2.6",
   "description": "Adds cst elements to an ast",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
   "scripts": {
     "test": "mocha"
   },
