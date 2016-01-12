@@ -50,10 +50,12 @@ suite("horchata", function () {
   });
 });
 
-function removeLocInfo(json) {
+function removeLocInfo(json, context) {
   if (Object.prototype.toString.call(json) === '[object Array]') {
-    for (var i = 0, len = json.length; i < len; i++) {
-      if (json[i] != null) removeLocInfo(json[i]);
+    // for (var i = 0, len = json.length; i < len; i++) {
+    // walk backwards so that duplicate trailingComments are removed
+    for (var i = json.length - 1; i >= 0; i--) {
+      if (json[i] != null) removeLocInfo(json[i], context);
     }
   } else {
     delete json.start;
@@ -67,7 +69,27 @@ function removeLocInfo(json) {
     }
     for (var k in json) {
       if (json[k] != null && (typeof json[k]) === 'object') {
-        removeLocInfo(json[k]);
+        if (
+              k === "leadingComments" ||
+              k === "innerComments" ||
+              k === "trailingComments" ||
+            false) {
+          var comments = json[k];
+          for (var j = comments.length - 1; j >= 0; j--) {
+            var comment = comments[j];
+            if (comment.start == null) continue;
+            if (context.seenCommentStarts[comment.start]) {
+              comments.splice(j, 1);
+            } else {
+              context.seenCommentStarts[comment.start] = true;
+            }
+          }
+          if (comments.length === 0) {
+            delete json[k];
+            continue;
+          }
+        }
+        removeLocInfo(json[k], context);
         if (k === "extra") {
           delete json.extra.rawValue;
           delete json.extra.parenStart; // it won't match up
@@ -102,7 +124,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
           // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
           try {
-            expectedAst = removeLocInfo(JSON.parse(task.json.code));
+            expectedAst = removeLocInfo(JSON.parse(task.json.code), {seenCommentStarts: {}});
             if (expectedAst.program != null) delete expectedAst.program.sourceType;
           } catch(e) {
             console.log(task.json.loc);

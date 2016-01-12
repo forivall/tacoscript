@@ -11,6 +11,8 @@ import {getLineInfo} from "../util/location";
 import addCst from "../postprocessors/cst"
 import attachComments from "../postprocessors/comments"
 
+import { types as tt } from "../tokenizer/types";
+
 // Registered plugins
 export const plugins = {};
 
@@ -46,6 +48,11 @@ export default class Parser extends Lexer {
     this.open(file); // set up tokenizer
     let program = this.startNode();
     this.nextToken();
+    // skip past leading newlines
+    // TODO: this should be handled in the tokenizer
+    //       leading newlines should be treated as normal whitespace
+    while (this.eat(tt.newline));
+
     file = this.parseTopLevel(file, program);
     file.comments = this.state.comments;
     // TODO: add option
