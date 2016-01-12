@@ -22,7 +22,7 @@ const commonPrinterMethods = {
     return (node && node[key]) || [];
   },
 
-  printComments(comments) {
+  printComments(comments, attachedNode) {
     if (!comments || !comments.length) return;
 
     for (let comment of (comments: Array)) {
@@ -31,19 +31,11 @@ const commonPrinterMethods = {
     }
   },
 
-  printLeadingComments(node) {
-    this.printComments(this.getComments("leadingComments", node));
-  },
-
   printInnerComments(node, indent = true) {
     if (!node.innerComments) return;
     if (indent) this.indent();
     this.printComments(node.innerComments);
     if (indent) this.dedent();
-  },
-
-  printTrailingComments(node) {
-    this.printComments(this.getComments("trailingComments", node));
   },
 
   shouldPrintComment(comment) {

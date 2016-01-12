@@ -342,6 +342,27 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this.newline();
     }
   }
+
+
+  printLeadingComments(node) {
+    const comments = this.getComments("leadingComments", node);
+
+    this.printComments(comments);
+
+    // TOOD: convert to a "catchup" style newline printing
+    // print newlines after leading comments
+    const lastComment = comments[comments.length - 1];
+
+    if (lastComment && lastComment.type === "CommentBlock" && node.loc.start.line > lastComment.loc.end.line) {
+      this.newline();
+    }
+  }
+
+  printTrailingComments(node) {
+    const comments = this.getComments("trailingComments", node);
+    this.printComments(comments);
+  }
+
 }
 
 import _printer from "./_printer";
