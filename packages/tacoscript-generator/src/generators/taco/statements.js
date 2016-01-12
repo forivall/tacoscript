@@ -126,10 +126,8 @@ export function _switchCase(node) {
   if (node.test) {
     this.keyword("case");
     this.print(node, "test");
-    this.push(":");
   } else {
     this.keyword("default");
-    this.push(":");
   }
 }
 
