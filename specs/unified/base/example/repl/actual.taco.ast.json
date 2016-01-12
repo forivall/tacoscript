@@ -4,7 +4,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 443,
+    "end": 444,
     "tokenStart": 0,
     "tokenEnd": 50,
     "loc": {
@@ -65,8 +65,8 @@
       {
         "element": "EOF",
         "value": "",
-        "start": 443,
-        "end": 443,
+        "start": 444,
+        "end": 444,
         "loc": {},
         "extra": {
           "tokenValue": "eof",
@@ -615,7 +615,7 @@
       {
         "type": "FunctionDeclaration",
         "start": 360,
-        "end": 443,
+        "end": 444,
         "tokenStart": 17,
         "tokenEnd": 49,
         "loc": {
@@ -765,7 +765,7 @@
         "body": {
           "type": "BlockStatement",
           "start": 383,
-          "end": 443,
+          "end": 444,
           "tokenStart": 22,
           "tokenEnd": 49,
           "loc": {
@@ -820,8 +820,8 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 442,
-              "end": 442,
+              "start": 443,
+              "end": 443,
               "loc": {},
               "extra": {
                 "tokenValue": "dedent",
@@ -832,8 +832,8 @@
             {
               "element": "LineTerminator",
               "value": "\n",
-              "start": 442,
-              "end": 443,
+              "start": 443,
+              "end": 444,
               "loc": {},
               "extra": {
                 "tokenValue": "newline",
@@ -846,7 +846,7 @@
             {
               "type": "ExpressionStatement",
               "start": 386,
-              "end": 442,
+              "end": 443,
               "tokenStart": 24,
               "tokenEnd": 47,
               "loc": {
@@ -856,7 +856,7 @@
                 },
                 "end": {
                   "line": 17,
-                  "column": 58
+                  "column": 59
                 }
               },
               "sourceElements": [
@@ -867,7 +867,7 @@
               "expression": {
                 "type": "CallExpression",
                 "start": 386,
-                "end": 442,
+                "end": 443,
                 "tokenStart": 24,
                 "tokenEnd": 47,
                 "loc": {
@@ -877,7 +877,7 @@
                   },
                   "end": {
                     "line": 17,
-                    "column": 58
+                    "column": 59
                   }
                 },
                 "sourceElements": [
@@ -1051,7 +1051,7 @@
                   {
                     "type": "ArrowFunctionExpression",
                     "start": 400,
-                    "end": 442,
+                    "end": 443,
                     "tokenStart": 28,
                     "tokenEnd": 47,
                     "loc": {
@@ -1061,7 +1061,7 @@
                       },
                       "end": {
                         "line": 17,
-                        "column": 58
+                        "column": 59
                       }
                     },
                     "sourceElements": [
@@ -1267,7 +1267,7 @@
                     "body": {
                       "type": "CallExpression",
                       "start": 413,
-                      "end": 442,
+                      "end": 443,
                       "tokenStart": 34,
                       "tokenEnd": 47,
                       "loc": {
@@ -1277,7 +1277,7 @@
                         },
                         "end": {
                           "line": 17,
-                          "column": 58
+                          "column": 59
                         }
                       },
                       "sourceElements": [
@@ -1315,8 +1315,8 @@
                         {
                           "element": "LineTerminator",
                           "value": "",
-                          "start": 442,
-                          "end": 442,
+                          "start": 443,
+                          "end": 443,
                           "loc": {},
                           "extra": {
                             "tokenValue": "newline",
@@ -1463,7 +1463,7 @@
                         {
                           "type": "BinaryExpression",
                           "start": 426,
-                          "end": 442,
+                          "end": 443,
                           "tokenStart": 38,
                           "tokenEnd": 46,
                           "loc": {
@@ -1473,7 +1473,7 @@
                             },
                             "end": {
                               "line": 17,
-                              "column": 58
+                              "column": 59
                             }
                           },
                           "sourceElements": [
@@ -1481,18 +1481,31 @@
                               "reference": "left"
                             },
                             {
-                              "reference": "operator",
-                              "element": "Punctuator",
+                              "element": "WhiteSpace",
+                              "value": " ",
                               "start": 437,
                               "end": 438,
+                              "loc": {},
+                              "extra": {
+                                "tokenValue": {
+                                  "code": " "
+                                },
+                                "tokenType": "whitespace"
+                              }
+                            },
+                            {
+                              "reference": "operator",
+                              "element": "Punctuator",
+                              "start": 438,
+                              "end": 439,
                               "loc": {
                                 "start": {
                                   "line": 17,
-                                  "column": 53
+                                  "column": 54
                                 },
                                 "end": {
                                   "line": 17,
-                                  "column": 54
+                                  "column": 55
                                 }
                               },
                               "extra": {
@@ -1504,8 +1517,8 @@
                             {
                               "element": "WhiteSpace",
                               "value": " ",
-                              "start": 438,
-                              "end": 439,
+                              "start": 439,
+                              "end": 440,
                               "loc": {},
                               "extra": {
                                 "tokenValue": {
@@ -1741,18 +1754,18 @@
                           "operator": "+",
                           "right": {
                             "type": "Identifier",
-                            "start": 439,
-                            "end": 442,
+                            "start": 440,
+                            "end": 443,
                             "tokenStart": 46,
                             "tokenEnd": 46,
                             "loc": {
                               "start": {
                                 "line": 17,
-                                "column": 55
+                                "column": 56
                               },
                               "end": {
                                 "line": 17,
-                                "column": 58
+                                "column": 59
                               }
                             },
                             "sourceElements": [
@@ -1760,16 +1773,16 @@
                                 "reference": "name",
                                 "value": "tip",
                                 "element": "IdentifierName",
-                                "start": 439,
-                                "end": 442,
+                                "start": 440,
+                                "end": 443,
                                 "loc": {
                                   "start": {
                                     "line": 17,
-                                    "column": 55
+                                    "column": 56
                                   },
                                   "end": {
                                     "line": 17,
-                                    "column": 58
+                                    "column": 59
                                   }
                                 },
                                 "extra": {
