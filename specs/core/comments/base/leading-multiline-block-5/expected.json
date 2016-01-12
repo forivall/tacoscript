@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 10,
+  "end": 12,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 10,
+    "end": 12,
     "loc": {
       "start": {
         "line": 1,
@@ -30,16 +30,16 @@
     "body": [
       {
         "type": "ExpressionStatement",
-        "start": 8,
-        "end": 10,
+        "start": 9,
+        "end": 11,
         "loc": {
           "start": {
-            "line": 2,
-            "column": 4
+            "line": 4,
+            "column": 0
           },
           "end": {
-            "line": 2,
-            "column": 6
+            "line": 4,
+            "column": 2
           }
         },
         "expression": {
