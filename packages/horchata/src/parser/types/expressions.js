@@ -272,8 +272,6 @@ export function parseExpressionSubscripts(expressionContext) {
   return this.parseSubscripts(node, start);
 }
 
-// NOTE: parseExprList has the signature (close, allowTrailingComma, allowEmpty, refDestructuringErrors)
-
 export function parseSubscripts(base, start, subscriptContext = {}) {
   let noCalls = subscriptContext.isNew;
   let node = base;

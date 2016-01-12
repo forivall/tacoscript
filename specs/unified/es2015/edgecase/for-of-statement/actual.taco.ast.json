@@ -13,7 +13,7 @@
         "column": 0
       },
       "end": {
-        "line": 4,
+        "line": 5,
         "column": 0
       }
     },
@@ -48,7 +48,7 @@
             "column": 0
           },
           "end": {
-            "line": 4,
+            "line": 5,
             "column": 0
           }
         },
@@ -198,7 +198,7 @@
               "column": 18
             },
             "end": {
-              "line": 4,
+              "line": 5,
               "column": 0
             }
           },
@@ -242,16 +242,14 @@
               "reference": "body#next"
             },
             {
-              "element": "WhiteSpace",
-              "value": "\n  ",
-              "start": 40,
+              "element": "WhiteSpaceLeading",
+              "value": "  ",
+              "start": 41,
               "end": 43,
               "loc": {},
               "extra": {
-                "tokenValue": {
-                  "code": "\n  "
-                },
-                "tokenType": "whitespace"
+                "tokenValue": 1,
+                "tokenType": "tab"
               }
             },
             {
@@ -603,12 +601,12 @@
               "tokenEnd": 17,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 3
+                  "line": 4,
+                  "column": 2
                 },
                 "end": {
-                  "line": 3,
-                  "column": 17
+                  "line": 4,
+                  "column": 16
                 }
               },
               "sourceElements": [
@@ -622,17 +620,6 @@
                     "tokenValue": "for",
                     "tokenType": "_for",
                     "tokenIndex": 13
-                  }
-                },
-                {
-                  "element": "WhiteSpaceLeading",
-                  "value": "  ",
-                  "start": 41,
-                  "end": 43,
-                  "loc": {},
-                  "extra": {
-                    "tokenValue": 1,
-                    "tokenType": "tab"
                   }
                 },
                 {
@@ -704,12 +691,12 @@
                 "tokenEnd": 14,
                 "loc": {
                   "start": {
-                    "line": 3,
-                    "column": 7
+                    "line": 4,
+                    "column": 6
                   },
                   "end": {
-                    "line": 3,
-                    "column": 8
+                    "line": 4,
+                    "column": 7
                   }
                 },
                 "sourceElements": [
@@ -721,12 +708,12 @@
                     "end": 48,
                     "loc": {
                       "start": {
-                        "line": 3,
-                        "column": 7
+                        "line": 4,
+                        "column": 6
                       },
                       "end": {
-                        "line": 3,
-                        "column": 8
+                        "line": 4,
+                        "column": 7
                       }
                     },
                     "extra": {
@@ -752,12 +739,12 @@
                 "tokenEnd": 16,
                 "loc": {
                   "start": {
-                    "line": 3,
-                    "column": 12
+                    "line": 4,
+                    "column": 11
                   },
                   "end": {
-                    "line": 3,
-                    "column": 17
+                    "line": 4,
+                    "column": 16
                   }
                 },
                 "sourceElements": [
@@ -769,12 +756,12 @@
                     "end": 57,
                     "loc": {
                       "start": {
-                        "line": 3,
-                        "column": 12
+                        "line": 4,
+                        "column": 11
                       },
                       "end": {
-                        "line": 3,
-                        "column": 17
+                        "line": 4,
+                        "column": 16
                       }
                     },
                     "extra": {
@@ -800,12 +787,12 @@
                 "tokenEnd": 17,
                 "loc": {
                   "start": {
-                    "line": 3,
-                    "column": 17
+                    "line": 4,
+                    "column": 16
                   },
                   "end": {
-                    "line": 3,
-                    "column": 17
+                    "line": 4,
+                    "column": 16
                   }
                 },
                 "sourceElements": [

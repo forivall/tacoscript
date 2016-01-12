@@ -17,16 +17,16 @@ var foo = "foo", bar = "bar"
 const foo = "foo", bar = "bar"
 
 let foo
-  bar = "bar"
+    bar = "bar"
 var foo
-  bar = "bar"
+    bar = "bar"
 
 let foo = "foo"
-  bar = "bar"
+    bar = "bar"
 var foo = "foo"
-  bar = "bar"
+    bar = "bar"
 const foo = "foo"
-  bar = "bar"
+      bar = "bar"
 
 let
   foo = "foo"

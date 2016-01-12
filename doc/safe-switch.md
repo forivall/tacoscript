@@ -9,11 +9,11 @@ However, don't break to loops, still break from the switch. Teach people about l
 
 ```
 switch a
-  case 1, 2, 3:
+  case 1 or 2 or 3
     doThing()
-  case 4:
+  case 4
     doOtherThing()
-  and case 5:
+  and case 5
     butStillDoThisOtherThing()
 ```
 
@@ -23,3 +23,8 @@ Also allow "boolean" switches
 
 ```
 switch
+  case test(a)
+    doThing(a)
+  case test(b)
+    doThing(b)
+```

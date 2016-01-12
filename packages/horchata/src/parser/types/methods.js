@@ -63,7 +63,7 @@ export function parseArrowExpression(node) {
       if (Token.isImplicitReturn(arrow)) {
         node = this.parseArrowExpressionFunction(node);
       } else {
-        node = this.parseFunctionBody(node, {allowEmpty: true});
+        node = this.parseFunctionBody(node, {allowConcise: true});
       }
       break;
 
@@ -75,7 +75,7 @@ export function parseArrowExpression(node) {
       if (Token.isImplicitReturn(arrow)) {
         throw new Error("Not Implemented");
       } else {
-        node = this.parseFunctionBody(node, {allowEmpty: true});
+        node = this.parseFunctionBody(node, {allowConcise: true});
       }
       break;
     default: this.unexpected();
@@ -101,7 +101,7 @@ export function parseArrowExpressionFunction(node) {
 // Parse function body and check parameters.
 
 export function parseFunctionBody(node, functionContext = {}) {
-  let allowEmpty = !!functionContext.allowEmpty;
+  let allowConcise = !!functionContext.allowConcise;
   // Start a new scope with regard to labels and the `inFunction`
   // flag (restore them to their old value afterwards).
 
@@ -115,7 +115,7 @@ export function parseFunctionBody(node, functionContext = {}) {
   this.state.inGenerator = node.generator;
   this.state.labels = [];
 
-  this.assign(node, "body", this.parseBlock({allowDirectives: true, allowEmpty}));
+  this.assign(node, "body", this.parseBlock({allowDirectives: true, allowConcise}));
   node.expression = false;
 
   this.state.inFunction = oldInFunc;
@@ -130,7 +130,7 @@ export function parseFunctionBody(node, functionContext = {}) {
 export function parseFunctionDeclaration(node) {
   this.next();
   this.initFunction(node);
-  node = this.parseFunctionNamed(node, {}, {isStatement: true});
+  node = this.parseFunctionNamed(node, {}, {isStatement: true, allowConcise: true});
   return this.finishNode(node, "FunctionDeclaration");
 }
 
@@ -138,7 +138,7 @@ export function parseFunctionExpressionNamed() {
   let node = this.startNode();
   this.next();
   this.initFunction(node);
-  node = this.parseFunctionNamed(node, {}, {allowEmpty: true});
+  node = this.parseFunctionNamed(node, {}, {allowConcise: true});
   return this.finishNode(node, "FunctionExpression");
 }
 

@@ -126,7 +126,7 @@ export default class Lexer {
 
     let curContext = this.curContext();
     if (curContext == null || !curContext.preserveSpace) {
-      if (this.state.eol && !isNewline(this.input.charCodeAt(this.state.pos))) {
+      if (this.state.eol && this.state.pos !== this.state.eolPos) {
         this.skipIndentation();
       }
       // newlines are significant, so this only skips comments and non-indentation whitespace
@@ -206,7 +206,7 @@ export default class Lexer {
       // TODO: see if micro-optimization of order of checking ch is worth it
 
       // newline characters:  10, 8232, 8233, 13 (when followed by 10)
-      let nextCh;
+      let nextCh, chIsNewline;
       if (this.state.endingLineComment) {
         this.state.endingLineComment = false;
         if (isNewline(ch)) {
@@ -217,12 +217,15 @@ export default class Lexer {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
         this.state.curLine++; this.state.lineStart = this.state.pos;
-      } else if (!(significantWhitespace && isNewline(ch) && this.state.cur.type !== tt.newline) &&
+      } else if (!(significantWhitespace && (chIsNewline = isNewline(ch)) && this.state.cur.type !== tt.newline) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
         // skip non-significant whitespace
         ++this.state.pos;
+        if (chIsNewline) {
+          this.state.curLine++; this.state.lineStart = this.state.pos;
+        }
       } else {
         if (this.state.pos > start) {
           this.onNonToken(new Token(tt.whitespace,
@@ -532,6 +535,7 @@ export default class Lexer {
   // IF YOU ARE READING THIS, FEEL FREE TO SUBMIT A PULL REQUEST TO CLEAN THIS UP
   hasIndentationChanged(newlineCode, expectedLevels = 1) {
     this.state.eol = true;
+    this.state.eolPos = this.state.pos;
     this.state.indentStart = this.state.pos + 1;
     if (newlineCode === 13 && this.input.charCodeAt(this.state.indentStart) === 10) {
       this.state.indentStart++;

@@ -22,16 +22,14 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpace",
-        "value": "\n\n",
-        "start": 28,
+        "element": "WhiteSpaceLeading",
+        "value": "",
+        "start": 30,
         "end": 30,
         "loc": {},
         "extra": {
-          "tokenValue": {
-            "code": "\n\n"
-          },
-          "tokenType": "whitespace"
+          "tokenValue": 0,
+          "tokenType": "tab"
         }
       },
       {
@@ -537,17 +535,6 @@
                 },
                 "tokenIndex": 11,
                 "tokenType": "name"
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 30,
-              "end": 30,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             }
           ],

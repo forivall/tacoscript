@@ -9,12 +9,20 @@ var mochaFixtures = require("mocha-fixtures-generic");
 
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"), specOptions["unified-loc"]);
 
+function localDisabled(task) {
+  return (
+    task.title === "AwaitExpression" ||
+    task.title === "BindExpression" ||
+    task.title === "Decorator" ||
+  false);
+}
+
 var _hasWrittenAst = false;
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     suite("horchata: location tests: unified/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function(task) {
-        test(task.title, !task.disabled && function () {
+        test(task.title, !(task.disabled || localDisabled(task)) && function () {
           var ast = horchata.parse(task.source.code, task.options);
           if (task.ast.code === "") {
             delete ast.tokens;

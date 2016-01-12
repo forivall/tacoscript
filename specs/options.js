@@ -81,6 +81,6 @@ module.exports['unified-loc'] = {
     "ast": { loc: ["actual.taco.ast.json"] },
   },
   getTaskOptions: function(suite) {
-    return suite.options;
+    return _.cloneDeep(suite.options);
   },
 };

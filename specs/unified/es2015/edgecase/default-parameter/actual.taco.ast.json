@@ -13,7 +13,7 @@
         "column": 0
       },
       "end": {
-        "line": 6,
+        "line": 9,
         "column": 0
       }
     },
@@ -22,48 +22,42 @@
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpace",
-        "value": "\n",
-        "start": 22,
+        "element": "WhiteSpaceLeading",
+        "value": "",
+        "start": 23,
         "end": 23,
         "loc": {},
         "extra": {
-          "tokenValue": {
-            "code": "\n"
-          },
-          "tokenType": "whitespace"
+          "tokenValue": 0,
+          "tokenType": "tab"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpace",
-        "value": "\n",
-        "start": 48,
+        "element": "WhiteSpaceLeading",
+        "value": "",
+        "start": 49,
         "end": 49,
         "loc": {},
         "extra": {
-          "tokenValue": {
-            "code": "\n"
-          },
-          "tokenType": "whitespace"
+          "tokenValue": 0,
+          "tokenType": "tab"
         }
       },
       {
         "reference": "body#next"
       },
       {
-        "element": "WhiteSpace",
-        "value": "\n",
-        "start": 80,
+        "element": "WhiteSpaceLeading",
+        "value": "",
+        "start": 81,
         "end": 81,
         "loc": {},
         "extra": {
-          "tokenValue": {
-            "code": "\n"
-          },
-          "tokenType": "whitespace"
+          "tokenValue": 0,
+          "tokenType": "tab"
         }
       },
       {
@@ -439,11 +433,11 @@
         "tokenEnd": 19,
         "loc": {
           "start": {
-            "line": 2,
-            "column": 1
+            "line": 3,
+            "column": 0
           },
           "end": {
-            "line": 3,
+            "line": 4,
             "column": 0
           }
         },
@@ -458,17 +452,6 @@
               "tokenValue": "function",
               "tokenType": "_function",
               "tokenIndex": 9
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 23,
-            "end": 23,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           },
           {
@@ -579,12 +562,12 @@
           "tokenEnd": 10,
           "loc": {
             "start": {
-              "line": 2,
-              "column": 10
+              "line": 3,
+              "column": 9
             },
             "end": {
-              "line": 2,
-              "column": 11
+              "line": 3,
+              "column": 10
             }
           },
           "sourceElements": [
@@ -596,12 +579,12 @@
               "end": 33,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 10
+                  "line": 3,
+                  "column": 9
                 },
                 "end": {
-                  "line": 2,
-                  "column": 11
+                  "line": 3,
+                  "column": 10
                 }
               },
               "extra": {
@@ -631,12 +614,12 @@
             "tokenEnd": 12,
             "loc": {
               "start": {
-                "line": 2,
-                "column": 12
+                "line": 3,
+                "column": 11
               },
               "end": {
-                "line": 2,
-                "column": 13
+                "line": 3,
+                "column": 12
               }
             },
             "sourceElements": [
@@ -648,12 +631,12 @@
                 "end": 35,
                 "loc": {
                   "start": {
-                    "line": 2,
-                    "column": 12
+                    "line": 3,
+                    "column": 11
                   },
                   "end": {
-                    "line": 2,
-                    "column": 13
+                    "line": 3,
+                    "column": 12
                   }
                 },
                 "extra": {
@@ -679,12 +662,12 @@
             "tokenEnd": 16,
             "loc": {
               "start": {
-                "line": 2,
-                "column": 15
+                "line": 3,
+                "column": 14
               },
               "end": {
-                "line": 2,
-                "column": 21
+                "line": 3,
+                "column": 20
               }
             },
             "sourceElements": [
@@ -741,12 +724,12 @@
               "tokenEnd": 14,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 15
+                  "line": 3,
+                  "column": 14
                 },
                 "end": {
-                  "line": 2,
-                  "column": 16
+                  "line": 3,
+                  "column": 15
                 }
               },
               "sourceElements": [
@@ -758,12 +741,12 @@
                   "end": 38,
                   "loc": {
                     "start": {
-                      "line": 2,
-                      "column": 15
+                      "line": 3,
+                      "column": 14
                     },
                     "end": {
-                      "line": 2,
-                      "column": 16
+                      "line": 3,
+                      "column": 15
                     }
                   },
                   "extra": {
@@ -789,12 +772,12 @@
               "tokenEnd": 16,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 19
+                  "line": 3,
+                  "column": 18
                 },
                 "end": {
-                  "line": 2,
-                  "column": 21
+                  "line": 3,
+                  "column": 20
                 }
               },
               "sourceElements": [
@@ -806,12 +789,12 @@
                   "end": 43,
                   "loc": {
                     "start": {
-                      "line": 2,
-                      "column": 19
+                      "line": 3,
+                      "column": 18
                     },
                     "end": {
-                      "line": 2,
-                      "column": 21
+                      "line": 3,
+                      "column": 20
                     }
                   },
                   "extra": {
@@ -836,11 +819,11 @@
           "tokenEnd": 19,
           "loc": {
             "start": {
-              "line": 2,
-              "column": 25
+              "line": 3,
+              "column": 24
             },
             "end": {
-              "line": 3,
+              "line": 4,
               "column": 0
             }
           },
@@ -870,11 +853,11 @@
         "tokenEnd": 33,
         "loc": {
           "start": {
-            "line": 3,
-            "column": 1
+            "line": 5,
+            "column": 0
           },
           "end": {
-            "line": 4,
+            "line": 6,
             "column": 0
           }
         },
@@ -889,17 +872,6 @@
               "tokenValue": "function",
               "tokenType": "_function",
               "tokenIndex": 20
-            }
-          },
-          {
-            "element": "WhiteSpaceLeading",
-            "value": "",
-            "start": 49,
-            "end": 49,
-            "loc": {},
-            "extra": {
-              "tokenValue": 0,
-              "tokenType": "tab"
             }
           },
           {
@@ -1038,12 +1010,12 @@
           "tokenEnd": 21,
           "loc": {
             "start": {
-              "line": 3,
-              "column": 10
+              "line": 5,
+              "column": 9
             },
             "end": {
-              "line": 3,
-              "column": 11
+              "line": 5,
+              "column": 10
             }
           },
           "sourceElements": [
@@ -1055,12 +1027,12 @@
               "end": 59,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 10
+                  "line": 5,
+                  "column": 9
                 },
                 "end": {
-                  "line": 3,
-                  "column": 11
+                  "line": 5,
+                  "column": 10
                 }
               },
               "extra": {
@@ -1090,12 +1062,12 @@
             "tokenEnd": 23,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 12
+                "line": 5,
+                "column": 11
               },
               "end": {
-                "line": 3,
-                "column": 13
+                "line": 5,
+                "column": 12
               }
             },
             "sourceElements": [
@@ -1107,12 +1079,12 @@
                 "end": 61,
                 "loc": {
                   "start": {
-                    "line": 3,
-                    "column": 12
+                    "line": 5,
+                    "column": 11
                   },
                   "end": {
-                    "line": 3,
-                    "column": 13
+                    "line": 5,
+                    "column": 12
                   }
                 },
                 "extra": {
@@ -1138,12 +1110,12 @@
             "tokenEnd": 27,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 15
+                "line": 5,
+                "column": 14
               },
               "end": {
-                "line": 3,
-                "column": 21
+                "line": 5,
+                "column": 20
               }
             },
             "sourceElements": [
@@ -1200,12 +1172,12 @@
               "tokenEnd": 25,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 15
+                  "line": 5,
+                  "column": 14
                 },
                 "end": {
-                  "line": 3,
-                  "column": 16
+                  "line": 5,
+                  "column": 15
                 }
               },
               "sourceElements": [
@@ -1217,12 +1189,12 @@
                   "end": 64,
                   "loc": {
                     "start": {
-                      "line": 3,
-                      "column": 15
+                      "line": 5,
+                      "column": 14
                     },
                     "end": {
-                      "line": 3,
-                      "column": 16
+                      "line": 5,
+                      "column": 15
                     }
                   },
                   "extra": {
@@ -1248,12 +1220,12 @@
               "tokenEnd": 27,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 19
+                  "line": 5,
+                  "column": 18
                 },
                 "end": {
-                  "line": 3,
-                  "column": 21
+                  "line": 5,
+                  "column": 20
                 }
               },
               "sourceElements": [
@@ -1265,12 +1237,12 @@
                   "end": 69,
                   "loc": {
                     "start": {
-                      "line": 3,
-                      "column": 19
+                      "line": 5,
+                      "column": 18
                     },
                     "end": {
-                      "line": 3,
-                      "column": 21
+                      "line": 5,
+                      "column": 20
                     }
                   },
                   "extra": {
@@ -1294,12 +1266,12 @@
             "tokenEnd": 30,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 23
+                "line": 5,
+                "column": 22
               },
               "end": {
-                "line": 3,
-                "column": 27
+                "line": 5,
+                "column": 26
               }
             },
             "sourceElements": [
@@ -1327,12 +1299,12 @@
               "tokenEnd": 30,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 26
+                  "line": 5,
+                  "column": 25
                 },
                 "end": {
-                  "line": 3,
-                  "column": 27
+                  "line": 5,
+                  "column": 26
                 }
               },
               "sourceElements": [
@@ -1344,12 +1316,12 @@
                   "end": 75,
                   "loc": {
                     "start": {
-                      "line": 3,
-                      "column": 26
+                      "line": 5,
+                      "column": 25
                     },
                     "end": {
-                      "line": 3,
-                      "column": 27
+                      "line": 5,
+                      "column": 26
                     }
                   },
                   "extra": {
@@ -1377,11 +1349,11 @@
           "tokenEnd": 33,
           "loc": {
             "start": {
-              "line": 3,
-              "column": 31
+              "line": 5,
+              "column": 30
             },
             "end": {
-              "line": 4,
+              "line": 6,
               "column": 0
             }
           },
@@ -1411,11 +1383,11 @@
         "tokenEnd": 40,
         "loc": {
           "start": {
-            "line": 4,
-            "column": 1
+            "line": 7,
+            "column": 0
           },
           "end": {
-            "line": 5,
+            "line": 8,
             "column": 0
           }
         },
@@ -1432,11 +1404,11 @@
           "tokenEnd": 40,
           "loc": {
             "start": {
-              "line": 4,
-              "column": 1
+              "line": 7,
+              "column": 0
             },
             "end": {
-              "line": 5,
+              "line": 8,
               "column": 0
             }
           },
@@ -1451,17 +1423,6 @@
                 "tokenValue": "(",
                 "tokenType": "parenL",
                 "tokenIndex": 34
-              }
-            },
-            {
-              "element": "WhiteSpaceLeading",
-              "value": "",
-              "start": 81,
-              "end": 81,
-              "loc": {},
-              "extra": {
-                "tokenValue": 0,
-                "tokenType": "tab"
               }
             },
             {
@@ -1517,12 +1478,12 @@
               "tokenEnd": 37,
               "loc": {
                 "start": {
-                  "line": 4,
-                  "column": 2
+                  "line": 7,
+                  "column": 1
                 },
                 "end": {
-                  "line": 4,
-                  "column": 8
+                  "line": 7,
+                  "column": 7
                 }
               },
               "sourceElements": [
@@ -1579,12 +1540,12 @@
                 "tokenEnd": 35,
                 "loc": {
                   "start": {
-                    "line": 4,
-                    "column": 2
+                    "line": 7,
+                    "column": 1
                   },
                   "end": {
-                    "line": 4,
-                    "column": 3
+                    "line": 7,
+                    "column": 2
                   }
                 },
                 "sourceElements": [
@@ -1596,12 +1557,12 @@
                     "end": 83,
                     "loc": {
                       "start": {
-                        "line": 4,
-                        "column": 2
+                        "line": 7,
+                        "column": 1
                       },
                       "end": {
-                        "line": 4,
-                        "column": 3
+                        "line": 7,
+                        "column": 2
                       }
                     },
                     "extra": {
@@ -1627,12 +1588,12 @@
                 "tokenEnd": 37,
                 "loc": {
                   "start": {
-                    "line": 4,
-                    "column": 6
+                    "line": 7,
+                    "column": 5
                   },
                   "end": {
-                    "line": 4,
-                    "column": 8
+                    "line": 7,
+                    "column": 7
                   }
                 },
                 "sourceElements": [
@@ -1644,12 +1605,12 @@
                     "end": 88,
                     "loc": {
                       "start": {
-                        "line": 4,
-                        "column": 6
+                        "line": 7,
+                        "column": 5
                       },
                       "end": {
-                        "line": 4,
-                        "column": 8
+                        "line": 7,
+                        "column": 7
                       }
                     },
                     "extra": {
@@ -1678,11 +1639,11 @@
             "tokenEnd": 40,
             "loc": {
               "start": {
-                "line": 4,
-                "column": 12
+                "line": 7,
+                "column": 11
               },
               "end": {
-                "line": 5,
+                "line": 8,
                 "column": 0
               }
             },
@@ -1724,11 +1685,11 @@
         "tokenEnd": 50,
         "loc": {
           "start": {
-            "line": 5,
+            "line": 8,
             "column": 0
           },
           "end": {
-            "line": 6,
+            "line": 9,
             "column": 0
           }
         },
@@ -1745,11 +1706,11 @@
           "tokenEnd": 50,
           "loc": {
             "start": {
-              "line": 5,
+              "line": 8,
               "column": 0
             },
             "end": {
-              "line": 6,
+              "line": 9,
               "column": 0
             }
           },
@@ -1847,11 +1808,11 @@
               "tokenEnd": 44,
               "loc": {
                 "start": {
-                  "line": 5,
+                  "line": 8,
                   "column": 1
                 },
                 "end": {
-                  "line": 5,
+                  "line": 8,
                   "column": 7
                 }
               },
@@ -1909,11 +1870,11 @@
                 "tokenEnd": 42,
                 "loc": {
                   "start": {
-                    "line": 5,
+                    "line": 8,
                     "column": 1
                   },
                   "end": {
-                    "line": 5,
+                    "line": 8,
                     "column": 2
                   }
                 },
@@ -1926,11 +1887,11 @@
                     "end": 95,
                     "loc": {
                       "start": {
-                        "line": 5,
+                        "line": 8,
                         "column": 1
                       },
                       "end": {
-                        "line": 5,
+                        "line": 8,
                         "column": 2
                       }
                     },
@@ -1957,11 +1918,11 @@
                 "tokenEnd": 44,
                 "loc": {
                   "start": {
-                    "line": 5,
+                    "line": 8,
                     "column": 5
                   },
                   "end": {
-                    "line": 5,
+                    "line": 8,
                     "column": 7
                   }
                 },
@@ -1974,11 +1935,11 @@
                     "end": 100,
                     "loc": {
                       "start": {
-                        "line": 5,
+                        "line": 8,
                         "column": 5
                       },
                       "end": {
-                        "line": 5,
+                        "line": 8,
                         "column": 7
                       }
                     },
@@ -2003,11 +1964,11 @@
               "tokenEnd": 47,
               "loc": {
                 "start": {
-                  "line": 5,
+                  "line": 8,
                   "column": 9
                 },
                 "end": {
-                  "line": 5,
+                  "line": 8,
                   "column": 13
                 }
               },
@@ -2036,11 +1997,11 @@
                 "tokenEnd": 47,
                 "loc": {
                   "start": {
-                    "line": 5,
+                    "line": 8,
                     "column": 12
                   },
                   "end": {
-                    "line": 5,
+                    "line": 8,
                     "column": 13
                   }
                 },
@@ -2053,11 +2014,11 @@
                     "end": 106,
                     "loc": {
                       "start": {
-                        "line": 5,
+                        "line": 8,
                         "column": 12
                       },
                       "end": {
-                        "line": 5,
+                        "line": 8,
                         "column": 13
                       }
                     },
@@ -2090,11 +2051,11 @@
             "tokenEnd": 50,
             "loc": {
               "start": {
-                "line": 5,
+                "line": 8,
                 "column": 17
               },
               "end": {
-                "line": 6,
+                "line": 9,
                 "column": 0
               }
             },

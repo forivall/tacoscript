@@ -52,15 +52,14 @@ export function parseBlockStatement(blockContext = {}) {
 
 // this can be any kind of block, not just detached (`!`) blocks
 export function parseBlock(blockContext = {}) {
-  // TODO: rename allowEmpty
-  let {allowEmpty} = blockContext;
+  let {allowConcise} = blockContext;
   let node = this.startNode();
   if (this.eatLineTerminator()) {
     node = this.initBlockBody(node, blockContext);
   } else if (this.eat(tt.indent)) {
     this.eat(tt.newline);
     node = this.parseBlockBody(node, blockContext);
-  } else if (allowEmpty) {
+  } else if (allowConcise) {
     node = this.initBlockBody(node, blockContext);
     if (this.state.cur.type.startsExpr || this.state.cur.type.startsStmt) {
       do {

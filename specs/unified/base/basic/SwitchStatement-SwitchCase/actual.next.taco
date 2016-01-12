@@ -1,0 +1,35 @@
+switch foo
+
+switch foo
+  case "foo"
+
+switch foo
+  default
+
+switch foo
+  case "foo"
+  and default
+
+switch foo
+  case "foo"
+  and case "bar"
+  default
+
+switch foo
+  case "foo"
+    foo()
+
+
+  case "bar"
+    bar()
+
+
+  default
+    yay()
+
+switch foo
+  case "foo" then foo()
+  and case "bar"
+    bar()
+  and default
+    yay()

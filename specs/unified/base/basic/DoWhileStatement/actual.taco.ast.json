@@ -1,0 +1,610 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 41,
+    "tokenStart": 0,
+    "tokenEnd": 17,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 6,
+        "column": 0
+      }
+    },
+    "sourceElements": [
+      {
+        "reference": "body#next"
+      },
+      {
+        "element": "WhiteSpaceLeading",
+        "value": "",
+        "start": 24,
+        "end": 24,
+        "loc": {},
+        "extra": {
+          "tokenValue": 0,
+          "tokenType": "tab"
+        }
+      },
+      {
+        "reference": "body#next"
+      },
+      {
+        "element": "EOF",
+        "value": "",
+        "start": 41,
+        "end": 41,
+        "loc": {},
+        "extra": {
+          "tokenValue": "eof",
+          "tokenType": "eof",
+          "tokenIndex": 17
+        }
+      }
+    ],
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "DoWhileStatement",
+        "start": 0,
+        "end": 23,
+        "tokenStart": 0,
+        "tokenEnd": 11,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "do",
+            "start": 0,
+            "end": 2,
+            "loc": {},
+            "extra": {
+              "tokenValue": "do",
+              "tokenType": "_do",
+              "tokenIndex": 0
+            }
+          },
+          {
+            "reference": "body"
+          },
+          {
+            "element": "Keyword",
+            "value": "while",
+            "start": 12,
+            "end": 17,
+            "loc": {},
+            "extra": {
+              "tokenValue": "while",
+              "tokenType": "_while",
+              "tokenIndex": 9
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 17,
+            "end": 18,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "test"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 22,
+            "end": 23,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 11
+            }
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "start": 2,
+          "end": 12,
+          "tokenStart": 1,
+          "tokenEnd": 8,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 2
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "sourceElements": [
+            {
+              "element": "Indent",
+              "value": "",
+              "start": 2,
+              "end": 2,
+              "loc": {},
+              "extra": {
+                "tokenValue": "indent",
+                "tokenType": "indent",
+                "tokenIndex": 1
+              }
+            },
+            {
+              "element": "LineTerminator",
+              "value": "\n",
+              "start": 2,
+              "end": 3,
+              "loc": {},
+              "extra": {
+                "tokenValue": "newline",
+                "tokenType": "newline",
+                "tokenIndex": 2
+              }
+            },
+            {
+              "element": "WhiteSpaceLeading",
+              "value": "  ",
+              "start": 3,
+              "end": 5,
+              "loc": {},
+              "extra": {
+                "tokenValue": 1,
+                "tokenType": "tab"
+              }
+            },
+            {
+              "reference": "body#next"
+            },
+            {
+              "element": "Dedent",
+              "value": "",
+              "start": 11,
+              "end": 11,
+              "loc": {},
+              "extra": {
+                "tokenValue": "dedent",
+                "tokenType": "dedent",
+                "tokenIndex": 7
+              }
+            },
+            {
+              "element": "LineTerminator",
+              "value": "\n",
+              "start": 11,
+              "end": 12,
+              "loc": {},
+              "extra": {
+                "tokenValue": "newline",
+                "tokenType": "newline",
+                "tokenIndex": 8
+              }
+            },
+            {
+              "element": "WhiteSpaceLeading",
+              "value": "",
+              "start": 12,
+              "end": 12,
+              "loc": {},
+              "extra": {
+                "tokenValue": 0,
+                "tokenType": "tab"
+              }
+            }
+          ],
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "start": 5,
+              "end": 11,
+              "tokenStart": 3,
+              "tokenEnd": 6,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2,
+                  "column": 8
+                }
+              },
+              "sourceElements": [
+                {
+                  "reference": "expression"
+                },
+                {
+                  "element": "LineTerminator",
+                  "value": "",
+                  "start": 11,
+                  "end": 11,
+                  "loc": {},
+                  "extra": {
+                    "tokenValue": "newline",
+                    "tokenType": "newline",
+                    "tokenIndex": 6
+                  }
+                }
+              ],
+              "expression": {
+                "type": "CallExpression",
+                "start": 5,
+                "end": 11,
+                "tokenStart": 3,
+                "tokenEnd": 5,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8
+                  }
+                },
+                "sourceElements": [
+                  {
+                    "reference": "callee"
+                  },
+                  {
+                    "element": "Punctuator",
+                    "value": "(",
+                    "start": 9,
+                    "end": 10,
+                    "loc": {},
+                    "extra": {
+                      "tokenValue": "(",
+                      "tokenType": "parenL",
+                      "tokenIndex": 4
+                    }
+                  },
+                  {
+                    "element": "Punctuator",
+                    "value": ")",
+                    "start": 10,
+                    "end": 11,
+                    "loc": {},
+                    "extra": {
+                      "tokenValue": ")",
+                      "tokenType": "parenR",
+                      "tokenIndex": 5
+                    }
+                  }
+                ],
+                "callee": {
+                  "type": "Identifier",
+                  "start": 5,
+                  "end": 9,
+                  "tokenStart": 3,
+                  "tokenEnd": 3,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 6
+                    }
+                  },
+                  "sourceElements": [
+                    {
+                      "reference": "name",
+                      "value": "test",
+                      "element": "IdentifierName",
+                      "start": 5,
+                      "end": 9,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 6
+                        }
+                      },
+                      "extra": {
+                        "tokenValue": {
+                          "value": "test",
+                          "raw": "test"
+                        },
+                        "tokenIndex": 3,
+                        "tokenType": "name"
+                      }
+                    }
+                  ],
+                  "name": "test",
+                  "extra": {
+                    "raw": "test"
+                  }
+                },
+                "arguments": []
+              }
+            }
+          ]
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "start": 18,
+          "end": 22,
+          "tokenStart": 10,
+          "tokenEnd": 10,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 6
+            },
+            "end": {
+              "line": 3,
+              "column": 10
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "true",
+              "element": "BooleanLiteral",
+              "start": 18,
+              "end": 22,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 6
+                },
+                "end": {
+                  "line": 3,
+                  "column": 10
+                }
+              },
+              "extra": {
+                "tokenValue": "true",
+                "tokenIndex": 10,
+                "tokenType": "_true"
+              }
+            }
+          ],
+          "value": true,
+          "extra": {
+            "raw": "true"
+          }
+        }
+      },
+      {
+        "type": "DoWhileStatement",
+        "start": 24,
+        "end": 41,
+        "tokenStart": 12,
+        "tokenEnd": 16,
+        "loc": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "sourceElements": [
+          {
+            "element": "Keyword",
+            "value": "do",
+            "start": 24,
+            "end": 26,
+            "loc": {},
+            "extra": {
+              "tokenValue": "do",
+              "tokenType": "_do",
+              "tokenIndex": 12
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 26,
+            "end": 27,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "body"
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 29,
+            "end": 30,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "element": "Keyword",
+            "value": "while",
+            "start": 30,
+            "end": 35,
+            "loc": {},
+            "extra": {
+              "tokenValue": "while",
+              "tokenType": "_while",
+              "tokenIndex": 14
+            }
+          },
+          {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 35,
+            "end": 36,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
+            "reference": "test"
+          },
+          {
+            "element": "LineTerminator",
+            "value": "\n",
+            "start": 40,
+            "end": 41,
+            "loc": {},
+            "extra": {
+              "tokenValue": "newline",
+              "tokenType": "newline",
+              "tokenIndex": 16
+            }
+          },
+          {
+            "element": "WhiteSpaceLeading",
+            "value": "",
+            "start": 41,
+            "end": 41,
+            "loc": {},
+            "extra": {
+              "tokenValue": 0,
+              "tokenType": "tab"
+            }
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "start": 27,
+          "end": 29,
+          "tokenStart": 13,
+          "tokenEnd": 13,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 3
+            },
+            "end": {
+              "line": 5,
+              "column": 5
+            }
+          },
+          "sourceElements": [
+            {
+              "element": "Punctuator",
+              "value": ";;",
+              "start": 27,
+              "end": 29,
+              "loc": {},
+              "extra": {
+                "tokenValue": ";;",
+                "tokenType": "doublesemi",
+                "tokenIndex": 13
+              }
+            }
+          ],
+          "body": []
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "start": 36,
+          "end": 40,
+          "tokenStart": 15,
+          "tokenEnd": 15,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 12
+            },
+            "end": {
+              "line": 5,
+              "column": 16
+            }
+          },
+          "sourceElements": [
+            {
+              "reference": "value",
+              "value": "true",
+              "element": "BooleanLiteral",
+              "start": 36,
+              "end": 40,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 12
+                },
+                "end": {
+                  "line": 5,
+                  "column": 16
+                }
+              },
+              "extra": {
+                "tokenValue": "true",
+                "tokenIndex": 15,
+                "tokenType": "_true"
+              }
+            }
+          ],
+          "value": true,
+          "extra": {
+            "raw": "true"
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "sourceElements": [
+    {
+      "element": "WhiteSpaceLeading",
+      "value": "",
+      "start": -1,
+      "end": -1,
+      "loc": {},
+      "extra": {
+        "tokenValue": 0,
+        "tokenType": "tab"
+      }
+    },
+    {
+      "reference": "program"
+    }
+  ],
+  "comments": []
+}

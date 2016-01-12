@@ -324,21 +324,24 @@ export function parseStatementBody(blockContext = {}) {
     if (!ateThen && this.matchLineTerminator()) {
       node = this.startNode();
       node = this.initBlockBody(node, {});
-      this.eat(tt.newline);
+      this.eatLineTerminator();
       node = this.finishNode(node, "BlockStatement");
     } else {
       if (forceBlock) {
-        let bodyStatement = node;
-        node = this.startNode();
-        node = this.initBlockBody(node, {});
-        this.add(node, "body", this.parseStatement());
-        node = this.finishNode(node, "BlockStatement");
+        node = this.parseStatementBlock();
       } else {
         node = this.parseStatement();
       }
     }
   }
   return node;
+}
+
+export function parseStatementBlock() {
+  let node = this.startNode();
+  node = this.initBlockBody(node, {});
+  this.add(node, "body", this.parseStatement());
+  return this.finishNode(node, "BlockStatement");
 }
 
 // Parse a switch, as a statement.
@@ -375,7 +378,7 @@ export function parseSwitchStatement(node) {
     } else if (this.eat(tt._default)) {
       sawDefault = sawDefault ? this.raise(this.state.prev.start, "Multiple default clauses") : true;
       cur.test = null;
-      cur = this.parseSwitchCaseBody(cur);
+      cur = this.parseSwitchCaseBody(cur, true);
     } else {
       this.unexpected();
     }
@@ -387,14 +390,14 @@ export function parseSwitchStatement(node) {
   return this.finishNode(node, "SwitchStatement");
 }
 
-export function parseSwitchCaseBody(node) {
-  this.eat(tt.colon) || this.unexpected();
+export function parseSwitchCaseBody(node, isDefault = false) {
   let finishedDirectives = false;
   node.consequent = [];
   let isEmpty = false;
   if (!this.match(tt.indent)) {
     isEmpty = this.eatLineTerminator() || this.match(tt._case);
     if (!isEmpty) {
+      if (!isDefault) this.eat(tt._then) || this.unexpected();
       this.add(node, "consequent", this.parseStatement(true));
     }
   }
