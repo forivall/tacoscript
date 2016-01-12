@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-generator",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Generator for tacoscript",
   "main": "lib/index.js",
   "bin": {
@@ -24,7 +24,7 @@
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
     "babel-types": "^6.2.0",
-    "horchata": "^0.3.0",
+    "horchata": "^0.3.1",
     "lodash": "^3.10.1"
   },
   "devDependencies": {
