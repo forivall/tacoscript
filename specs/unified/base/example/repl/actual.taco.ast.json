@@ -6,7 +6,7 @@
     "start": 0,
     "end": 443,
     "tokenStart": 0,
-    "tokenEnd": 51,
+    "tokenEnd": 50,
     "loc": {
       "start": {
         "line": 1,
@@ -71,7 +71,7 @@
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
-          "tokenIndex": 51
+          "tokenIndex": 50
         }
       }
     ],
@@ -617,7 +617,7 @@
         "start": 360,
         "end": 443,
         "tokenStart": 17,
-        "tokenEnd": 50,
+        "tokenEnd": 49,
         "loc": {
           "start": {
             "line": 16,
@@ -767,7 +767,7 @@
           "start": 383,
           "end": 443,
           "tokenStart": 22,
-          "tokenEnd": 50,
+          "tokenEnd": 49,
           "loc": {
             "start": {
               "line": 16,
@@ -826,7 +826,7 @@
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
-                "tokenIndex": 49
+                "tokenIndex": 48
               }
             },
             {
@@ -838,7 +838,7 @@
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
-                "tokenIndex": 50
+                "tokenIndex": 49
               }
             }
           ],
@@ -848,7 +848,7 @@
               "start": 386,
               "end": 442,
               "tokenStart": 24,
-              "tokenEnd": 48,
+              "tokenEnd": 47,
               "loc": {
                 "start": {
                   "line": 17,
@@ -869,7 +869,7 @@
                 "start": 386,
                 "end": 442,
                 "tokenStart": 24,
-                "tokenEnd": 48,
+                "tokenEnd": 47,
                 "loc": {
                   "start": {
                     "line": 17,
@@ -911,18 +911,6 @@
                   },
                   {
                     "reference": "arguments#next"
-                  },
-                  {
-                    "element": "LineTerminator",
-                    "value": "",
-                    "start": 442,
-                    "end": 442,
-                    "loc": {},
-                    "extra": {
-                      "tokenValue": "newline",
-                      "tokenType": "newline",
-                      "tokenIndex": 48
-                    }
                   }
                 ],
                 "callee": {
@@ -1298,28 +1286,41 @@
                         },
                         {
                           "element": "Punctuator",
-                          "value": "(",
+                          "value": "!",
                           "start": 424,
                           "end": 425,
                           "loc": {},
                           "extra": {
-                            "tokenValue": "(",
-                            "tokenType": "parenL",
+                            "tokenValue": "!",
+                            "tokenType": "excl",
                             "tokenIndex": 37
+                          }
+                        },
+                        {
+                          "element": "WhiteSpace",
+                          "value": " ",
+                          "start": 425,
+                          "end": 426,
+                          "loc": {},
+                          "extra": {
+                            "tokenValue": {
+                              "code": " "
+                            },
+                            "tokenType": "whitespace"
                           }
                         },
                         {
                           "reference": "arguments#next"
                         },
                         {
-                          "element": "Punctuator",
-                          "value": ")",
-                          "start": 441,
+                          "element": "LineTerminator",
+                          "value": "",
+                          "start": 442,
                           "end": 442,
                           "loc": {},
                           "extra": {
-                            "tokenValue": ")",
-                            "tokenType": "parenR",
+                            "tokenValue": "newline",
+                            "tokenType": "newline",
                             "tokenIndex": 47
                           }
                         }
@@ -1461,18 +1462,18 @@
                       "arguments": [
                         {
                           "type": "BinaryExpression",
-                          "start": 425,
-                          "end": 441,
+                          "start": 426,
+                          "end": 442,
                           "tokenStart": 38,
                           "tokenEnd": 46,
                           "loc": {
                             "start": {
                               "line": 17,
-                              "column": 41
+                              "column": 42
                             },
                             "end": {
                               "line": 17,
-                              "column": 57
+                              "column": 58
                             }
                           },
                           "sourceElements": [
@@ -1482,16 +1483,16 @@
                             {
                               "reference": "operator",
                               "element": "Punctuator",
-                              "start": 436,
-                              "end": 437,
+                              "start": 437,
+                              "end": 438,
                               "loc": {
                                 "start": {
                                   "line": 17,
-                                  "column": 52
+                                  "column": 53
                                 },
                                 "end": {
                                   "line": 17,
-                                  "column": 53
+                                  "column": 54
                                 }
                               },
                               "extra": {
@@ -1503,8 +1504,8 @@
                             {
                               "element": "WhiteSpace",
                               "value": " ",
-                              "start": 437,
-                              "end": 438,
+                              "start": 438,
+                              "end": 439,
                               "loc": {},
                               "extra": {
                                 "tokenValue": {
@@ -1519,26 +1520,26 @@
                           ],
                           "left": {
                             "type": "TemplateLiteral",
-                            "start": 425,
-                            "end": 436,
+                            "start": 426,
+                            "end": 437,
                             "tokenStart": 38,
                             "tokenEnd": 44,
                             "loc": {
                               "start": {
                                 "line": 17,
-                                "column": 41
+                                "column": 42
                               },
                               "end": {
                                 "line": 17,
-                                "column": 52
+                                "column": 53
                               }
                             },
                             "sourceElements": [
                               {
                                 "element": "Punctuator",
                                 "value": "`",
-                                "start": 425,
-                                "end": 426,
+                                "start": 426,
+                                "end": 427,
                                 "loc": {},
                                 "extra": {
                                   "tokenValue": "`",
@@ -1552,8 +1553,8 @@
                               {
                                 "element": "Punctuator",
                                 "value": "${",
-                                "start": 430,
-                                "end": 432,
+                                "start": 431,
+                                "end": 433,
                                 "loc": {},
                                 "extra": {
                                   "tokenValue": "${",
@@ -1567,8 +1568,8 @@
                               {
                                 "element": "Punctuator",
                                 "value": "}",
-                                "start": 433,
-                                "end": 434,
+                                "start": 434,
+                                "end": 435,
                                 "loc": {},
                                 "extra": {
                                   "tokenValue": "}",
@@ -1582,8 +1583,8 @@
                               {
                                 "element": "Punctuator",
                                 "value": "`",
-                                "start": 435,
-                                "end": 436,
+                                "start": 436,
+                                "end": 437,
                                 "loc": {},
                                 "extra": {
                                   "tokenValue": "`",
@@ -1595,18 +1596,18 @@
                             "expressions": [
                               {
                                 "type": "Identifier",
-                                "start": 432,
-                                "end": 433,
+                                "start": 433,
+                                "end": 434,
                                 "tokenStart": 41,
                                 "tokenEnd": 41,
                                 "loc": {
                                   "start": {
                                     "line": 17,
-                                    "column": 48
+                                    "column": 49
                                   },
                                   "end": {
                                     "line": 17,
-                                    "column": 49
+                                    "column": 50
                                   }
                                 },
                                 "sourceElements": [
@@ -1614,16 +1615,16 @@
                                     "reference": "name",
                                     "value": "i",
                                     "element": "IdentifierName",
-                                    "start": 432,
-                                    "end": 433,
+                                    "start": 433,
+                                    "end": 434,
                                     "loc": {
                                       "start": {
                                         "line": 17,
-                                        "column": 48
+                                        "column": 49
                                       },
                                       "end": {
                                         "line": 17,
-                                        "column": 49
+                                        "column": 50
                                       }
                                     },
                                     "extra": {
@@ -1645,18 +1646,18 @@
                             "quasis": [
                               {
                                 "type": "TemplateElement",
-                                "start": 426,
-                                "end": 430,
+                                "start": 427,
+                                "end": 431,
                                 "tokenStart": 39,
                                 "tokenEnd": 39,
                                 "loc": {
                                   "start": {
                                     "line": 17,
-                                    "column": 42
+                                    "column": 43
                                   },
                                   "end": {
                                     "line": 17,
-                                    "column": 46
+                                    "column": 47
                                   }
                                 },
                                 "sourceElements": [
@@ -1664,16 +1665,16 @@
                                     "reference": "value",
                                     "value": "Tip ",
                                     "element": "Template",
-                                    "start": 426,
-                                    "end": 430,
+                                    "start": 427,
+                                    "end": 431,
                                     "loc": {
                                       "start": {
                                         "line": 17,
-                                        "column": 42
+                                        "column": 43
                                       },
                                       "end": {
                                         "line": 17,
-                                        "column": 46
+                                        "column": 47
                                       }
                                     },
                                     "extra": {
@@ -1691,18 +1692,18 @@
                               },
                               {
                                 "type": "TemplateElement",
-                                "start": 434,
-                                "end": 435,
+                                "start": 435,
+                                "end": 436,
                                 "tokenStart": 43,
                                 "tokenEnd": 43,
                                 "loc": {
                                   "start": {
                                     "line": 17,
-                                    "column": 50
+                                    "column": 51
                                   },
                                   "end": {
                                     "line": 17,
-                                    "column": 51
+                                    "column": 52
                                   }
                                 },
                                 "sourceElements": [
@@ -1710,16 +1711,16 @@
                                     "reference": "value",
                                     "value": ":",
                                     "element": "Template",
-                                    "start": 434,
-                                    "end": 435,
+                                    "start": 435,
+                                    "end": 436,
                                     "loc": {
                                       "start": {
                                         "line": 17,
-                                        "column": 50
+                                        "column": 51
                                       },
                                       "end": {
                                         "line": 17,
-                                        "column": 51
+                                        "column": 52
                                       }
                                     },
                                     "extra": {
@@ -1740,18 +1741,18 @@
                           "operator": "+",
                           "right": {
                             "type": "Identifier",
-                            "start": 438,
-                            "end": 441,
+                            "start": 439,
+                            "end": 442,
                             "tokenStart": 46,
                             "tokenEnd": 46,
                             "loc": {
                               "start": {
                                 "line": 17,
-                                "column": 54
+                                "column": 55
                               },
                               "end": {
                                 "line": 17,
-                                "column": 57
+                                "column": 58
                               }
                             },
                             "sourceElements": [
@@ -1759,16 +1760,16 @@
                                 "reference": "name",
                                 "value": "tip",
                                 "element": "IdentifierName",
-                                "start": 438,
-                                "end": 441,
+                                "start": 439,
+                                "end": 442,
                                 "loc": {
                                   "start": {
                                     "line": 17,
-                                    "column": 54
+                                    "column": 55
                                   },
                                   "end": {
                                     "line": 17,
-                                    "column": 57
+                                    "column": 58
                                   }
                                 },
                                 "extra": {
