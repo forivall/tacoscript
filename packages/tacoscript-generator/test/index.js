@@ -54,7 +54,8 @@ var babylonParseOpts = {
 var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
   _.extend({}, specOptions.unified, {
     fixtures: _.assign({}, specOptions.unified.fixtures, {
-      "json": { loc: ["expected.json", "expected.cst.json"] }
+      "json": { loc: ["expected.json", "expected.cst.json"] },
+      "preserveLines": { loc: ["expected.preserveLines.taco"] },
     })
   })
 );
@@ -75,6 +76,7 @@ suite("taco-printer", function () {
     expect(out.code).to.equal("this\n");
   });
 });
+
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     suite("tacoscript-generator: (preserve=false) core/" + setName + "/" + testSuite.title, function () {
@@ -118,14 +120,15 @@ _.forOwn(coreSpecs, function(suites, setName) {
   });
 });
 
+[false, true].forEach(function(preserveLines) {
 _.forOwn(unifiedSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: unified/" + setName + "/" + testSuite.title, function () {
+    suite("tacoscript-generator: "+ (preserveLines?"(preserveLines) ":"") +"unified/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
         test(task.title, !task.disabled && function () {
-          var taco = task.auto;
+          var taco = preserveLines ? task.preserveLines : task.auto;
           var js = task.js;
 
           var expectedAst;
@@ -138,7 +141,7 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
               })
             );
           }
-          var options = _.merge({format: {perserve: false}}, task.options);
+          var options = _.merge({format: {perserve: false, preserveLines: preserveLines}}, task.options);
           var result = generate(expectedAst, options, js.code);
           var actualCode = result.code;
           // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
@@ -155,6 +158,7 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
       });
     });
   });
+});
 });
 
 if (false) _.forOwn(coreSpecs, function(suites, setName) {

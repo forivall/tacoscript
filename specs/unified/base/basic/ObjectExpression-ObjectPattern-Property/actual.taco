@@ -1,14 +1,8 @@
 var foo = {}
 
-var foo = {
-  x
-  y
-}
+var foo = { x, y }
 
-var foo = {
-  x: x
-  y: y
-}
+var foo = { x: x, y: y }
 
 var foo = {
   x: x
@@ -21,6 +15,7 @@ var foo = {
   foo() ->
   foo() +>
   foo() *->
+  foo() * ->
   get foo() ->
   set foo(foo) ->
 }

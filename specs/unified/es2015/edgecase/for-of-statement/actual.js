@@ -4,4 +4,7 @@ function test() {
 
   for (let i of array) {
   }
+
+  for (const j of array) {
+  }
 }

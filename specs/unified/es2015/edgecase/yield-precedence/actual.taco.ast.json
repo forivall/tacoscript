@@ -4,7 +4,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 136,
+    "end": 137,
     "tokenStart": 0,
     "tokenEnd": 52,
     "loc": {
@@ -24,8 +24,8 @@
       {
         "element": "EOF",
         "value": "",
-        "start": 136,
-        "end": 136,
+        "start": 137,
+        "end": 137,
         "loc": {},
         "extra": {
           "tokenValue": "eof",
@@ -39,7 +39,7 @@
       {
         "type": "FunctionDeclaration",
         "start": 0,
-        "end": 136,
+        "end": 137,
         "tokenStart": 0,
         "tokenEnd": 51,
         "loc": {
@@ -154,10 +154,23 @@
             }
           },
           {
+            "element": "WhiteSpace",
+            "value": " ",
+            "start": 17,
+            "end": 18,
+            "loc": {},
+            "extra": {
+              "tokenValue": {
+                "code": " "
+              },
+              "tokenType": "whitespace"
+            }
+          },
+          {
             "element": "Punctuator",
             "value": "->",
-            "start": 17,
-            "end": 19,
+            "start": 18,
+            "end": 20,
             "loc": {},
             "extra": {
               "tokenValue": "->",
@@ -223,14 +236,14 @@
         "params": [],
         "body": {
           "type": "BlockStatement",
-          "start": 19,
-          "end": 136,
+          "start": 20,
+          "end": 137,
           "tokenStart": 6,
           "tokenEnd": 51,
           "loc": {
             "start": {
               "line": 1,
-              "column": 19
+              "column": 20
             },
             "end": {
               "line": 7,
@@ -241,8 +254,8 @@
             {
               "element": "Indent",
               "value": "",
-              "start": 19,
-              "end": 19,
+              "start": 20,
+              "end": 20,
               "loc": {},
               "extra": {
                 "tokenValue": "indent",
@@ -253,8 +266,8 @@
             {
               "element": "LineTerminator",
               "value": "\n",
-              "start": 19,
-              "end": 20,
+              "start": 20,
+              "end": 21,
               "loc": {},
               "extra": {
                 "tokenValue": "newline",
@@ -265,8 +278,8 @@
             {
               "element": "WhiteSpaceLeading",
               "value": "  ",
-              "start": 20,
-              "end": 22,
+              "start": 21,
+              "end": 23,
               "loc": {},
               "extra": {
                 "tokenValue": 1,
@@ -279,8 +292,8 @@
             {
               "element": "WhiteSpaceLeading",
               "value": "  ",
-              "start": 49,
-              "end": 51,
+              "start": 50,
+              "end": 52,
               "loc": {},
               "extra": {
                 "tokenValue": 1,
@@ -293,8 +306,8 @@
             {
               "element": "WhiteSpaceLeading",
               "value": "  ",
-              "start": 71,
-              "end": 73,
+              "start": 72,
+              "end": 74,
               "loc": {},
               "extra": {
                 "tokenValue": 1,
@@ -307,8 +320,8 @@
             {
               "element": "WhiteSpaceLeading",
               "value": "  ",
-              "start": 90,
-              "end": 92,
+              "start": 91,
+              "end": 93,
               "loc": {},
               "extra": {
                 "tokenValue": 1,
@@ -321,8 +334,8 @@
             {
               "element": "WhiteSpaceLeading",
               "value": "  ",
-              "start": 104,
-              "end": 106,
+              "start": 105,
+              "end": 107,
               "loc": {},
               "extra": {
                 "tokenValue": 1,
@@ -335,8 +348,8 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 135,
-              "end": 135,
+              "start": 136,
+              "end": 136,
               "loc": {},
               "extra": {
                 "tokenValue": "dedent",
@@ -347,8 +360,8 @@
             {
               "element": "LineTerminator",
               "value": "\n",
-              "start": 135,
-              "end": 136,
+              "start": 136,
+              "end": 137,
               "loc": {},
               "extra": {
                 "tokenValue": "newline",
@@ -360,8 +373,8 @@
           "body": [
             {
               "type": "VariableDeclaration",
-              "start": 22,
-              "end": 49,
+              "start": 23,
+              "end": 50,
               "tokenStart": 8,
               "tokenEnd": 19,
               "loc": {
@@ -378,8 +391,8 @@
                 {
                   "reference": "kind",
                   "element": "Keyword",
-                  "start": 22,
-                  "end": 25,
+                  "start": 23,
+                  "end": 26,
                   "loc": {
                     "start": {
                       "line": 2,
@@ -399,8 +412,8 @@
                 {
                   "element": "WhiteSpace",
                   "value": " ",
-                  "start": 25,
-                  "end": 26,
+                  "start": 26,
+                  "end": 27,
                   "loc": {},
                   "extra": {
                     "tokenValue": {
@@ -415,8 +428,8 @@
                 {
                   "element": "Punctuator",
                   "value": ",",
-                  "start": 41,
-                  "end": 42,
+                  "start": 42,
+                  "end": 43,
                   "loc": {},
                   "extra": {
                     "tokenValue": ",",
@@ -427,8 +440,8 @@
                 {
                   "element": "WhiteSpace",
                   "value": " ",
-                  "start": 42,
-                  "end": 43,
+                  "start": 43,
+                  "end": 44,
                   "loc": {},
                   "extra": {
                     "tokenValue": {
@@ -443,8 +456,8 @@
                 {
                   "element": "LineTerminator",
                   "value": "\n",
-                  "start": 48,
-                  "end": 49,
+                  "start": 49,
+                  "end": 50,
                   "loc": {},
                   "extra": {
                     "tokenValue": "newline",
@@ -456,8 +469,8 @@
               "declarations": [
                 {
                   "type": "VariableDeclarator",
-                  "start": 26,
-                  "end": 41,
+                  "start": 27,
+                  "end": 42,
                   "tokenStart": 9,
                   "tokenEnd": 14,
                   "loc": {
@@ -477,8 +490,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 27,
-                      "end": 28,
+                      "start": 28,
+                      "end": 29,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -490,8 +503,8 @@
                     {
                       "element": "Punctuator",
                       "value": "=",
-                      "start": 28,
-                      "end": 29,
+                      "start": 29,
+                      "end": 30,
                       "loc": {},
                       "extra": {
                         "tokenValue": "=",
@@ -502,8 +515,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 29,
-                      "end": 30,
+                      "start": 30,
+                      "end": 31,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -518,8 +531,8 @@
                   ],
                   "id": {
                     "type": "Identifier",
-                    "start": 26,
-                    "end": 27,
+                    "start": 27,
+                    "end": 28,
                     "tokenStart": 9,
                     "tokenEnd": 9,
                     "loc": {
@@ -537,8 +550,8 @@
                         "reference": "name",
                         "value": "a",
                         "element": "IdentifierName",
-                        "start": 26,
-                        "end": 27,
+                        "start": 27,
+                        "end": 28,
                         "loc": {
                           "start": {
                             "line": 2,
@@ -566,8 +579,8 @@
                   },
                   "init": {
                     "type": "YieldExpression",
-                    "start": 30,
-                    "end": 41,
+                    "start": 31,
+                    "end": 42,
                     "tokenStart": 11,
                     "tokenEnd": 14,
                     "loc": {
@@ -584,8 +597,8 @@
                       {
                         "element": "Keyword",
                         "value": "yield",
-                        "start": 30,
-                        "end": 35,
+                        "start": 31,
+                        "end": 36,
                         "loc": {},
                         "extra": {
                           "tokenValue": "yield",
@@ -596,8 +609,8 @@
                       {
                         "element": "WhiteSpace",
                         "value": " ",
-                        "start": 35,
-                        "end": 36,
+                        "start": 36,
+                        "end": 37,
                         "loc": {},
                         "extra": {
                           "tokenValue": {
@@ -613,8 +626,8 @@
                     "delegate": false,
                     "argument": {
                       "type": "CallExpression",
-                      "start": 36,
-                      "end": 41,
+                      "start": 37,
+                      "end": 42,
                       "tokenStart": 12,
                       "tokenEnd": 14,
                       "loc": {
@@ -634,8 +647,8 @@
                         {
                           "element": "Punctuator",
                           "value": "(",
-                          "start": 39,
-                          "end": 40,
+                          "start": 40,
+                          "end": 41,
                           "loc": {},
                           "extra": {
                             "tokenValue": "(",
@@ -646,8 +659,8 @@
                         {
                           "element": "Punctuator",
                           "value": ")",
-                          "start": 40,
-                          "end": 41,
+                          "start": 41,
+                          "end": 42,
                           "loc": {},
                           "extra": {
                             "tokenValue": ")",
@@ -658,8 +671,8 @@
                       ],
                       "callee": {
                         "type": "Identifier",
-                        "start": 36,
-                        "end": 39,
+                        "start": 37,
+                        "end": 40,
                         "tokenStart": 12,
                         "tokenEnd": 12,
                         "loc": {
@@ -677,8 +690,8 @@
                             "reference": "name",
                             "value": "wat",
                             "element": "IdentifierName",
-                            "start": 36,
-                            "end": 39,
+                            "start": 37,
+                            "end": 40,
                             "loc": {
                               "start": {
                                 "line": 2,
@@ -710,8 +723,8 @@
                 },
                 {
                   "type": "VariableDeclarator",
-                  "start": 43,
-                  "end": 48,
+                  "start": 44,
+                  "end": 49,
                   "tokenStart": 16,
                   "tokenEnd": 18,
                   "loc": {
@@ -731,8 +744,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 44,
-                      "end": 45,
+                      "start": 45,
+                      "end": 46,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -744,8 +757,8 @@
                     {
                       "element": "Punctuator",
                       "value": "=",
-                      "start": 45,
-                      "end": 46,
+                      "start": 46,
+                      "end": 47,
                       "loc": {},
                       "extra": {
                         "tokenValue": "=",
@@ -756,8 +769,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 46,
-                      "end": 47,
+                      "start": 47,
+                      "end": 48,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -772,8 +785,8 @@
                   ],
                   "id": {
                     "type": "Identifier",
-                    "start": 43,
-                    "end": 44,
+                    "start": 44,
+                    "end": 45,
                     "tokenStart": 16,
                     "tokenEnd": 16,
                     "loc": {
@@ -791,8 +804,8 @@
                         "reference": "name",
                         "value": "b",
                         "element": "IdentifierName",
-                        "start": 43,
-                        "end": 44,
+                        "start": 44,
+                        "end": 45,
                         "loc": {
                           "start": {
                             "line": 2,
@@ -820,8 +833,8 @@
                   },
                   "init": {
                     "type": "NumericLiteral",
-                    "start": 47,
-                    "end": 48,
+                    "start": 48,
+                    "end": 49,
                     "tokenStart": 18,
                     "tokenEnd": 18,
                     "loc": {
@@ -839,8 +852,8 @@
                         "reference": "value",
                         "value": "2",
                         "element": "NumericLiteral",
-                        "start": 47,
-                        "end": 48,
+                        "start": 48,
+                        "end": 49,
                         "loc": {
                           "start": {
                             "line": 2,
@@ -869,8 +882,8 @@
             },
             {
               "type": "VariableDeclaration",
-              "start": 51,
-              "end": 71,
+              "start": 52,
+              "end": 72,
               "tokenStart": 20,
               "tokenEnd": 27,
               "loc": {
@@ -887,8 +900,8 @@
                 {
                   "reference": "kind",
                   "element": "Keyword",
-                  "start": 51,
-                  "end": 54,
+                  "start": 52,
+                  "end": 55,
                   "loc": {
                     "start": {
                       "line": 3,
@@ -908,8 +921,8 @@
                 {
                   "element": "WhiteSpace",
                   "value": " ",
-                  "start": 54,
-                  "end": 55,
+                  "start": 55,
+                  "end": 56,
                   "loc": {},
                   "extra": {
                     "tokenValue": {
@@ -924,8 +937,8 @@
                 {
                   "element": "LineTerminator",
                   "value": "\n",
-                  "start": 70,
-                  "end": 71,
+                  "start": 71,
+                  "end": 72,
                   "loc": {},
                   "extra": {
                     "tokenValue": "newline",
@@ -937,8 +950,8 @@
               "declarations": [
                 {
                   "type": "VariableDeclarator",
-                  "start": 55,
-                  "end": 70,
+                  "start": 56,
+                  "end": 71,
                   "tokenStart": 21,
                   "tokenEnd": 26,
                   "loc": {
@@ -958,8 +971,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 56,
-                      "end": 57,
+                      "start": 57,
+                      "end": 58,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -971,8 +984,8 @@
                     {
                       "element": "Punctuator",
                       "value": "=",
-                      "start": 57,
-                      "end": 58,
+                      "start": 58,
+                      "end": 59,
                       "loc": {},
                       "extra": {
                         "tokenValue": "=",
@@ -983,8 +996,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 58,
-                      "end": 59,
+                      "start": 59,
+                      "end": 60,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -999,8 +1012,8 @@
                   ],
                   "id": {
                     "type": "Identifier",
-                    "start": 55,
-                    "end": 56,
+                    "start": 56,
+                    "end": 57,
                     "tokenStart": 21,
                     "tokenEnd": 21,
                     "loc": {
@@ -1018,8 +1031,8 @@
                         "reference": "name",
                         "value": "c",
                         "element": "IdentifierName",
-                        "start": 55,
-                        "end": 56,
+                        "start": 56,
+                        "end": 57,
                         "loc": {
                           "start": {
                             "line": 3,
@@ -1047,8 +1060,8 @@
                   },
                   "init": {
                     "type": "YieldExpression",
-                    "start": 59,
-                    "end": 70,
+                    "start": 60,
+                    "end": 71,
                     "tokenStart": 23,
                     "tokenEnd": 26,
                     "loc": {
@@ -1065,8 +1078,8 @@
                       {
                         "element": "Keyword",
                         "value": "yield",
-                        "start": 59,
-                        "end": 64,
+                        "start": 60,
+                        "end": 65,
                         "loc": {},
                         "extra": {
                           "tokenValue": "yield",
@@ -1077,8 +1090,8 @@
                       {
                         "element": "WhiteSpace",
                         "value": " ",
-                        "start": 64,
-                        "end": 65,
+                        "start": 65,
+                        "end": 66,
                         "loc": {},
                         "extra": {
                           "tokenValue": {
@@ -1094,8 +1107,8 @@
                     "delegate": false,
                     "argument": {
                       "type": "AssignmentExpression",
-                      "start": 65,
-                      "end": 70,
+                      "start": 66,
+                      "end": 71,
                       "tokenStart": 24,
                       "tokenEnd": 26,
                       "loc": {
@@ -1115,8 +1128,8 @@
                         {
                           "element": "WhiteSpace",
                           "value": " ",
-                          "start": 66,
-                          "end": 67,
+                          "start": 67,
+                          "end": 68,
                           "loc": {},
                           "extra": {
                             "tokenValue": {
@@ -1128,8 +1141,8 @@
                         {
                           "reference": "operator",
                           "element": "Punctuator",
-                          "start": 67,
-                          "end": 68,
+                          "start": 68,
+                          "end": 69,
                           "loc": {
                             "start": {
                               "line": 3,
@@ -1149,8 +1162,8 @@
                         {
                           "element": "WhiteSpace",
                           "value": " ",
-                          "start": 68,
-                          "end": 69,
+                          "start": 69,
+                          "end": 70,
                           "loc": {},
                           "extra": {
                             "tokenValue": {
@@ -1165,8 +1178,8 @@
                       ],
                       "left": {
                         "type": "Identifier",
-                        "start": 65,
-                        "end": 66,
+                        "start": 66,
+                        "end": 67,
                         "tokenStart": 24,
                         "tokenEnd": 24,
                         "loc": {
@@ -1184,8 +1197,8 @@
                             "reference": "name",
                             "value": "a",
                             "element": "IdentifierName",
-                            "start": 65,
-                            "end": 66,
+                            "start": 66,
+                            "end": 67,
                             "loc": {
                               "start": {
                                 "line": 3,
@@ -1214,8 +1227,8 @@
                       "operator": "=",
                       "right": {
                         "type": "Identifier",
-                        "start": 69,
-                        "end": 70,
+                        "start": 70,
+                        "end": 71,
                         "tokenStart": 26,
                         "tokenEnd": 26,
                         "loc": {
@@ -1233,8 +1246,8 @@
                             "reference": "name",
                             "value": "b",
                             "element": "IdentifierName",
-                            "start": 69,
-                            "end": 70,
+                            "start": 70,
+                            "end": 71,
                             "loc": {
                               "start": {
                                 "line": 3,
@@ -1268,8 +1281,8 @@
             },
             {
               "type": "ExpressionStatement",
-              "start": 73,
-              "end": 90,
+              "start": 74,
+              "end": 91,
               "tokenStart": 28,
               "tokenEnd": 33,
               "loc": {
@@ -1289,8 +1302,8 @@
                 {
                   "element": "LineTerminator",
                   "value": "\n",
-                  "start": 89,
-                  "end": 90,
+                  "start": 90,
+                  "end": 91,
                   "loc": {},
                   "extra": {
                     "tokenValue": "newline",
@@ -1301,8 +1314,8 @@
               ],
               "expression": {
                 "type": "SequenceExpression",
-                "start": 73,
-                "end": 89,
+                "start": 74,
+                "end": 90,
                 "tokenStart": 28,
                 "tokenEnd": 32,
                 "loc": {
@@ -1322,8 +1335,8 @@
                   {
                     "element": "Punctuator",
                     "value": ";",
-                    "start": 80,
-                    "end": 81,
+                    "start": 81,
+                    "end": 82,
                     "loc": {},
                     "extra": {
                       "tokenValue": ";",
@@ -1334,8 +1347,8 @@
                   {
                     "element": "WhiteSpace",
                     "value": " ",
-                    "start": 81,
-                    "end": 82,
+                    "start": 82,
+                    "end": 83,
                     "loc": {},
                     "extra": {
                       "tokenValue": {
@@ -1351,8 +1364,8 @@
                 "expressions": [
                   {
                     "type": "YieldExpression",
-                    "start": 73,
-                    "end": 80,
+                    "start": 74,
+                    "end": 81,
                     "tokenStart": 28,
                     "tokenEnd": 29,
                     "loc": {
@@ -1369,8 +1382,8 @@
                       {
                         "element": "Keyword",
                         "value": "yield",
-                        "start": 73,
-                        "end": 78,
+                        "start": 74,
+                        "end": 79,
                         "loc": {},
                         "extra": {
                           "tokenValue": "yield",
@@ -1381,8 +1394,8 @@
                       {
                         "element": "WhiteSpace",
                         "value": " ",
-                        "start": 78,
-                        "end": 79,
+                        "start": 79,
+                        "end": 80,
                         "loc": {},
                         "extra": {
                           "tokenValue": {
@@ -1398,8 +1411,8 @@
                     "delegate": false,
                     "argument": {
                       "type": "Identifier",
-                      "start": 79,
-                      "end": 80,
+                      "start": 80,
+                      "end": 81,
                       "tokenStart": 29,
                       "tokenEnd": 29,
                       "loc": {
@@ -1417,8 +1430,8 @@
                           "reference": "name",
                           "value": "a",
                           "element": "IdentifierName",
-                          "start": 79,
-                          "end": 80,
+                          "start": 80,
+                          "end": 81,
                           "loc": {
                             "start": {
                               "line": 4,
@@ -1447,8 +1460,8 @@
                   },
                   {
                     "type": "YieldExpression",
-                    "start": 82,
-                    "end": 89,
+                    "start": 83,
+                    "end": 90,
                     "tokenStart": 31,
                     "tokenEnd": 32,
                     "loc": {
@@ -1465,8 +1478,8 @@
                       {
                         "element": "Keyword",
                         "value": "yield",
-                        "start": 82,
-                        "end": 87,
+                        "start": 83,
+                        "end": 88,
                         "loc": {},
                         "extra": {
                           "tokenValue": "yield",
@@ -1477,8 +1490,8 @@
                       {
                         "element": "WhiteSpace",
                         "value": " ",
-                        "start": 87,
-                        "end": 88,
+                        "start": 88,
+                        "end": 89,
                         "loc": {},
                         "extra": {
                           "tokenValue": {
@@ -1494,8 +1507,8 @@
                     "delegate": false,
                     "argument": {
                       "type": "Identifier",
-                      "start": 88,
-                      "end": 89,
+                      "start": 89,
+                      "end": 90,
                       "tokenStart": 32,
                       "tokenEnd": 32,
                       "loc": {
@@ -1513,8 +1526,8 @@
                           "reference": "name",
                           "value": "b",
                           "element": "IdentifierName",
-                          "start": 88,
-                          "end": 89,
+                          "start": 89,
+                          "end": 90,
                           "loc": {
                             "start": {
                               "line": 4,
@@ -1546,8 +1559,8 @@
             },
             {
               "type": "ExpressionStatement",
-              "start": 92,
-              "end": 104,
+              "start": 93,
+              "end": 105,
               "tokenStart": 34,
               "tokenEnd": 38,
               "loc": {
@@ -1567,8 +1580,8 @@
                 {
                   "element": "LineTerminator",
                   "value": "\n",
-                  "start": 103,
-                  "end": 104,
+                  "start": 104,
+                  "end": 105,
                   "loc": {},
                   "extra": {
                     "tokenValue": "newline",
@@ -1579,8 +1592,8 @@
               ],
               "expression": {
                 "type": "YieldExpression",
-                "start": 92,
-                "end": 103,
+                "start": 93,
+                "end": 104,
                 "tokenStart": 34,
                 "tokenEnd": 37,
                 "loc": {
@@ -1597,8 +1610,8 @@
                   {
                     "element": "Keyword",
                     "value": "yield",
-                    "start": 92,
-                    "end": 97,
+                    "start": 93,
+                    "end": 98,
                     "loc": {},
                     "extra": {
                       "tokenValue": "yield",
@@ -1609,8 +1622,8 @@
                   {
                     "element": "WhiteSpace",
                     "value": " ",
-                    "start": 97,
-                    "end": 98,
+                    "start": 98,
+                    "end": 99,
                     "loc": {},
                     "extra": {
                       "tokenValue": {
@@ -1626,8 +1639,8 @@
                 "delegate": false,
                 "argument": {
                   "type": "AssignmentExpression",
-                  "start": 98,
-                  "end": 103,
+                  "start": 99,
+                  "end": 104,
                   "tokenStart": 35,
                   "tokenEnd": 37,
                   "loc": {
@@ -1647,8 +1660,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 99,
-                      "end": 100,
+                      "start": 100,
+                      "end": 101,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -1660,8 +1673,8 @@
                     {
                       "reference": "operator",
                       "element": "Punctuator",
-                      "start": 100,
-                      "end": 101,
+                      "start": 101,
+                      "end": 102,
                       "loc": {
                         "start": {
                           "line": 5,
@@ -1681,8 +1694,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 101,
-                      "end": 102,
+                      "start": 102,
+                      "end": 103,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -1697,8 +1710,8 @@
                   ],
                   "left": {
                     "type": "Identifier",
-                    "start": 98,
-                    "end": 99,
+                    "start": 99,
+                    "end": 100,
                     "tokenStart": 35,
                     "tokenEnd": 35,
                     "loc": {
@@ -1716,8 +1729,8 @@
                         "reference": "name",
                         "value": "a",
                         "element": "IdentifierName",
-                        "start": 98,
-                        "end": 99,
+                        "start": 99,
+                        "end": 100,
                         "loc": {
                           "start": {
                             "line": 5,
@@ -1746,8 +1759,8 @@
                   "operator": "=",
                   "right": {
                     "type": "Identifier",
-                    "start": 102,
-                    "end": 103,
+                    "start": 103,
+                    "end": 104,
                     "tokenStart": 37,
                     "tokenEnd": 37,
                     "loc": {
@@ -1765,8 +1778,8 @@
                         "reference": "name",
                         "value": "b",
                         "element": "IdentifierName",
-                        "start": 102,
-                        "end": 103,
+                        "start": 103,
+                        "end": 104,
                         "loc": {
                           "start": {
                             "line": 5,
@@ -1797,8 +1810,8 @@
             },
             {
               "type": "ReturnStatement",
-              "start": 106,
-              "end": 135,
+              "start": 107,
+              "end": 136,
               "tokenStart": 39,
               "tokenEnd": 49,
               "loc": {
@@ -1815,8 +1828,8 @@
                 {
                   "element": "Keyword",
                   "value": "return",
-                  "start": 106,
-                  "end": 112,
+                  "start": 107,
+                  "end": 113,
                   "loc": {},
                   "extra": {
                     "tokenValue": "return",
@@ -1827,8 +1840,8 @@
                 {
                   "element": "WhiteSpace",
                   "value": " ",
-                  "start": 112,
-                  "end": 113,
+                  "start": 113,
+                  "end": 114,
                   "loc": {},
                   "extra": {
                     "tokenValue": {
@@ -1843,8 +1856,8 @@
                 {
                   "element": "LineTerminator",
                   "value": "",
-                  "start": 135,
-                  "end": 135,
+                  "start": 136,
+                  "end": 136,
                   "loc": {},
                   "extra": {
                     "tokenValue": "newline",
@@ -1855,8 +1868,8 @@
               ],
               "argument": {
                 "type": "LogicalExpression",
-                "start": 113,
-                "end": 135,
+                "start": 114,
+                "end": 136,
                 "tokenStart": 40,
                 "tokenEnd": 48,
                 "loc": {
@@ -1873,8 +1886,8 @@
                   {
                     "element": "Punctuator",
                     "value": "(",
-                    "start": 113,
-                    "end": 114,
+                    "start": 114,
+                    "end": 115,
                     "loc": {},
                     "extra": {
                       "tokenValue": "(",
@@ -1888,8 +1901,8 @@
                   {
                     "element": "Punctuator",
                     "value": ")",
-                    "start": 121,
-                    "end": 122,
+                    "start": 122,
+                    "end": 123,
                     "loc": {},
                     "extra": {
                       "tokenValue": ")",
@@ -1900,8 +1913,8 @@
                   {
                     "element": "WhiteSpace",
                     "value": " ",
-                    "start": 122,
-                    "end": 123,
+                    "start": 123,
+                    "end": 124,
                     "loc": {},
                     "extra": {
                       "tokenValue": {
@@ -1914,8 +1927,8 @@
                     "reference": "operator",
                     "value": "or",
                     "element": "Keyword",
-                    "start": 123,
-                    "end": 125,
+                    "start": 124,
+                    "end": 126,
                     "loc": {
                       "start": {
                         "line": 6,
@@ -1935,8 +1948,8 @@
                   {
                     "element": "WhiteSpace",
                     "value": " ",
-                    "start": 125,
-                    "end": 126,
+                    "start": 126,
+                    "end": 127,
                     "loc": {},
                     "extra": {
                       "tokenValue": {
@@ -1948,8 +1961,8 @@
                   {
                     "element": "Punctuator",
                     "value": "(",
-                    "start": 126,
-                    "end": 127,
+                    "start": 127,
+                    "end": 128,
                     "loc": {},
                     "extra": {
                       "tokenValue": "(",
@@ -1963,8 +1976,8 @@
                   {
                     "element": "Punctuator",
                     "value": ")",
-                    "start": 134,
-                    "end": 135,
+                    "start": 135,
+                    "end": 136,
                     "loc": {},
                     "extra": {
                       "tokenValue": ")",
@@ -1975,8 +1988,8 @@
                 ],
                 "left": {
                   "type": "YieldExpression",
-                  "start": 114,
-                  "end": 121,
+                  "start": 115,
+                  "end": 122,
                   "tokenStart": 41,
                   "tokenEnd": 42,
                   "loc": {
@@ -1993,8 +2006,8 @@
                     {
                       "element": "Keyword",
                       "value": "yield",
-                      "start": 114,
-                      "end": 119,
+                      "start": 115,
+                      "end": 120,
                       "loc": {},
                       "extra": {
                         "tokenValue": "yield",
@@ -2005,8 +2018,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 119,
-                      "end": 120,
+                      "start": 120,
+                      "end": 121,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -2022,8 +2035,8 @@
                   "delegate": false,
                   "argument": {
                     "type": "NumericLiteral",
-                    "start": 120,
-                    "end": 121,
+                    "start": 121,
+                    "end": 122,
                     "tokenStart": 42,
                     "tokenEnd": 42,
                     "loc": {
@@ -2041,8 +2054,8 @@
                         "reference": "value",
                         "value": "1",
                         "element": "NumericLiteral",
-                        "start": 120,
-                        "end": 121,
+                        "start": 121,
+                        "end": 122,
                         "loc": {
                           "start": {
                             "line": 6,
@@ -2067,11 +2080,11 @@
                   },
                   "extra": {
                     "parenthesized": true,
-                    "parenStart": 113,
+                    "parenStart": 114,
                     "parenEnd": 0,
                     "parens": [
                       {
-                        "start": 113,
+                        "start": 114,
                         "end": 0
                       }
                     ]
@@ -2080,8 +2093,8 @@
                 "operator": "||",
                 "right": {
                   "type": "YieldExpression",
-                  "start": 127,
-                  "end": 134,
+                  "start": 128,
+                  "end": 135,
                   "tokenStart": 46,
                   "tokenEnd": 47,
                   "loc": {
@@ -2098,8 +2111,8 @@
                     {
                       "element": "Keyword",
                       "value": "yield",
-                      "start": 127,
-                      "end": 132,
+                      "start": 128,
+                      "end": 133,
                       "loc": {},
                       "extra": {
                         "tokenValue": "yield",
@@ -2110,8 +2123,8 @@
                     {
                       "element": "WhiteSpace",
                       "value": " ",
-                      "start": 132,
-                      "end": 133,
+                      "start": 133,
+                      "end": 134,
                       "loc": {},
                       "extra": {
                         "tokenValue": {
@@ -2127,8 +2140,8 @@
                   "delegate": false,
                   "argument": {
                     "type": "NumericLiteral",
-                    "start": 133,
-                    "end": 134,
+                    "start": 134,
+                    "end": 135,
                     "tokenStart": 47,
                     "tokenEnd": 47,
                     "loc": {
@@ -2146,8 +2159,8 @@
                         "reference": "value",
                         "value": "2",
                         "element": "NumericLiteral",
-                        "start": 133,
-                        "end": 134,
+                        "start": 134,
+                        "end": 135,
                         "loc": {
                           "start": {
                             "line": 6,
@@ -2172,11 +2185,11 @@
                   },
                   "extra": {
                     "parenthesized": true,
-                    "parenStart": 126,
+                    "parenStart": 127,
                     "parenEnd": 0,
                     "parens": [
                       {
-                        "start": 126,
+                        "start": 127,
                         "end": 0
                       }
                     ]

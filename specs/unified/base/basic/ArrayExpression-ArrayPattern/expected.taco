@@ -3,3 +3,6 @@
 [a, pass, b]
 [a, pass, pass, pass, b]
 [a, b, pass, c]
+[a, b]
+[a, b, c]
+[a, b]

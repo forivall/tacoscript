@@ -17,6 +17,7 @@ var foo = {
   foo() ->
   foo() +>
   foo() *->
+  foo() *->
   get foo() ->
   set foo(foo) ->
 }

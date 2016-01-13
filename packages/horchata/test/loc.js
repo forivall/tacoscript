@@ -7,6 +7,8 @@ var specOptions = require("../../../specs/options");
 var misMatch = require("../../tacoscript-dev-utils").misMatch;
 var mochaFixtures = require("mocha-fixtures-generic");
 
+var GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
+
 var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"), specOptions["unified-loc"]);
 
 function localDisabled(task, groupName) {
@@ -21,7 +23,6 @@ function localDisabled(task, groupName) {
   false);
 }
 
-var _hasWrittenAst = false;
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     const groupName = setName + "/" + testSuite.title;
@@ -31,10 +32,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
           var ast = horchata.parse(task.source.code, task.options);
           if (task.ast.code === "") {
             delete ast.tokens;
-            if (!_hasWrittenAst) {
-              fs.writeFileSync(task.ast.loc, JSON.stringify(ast, null, '  '));
-              // _hasWrittenAst = true;
-            }
+            if (GENERATE) fs.writeFileSync(task.ast.loc, JSON.stringify(ast, null, '  '));
             throw new Error("Test has no AST");
           }
           var expectedAst = JSON.parse(task.ast.code);

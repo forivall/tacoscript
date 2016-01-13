@@ -33,6 +33,7 @@ export default class TacoBuffer {
     this.tokens = [new Token(tt.tab, 0)];
     this._indent = 0;
     this._lastIndent = 0;
+    this.curLine = 1;
 
     // serialization state
     this.position = new Position();
@@ -202,6 +203,7 @@ export default class TacoBuffer {
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
     if (state.type === tt.newline) {
+      this.curLine++;
       this._insertIndentTokens();
     } else if (this.isLastType(tt.newline)) {
       this.tokens.push(new Token(tt.tab, this._indent));

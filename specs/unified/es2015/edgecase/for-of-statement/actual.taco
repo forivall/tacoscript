@@ -1,4 +1,6 @@
 function test() ->
   for var i of array
 
-  for i of array
+  for let i of array
+
+  for j of array

@@ -5,6 +5,7 @@
 
 import isArray from "lodash/lang/isArray";
 import * as t from "babel-types";
+import repeating from "repeating";
 
 import TacoscriptTokenBuffer from "./taco-buffer";
 import {tokTypes as tt, tokComments} from "horchata";
@@ -72,9 +73,9 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   _simpleStartPrint(node, parent, opts) {
     this.printLeadingComments(node, parent);
 
-    // TODO: catchup newlines
+    if (this.format.preserveLines) this.catchUp(node, parent);
 
-    if (opts.before) { opts.before(); }
+    if (opts.before) opts.before();
 
     // push mapping start pseudo-token
     if (this.opts.sourceMaps) {
@@ -153,29 +154,35 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 
   _simplePrintMultiple(nodes, parent, opts) {
-    let len = nodes.length;
-    let separator = opts.separator
+    const len = nodes.length;
+    const separator = opts.separator
       ? isArray(opts.separator)
         ? opts.separator : [opts.separator]
       : [];
-    let separatorIsNewline = separator.length === 1 && (separator[0].type === 'newline' || separator[0].type === tt.newline);
+    const separatorIsNewline = separator.length === 1 && (separator[0].type === 'newline' || separator[0].type === tt.newline);
+    const omitSeparatorIfNewline = this.format.preserveLines && opts.omitSeparatorIfNewline;
     let node, i;
 
     if (opts.indent) { this.indent(); }
 
-    let after = separatorIsNewline ? () => {
+    const after = separatorIsNewline ? () => {
       if (opts.iterator) opts.iterator(node, i);
-      if (opts.separator && i < len - 1) {
+      if (i < len - 1) {
         this.newline();
+      }
+    } : omitSeparatorIfNewline ? () => {
+      if (opts.iterator) opts.iterator(node, i);
+      if (i < len - 1 && !this.shouldCatchUp(nodes[i + 1])) {
+        this.push(...separator);
       }
     } : () => {
       if (opts.iterator) opts.iterator(node, i);
-      if (opts.separator && i < len - 1) {
+      if (i < len - 1) {
         this.push(...separator);
       }
     };
 
-    let printOpts = {
+    const printOpts = {
       statement: opts.statement,
       after: after
     }
@@ -363,6 +370,24 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     this.printComments(comments);
   }
 
+  // shouldCatchUp(node) ->> node.loc.start.line > @curLine
+  shouldCatchUp(node) { return node.loc.start.line > this.curLine; }
+
+  catchUp(node, parent) {
+    const newlines = node.loc.start.line - this.curLine;
+    if (newlines <= 0) return;
+    if (
+          parent.type === "SequenceExpression" ||
+        false) {
+      // TODO: check other contexts
+      // TODO: preserve indentation for escaped newlines
+      this.push({type: tt.whitespace, value: {code: repeating("\\\n", newlines)}})
+    } else {
+      for (let i = newlines; i > 0; i--) {
+        this.newline(true);
+      }
+    }
+  }
 }
 
 import _printer from "./_printer";

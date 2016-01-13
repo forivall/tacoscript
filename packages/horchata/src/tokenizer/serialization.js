@@ -154,6 +154,7 @@ tt.star.formattingSpaceWhenAfter._import = true;
 tt.star.formattingSpaceWhenAfter.name = true;
 tt.star.formattingSpaceWhenAfter.num = true;
 tt.star.formattingSpaceWhenAfter.parenR = true;
+tt.star.formattingSpaceWhenAfter.bracketR = true;
 tt.star.formattingSpaceWhenAfter.string = true;
 tt.star.formattingSpaceWhenAfter.backQuote = true;
 tt.star.formattingSpaceAfter = function(left, right) {

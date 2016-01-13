@@ -1,0 +1,23 @@
+function foo(bar = "bar") ->
+
+function foo(bar = "bar", ...items) ->
+
+function foo(...items) ->
+
+function foo() *->
+
+function foo() ->
+
+function foo() +>
+
+var foo = function foo() *->
+
+var foo = function foo() ->
+
+var foo = function foo() +>
+
+var foo = () *->
+
+var foo = () ->
+
+var foo = () +>
