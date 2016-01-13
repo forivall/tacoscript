@@ -436,10 +436,10 @@ export default class Lexer {
     this.state.next = this.lookahead.state.cur;
   }
 
-  finishArrow(type, len) {
+  finishArrow(len = 2) {
     let start = this.state.pos;
     this.state.pos += len + ~~(this.input.charCodeAt(this.state.pos + len) === 62); // =>/=>>
-    return this.finishToken(type, this.input.slice(start, this.state.pos));
+    return this.finishToken(tt.arrow, this.input.slice(start, this.state.pos));
   }
 
   finishEqOrType(type) {
@@ -863,7 +863,7 @@ export default class Lexer {
   readToken_eq() {
     let next = this.input.charCodeAt(this.state.pos + 1);
     if (next === 62) { // '=>'
-      return this.finishArrow(tt.arrow, 2);
+      return this.finishArrow();
     }
     ++this.state.pos;
     if (this.finishTokenMaybe_equality("=", next)) return;
@@ -935,13 +935,13 @@ export default class Lexer {
     }
     if (next === 61) { // =
       if (code === 43 && nextnext === 62) { // +=>
-        return this.finishArrow(tt.asyncBoundArrow, 3);
+        return this.finishArrow(3);
       }
       this.state.pos += 2;
       return this.finishToken(tt.assign, code === 45 ? "-=" : "+=");
     }
     if (next === 62) {
-      return this.finishArrow(code === 45 ? tt.unboundArrow : tt.asyncArrow, 2)
+      return this.finishArrow()
     }
     ++this.state.pos;
     return this.finishToken(tt.plusMin, code === 45 ? "-" : "+");

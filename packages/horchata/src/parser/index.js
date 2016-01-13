@@ -89,6 +89,10 @@ export default class Parser extends Lexer {
     throw this._createSyntaxError(pos, message);
   }
 
+  abort(message) {
+    this.raise(this.state.pos, message);
+  }
+
   warn(pos, message) {
     this.state.warnings.push(this._createSyntaxError(pos, message));
   }

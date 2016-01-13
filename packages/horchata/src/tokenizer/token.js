@@ -51,13 +51,10 @@ export default class Token {
     }
     switch (code) {
       case "=>": case "=>>":
-        return (Token._fromCodeCache[code] = { type: tt.arrow, value: code });
       case "->": case "->>":
-        return (Token._fromCodeCache[code] = { type: tt.unboundArrow, value: code });
       case "+>": case "+>>":
-        return (Token._fromCodeCache[code] = { type: tt.asyncArrow, value: code });
       case "+=>": case "+=>>":
-        return (Token._fromCodeCache[code] = { type: tt.asyncBoundArrow, value: code });
+        return (Token._fromCodeCache[code] = { type: tt.arrow, value: code });
       case "+=": case "-=":
       case "/=": case "*=": case "**=": case "%=":
       case "|=": case "&=": case "^=":
@@ -78,17 +75,5 @@ export default class Token {
       case ";;": return (Token._fromCodeCache[code] = { type: tt.doublesemi });
     }
     throw new Error(`Cannot construct token from code "${code}"`);
-  }
-
-  // TODO: move to parser/methods/types.js
-  static isImplicitReturn(token) {
-    let {value} = token;
-    switch(token.type) {
-      case tt.unboundArrow: return value === "->>";
-      case tt.arrow: return value === "=>>";
-      case tt.asyncArrow: return value === "+>>";
-      case tt.asyncBoundArrow: return value === "+=>>";
-      default: throw new Error("Token type is not an arrow");
-    }
   }
 }

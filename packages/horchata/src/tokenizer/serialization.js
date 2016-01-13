@@ -157,10 +157,7 @@ tt.star.formattingSpaceWhenAfter.parenR = true;
 tt.star.formattingSpaceWhenAfter.string = true;
 tt.star.formattingSpaceWhenAfter.backQuote = true;
 tt.star.formattingSpaceAfter = function(left, right) {
-  switch (right.type) {
-    case tt.arrow: case tt.unboundArrow: case tt.asyncArrow: case tt.asyncBoundArrow: return false;
-    default: return true;
-  }
+  return right.type !== tt.arrow;
 };
 for (let tokenType of [
       tt.slash, tt.modulo, tt.assign,
@@ -177,12 +174,13 @@ for (let tokenType of [
 tt._from.formattingSpaceWhenAfter.braceR = true;
 tt._of.formattingSpaceWhenAfter.braceR = true;
 tt.arrow.formattingSpaceAfter = function(left, right) {
-  return right.type !== tt.parenR && right.type !== tt.newline;
+  return (
+    right.type !== tt.parenR &&
+    right.type !== tt.newline &&
+    right.type !== tt.comma &&
+  true);
 };
 tt.arrow.formattingSpaceWhenAfter.parenR = true;
-tt.asyncArrow.formattingSpaceWhenAfter.parenR = true;
-tt.asyncBoundArrow.formattingSpaceWhenAfter.parenR = true;
-tt.unboundArrow.formattingSpaceWhenAfter.parenR = true;
 tt.bracketL.formattingSpaceWhenAfter.arrow = true;
 tt.bracketL.formattingSpaceWhenAfter.comma = true;
 tt.bracketL.formattingSpaceWhenAfter.eq = true;
@@ -194,9 +192,6 @@ tt.bracketL.formattingSpaceWhenAfter.keyword = function(left) {
   );
 };
 tt.braceL.formattingSpaceWhenAfter.arrow = true;
-tt.braceL.formattingSpaceWhenAfter.asyncArrow = true;
-tt.braceL.formattingSpaceWhenAfter.asyncBoundArrow = true;
-tt.braceL.formattingSpaceWhenAfter.unboundArrow = true;
 tt.braceL.formattingSpaceWhenAfter.comma = true;
 tt.braceL.formattingSpaceWhenAfter.keyword = true;
 tt.colon.formattingSpaceAfter = true;
@@ -210,9 +205,6 @@ tt.eq.formattingSpaceWhenAfter.name = true;
 tt.eq.formattingSpaceWhenAfter.braceR = true;
 tt.eq.formattingSpaceWhenAfter.bracketR = true;
 tt.name.formattingSpaceWhenAfter.arrow = true;
-tt.name.formattingSpaceWhenAfter.asyncArrow = true;
-tt.name.formattingSpaceWhenAfter.asyncBoundArrow = true;
-tt.name.formattingSpaceWhenAfter.unboundArrow = true;
 tt.name.formattingSpaceWhenAfter.backQuote = true;
 tt.name.formattingSpaceWhenAfter.comma = true;
 tt.name.formattingSpaceWhenAfter.excl = true;
@@ -220,9 +212,6 @@ tt.num.formattingSpaceWhenAfter.arrow = true;
 tt.num.formattingSpaceWhenAfter.comma = true;
 tt.num.formattingSpaceWhenAfter.excl = true;
 tt.parenL.formattingSpaceWhenAfter.arrow = true;
-tt.parenL.formattingSpaceWhenAfter.asyncArrow = true;
-tt.parenL.formattingSpaceWhenAfter.asyncBoundArrow = true;
-tt.parenL.formattingSpaceWhenAfter.unboundArrow = true;
 tt.parenL.formattingSpaceWhenAfter.comma = true;
 tt.parenL.formattingSpaceWhenAfter.excl = true;
 tt.parenL.formattingSpaceWhenAfter.keyword = function(left) {
@@ -232,9 +221,6 @@ tt.regexp.formattingSpaceWhenAfter.keyword = true;
 tt.semi.formattingSpaceAfter = true;
 tt.star.formattingSpaceWhenAfter.comma = true;
 tt.string.formattingSpaceWhenAfter.arrow = true;
-tt.string.formattingSpaceWhenAfter.asyncArrow = true;
-tt.string.formattingSpaceWhenAfter.asyncBoundArrow = true;
-tt.string.formattingSpaceWhenAfter.unboundArrow = true;
 tt.string.formattingSpaceWhenAfter.comma = true;
 
 added();

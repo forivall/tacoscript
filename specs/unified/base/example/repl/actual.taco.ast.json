@@ -702,7 +702,7 @@
             "loc": {},
             "extra": {
               "tokenValue": "->",
-              "tokenType": "unboundArrow",
+              "tokenType": "arrow",
               "tokenIndex": 21
             }
           },

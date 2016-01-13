@@ -54,25 +54,25 @@ export function parseArrowExpression(node) {
   let isArrowFunction;
   let arrow = {...this.state.cur};
   this.next();
-  switch (arrow.type) {
-    case tt.asyncBoundArrow:
+  switch (arrow.value) {
+    case '+=>': case '+=>>':
       node.async = true;
       // fallthrough
-    case tt.arrow:
+    case '=>': case '=>>':
       isArrowFunction = true;
-      if (Token.isImplicitReturn(arrow)) {
+      if (arrow.value === '=>>' || arrow.value === '+=>>') {
         node = this.parseArrowExpressionFunction(node);
       } else {
         node = this.parseFunctionBody(node, {allowConcise: true});
       }
       break;
 
-    case tt.asyncArrow:
+    case '+>': case '+>>':
       node.async = true;
       // fallthrough
-    case tt.unboundArrow:
+    case '->': case '->>':
       isArrowFunction = false;
-      if (Token.isImplicitReturn(arrow)) {
+      if (arrow.value === '->>' || arrow.value === '+>>') {
         throw new Error("Not Implemented");
       } else {
         node = this.parseFunctionBody(node, {allowConcise: true});
@@ -158,25 +158,15 @@ export function parseFunctionParams(node/*, functionContext*/) {
 export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
   if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
-  if (Token.isImplicitReturn(this.state.cur)) {
-    throw new Error("Not Implemented");
-  }
-  switch(this.state.cur.type) {
-    case (tt.arrow):
-      throw new Error("Not Implemented");
-      break;
-    case (tt.unboundArrow):
-      this.next();
-      break;
-    case (tt.asyncArrow):
+  this.match(tt.arrow) || this.unexpected();
+  switch (this.state.cur.value) {
+    case '+>':
       node.async = true
+    case '->':
       this.next();
-      break;
-    case (tt.asyncBoundArrow):
-      throw new Error("Not Implemented");
       break;
     default:
-      this.unexpected();
+      this.abort("Not Implemented");
   }
   return node;
 }

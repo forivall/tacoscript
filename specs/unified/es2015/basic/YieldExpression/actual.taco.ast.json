@@ -151,7 +151,7 @@
             "loc": {},
             "extra": {
               "tokenValue": "->",
-              "tokenType": "unboundArrow",
+              "tokenType": "arrow",
               "tokenIndex": 5
             }
           },
@@ -538,7 +538,7 @@
             "loc": {},
             "extra": {
               "tokenValue": "->",
-              "tokenType": "unboundArrow",
+              "tokenType": "arrow",
               "tokenIndex": 18
             }
           },

@@ -1147,7 +1147,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 16
                   }
                 },
@@ -1379,7 +1379,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 23
                   }
                 },
@@ -1614,7 +1614,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 31
                   }
                 },
@@ -1904,7 +1904,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 38
                   }
                 },
@@ -2471,7 +2471,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 49
                   }
                 },
@@ -2668,7 +2668,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 55
                   }
                 },
@@ -2889,7 +2889,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 62
                   }
                 },
@@ -3144,7 +3144,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 68
                   }
                 },
@@ -3791,7 +3791,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 82
                   }
                 },
@@ -4047,7 +4047,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 91
                   }
                 },
@@ -4327,7 +4327,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 101
                   }
                 },
@@ -4641,7 +4641,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 110
                   }
                 },
@@ -5121,7 +5121,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 123
                   }
                 },
@@ -5342,7 +5342,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 131
                   }
                 },
@@ -5566,7 +5566,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 140
                   }
                 },
@@ -5824,7 +5824,7 @@
                   "loc": {},
                   "extra": {
                     "tokenValue": "->",
-                    "tokenType": "unboundArrow",
+                    "tokenType": "arrow",
                     "tokenIndex": 148
                   }
                 },

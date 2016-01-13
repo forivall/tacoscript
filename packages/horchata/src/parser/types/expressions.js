@@ -529,18 +529,7 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   });
 
   let maybeGenerator = this.match(tt.star);
-  if (canBeArrow && (
-      maybeGenerator && (
-        this.matchNext(tt.arrow) ||
-        this.matchNext(tt.unboundArrow) ||
-        this.matchNext(tt.asyncArrow) ||
-        this.matchNext(tt.asyncBoundArrow) ||
-        false) ||
-      this.match(tt.arrow) ||
-      this.match(tt.unboundArrow) ||
-      this.match(tt.asyncArrow) ||
-      this.match(tt.asyncBoundArrow) ||
-      false)) {
+  if (canBeArrow && (this.match(tt.arrow) || maybeGenerator && this.matchNext(tt.arrow))) {
     node = this.parseArrowExpression(maybeFunction, {}, expressionContext);
   } else if (maybeFunction.params.length === 0) {
     this.unexpected(this.state.prev.start);
