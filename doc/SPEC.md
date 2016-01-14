@@ -7,14 +7,14 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 * The AST follows the estree standard specification.
   * Tacoscript can be generated from _any_ javascript.
   * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are decompiled into tacoscript syntax.
-    * Untransformed tacoscript is called "masascript"
+    * Untransformed tacoscript can be called "masascript"
   * If the original source is available, and CST tokens are provided, whitespace will be preserved as much as possible. Eventually, code style will be detected, and the generated javascript will conform to the given code style (for style rules that are meaningless in a tacoscript context).
 * Integrate with the Babel transpiler.
 
 ## Aspirations
 * Create a git extension that allows switching between Taco representations just by switching branches
 
-## Core Syntax (Masascript)
+## Core Syntax
 1. Blocks should use significant indentation. Standalone blocks start with a single `!`.
 
   ```
@@ -67,8 +67,8 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 
 6. Consistent arrow syntax
   * all functions use arrows
-  * parenthises are always required
-  * implicit return is only used if the arrow is a "sharp arrow" - `=>>`, `->>`
+  * parenthises are always required _(for now)_
+  * implicit return is only used if the arrow is a "sharp" arrow - `=>>`, `->>`
 
   ```
   function foo(bar) { console.log("baz"); }
@@ -145,9 +145,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
       return false
   ```
 
-11. (maybe) `#` for line comments, `#*` for block comments, `#%` for directive comments, `###` (alone on a line) for _temporarily_ commenting out blocks of code (like `#if 0` in C). `# *` for a line comment that starts with a \*.
-  Pending: https://github.com/wycats/javascript-private-state
-  *Note:* Possible alternatives for the slot token are `@@`, `@!` or `//`
+11. `#` for line comments, `#*` for block comments, `#%` for directive comments, `###` (alone on a line) for _temporarily_ commenting out blocks of code (like `#if 0` in C). `# *` for a line comment that starts with a \*.
 
   <code>\*\\#</code> for parts of a block comment that contains <code>\*#</code>. etc.
 
@@ -155,7 +153,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
 
 #### Phase 1 (Jan 2016)
-* [ ] sharp non-double arrows, multiline sharp arrow functions
+* [ ] "sharp" non-double arrows, multiline sharp arrow functions
 * [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 * [ ] Function calls without parenthises, with the `!` operator
   * `fs.readFile! "package.json", (err, data) ->`
@@ -164,7 +162,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] IIFE syntax
   * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 * [ ] `@` ↔ `this.` ([frappe])
-* [ ] extended assign - `or=`, `and=`, `?=`
+* [ ] extended assign - `or=`, `and=`
 
 #### Phase 2
 * [ ] `not instanceof` ([frappe])
@@ -176,15 +174,23 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] allow omitting `!` for parenthises-less function calls when used as statements ([frappe])
   * tagged template literals will have higher precedence though
 * [ ] null coalsecing and soak operator (`?` and `?.` and `?[]`)
+  * [ ] null check extended assign `?=`
 * [ ] simplify `!!` ↔ `not not` to `asbool` (still a prefix operator)
-* [ ] lower the precedence of `not` _Feedback requested_, `is not` same as `isnt`
-* [ ] `typeof a === b` -> `(a === null ? 'null' : typeof a) === b`
+* [ ] add warning for `is not`, since it's not the same as `isnt`
+  * recommend use of `is (not`
+  * this will just be an eslint plugin
+* [ ] `typeof a === b` ↔ `(a === null ? 'null' : typeof a) === b`
+* [ ] `of` binary operator.
+  * `contained = a of b` ↔ `contained = [...a].includes(b)`
+  * `contained = a of [b, c, d]` ↔ `contained = a === b || a === c || a === d`
+  * also `not of`
 
 #### Phase 3
 * [ ] loose string parsing, unify string interpolation behaviour ([frappe])
   * tagged template strings will still require `\`\``
 * [ ] non-fallthrough `switch` [(spec)](./safe-switch.md)
 * [ ] boolean switch statements (a la Coffeescript)
+* [ ] `@@` in class methods to `ClassName.`
 * [ ] expression version of boolean switch statements
 * [ ] label-less long break/continue -- `break for` will break from the lexically nearest for loop
 * [ ] `rescue` a la Ruby or Go's `recover`
@@ -285,8 +291,7 @@ All of the following syntax is optional, but is default, and is part of the core
 
   ```
 
-
-# Phase 5
+#### Phase 5
 * [ ] Hygenic Macros, aka, port sweet.js
 * [ ] Overloading infix operators, ``` !arith(a + b) ``` or `a +! b` to use raw operators; type inference would also be used to use raw operators when possible.
 
@@ -309,7 +314,13 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] implement whitespace preserving js generator
 
 
-### formatting directives (work in progress)
+## Notes on [wycats' private state proposal](https://github.com/wycats/javascript-private-state)
+
+If it does get accepted & implemented by babel, TacoScript's syntax will be
+`this@`, and if strudel-this-member is enabled, will be shortened to `@!`.
+
+
+## formatting directives (work in progress)
 notes: special formatting directives: `#%DIRECTIVE_HERE%#`
 include raw js (for empty statements): ```#%`;// javascript here`%#```
 
