@@ -344,8 +344,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
         case 4: commentKind = "<!--"; break;
         default: commentKind = "#"
       }
+      let commentBody = comment.value;
+      if (commentKind === "#" && /^ *\*/.test(commentBody[0])) {
+        commentBody = " " + commentBody;
+      }
       this._push({type: tt.lineCommentStart, value: {kind: commentKind, code: commentKind}});
-      this._push({type: tt.lineCommentBody, value: {kind: commentKind, code: comment.value}});
+      this._push({type: tt.lineCommentBody, value: {kind: commentKind, code: commentBody, value: comment.value}});
       this.newline();
     }
   }

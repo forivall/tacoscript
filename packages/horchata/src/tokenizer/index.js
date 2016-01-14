@@ -299,8 +299,12 @@ export default class Lexer {
     let len = this.state.pos - start;
 
     let raw = this.input.slice(start, this.state.pos);
-    node.value = raw;
-    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: raw, index: node.index},
+    let commentBody = raw;
+    if (/  *\*/.test(commentBody)) {
+      commentBody = commentBody.slice(1);
+    }
+    node.value = commentBody;
+    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
