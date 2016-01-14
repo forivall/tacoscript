@@ -1,3 +1,5 @@
 /** /  *  /*/
 ;
 /**#  * #*/
+;
+//* not a block comment

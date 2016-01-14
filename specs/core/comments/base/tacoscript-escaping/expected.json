@@ -1,32 +1,32 @@
 {
   "type": "File",
   "start": 0,
-  "end": 28,
+  "end": 54,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 4,
+      "line": 6,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 28,
+    "end": 54,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 4,
+        "line": 6,
         "column": 0
       }
     },
-    "sourceType": "script",
+    "sourceType": "module",
     "body": [
       {
         "type": "EmptyStatement",
@@ -78,6 +78,73 @@
             }
           }
         ]
+      },
+      {
+        "type": "EmptyStatement",
+        "start": 28,
+        "end": 29,
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 1
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "* /  *  /",
+            "start": 0,
+            "end": 13,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 13
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*#  * #",
+            "start": 16,
+            "end": 27,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 11
+              }
+            }
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "CommentLine",
+            "value": "* not a block comment",
+            "start": 30,
+            "end": 53,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 23
+              }
+            }
+          }
+        ]
       }
     ],
     "directives": []
@@ -112,6 +179,22 @@
         "end": {
           "line": 3,
           "column": 11
+        }
+      }
+    },
+    {
+      "type": "CommentLine",
+      "value": "* not a block comment",
+      "start": 30,
+      "end": 53,
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 23
         }
       }
     }
