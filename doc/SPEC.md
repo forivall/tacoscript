@@ -225,6 +225,8 @@ All of the following syntax is optional, but is default, and is part of the core
     this.makesSense()
   ```
 * [ ] "literate" mode
+* [ ] generic decorators
+  * decorators can be used on any function declaration. [See also](#notes-on-the-decorators-proposal-)
 
 #### Phase 4
 * [ ] array and object comprehensions
@@ -314,10 +316,27 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] implement whitespace preserving js generator
 
 
-## Notes on [wycats' private state proposal](https://github.com/wycats/javascript-private-state)
+## Notes on [wycats' private state proposal]
 
 If it does get accepted & implemented by babel, TacoScript's syntax will be
-`this@`, and if strudel-this-member is enabled, will be shortened to `@!`.
+`this@privateData`, and `other@privateData` and if strudel-this-member is enabled, will be shortened to `@!privateData`. Declarations will not need `@`, i.e.
+`private slot1 = 52`.
+
+    let obj = {
+      private data
+      get data() ->> this@data
+      set data(v) -> this@data = v
+    }
+
+## Notes on [the decorators proposal]
+
+If `@` is used as the `this` shorthand, decorators will instead use `>` for
+clarity and ease of parsing. (Since they can only appear in statements, we can
+use any binary operator safely that isn't also a prefix (like `+`).)
+
+If python had a `self.` shorthand, it would be used instead of `@`. Nor can we
+follow this [ruby proof of concept of decorators]. So `>` is a decent
+replacement, since it's reminiscent of shell redirection. :shrug:
 
 
 ## formatting directives (work in progress)
@@ -335,3 +354,6 @@ so that would look like `decreased_indent_statement()#$<$#`
 TODO: determine an encoding for unexpected spacing around tokens that are redundant compared to tacoscript, for example, `function() {` vs `function () {` are both encoded to `() ->`.
 
 [frappe]: https://github.com/lydell/frappe
+[wycats' private state proposal]: https://github.com/wycats/javascript-private-state
+[the decorators propsal]: https://github.com/wycats/javascript-decorators
+[ruby proof of concept of decorators]: https://github.com/michaelfairley/method_decorators

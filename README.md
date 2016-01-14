@@ -98,8 +98,8 @@ AST transformations for automatic const variables anywhere forms.
 ### tacoscript-iife
 _(Not Implemented)_
 
-Parser & Generator plugins and AST transformations for implicitly returning
-functions ("sharp arrows").
+Parser & Generator plugins and AST transformations for immediately invoked
+function expressions.
 
 ### tacoscript-strudel-this-member
 _(Not Implemented)_
