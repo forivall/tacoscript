@@ -1,34 +1,19 @@
 /*global suite,test*/
 require('source-map-support').install();
-var fs = require("fs");
-var path = require("path");
-var _ = require("lodash");
-var babylon = require('babylon');
-var generate = require('../lib/index').default;
-var expect = require("chai").expect;
-var mochaFixtures = require("mocha-fixtures-generic");
-var misMatch = require("../../tacoscript-dev-utils").misMatch;
-require("babylon-plugin-cst").install();
-var specOptions = require("../../../specs/options");
+const fs = require("fs");
+const path = require("path");
+const _ = require("lodash");
+const babylon = require('babylon');
+const cstify = require('cstify').default;
+const generate = require('../lib/index').default;
+const expect = require("chai").expect;
+const mochaFixtures = require("mocha-fixtures-generic");
+const misMatch = require("../../tacoscript-dev-utils").misMatch;
+const specOptions = require("../../../specs/options");
 
-var GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
+const GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
 
-var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
-  _.assign({}, specOptions.core, {
-    fixtures: _.assign({}, specOptions.core.fixtures, {
-      "json": { loc: ["expected.json", "expected.cst.json"] }
-    }),
-    skip: function(test, testPath) {
-      return specOptions.core.skip(test, testPath) ||
-      testPath.indexOf("/invalid/") !== -1 ||
-      test.indexOf("invalid-") === 0 ||
-      test.indexOf("unexpected-") === 0 ||
-      test.indexOf("malformed-") === 0;
-    }
-  })
-);
-
-var babylonParseOpts = {
+const babylonParseOpts = {
   // idea:
   // features["es7.classProperties"]: true
   strictMode: false,
@@ -51,7 +36,23 @@ var babylonParseOpts = {
     "es7.exportExtensions": true,
   },
 };
-var unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
+
+const coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/core"),
+  _.assign({}, specOptions.core, {
+    fixtures: _.assign({}, specOptions.core.fixtures, {
+      "json": { loc: ["expected.json", "expected.cst.json"] }
+    }),
+    skip: function(test, testPath) {
+      return specOptions.core.skip(test, testPath) ||
+      testPath.indexOf("/invalid/") !== -1 ||
+      test.indexOf("invalid-") === 0 ||
+      test.indexOf("unexpected-") === 0 ||
+      test.indexOf("malformed-") === 0;
+    }
+  })
+);
+
+const unifiedSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"),
   _.extend({}, specOptions.unified, {
     fixtures: _.assign({}, specOptions.unified.fixtures, {
       "json": { loc: ["expected.json", "expected.cst.json"] },
@@ -87,32 +88,15 @@ _.forOwn(coreSpecs, function(suites, setName) {
           var taco = task.auto;
           var js = task.js;
 
-          var expectedAst;
-          try {
-            expectedAst = JSON.parse(task.json.code);
-          } catch(e) {
-            expectedAst = babylon.parse(js.code,
-              _.assign({}, babylonParseOpts, {
-                filename: js.loc
-              })
-            );
-          // } finally {
-          //   if (expectedAst == null) {
-          //     var dirpath = path.dirname(js.loc)
-          //     fs.renameSync(dirpath, dirpath.replace(/\/([^/]+)$/, "/invalid-$1"))
-          //   }
-          }
+          var ast = JSON.parse(task.json.code);
           var options = _.merge({format: {perserve: false}}, task.options);
-          var result = generate(expectedAst, options, js.code);
-          var actualCode = result.code;
-          // console.log(Array.prototype.map.call(actualCode, (function(c){return c.charCodeAt(0)})))
-          // console.log(Array.prototype.map.call(taco.code, (function(c){return c.charCodeAt(0)})))
+          var result = generate(ast, options, js.code);
           var tacoLoc = taco.loc.replace('expected.json/', '');
           // fs.writeFileSync(task.babel.loc + ".json", JSON.stringify(actualAst, null, '  '), {encoding: "utf8"});
           if (GENERATE && !taco.code && !fs.existsSync(tacoLoc)) {
-            fs.writeFileSync(tacoLoc, actualCode, {encoding: "utf8"});
+            fs.writeFileSync(tacoLoc, result.code, {encoding: "utf8"});
           } else {
-            expect(actualCode.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
+            expect(result.code.trim()).to.equal(taco.code.trim(), js.loc + " !== " + taco.loc);
           }
         });
       });
@@ -135,10 +119,12 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
           try {
             expectedAst = JSON.parse(task.json.code);
           } catch(e) {
-            expectedAst = babylon.parse(js.code,
-              _.assign({}, babylonParseOpts, {
-                filename: js.loc
-              })
+            expectedAst = cstify(
+              babylon.parse(js.code,
+                _.assign({}, babylonParseOpts, {
+                  filename: js.loc
+                })
+              ), js.code, {visitors: '*'}
             );
           }
           var options = _.merge({format: {perserve: false, preserveLines: preserveLines}}, task.options);

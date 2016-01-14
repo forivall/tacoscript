@@ -3,12 +3,18 @@ import {VISITOR_KEYS} from 'babel-types';
 import heap from 'heapjs';
 import TYPE_TO_ELEMENT from './type-to-element';
 import {dereference} from 'tacoscript-cst-utils';
+import * as visitors from './visitors';
 
-export default function cstify(ast, source) {
-  return new Processor().process(ast, source);
+export default function cstify(ast, source, options = {}) {
+  return new Processor(options).process(ast, source);
 }
 
 export class Processor {
+  constructor(options) {
+    this.opts = options;
+    this.visitor = visitors.merge(visitors.load(options.visitors));
+  }
+
   process(ast, source) {
     this.ast = ast;
     this.source = source;
@@ -43,9 +49,17 @@ export class Processor {
       this.collect(node, prevNode, nextNode);
       sourceElements.push(nextChild);
       this.traverse(nextNode);
+      this.analyse(nextNode);
       prevNode = nextNode;
     }
     this.collect(node, prevNode);
+  }
+
+  analyse(node) {
+    if (this.visitor[node.type] == null) return;
+    for (let visit of (this.visitor[node.type].enter: Array)) {
+      visit({node});
+    }
   }
 
   findAndCreateArrayHole(node, isFirstChild) {

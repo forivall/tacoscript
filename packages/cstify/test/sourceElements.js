@@ -49,7 +49,28 @@ var babylonParseOpts = {
     "functionBind",
   ],
 };
-suite("cstify", function () {
+
+function removeComments(json, context) {
+  if (Object.prototype.toString.call(json) === '[object Array]') {
+    // for (var i = 0, len = json.length; i < len; i++) {
+    // walk backwards so that duplicate trailingComments are removed
+    for (var i = json.length - 1; i >= 0; i--) {
+      if (json[i] != null) removeComments(json[i], context);
+    }
+  } else {
+    delete json.leadingComments;
+    delete json.innerComments;
+    delete json.trailingComments;
+    for (var k in json) {
+      if (json[k] != null && (typeof json[k]) === 'object') {
+        removeComments(json[k], context);
+      }
+    }
+  }
+  // TODO: store this modified JSON
+  return json;
+}
+suite("cstify: sourceElements", function () {
   test("basic", function () {
     var code = "this ;\n";
     var ast = cstify(babylon.parse(code, babylonParseOpts), code);
@@ -150,14 +171,14 @@ suite("cstify", function () {
 
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("cstify: core/" + setName + "/" + testSuite.title, function () {
+    suite("cstify: sourceElements: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function(task) {
         test(task.title, !task.disabled && function () {
           var ast = cstify(babylon.parse(task.js.code, _.assign({}, babylonParseOpts, task.options)), task.js.code);
           // if (ast.warnings.length > 0) console.warn("Parsing generated " + file.warnings.length + " warnings");
           var expectedAst;
           try {
-            expectedAst = JSON.parse(task.json.code);
+            expectedAst = removeComments(JSON.parse(task.json.code));
             if (expectedAst.program != null) delete expectedAst.program.sourceType;
           } catch(e) {
             console.log(task.json.loc);
@@ -175,7 +196,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
 
 _.forOwn(unifiedSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("cstify: unified/" + setName + "/" + testSuite.title, function () {
+    suite("cstify: sourceElements: unified/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function(task) {
         test(task.title, !(task.disabled || task.title === "Decorator") && function () {
           var ast = cstify(babylon.parse(task.js.code, _.assign({}, babylonParseOpts, task.options)), task.js.code);
