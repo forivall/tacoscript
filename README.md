@@ -17,8 +17,6 @@ whitespace will also be preserved.
 
 > Unlike CoffeeScript, TacoScript _actually_ is just JavaScript.
 
----
-
 So, if it is just JavaScript, why does this exist? For the same reason that
 there are both British English and American English: Some people just prefer
 different conventions.
