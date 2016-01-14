@@ -320,6 +320,7 @@ statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
 
 * [ ] [Const classes](http://wiki.ecmascript.org/doku.php?id=harmony:classes#const)
 * [ ] shorten `else if` to `elif`
+* [ ] Deep object properties (especially useful for destructuring): `{a.b: 1}` ↔ `{a: {b: 1}}`
 
 ## Implementation Plan
 
