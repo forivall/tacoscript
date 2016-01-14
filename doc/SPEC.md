@@ -15,7 +15,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 * Create a git extension that allows switching between Taco representations just by switching branches
 
 ## Core Syntax
-1. Blocks should use significant indentation. Standalone blocks start with a single `!`.
+1. Blocks use significant indentation. Standalone blocks start with a single `!`.
 
   ```
   {
@@ -28,7 +28,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
     let foo = 1
   ```
 
-  In ge neral, `!` is used similar to how CSS uses it for `!important`. See more uses below.
+  `!` is used in a variety of situations, not just blocks. See below
 
 2. Braces are only used for object literals, and are always required for object literals
 
@@ -41,7 +41,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
   * `!==` ↔ `isnt`
   * `==` ↔ `like`
   * `!=` ↔ `unlike`
-    * the above 4 are optional, but use should be consistent
+    * the above 4 are optional, but your use should be consistent
 
   * `for (var i = 1; i < 6; i++) {}` ↔ `for var i = 1 while i < 6 update i++`
   * `for (var x in y) {}` ↔ `for var x in y`
@@ -61,13 +61,14 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
     while true
     ```
 
-4. No semicolons to end statements. A newline always ends a statement, unless escaped, or if there are open parenthises.
+4. No semicolons to end statements. A newline always ends a statement, unless
+escaped, or if there are open parentheses.
 
-5. In objects, arrays and arguments, newlines can be used instead of commas. These can be mixed and matched.
+5. In objects, arrays and arguments, newlines can be used instead of commas. These can be mixed.
 
 6. Consistent arrow syntax
   * all functions use arrows
-  * parenthises are always required _(for now)_
+  * parentheses are always required _(for now)_
   * implicit return is only used if the arrow is a "sharp" arrow - `=>>`, `->>`
 
   ```
@@ -115,8 +116,9 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
       bar() ->
   ```
 
-7. Semicolon is used as the sequence operator
-  * `var c = (a, b);` ↔ `var c = (a; b)`
+7. Semicolon is used as the sequence operator. Double-semicolon can be used to include two statements on one line.
+  * `var c = (a, b);` ↔ `var c = a; b`
+  * `var c = (a, b); if (c === b) console.log("c is b")` ↔ `var c = a; b;; if c is b then console.log! "c is b"`
 
 8. Use `then` for if/for/etc. `body`s that are a single statement
   `if (true) console.log(yay);` ↔ `if true then console.log(yay)`
@@ -148,6 +150,8 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 11. `#` for line comments, `#*` for block comments, `#%` for directive comments, `###` (alone on a line) for _temporarily_ commenting out blocks of code (like `#if 0` in C). `# *` for a line comment that starts with a \*.
 
   <code>\*\\#</code> for parts of a block comment that contains <code>\*#</code>. etc.
+
+12. `switch` with fallthroughs starts with `switch!`, and a plugin is used for "safe" switch statements.
 
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
@@ -188,11 +192,10 @@ All of the following syntax is optional, but is default, and is part of the core
 #### Phase 3
 * [ ] loose string parsing, unify string interpolation behaviour ([frappe])
   * tagged template strings will still require `\`\``
+* [ ] `@@` in class methods to `ClassName.`
 * [ ] non-fallthrough `switch` [(spec)](./safe-switch.md)
 * [ ] boolean switch statements (a la Coffeescript)
-* [ ] `@@` in class methods to `ClassName.`
 * [ ] expression version of boolean switch statements
-* [ ] label-less long break/continue -- `break for` will break from the lexically nearest for loop
 * [ ] `rescue` a la Ruby or Go's `recover`
 * [ ] `for var i = 0 upto 5`, `downto` + `by 2` -- or a different simple for loop incremental shorthand. _Feedback requested_
 * [ ] "kinda lispy" `or` and `and` blocks -- can also be done with other operators? do they need `!` to avoid ambiguous productions?
@@ -230,16 +233,9 @@ All of the following syntax is optional, but is default, and is part of the core
 
 #### Phase 4
 * [ ] array and object comprehensions
-* [ ] automatic generator and async function promotion
-* [ ] block regex
+* [ ] multiline regex (coffeescript / [frappe])
 * [ ] Python style keyword arguments
   * should look for or create a good, standardized format for kwargs, that can be submitted as an esnext proposal.
-* [ ] Whatever custom syntax makes the parser easier to read
-* [ ] allow any indentation level, but it won't be automatically closed. instead,
-  statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
-
-  This would be opt-in, or automatically enabled if the indentation of your source js sucks.
-
 * [ ] allow breaking from blocks
   ```
   switch (0) { default:
@@ -293,10 +289,37 @@ All of the following syntax is optional, but is default, and is part of the core
 
   ```
 
-#### Phase 5
+#### Other long-term or non-essential ideas
+
+* [ ] label-less long break/continue -- `break for` will break from the lexically nearest for loop
+* [ ] Whatever custom syntax makes the parser easier to read
+* [ ] allow any indentation level, but it won't be automatically closed. instead,
+statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
+
+  This would be opt-in, or automatically enabled if the indentation of your source js sucks.
+
+* [ ] automatic generator and async function promotion
 * [ ] Hygenic Macros, aka, port sweet.js
 * [ ] Overloading infix operators, ``` !arith(a + b) ``` or `a +! b` to use raw operators; type inference would also be used to use raw operators when possible.
+* [ ] Array properties
 
+      var arr = [
+        1, 2, 3
+        4
+        a: 1
+      ]
+
+  ↔
+
+      var \_tmp, arr = (\_tmp = [
+        1, 2, 3,
+        4
+      ]; \_tmp.a = 1; \_tmp)
+
+  * must come after all numbered values
+
+* [ ] [Const classes](http://wiki.ecmascript.org/doku.php?id=harmony:classes#const)
+* [ ] shorten `else if` to `elif`
 
 ## Implementation Plan
 
@@ -352,6 +375,14 @@ replace preceding spaces: `r{\t\t}`
 so that would look like `decreased_indent_statement()#$<$#`
 
 TODO: determine an encoding for unexpected spacing around tokens that are redundant compared to tacoscript, for example, `function() {` vs `function () {` are both encoded to `() ->`.
+
+  * Idea: for full whitespace preservation, require utf-8 or other unicode
+    encodings. Insert zero-width spaces (U+200B) and word joiners (U+2060) as a
+    binary encoding of ids, and then insert a comment at the end that references
+    these ids and insert the appropriate whitespace in the location. Only
+    sequences of zwsp's and wj's are used, so that singular sequences can still
+    be used. sequences that already exist in the code are noted in the
+    file-trailing comment, so that they are ignored.
 
 [frappe]: https://github.com/lydell/frappe
 [wycats' private state proposal]: https://github.com/wycats/javascript-private-state
