@@ -7,6 +7,7 @@ import "./tokenizer/serialization";
 export {TokenType, types as tokTypes, keywords as keywordTypes} from "./tokenizer/types";
 export Lexer, {Token} from "./tokenizer";
 export * as tokComments from "./tokenizer/comments";
+export * as whitespace from "./util/whitespace.js";
 
 // Main API
 import Parser from "./parser";

@@ -374,11 +374,23 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     this.printComments(comments);
   }
 
+  _startLocOf(node) {
+    // maybe class expressions too.
+    // TODO: get this to work
+    if (node.type === "ClassMethod" || node.type === "ObjectMethod"/* || node.type === "ClassDeclaration"*/) {
+      if (node.decorators != null && node.decorators.length > 0) {
+        return node.decorators[0].loc.start;
+      }
+    }
+    return node.loc.start;
+  }
+
   // shouldCatchUp(node) ->> node.loc.start.line > @curLine
-  shouldCatchUp(node) { return node.loc.start.line > this.curLine; }
+  shouldCatchUp(node) { return this._startLocOf(node).line > this.curLine; }
 
   catchUp(node, parent) {
-    const newlines = node.loc.start.line - this.curLine;
+    if (node._noCatchUp) return;
+    const newlines = this._startLocOf(node).line - this.curLine;
     if (newlines <= 0) return;
     if (
           parent.type === "SequenceExpression" ||

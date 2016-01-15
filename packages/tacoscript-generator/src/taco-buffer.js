@@ -5,7 +5,7 @@
 
 import sourceMap from "source-map";
 import Position from "./position";
-import {Token, tokTypes as tt, keywordTypes as kw} from "horchata";
+import {Token, tokTypes as tt, keywordTypes as kw, whitespace as ws} from "horchata";
 import isString from "lodash/lang/isString";
 import equalsDeep from "lodash/lang/isEqual";
 import "./special-tokens";
@@ -207,6 +207,11 @@ export default class TacoBuffer {
       this._insertIndentTokens();
     } else if (this.isLastType(tt.newline)) {
       this.tokens.push(new Token(tt.tab, this._indent));
+    }
+    if (state.type === tt.blockCommentBody) {
+      this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
+    } else if (state.type === tt.template) {
+      this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
     }
     // TODO: ensure leading tab tokens, unless in parenthetized expression context
     this.tokens.push(Token.fromState(state));
