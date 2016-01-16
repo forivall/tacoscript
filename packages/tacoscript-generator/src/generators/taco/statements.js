@@ -61,7 +61,7 @@ export let ForOfStatement = buildForXStatement("of");
 export function DoWhileStatement(node) {
   this.push("do");
   this.printBlock(node);
-  if (this.format.preserveLines && this.curLine === node.test.loc.end.line && !this.lastTokenIsNewline()) {
+  if (this.format.preserveLines && this.curLine >= node.test.loc.end.line && !this.lastTokenIsNewline()) {
     this.push(";;");
   }
   this.keyword("while");
@@ -126,6 +126,7 @@ export function SwitchStatement(node) {
 }
 
 export function _switchCase(node) {
+  this.newline(false, true);
   if (node.test) {
     this.keyword("case");
     this.print(node, "test");

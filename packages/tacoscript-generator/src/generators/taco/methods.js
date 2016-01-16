@@ -22,7 +22,7 @@ export function _functionBody(parent, prop = "body") {
   let opts = {};
   if (t.isBlock(node)) {
     this.indent();
-    if ((node[prop].length + (node.directives == null ? 0 : node.directives.length)) > 0) { this.newline(); }
+    if ((node[prop].length + (node.directives == null ? 0 : node.directives.length)) > 0) { this.startBlock(); }
     this._startPrint(parent, prop, opts);
     if (node.directives) this.printStatements(node, 'directives', opts);
     this.printStatements(node, prop, opts);

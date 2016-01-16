@@ -201,6 +201,7 @@ tt.incDec.formattingSpaceWhenAfter.keyword = true;
 tt.ellipsis.formattingSpaceWhenAfter.comma = true;
 tt.doublesemi.formattingSpaceWhenAfter.doublesemi = true;
 tt.doublesemi.formattingSpaceWhenAfter._then = true;
+tt.doublesemi.formattingSpaceAfter = true;
 tt.eq.formattingSpaceAfter = true;
 tt.eq.formattingSpaceWhenAfter.name = true;
 tt.eq.formattingSpaceWhenAfter.braceR = true;

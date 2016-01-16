@@ -310,7 +310,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     // the body of a statement (such as if, etc.)
     if (t.isBlock(node)) {
       this.indent();
-      this.newline();
+      if (!this.format.preserveLines || !(isEmpty(node.directives) && isEmpty(node.body))) this.newline();
       this._startPrint(parent, prop, opts);
       this.printStatements(node, 'directives', opts);
       this.printStatements(node, 'body', opts);
@@ -430,6 +430,10 @@ export function willCatchUpBetween(nodes) {
       prevNode = nextNode
     }
   }
+}
+
+export function isEmpty(nodes) {
+  return nodes == null || nodes.length === 0;
 }
 
 import _printer from "./_printer";
