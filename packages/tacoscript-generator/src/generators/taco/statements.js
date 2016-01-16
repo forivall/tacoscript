@@ -61,9 +61,12 @@ export let ForOfStatement = buildForXStatement("of");
 export function DoWhileStatement(node) {
   this.push("do");
   this.printBlock(node);
+  if (this.format.preserveLines && this.curLine === node.test.loc.end.line && !this.lastTokenIsNewline()) {
+    this.push(";;");
+  }
   this.keyword("while");
   this.print(node, "test");
-  this.newline();
+  this.lineTerminator();
 }
 
 // TODO: if syntax is ambiguous, use a !
@@ -74,7 +77,7 @@ function buildLabelStatement(prefix, key = "label") {
     if (node[key]) {
       this.print(node, key);
     }
-    this.newline();
+    this.lineTerminator();
   };
 }
 
@@ -99,7 +102,7 @@ export function TryStatement(node) {
     this.keyword("finally");
     this.printBlock(node, "finalizer");
   }
-  if (!this.format.preserve) this.newline(true);
+  if (!this.format.preserve && !this.format.preserveLines) this.newline(true);
 }
 
 export function CatchClause(node) {
@@ -119,7 +122,7 @@ export function SwitchStatement(node) {
     indent: true
   });
 
-  if (!this.format.preserve) this.newline(true);
+  if (!this.format.preserve && !this.format.preserveLines) this.newline(true);
 }
 
 export function _switchCase(node) {
@@ -134,10 +137,11 @@ export function _switchCase(node) {
 export function SwitchCase(node) {
   this._switchCase(node);
   if (node.consequent.length) {
+    // TODO: don't assume an indented block
     this.newline();
     this.printStatements(node, "consequent", { indent: true });
   }
-  this.newline();
+  this.lineTerminator();
 }
 
 export function SafeSwitchCase(node) {
@@ -153,7 +157,7 @@ export function SafeSwitchCase(node) {
 
 export function DebuggerStatement() {
   this.keyword("debugger");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function VariableDeclaration(node, parent) {
@@ -175,6 +179,7 @@ export function VariableDeclaration(node, parent) {
   } else {
     let useNewlines = !this.format.compact && hasInits && node.declarations.length > 1;
     let sep = useNewlines ? {type: "newline"} : ",";
+    // TODO: perserveLines
     if (useNewlines) this.newline();
     this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
     if (!isLoopHead) this.newline();

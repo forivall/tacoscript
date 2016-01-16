@@ -58,6 +58,10 @@ export default class TacoBuffer {
     return last.type === type;
   }
 
+  lastTokenIsNewline(type) {
+    return this.isLastType(tt.newline);
+  }
+
   _lastOffset(offset = 1) {
     let i = offset;
     for (let len = this.tokens.length;
@@ -117,13 +121,22 @@ export default class TacoBuffer {
    */
 
   newline(force) {
-    if (force || !this.isLastType(tt.newline)) this._push({type: tt.newline});
+    if (force || !this.lastTokenIsNewline()) this._push({type: tt.newline});
+  }
+
+
+  lineTerminator() {
+    if (this.format.preserveLines) {
+      this._deferredNewline = true;
+    } else {
+      this.newline();
+    }
   }
 
   indent() {
     // TODO: make sure that indent only occurs right before a newline
     this._indent++;
-    if (this.isLastType(tt.newline)) {
+    if (this.lastTokenIsNewline()) {
       let newline = this._pop();
       this._insertIndentTokens();
       this.tokens.push(newline);
@@ -132,7 +145,7 @@ export default class TacoBuffer {
 
   dedent() {
     this._indent--;
-    if (this.isLastType(tt.newline)) {
+    if (this.lastTokenIsNewline()) {
       let newline = this._pop();
       this._insertIndentTokens();
       this.tokens.push(newline);
@@ -202,11 +215,17 @@ export default class TacoBuffer {
 
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
+    if (state.type === tt.doublesemi || state.type === tt.newline) {
+      this._deferredNewline = false;
+    }
+
     if (state.type === tt.newline) {
       this.curLine++;
       this._insertIndentTokens();
-    } else if (this.isLastType(tt.newline)) {
+    } else if (this.lastTokenIsNewline()) {
       this.tokens.push(new Token(tt.tab, this._indent));
+    } else if (this._deferredNewline) {
+      this._push({type: tt.newline});
     }
     if (state.type === tt.blockCommentBody) {
       this.curLine += state.value.code.split(ws.lineBreakG).length - 1;

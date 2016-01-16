@@ -41,7 +41,7 @@ export function ExportAllDeclaration(node) {
   }
   this.keyword("from");
   this.print(node, "source");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function ExportNamedDeclaration() {
@@ -96,7 +96,7 @@ function ExportDeclaration(node) {
     }
   }
 
-  this.newline();
+  this.lineTerminator();
 }
 
 export function ImportDeclaration(node) {
@@ -140,7 +140,7 @@ export function ImportDeclaration(node) {
   }
 
   this.print(node, "source");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function ImportNamespaceSpecifier(node) {

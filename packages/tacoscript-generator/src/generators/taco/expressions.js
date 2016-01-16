@@ -72,7 +72,7 @@ export function Super() {
 export function Decorator(node) {
   this.push("@");
   this.print(node, "expression");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function CallExpression(node) {
@@ -102,12 +102,12 @@ export function AwaitExpression(node) {
 
 export function EmptyStatement() {
   this.push("pass");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function ExpressionStatement(node) {
   this.print(node, "expression");
-  this.newline();
+  this.lineTerminator();
 }
 
 export function AssignmentPattern(node) {

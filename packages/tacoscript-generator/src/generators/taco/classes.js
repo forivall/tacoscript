@@ -50,7 +50,7 @@ export function ClassBody(node) {
   if (node.body.length === 0) {
     // this.push("pass");
   } else {
-    this.newline();
+    this.lineTerminator();
     this.printStatements(node, "body");
   }
   this.dedent();
@@ -66,7 +66,7 @@ export function ClassProperty(node) {
     this.push("=");
     this.print(node, "value");
   }
-  this.newline();
+  this.lineTerminator();
 }
 
 export function MethodDefinition(node) {
@@ -77,7 +77,7 @@ export function MethodDefinition(node) {
   }
 
   this._method(node);
-  this.newline();
+  this.lineTerminator();
 }
 
 export function ClassMethod(node) {
@@ -92,5 +92,5 @@ export function ClassMethod(node) {
   }
 
   this._method(node, true);
-  this.newline();
+  this.lineTerminator();
 }

@@ -73,7 +73,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   _simpleStartPrint(node, parent, opts) {
     this.printLeadingComments(node, parent);
 
-    if (this.format.preserveLines) this.catchUp(node, parent);
+    if (this.format.preserveLines) {
+      this.catchUp(node, parent);
+      if (this._deferredNewline) {
+        this._push({type: tt.doublesemi});
+      }
+    }
 
     if (opts.before) opts.before();
 
@@ -172,7 +177,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       }
     } : omitSeparatorIfNewline ? () => {
       if (opts.iterator) opts.iterator(node, i);
-      if (i < len - 1 && !this.shouldCatchUp(nodes[i + 1])) {
+      if (i < len - 1 && !this.willCatchUp(nodes[i + 1])) {
         this.push(...separator);
       }
     } : () => {
@@ -227,7 +232,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
         if (opts.iterator) { opts.iterator(argNode, i); }
         if (opts.separator && i < len - 1) {
           // TODO: reenable this special case
-          // if (!this.isLastType(tt.newline)) {
+          // if (!this.lastTokenIsNewline()) {
             this.push(",");
           // }
         }
@@ -257,25 +262,30 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   // for array and object literals
   // TODO: move to generators/taco/types
   printLiteralBody(parent, prop, opts = {}) {
-    let node = parent[prop];
+    const nodes = parent[prop];
     if (this.format.preserve && parent.tokenElements && parent.tokenElements.length) {
       throw new Error('Not Implemented');
     } else {
-      let useNewlines = true;
-      if (parent.type === "ArrayExpression" && node.length <= 5) useNewlines = false;
-      if (parent.type === "ArrayPattern") { useNewlines = false; }
-      // if ((parent.type === "ObjectExpression" || parent.type === "ObjectPattern") && node.length <= 2) useNewlines = false;
-      if ((parent.type === "ObjectExpression") && node.length === 0) useNewlines = false;
-      if (t.isObjectPattern(parent) && node.length <= 2) useNewlines = false;
+      const useNewlines = !(
+        this.format.preserveLines ||
+        parent.type === "ArrayExpression" && nodes.length <= 5 ||
+        parent.type === "ArrayPattern" ||
+        (parent.type === "ObjectExpression") && nodes.length === 0 ||
+        t.isObjectPattern(parent) && nodes.length <= 2 ||
+      false)
       // TODO: implement the following line:
       //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) useNewlines = false;
       // TODO: always use newlines if the literal contains a function
       opts.separator = useNewlines ? {type: "newline"} : ",";
-      opts.indent = useNewlines;
+      opts.indent = useNewlines || this.format.preserveLines && willCatchUpBetween(nodes);
+      opts.omitSeparatorIfNewline = true;
       if (useNewlines) this.newline();
       this.printInnerComments(parent);
-      this._simplePrintMultiple(node, parent, opts);
+      this._simplePrintMultiple(nodes, parent, opts);
       if (useNewlines) this.newline();
+      else if (this.format.preserveLines) {
+        this._catchUp(parent.loc.end.line, parent);
+      }
     }
   }
 
@@ -385,15 +395,19 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     return node.loc.start;
   }
 
-  // shouldCatchUp(node) ->> node.loc.start.line > @curLine
-  shouldCatchUp(node) { return this._startLocOf(node).line > this.curLine; }
+  // willCatchUp(node) ->> node.loc.start.line > @curLine
+  willCatchUp(node) { return !!(node && this._startLocOf(node).line > this.curLine); }
 
   catchUp(node, parent) {
     if (node._noCatchUp) return;
-    const newlines = this._startLocOf(node).line - this.curLine;
-    if (newlines <= 0) return;
+    return this._catchUp(this._startLocOf(node).line, parent);
+  }
+
+  _catchUp(line, parent) {
+    const newlines = line - this.curLine;
+    if (newlines <= 0) return 0;
     if (
-          parent.type === "SequenceExpression" ||
+          parent && parent.type === "SequenceExpression" ||
         false) {
       // TODO: check other contexts
       // TODO: preserve indentation for escaped newlines
@@ -402,6 +416,18 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       for (let i = newlines; i > 0; i--) {
         this.newline(true);
       }
+    }
+    return newlines;
+  }
+}
+
+export function willCatchUpBetween(nodes) {
+  let prevNode = nodes[0];
+  for (let i = 1, len = nodes.length, nextNode;
+    nextNode = nodes[i], i < len; i++) {
+    if (nextNode) {
+      if (prevNode != null && prevNode.loc.end.line < nextNode.loc.start.line) return true;
+      prevNode = nextNode
     }
   }
 }
