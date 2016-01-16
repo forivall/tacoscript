@@ -211,9 +211,11 @@ export default class TacoBuffer {
   _push(state) {
     state = TacoBuffer._massageTokenState(state);
     // avoid redundant mapping marks
-    if (this._isRedundantMappingMark(state)) { return; }
-
-    this._insertForceSpace(state) || this._insertFormattingSpace(state);
+    if (state.type === tt.mappingMark) {
+      if (this._isRedundantMappingMark(state)) { return; }
+      this.tokens.push(Token.fromState(state));
+      return;
+    }
 
     if (state.type === tt.doublesemi || state.type === tt.newline) {
       this._deferredNewline = false;
@@ -227,12 +229,15 @@ export default class TacoBuffer {
     } else if (this._deferredNewline) {
       this._push({type: tt.newline});
     }
+
     if (state.type === tt.blockCommentBody) {
       this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
     } else if (state.type === tt.template) {
       this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
     }
-    // TODO: ensure leading tab tokens, unless in parenthetized expression context
+
+    this._insertForceSpace(state) || this._insertFormattingSpace(state);
+
     this.tokens.push(Token.fromState(state));
   }
 
