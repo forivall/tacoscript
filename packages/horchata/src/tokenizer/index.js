@@ -300,7 +300,7 @@ export default class Lexer {
 
     let raw = this.input.slice(start, this.state.pos);
     let commentBody = raw;
-    if (/  *\*/.test(commentBody)) {
+    if (/ +\*/.test(commentBody)) {
       commentBody = commentBody.slice(1);
     }
     node.value = commentBody;
