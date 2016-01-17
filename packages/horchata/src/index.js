@@ -1,6 +1,7 @@
 
 // Add methods to various prototypes
 import "./tokenizer/context";
+import "./tokenizer/indentation";
 import "./tokenizer/serialization";
 
 // Export bindings from lexer

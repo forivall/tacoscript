@@ -51,7 +51,7 @@ sp.initialContext = function() {
 const lp = Lexer.prototype;
 
 // called in `finishToken()`
-lp.updateContext = function(type, prevType) {
+lp.updateContext = function updateContext(type, prevType) {
   let update;
   if (type.keyword && prevType == tt.dot) {
     // meta property

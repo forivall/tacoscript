@@ -19,6 +19,10 @@
 // be followed by an expression (thus, a slash after them would be a
 // regular expression). See [`context.js`](./context.js).
 //
+// In TacoScript, the `beforeExpr` property is also used to disambiguate
+// whether or not an indentation is allowed to continue an expression,
+// which is required during lexing in statement headers like `if` and `while`.
+//
 // The `startsExpr` property is used to indicate when a token starts
 // any type of expression statement. See [`context.js`](./context.js).
 //
