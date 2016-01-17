@@ -24,15 +24,16 @@ export class TokContext {
 
 // TODO: document context types and reason(s) for needing a new context for each
 export const types = {
-  i_stat: new TokContext("indent", false),
+  stmt: new TokContext("statement", false),
   decl_expr: new TokContext("var", true),
   return_expr: new TokContext("return", true),
-  b_expr: new TokContext("{", true),
-  b_tmpl: new TokContext("${", true),
-  kw_stat: new TokContext("keyword", false), // implicit parenthises for keyword block starters
-  p_expr: new TokContext("(", true),
-  q_tmpl: new TokContext("`", true, true, (lexer) => lexer.readTmplToken()),
-  f_expr: new TokContext("function", true),
+  obj_expr: new TokContext("{", true),
+  tmpl_expr: new TokContext("${", true),
+  // implicit parenthises for keyword block starters
+  stmt_head: new TokContext("keyword", false),
+  paren_expr: new TokContext("(", true),
+  tmpl_str: new TokContext("`", true, true, (lexer) => lexer.readTmplToken()),
+  func_expr: new TokContext("function", true),
   // for a list of expressions
   // * arguments for a function definition
   // * arguments for a function call
@@ -44,7 +45,7 @@ export const types = {
 const sp = State.prototype;
 
 sp.initialContext = function() {
-  return [types.i_stat];
+  return [types.stmt];
 };
 
 const lp = Lexer.prototype;
@@ -79,55 +80,55 @@ tt.indent.updateContext = function(type, prevType) {
     this.state.context.push(types.decl_expr);
   // } else if (prevType === tt.indent) {
   //   // double indent for keyword head
-  //   this.state.context.push(types.kw_stat);
+  //   this.state.context.push(types.stmt_head);
   } else if (prevType === tt._return) {
     this.state.context.push(types.return_expr);
   } else {
-    if (this.curContext() === types.kw_stat) {
-      this.state.inForHeader = false;
+    if (this.curContext() === types.stmt_head) {
+      this.state.inForHeaderInit = false;
       this.state.context.pop();
     }
     this.state.exprAllowed = false;
-    this.state.context.push(types.i_stat);
+    this.state.context.push(types.stmt);
   }
 };
 
 tt._then.updateContext = function(type) {
-  if (this.curContext() === types.kw_stat) {
+  if (this.curContext() === types.stmt_head) {
     this.state.context.pop();
   }
-  this.state.inForHeader = false;
+  this.state.inForHeaderInit = false;
   this.state.exprAllowed = type.beforeExpr;
 }
 
 tt.braceL.updateContext = function(type) {
-  this.state.context.push(types.b_expr);
+  this.state.context.push(types.obj_expr);
   this.state.exprAllowed = type.beforeExpr;
 };
 
 tt.dollarBraceL.updateContext = function(type) {
-  this.state.context.push(types.b_tmpl);
+  this.state.context.push(types.tmpl_expr);
   this.state.exprAllowed = type.beforeExpr;
 };
 
 let blockStatementUpdateContext = function(type) {
-  // TODO: don't push kw_stat for `if` when it's an implicit conditional
-  this.state.context.push(types.kw_stat);
+  // TODO: don't push stmt_head for `if` when it's an implicit conditional
+  this.state.context.push(types.stmt_head);
   this.state.exprAllowed = type.beforeExpr;
 };
 tt._if.updateContext = tt._with.updateContext = blockStatementUpdateContext;
 
 tt._for.updateContext = function(type) {
-  this.state.inForHeader = true;
-  this.state.context.push(types.kw_stat);
+  this.state.inForHeaderInit = true;
+  this.state.context.push(types.stmt_head);
   this.state.exprAllowed = type.beforeExpr;
 }
 
 tt._while.updateContext = function(type) {
-  if (this.state.inForHeader) {
-    this.state.inForHeader = false;
+  if (this.state.inForHeaderInit) {
+    this.state.inForHeaderInit = false;
   } else {
-    this.state.context.push(types.kw_stat);
+    this.state.context.push(types.stmt_head);
   }
   this.state.exprAllowed = type.beforeExpr;
 };
@@ -143,7 +144,7 @@ tt.excl.updateContext = function(type, prevType) {
 
 // TODO: do we need to detect if this is a list of parameters
 tt.parenL.updateContext = function(type) {
-  this.state.context.push(types.p_expr);
+  this.state.context.push(types.paren_expr);
   this.state.exprAllowed = type.beforeExpr;
 };
 
@@ -152,17 +153,17 @@ tt.incDec.updateContext = function() {
 };
 
 tt._function.updateContext = function(type) {
-  if (this.curContext() !== types.i_stat) {
-    this.state.context.push(types.f_expr);
+  if (this.curContext() !== types.stmt) {
+    this.state.context.push(types.func_expr);
   }
   this.exprAllowed = type.beforeExpr;
 };
 
 tt.backQuote.updateContext = function(type) {
-  if (this.curContext() === types.q_tmpl) {
+  if (this.curContext() === types.tmpl_str) {
     this.state.context.pop();
   } else {
-    this.state.context.push(types.q_tmpl);
+    this.state.context.push(types.tmpl_str);
   }
   this.exprAllowed = type.beforeExpr;
 };
@@ -174,7 +175,7 @@ tt.braceR.updateContext = function() {
     return;
   }
   let out = this.state.context.pop();
-  if (out === types.b_tmpl) {
+  if (out === types.tmpl_expr) {
     this.state.exprAllowed = true;
   } else {
     this.state.exprAllowed = !out.isExpr;
@@ -196,7 +197,7 @@ tt.dedent.updateContext = function() {
     return;
   }
   let out = this.state.context.pop();
-  if (out === types.i_stat && (this.curContext() === types.f_expr)) {
+  if (out === types.stmt && (this.curContext() === types.func_expr)) {
     this.state.context.pop();
     this.state.exprAllowed = false;
   } else {

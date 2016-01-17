@@ -63,7 +63,7 @@ export default class State {
 
     // Flag for if we're in the deader of a "for" loop, to decidee if `while`
     // is for starting a loop or just to start the `test`
-    this.inForHeader = false;
+    this.inForHeaderInit = false;
 
     // Labels in scope.
     this.labels = [];

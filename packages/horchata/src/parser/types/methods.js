@@ -108,7 +108,7 @@ export function parseFunctionBody(node, functionContext = {}) {
   // TODO: pass this down in the recursive descent in a `scope` argument instead of
   // storing in state.
   let oldInFunc = this.state.inFunction;
-  let oldInForHeader = this.state.inForHeader;
+  let oldinForHeaderInit = this.state.inForHeaderInit;
   let oldInGen = this.state.inGenerator;
   let oldLabels = this.state.labels;
   this.state.inFunction = true;
@@ -119,7 +119,7 @@ export function parseFunctionBody(node, functionContext = {}) {
   node.expression = false;
 
   this.state.inFunction = oldInFunc;
-  this.state.inForHeader = oldInForHeader;
+  this.state.inForHeaderInit = oldinForHeaderInit;
   this.state.inGenerator = oldInGen;
   this.state.labels = oldLabels;
 
