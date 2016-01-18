@@ -187,7 +187,7 @@ export default class Lexer {
   readTokenInBlockStatementHeader(code) {
     if (!this.state.eol && isNewline(code) && this.state.exprAllowed) {
       if (this.hasIndentationChanged(code, 2)) {
-        if (this.state.nextIndentation)
+        // if (this.state.nextIndentation)
       }
     }
   }
@@ -236,7 +236,7 @@ export default class Lexer {
       } else if (!(significantWhitespace && (chIsNewline = isNewline(ch)) && this.state.cur.type !== tt.newline) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
-            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)) && ch !== 8232 && ch !== 8233)) {
+            ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)))) {
         // skip non-significant whitespace
         ++this.state.pos;
         if (chIsNewline) {
