@@ -120,8 +120,7 @@ export default class TacoBuffer {
    * Tokenization
    */
 
-  newline(force, trim) {
-    if (trim && this.isLastType(tt.doublesemi)) this._pop();
+  newline(force) {
     if (force || !this.lastTokenIsNewline()) this._push({type: tt.newline});
   }
 
@@ -135,10 +134,7 @@ export default class TacoBuffer {
   }
 
   startBlock() {
-    if (!this.format.preserveLines) {
-      this.newline();
-    }
-    // Otherwise, catchUp will insert newlines where needed.
+    this.newline();
   }
 
   indent() {

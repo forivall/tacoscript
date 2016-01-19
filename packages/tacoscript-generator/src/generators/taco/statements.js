@@ -126,7 +126,6 @@ export function SwitchStatement(node) {
 }
 
 export function _switchCase(node) {
-  this.newline(false, true);
   if (node.test) {
     this.keyword("case");
     this.print(node, "test");
