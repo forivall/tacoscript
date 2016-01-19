@@ -217,17 +217,11 @@ export default class TacoBuffer {
       return;
     }
 
-    if (state.type === tt.doublesemi || state.type === tt.newline) {
-      this._deferredNewline = false;
-    }
-
     if (state.type === tt.newline) {
       this.curLine++;
       this._insertIndentTokens();
     } else if (this.lastTokenIsNewline()) {
       this.tokens.push(new Token(tt.tab, this._indent));
-    } else if (this._deferredNewline) {
-      this._push({type: tt.newline});
     }
 
     if (state.type === tt.blockCommentBody) {

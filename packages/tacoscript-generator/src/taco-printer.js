@@ -272,7 +272,8 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       //   if (parent.type === "ObjectPattern" && traversal.inLoopHead(parent)) useNewlines = false;
       // TODO: always use newlines if the literal contains a function
       opts.separator = useNewlines ? {type: "newline"} : ",";
-      opts.indent = useNewlines || this.format.preserveLines && willCatchUpBetween(nodes);
+
+      opts.indent = useNewlines || this.format.preserveLines && willCatchUpBetween(nodes, parent);
       opts.omitSeparatorIfNewline = true;
       if (useNewlines) this.newline();
       this.printInnerComments(parent);
@@ -422,15 +423,30 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   }
 }
 
-export function willCatchUpBetween(nodes) {
-  let prevNode = nodes[0];
+export function willCatchUpBetween(nodes, parent) {
+  let prevNode = nodes[0], first = true;
   for (let i = 1, len = nodes.length, nextNode;
-    nextNode = nodes[i], i < len; i++) {
+      nextNode = nodes[i], i < len; i++) {
+    if (prevNode && first) {
+      first = false;
+      if (willCatchUpLeading(parent, prevNode)) return true;
+    }
     if (nextNode) {
       if (prevNode != null && prevNode.loc.end.line < nextNode.loc.start.line) return true;
       prevNode = nextNode
     }
   }
+  if (willCatchUpTrailing(parent, prevNode)) return true;
+  return false;
+}
+
+export function willCatchUpLeading(node, firstChild) {
+  if (firstChild == null) return false;
+  return node.loc.start.line < firstChild.loc.start.line;
+}
+export function willCatchUpTrailing(node, lastChild) {
+  if (lastChild == null) return false;
+  return lastChild.loc.end.line < node.loc.end.line;
 }
 
 export function isEmpty(nodes) {
