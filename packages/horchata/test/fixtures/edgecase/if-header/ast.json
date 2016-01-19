@@ -1,0 +1,82 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "IfStatement",
+        "test": {
+          "type": "LogicalExpression",
+          "left": {
+            "type": "BinaryExpression",
+            "left": {
+              "type": "Identifier",
+              "name": "a",
+              "extra": {
+                "raw": "a"
+              }
+            },
+            "operator": "===",
+            "right": {
+              "type": "Identifier",
+              "name": "b",
+              "extra": {
+                "raw": "b"
+              }
+            }
+          },
+          "operator": "||",
+          "right": {
+            "type": "BinaryExpression",
+            "left": {
+              "type": "Identifier",
+              "name": "b",
+              "extra": {
+                "raw": "b"
+              }
+            },
+            "operator": "===",
+            "right": {
+              "type": "Identifier",
+              "name": "c",
+              "extra": {
+                "raw": "c"
+              }
+            }
+          }
+        },
+        "consequent": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "callback",
+                  "extra": {
+                    "raw": "callback"
+                  }
+                },
+                "arguments": []
+              }
+            }
+          ]
+        },
+        "alternate": null
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
