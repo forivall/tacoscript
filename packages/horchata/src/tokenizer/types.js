@@ -19,9 +19,10 @@
 // be followed by an expression (thus, a slash after them would be a
 // regular expression). See [`context.js`](./context.js).
 //
-// In TacoScript, the `beforeExpr` property is also used to disambiguate
-// whether or not an indentation is allowed to continue an expression,
-// which is required during lexing in statement headers like `if` and `while`.
+// The `continuesExpr` property is also used to disambiguate
+// whether or not a newline must be escaped to continue an expression,
+// and if extended indentation is required to continue an expression
+// in statement headers like `if` and `while`.
 //
 // The `startsExpr` property is used to indicate when a token starts
 // any type of expression statement. See [`context.js`](./context.js).
@@ -30,8 +31,9 @@
 // to know when parsing a label, in order to allow or disallow
 // continue jumps to that label.
 //
-// `continuesExpression` marks a token that, if it is the last token before
-// a newline, the expression will continue
+// `continuesPreviousLine` marks a token that, if it is the first token in a
+// new line, preceding newlines and indents are ignored (indents still must
+// be consistent)
 
 export class TokenType {
   constructor(label, alias, conf = {}) {
@@ -45,10 +47,10 @@ export class TokenType {
 
     // parsing
     this.beforeExpr = !!conf.beforeExpr;
+    this.continuesExpr = !!conf.continuesExpr;
     this.startsExpr = !!conf.startsExpr;
     this.startsStmt = !!conf.startsStmt;
     this.startsArguments = !!conf.startsArguments;
-    this.continuesExpression = !!conf.continuesExpression;
     this.continuesPreviousLine = !!conf.continuesPreviousLine;
     // operator precedence parsing
     this.rightAssociative = !!conf.rightAssociative;
@@ -71,7 +73,7 @@ export class TokenType {
 }
 
 function binop(name, prec) {
-  return new TokenType(name, "Punctuator", {beforeExpr: true, binop: prec});
+  return new TokenType(name, "Punctuator", {beforeExpr: true, continuesExpr: true, binop: prec});
 }
 function punctuator(name, conf) {
   return new TokenType(name, "Punctuator", conf)
@@ -124,13 +126,13 @@ export const types = {
   parenL:       punctuator("(",  {beforeExpr: true, startsExpr: true}),
   parenR:       punctuator(")"),
   comma:        punctuator(",",   beforeExpr),
-  semi:         punctuator(";",   beforeExpr), // double semicolons are used like single semicolons.
+  semi:         punctuator(";",   {beforeExpr: true, continuesExpr: true}), // double semicolons are used like single semicolons.
   doublesemi:   punctuator(";;",   beforeExpr), // single semicolons are used for sequence expressions in tacoscript
-  colon:        punctuator(":",   beforeExpr),
-  doubleColon:  punctuator("::",  beforeExpr),
+  colon:        punctuator(":",   {beforeExpr: true, continuesExpr: true}),
+  doubleColon:  punctuator("::",  {beforeExpr: true, continuesExpr: true}),
   dot:          punctuator(".", continuesPreviousLine),
   // TODO: eventually use ? as a null coalescing operator, like c#
-  question:     punctuator("?",   beforeExpr), // only used by flow
+  question:     punctuator("?",   {beforeExpr: true, continuesExpr: true}), // only used by flow
   soak:         punctuator("?.", continuesPreviousLine),
   soakBracketL: punctuator("?[", continuesPreviousLine),
   // also includes =>>, ->, ->>, +>, +>>, +=>, +=>>
@@ -139,10 +141,10 @@ export const types = {
 
   template:     new TokenType("template", "Template"),
   backQuote:    punctuator("`",   startsExpr),
-  dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true}),
+  dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true, continuesExpr: true}),
   at:           punctuator("@"),
   excl:         punctuator("!",  {postfix: true, startsArguments: true}),
-  backslash:    punctuator("\\", {continuesExpression: true}),
+  backslash:    punctuator("\\", {continuesExpr: true}),
 
   // Operators. These carry several kinds of properties to help the
   // parser use them properly (the presence of these properties is
@@ -158,35 +160,34 @@ export const types = {
   // binary operators with a very low precedence, that should result
   // in AssignmentExpression nodes.
 
-  eq:         punctuator("=", {beforeExpr: true, isAssign: true}),
-  assign:     punctuator("_=", {beforeExpr: true, isAssign: true}),
+  eq:         punctuator("=", {beforeExpr: true, continuesExpr: true, isAssign: true}),
+  assign:     punctuator("_=", {beforeExpr: true, continuesExpr: true, isAssign: true}),
   incDec:     punctuator("++/--", {prefix: true, postfix: true, startsExpr: true}),
-  bitwiseNOT: punctuator("~", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix"}),
-  _not:               kw("not", {beforeExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", estreeValue: "!"}),
-  _or:                kw("or", {binop: 1, binopExpressionName: "LogicalExpression", babylonName: "logicalOR", estreeValue: "||"}),
-  _and:               kw("and", {binop: 2, binopExpressionName: "LogicalExpression", babylonName: "logicalAND", estreeValue: "&&"}),
+  bitwiseNOT: punctuator("~", {beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true, babylonName: "prefix"}),
+  _not:               kw("not", {beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true, babylonName: "prefix", estreeValue: "!"}),
+  _or:                kw("or", {binop: 1, beforeExpr: true, continuesExpr: true, binopExpressionName: "LogicalExpression", babylonName: "logicalOR", estreeValue: "||"}),
+  _and:               kw("and", {binop: 2, beforeExpr: true, continuesExpr: true, binopExpressionName: "LogicalExpression", babylonName: "logicalAND", estreeValue: "&&"}),
   bitwiseOR:       binop("|", 3),
   bitwiseXOR:      binop("^", 4),
   bitwiseAND:      binop("&", 5),
   // Either form of equality (is/isnt/like/unlike or ===/!==/==/!=) are parsable,
   // but one or the other is always generated. is/isnt/like/unlike is the default.
   // TODO: throw an error when mixing types.
-  _is:                kw("is", {binop: 6, babylonName: "equality", estreeValue: "==="}),
-  // possible alternative: notis, however, discussion on frappe agrees that isnt is fine.
-  _isnt:              kw("isnt", {binop: 6, babylonName: "equality", estreeValue: "!=="}),
-  _like:              kw("like", {binop: 6, babylonName: "equality", estreeValue: "=="}),
-  _unlike:            kw("unlike", {binop: 6, babylonName: "equality", estreeValue: "!="}),
+  _is:                kw("is", {binop: 6, beforeExpr: true, continuesExpr: true, babylonName: "equality", estreeValue: "==="}),
+  _isnt:              kw("isnt", {binop: 6, beforeExpr: true, continuesExpr: true, babylonName: "equality", estreeValue: "!=="}),
+  _like:              kw("like", {binop: 6, beforeExpr: true, continuesExpr: true, babylonName: "equality", estreeValue: "=="}),
+  _unlike:            kw("unlike", {binop: 6, beforeExpr: true, continuesExpr: true, babylonName: "equality", estreeValue: "!="}),
   equality:        binop("==", 6),
   relational:      binop("</>", 7),
-  _in:                kw("in", {beforeExpr: true, binop: 7}),
-  _instanceof:        kw("instanceof", {beforeExpr: true, binop: 7}),
+  _in:                kw("in", {binop: 7, beforeExpr: true, continuesExpr: true}),
+  _instanceof:        kw("instanceof", {binop: 7, beforeExpr: true, continuesExpr: true}),
   bitShift:        binop("<</>>", 8),
-  plusMin:    punctuator("+/-", {beforeExpr: true, binop: 9, prefix: true, startsExpr: true}),
+  plusMin:    punctuator("+/-", {binop: 9, beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true}),
   modulo:          binop("%", 10),
   positiveModulo:  binop("%%", 10), // See lydell/frappe '"useful" modulo'
   star:            binop("*", 10),
   slash:           binop("/", 10),
-  exponent:   punctuator("**", {beforeExpr: true, binop: 11, rightAssociative: true}),
+  exponent:   punctuator("**", {binop: 11, beforeExpr: true, continuesExpr: true, rightAssociative: true}),
 };
 
 kw = function kw(name, options = {}, alias = "Keyword") {
@@ -196,9 +197,9 @@ kw = function kw(name, options = {}, alias = "Keyword") {
   types["_" + name] = keywords[name] = type;
 }
 
-kw("typeof", {beforeExpr: true, prefix: true, startsExpr: true});
-kw("void", {beforeExpr: true, prefix: true, startsExpr: true});
-kw("delete", {beforeExpr: true, prefix: true, startsExpr: true});
+kw("typeof", {beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true});
+kw("void", {beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true});
+kw("delete", {beforeExpr: true, continuesExpr: true, prefix: true, startsExpr: true});
 // declarations
 kw("var", startsStmt);
 kw("let", startsStmt);
@@ -206,17 +207,17 @@ kw("const", startsStmt);
 kw("extern", startsStmt);
 kw("function", startsStmt); // startsExpr // in tacoscript, function is only used as a declaration
 // control flow
-kw("then", {beforeExpr: true, startsExpr: true});
-kw("if", {beforeExpr: true, startsExpr: true});
+kw("then", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("if", {beforeExpr: true, continuesExpr: true, startsExpr: true});
 kw("else", {beforeExpr: true, startsExpr: true});
-kw("switch", {beforeExpr: true, startsExpr: true});
+kw("switch", {beforeExpr: true, continuesExpr: true, startsExpr: true});
 kw("case", beforeExpr);
 kw("default", beforeExpr);
 // iteration
 kw("for", loopHeader);
-kw("update", {beforeExpr: true, startsExpr: true});
-kw("upto", {beforeExpr: true, startsExpr: true});
-kw("downto", {beforeExpr: true, startsExpr: true});
+kw("update", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("upto", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("downto", {beforeExpr: true, continuesExpr: true, startsExpr: true});
 kw("while", loopHeader);
 kw("do", loopHeader);
 kw("continue", startsStmt);
@@ -229,25 +230,25 @@ kw("try", startsStmt);
 kw("catch");
 kw("finally");
 // blocks
-kw("with", {beforeExpr: true, startsStmt: true});
+kw("with", {beforeExpr: true, continuesExpr: true, startsStmt: true});
 // expression modifiers
-kw("new", {beforeExpr: true, startsExpr: true});
-kw("yield", {beforeExpr: true, startsExpr: true});
-kw("await", {beforeExpr: true, startsExpr: true});
+kw("new", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("yield", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("await", {beforeExpr: true, continuesExpr: true, startsExpr: true});
 // classes
-kw("static");
+kw("static", {continuesExpr: true});
 kw("class", startsStmt);
 kw("extends", beforeExpr);
 kw("private");
 kw("protected");
 kw("public");
-kw("get");
-kw("set");
+kw("get", {continuesExpr: true});
+kw("set", {continuesExpr: true});
 // modules
-kw("export");
-kw("import");
-kw("from");
-kw("as"); // NOTE: not included in es2016 keywords
+kw("export", {continuesExpr: true});
+kw("import", {continuesExpr: true});
+kw("from", {continuesExpr: true});
+kw("as", {continuesExpr: true}); // NOTE: not included in es2016 keywords
 // special types
 kw("null", startsExpr, "NullLiteral");
 kw("true", startsExpr, "BooleanLiteral");

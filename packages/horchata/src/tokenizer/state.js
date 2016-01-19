@@ -77,10 +77,6 @@ export default class State {
     this.context = this.initialContext();
     this.exprAllowed = true;
 
-    // Flag to see if we are inside a grouping operator `()` (but not function arguments)
-    // or inside a computed subscript `[]` (but not an array expression)
-    this.significantWhitespaceContext = [true];
-
     // used to communicate to children in the recursive descent if statements
     // are allowed in the given context
     // TODO: replace with a stack

@@ -29,6 +29,19 @@ lp.skipIndentation = function skipIndentation() {
 
 // TODO: skip comments
 
+// TODO: add an option for a "base level" of indent if we're in a
+// "continuesExpr", and indent has changed, and we haven't detected indent
+// yet, we just store the new indent level as the base level, and then, if
+// there is a further indent, store that as the indent pattern we'll use, or
+// if there's a decrease in indent, store the difference from the previous
+// base level indent (since base level indent can be a stack) as the indent
+// pattern.
+//
+// I'll also need to add a function to store the base level when there's a
+// newline after a continuesExpr
+//
+// This ^ will also be used for literate mode.
+
 // IF YOU ARE READING THIS, FEEL FREE TO SUBMIT A PULL REQUEST TO CLEAN THIS UP
 lp.hasIndentationChanged = function hasIndentationChanged(newlineCode, expectedLevels = 1) {
   this.state.eol = true;

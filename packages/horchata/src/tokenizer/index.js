@@ -84,7 +84,7 @@ export default class Lexer {
   //    and then when context changes, the lookahead is rebuilt
   // TODO: add dynamic lookahead, like how babylon does it.
   next() {
-    this.onToken(Token.fromState(this.state.cur));
+    this.finishToken(Token.fromState(this.state.cur));
 
     this.state.prev = {...this.state.cur};
     if (!this.isLookahead) this.state.cur.index = this.state.tokens.length;
@@ -1016,17 +1016,15 @@ export default class Lexer {
 
   ////////////// Token Storage //////////////
 
-  onToken(token) {
-    if (this.isLookahead) return;
-    this.state.tokens.push(token);
-    this.onSourceElementToken(token);
+  finishToken(token) {
+    this.finishSourceElementToken(token);
   }
 
-  onNonToken(token) {
-    this.onSourceElementToken(token);
+  finishNonToken(token) {
+    this.finishSourceElementToken(token);
   }
 
-  onSourceElementToken(token) {
+  finishSourceElementToken(token) {
     if (this.isLookahead) return;
     this.state.sourceElementTokens.push(token);
   }
