@@ -126,11 +126,7 @@ export default class TacoBuffer {
 
 
   lineTerminator() {
-    if (this.format.preserveLines) {
-      this._deferredNewline = true;
-    } else {
-      this.newline();
-    }
+    this.newline();
   }
 
   startBlock() {

@@ -61,9 +61,6 @@ export let ForOfStatement = buildForXStatement("of");
 export function DoWhileStatement(node) {
   this.push("do");
   this.printBlock(node);
-  if (this.format.preserveLines && this.curLine >= node.test.loc.end.line && !this.lastTokenIsNewline()) {
-    this.push(";;");
-  }
   this.keyword("while");
   this.print(node, "test");
   this.lineTerminator();
@@ -137,7 +134,6 @@ export function _switchCase(node) {
 export function SwitchCase(node) {
   this._switchCase(node);
   if (node.consequent.length) {
-    // TODO: don't assume an indented block
     this.newline();
     this.printStatements(node, "consequent", { indent: true });
   }
@@ -179,7 +175,6 @@ export function VariableDeclaration(node, parent) {
   } else {
     let useNewlines = !this.format.compact && hasInits && node.declarations.length > 1;
     let sep = useNewlines ? {type: "newline"} : ",";
-    // TODO: perserveLines
     if (useNewlines) this.newline();
     this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
     if (!isLoopHead) this.newline();

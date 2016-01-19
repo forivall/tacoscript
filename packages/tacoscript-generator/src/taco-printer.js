@@ -73,12 +73,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   _simpleStartPrint(node, parent, opts) {
     this.printLeadingComments(node, parent);
 
-    if (this.format.preserveLines) {
-      this.catchUp(node, parent);
-      if (this._deferredNewline) {
-        this._push({type: tt.doublesemi});
-      }
-    }
+    if (this.format.preserveLines) this.catchUp(node, parent);
 
     if (opts.before) opts.before();
 
