@@ -86,6 +86,8 @@ export default class State {
 
     // All tokens parsed, will be attached to the file node at the end of parsing
     this.tokens = [];
+    // currently processed token. allows re-use of lookahead
+    this.index = 0;
     // All tokens and non-tokens parsed
     this.sourceElementTokens = [];
 

@@ -84,6 +84,7 @@ export default class Lexer {
   //    and then when context changes, the lookahead is rebuilt
   // TODO: add dynamic lookahead, like how babylon does it.
   next() {
+    this.state.index++;
     this.finishToken(Token.fromState(this.state.cur));
 
     this.state.prev = {...this.state.cur};
