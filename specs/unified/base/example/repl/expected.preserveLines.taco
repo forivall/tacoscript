@@ -5,10 +5,10 @@
  *#
 
 var tips = [
-  "Click on any AST node with a '+' to expand it",
+  "Click on any AST node with a '+' to expand it"
 
   "Hovering over a node highlights the \
-   corresponding part in the source code",
+   corresponding part in the source code"
 
   "Shift click on an AST node expands the whole substree"
 ]
