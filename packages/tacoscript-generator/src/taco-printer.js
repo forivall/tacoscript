@@ -304,13 +304,19 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     // BlockStatement should only be printed with the generator when it is not
     // the body of a statement (such as if, etc.)
     if (t.isBlock(node)) {
-      this.indent();
-      if (!this.format.preserveLines || !(isEmpty(node.directives) && isEmpty(node.body))) this.newline();
-      this._startPrint(parent, prop, opts);
-      this.printStatements(node, 'directives', opts);
-      this.printStatements(node, 'body', opts);
-      this._finishPrint(node, parent, opts);
-      this.dedent();
+      if (t.isDoWhileStatement(parent) && isEmpty(node.directives) && isEmpty(node.body)) {
+        this._startPrint(parent, prop, opts);
+        this.push(';;')
+        this._finishPrint(node, parent, opts);
+      } else {
+        this.indent();
+        this.newline();
+        this._startPrint(parent, prop, opts);
+        this.printStatements(node, 'directives', opts);
+        this.printStatements(node, 'body', opts);
+        this._finishPrint(node, parent, opts);
+        this.dedent();
+      }
     // } else if (t.isEmptyStatement(node)) {
     //   // probably not needed
     //   this.push({type: 'pass', after: [';', '\n']}, parent, prop, opts);

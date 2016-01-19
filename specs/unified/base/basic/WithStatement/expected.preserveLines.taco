@@ -1,5 +1,6 @@
 with foo
-with foo then pass
+with foo
+  pass
 
 with foo
   bar()
