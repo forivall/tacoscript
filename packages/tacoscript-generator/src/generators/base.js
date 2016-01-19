@@ -17,5 +17,5 @@ export function Directive(node) {
 export function DirectiveLiteral(node) {
   // TODO: create adaptor for this
   let raw = node.extra && node.extra.raw || node.raw;
-  this.push({type: "string", value: {value: node.value, raw: raw}});
+  this.push({type: "string", value: {value: node.value, raw: raw, code: raw}});
 }

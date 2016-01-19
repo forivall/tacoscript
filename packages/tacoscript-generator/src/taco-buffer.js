@@ -224,9 +224,7 @@ export default class TacoBuffer {
       this.tokens.push(new Token(tt.tab, this._indent));
     }
 
-    if (state.type === tt.blockCommentBody) {
-      this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
-    } else if (state.type === tt.template) {
+    if (state.type === tt.blockCommentBody || state.type === tt.template || state.type === tt.string) {
       this.curLine += state.value.code.split(ws.lineBreakG).length - 1;
     }
 
