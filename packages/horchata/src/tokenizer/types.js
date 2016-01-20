@@ -34,6 +34,7 @@
 // `continuesPreviousLine` marks a token that, if it is the first token in a
 // new line, preceding newlines and indents are ignored (indents still must
 // be consistent)
+// TODO: add consistent lookahead for continuesPreviousLine.
 
 export class TokenType {
   constructor(label, alias, conf = {}) {
@@ -110,7 +111,7 @@ export const types = {
   indent: new TokenType("indent", "Indent"),
   dedent: new TokenType("dedent", "Dedent"),
   whitespace: new TokenType("whitespace", "WhiteSpace"),
-  newline: new TokenType("newline", "LineTerminator", beforeExpr),
+  newline: new TokenType("newline", "LineTerminator", {beforeExpr: true, continuesExpr: true}),
 
   blockCommentStart: new TokenType("#*", "CommentHead"),
   blockCommentBody: new TokenType("blockcomment", "CommentBody"),
@@ -233,8 +234,8 @@ kw("finally");
 kw("with", {beforeExpr: true, continuesExpr: true, startsStmt: true});
 // expression modifiers
 kw("new", {beforeExpr: true, continuesExpr: true, startsExpr: true});
-kw("yield", {beforeExpr: true, continuesExpr: true, startsExpr: true});
-kw("await", {beforeExpr: true, continuesExpr: true, startsExpr: true});
+kw("yield", {beforeExpr: true, startsExpr: true});
+kw("await", {beforeExpr: true, startsExpr: true});
 // classes
 kw("static", {continuesExpr: true});
 kw("class", startsStmt);

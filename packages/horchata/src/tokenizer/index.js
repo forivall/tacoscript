@@ -226,7 +226,7 @@ export default class Lexer {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
         this.state.curLine++; this.state.lineStart = this.state.pos;
-      } else if (!((chIsNewline = isNewline(ch)) && this.state.cur.type !== tt.newline) &&
+      } else if ((!(chIsNewline = isNewline(ch)) || (this.state.cur && this.state.cur.type.continuesExpr)) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)))) {
