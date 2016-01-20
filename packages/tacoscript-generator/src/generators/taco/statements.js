@@ -1,6 +1,7 @@
 /* @flow */
 
 import * as t from "babel-types";
+import {willCatchUpBetween} from "../../helpers";
 
 export function WithStatement(node) {
   this.keyword("with");
@@ -175,10 +176,15 @@ export function VariableDeclaration(node, parent) {
   if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
     throw new Error("Not Implemented");
   } else {
-    let useNewlines = !this.format.compact && hasInits && node.declarations.length > 1;
-    let sep = useNewlines ? {type: "newline"} : ",";
+    let useNewlines = !this.format.compact && !this.format.preserveLines && hasInits && node.declarations.length > 1;
+
+    let opts = {
+      separator: useNewlines ? {type: "newline"} : ",",
+      indent: useNewlines || this.format.preserveLines && willCatchUpBetween(node.declarations, node),
+      omitSeparatorIfNewline: true
+    };
     if (useNewlines) this.newline();
-    this.printMultiple(node, "declarations", { separator: sep, indent: useNewlines });
+    this.printMultiple(node, "declarations", opts);
     if (!isLoopHead) this.newline();
   }
 }

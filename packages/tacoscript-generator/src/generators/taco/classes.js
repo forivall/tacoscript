@@ -54,6 +54,15 @@ export function ClassBody(node) {
     this.printStatements(node, "body");
   }
   this.dedent();
+
+  if (this.format.preserveLines) {
+    let lastChild;
+    for (let i = node.body.length - 1; i >= 0; i--) if ((lastChild = node.body[i]) != null) break;
+    if (lastChild) {
+      this._catchUp(node.loc.end.line - lastChild.loc.end.line, node);
+      this._prevCatchUp = node;
+    }
+  }
 }
 
 export function ClassProperty(node) {
