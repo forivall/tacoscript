@@ -85,7 +85,7 @@ export default class Lexer {
   // TODO: add dynamic lookahead, like how babylon does it.
   next() {
     this.state.index++;
-    this.finishToken(Token.fromState(this.state.cur));
+    this.endToken(Token.fromState(this.state.cur));
 
     this.state.prev = {...this.state.cur};
     if (!this.isLookahead) this.state.cur.index = this.state.tokens.length;
@@ -206,7 +206,7 @@ export default class Lexer {
   // parse & skip whitespace and comments
   skipNonTokens(end = this.input.length) {
     const storeWhitespace = (start, end, startLoc, endLoc) => {
-      this.finishNonToken(new Token(tt.whitespace, {code: this.input.slice(start, end)}, start, end, startLoc, endLoc, this.state))
+      this.endNonToken(new Token(tt.whitespace, {code: this.input.slice(start, end)}, start, end, startLoc, endLoc, this.state))
     };
     let start = this.state.pos;
     let startLoc = this.state.curPosition();
@@ -286,7 +286,7 @@ export default class Lexer {
     let node = this._startCommentNode(startLoc);
     this.state.pos += startLength;
     let startKind = this.input.slice(start, this.state.pos);
-    this.finishNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind, index: node.index},
+    this.endNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -302,7 +302,7 @@ export default class Lexer {
       commentBody = commentBody.slice(1);
     }
     node.value = commentBody;
-    this.finishNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: commentBody, index: node.index},
+    this.endNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
@@ -316,7 +316,7 @@ export default class Lexer {
     this.state.pos += startLength;
     let commentKind = this.input.slice(start, this.state.pos);
     let meta = blockCommentMeta[commentKind];
-    this.finishNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
+    this.endNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -342,14 +342,14 @@ export default class Lexer {
     if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeSubRe, meta.terminatorSub);
     commentBody = node.value = commentBody.replace(blockCommentJs.terminatorSubRe, blockCommentJs.terminatorEscapeSub);
 
-    this.finishNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
+    this.endNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
     startLoc = this.state.curPosition();
     this.state.pos += 2;
-    this.finishNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos), index: node.index},
+    this.endNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos), index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
 
@@ -1009,15 +1009,17 @@ export default class Lexer {
 
   ////////////// Token Storage //////////////
 
-  finishToken(token) {
-    this.finishSourceElementToken(token);
+  endToken(token) {
+    if (this.isLookahead) return;
+    this.state.tokens.push(token);
+    this.endSourceElementToken(token);
   }
 
-  finishNonToken(token) {
-    this.finishSourceElementToken(token);
+  endNonToken(token) {
+    this.endSourceElementToken(token);
   }
 
-  finishSourceElementToken(token) {
+  endSourceElementToken(token) {
     if (this.isLookahead) return;
     this.state.sourceElementTokens.push(token);
   }
