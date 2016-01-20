@@ -51,7 +51,6 @@ tt.backQuote.code = "`";
 tt.dollarBraceL.code = "${";
 tt.at.code = "@";
 tt.excl.code = "!";
-tt.backslash.code = "\\";
 tt.eq.code = "=";
 tt.bitwiseNOT.code = "~";
 tt.bitwiseOR.code = "|";
