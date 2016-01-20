@@ -202,22 +202,14 @@ export default class Lexer {
     return (code << 10) + next - 0x35fdc00;
   }
 
-  isSignificantWhitespace() {
-    // let curContext = this.curContext();
-    // TODO: move this to the standard contexts
-    // TODO: is also insignificant if current token is `or`, `and`, or other binary non-postfix operators
-    return this.state.significantWhitespaceContext[this.state.significantWhitespaceContext.length - 1];
-  }
-
   // based on acorn's skipSpace
   // parse & skip whitespace and comments
   skipNonTokens(end = this.input.length) {
     const storeWhitespace = (start, end, startLoc, endLoc) => {
-      this.onNonToken(new Token(tt.whitespace, {code: this.input.slice(start, end)}, start, end, startLoc, endLoc, this.state))
+      this.finishNonToken(new Token(tt.whitespace, {code: this.input.slice(start, end)}, start, end, startLoc, endLoc, this.state))
     };
     let start = this.state.pos;
     let startLoc = this.state.curPosition();
-    let significantWhitespace = this.isSignificantWhitespace();
     while (this.state.pos < end) {
       let ch = this.input.charCodeAt(this.state.pos);
       // TODO: see if micro-optimization of order of checking ch is worth it
@@ -234,7 +226,7 @@ export default class Lexer {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
         this.state.curLine++; this.state.lineStart = this.state.pos;
-      } else if (!(significantWhitespace && (chIsNewline = isNewline(ch)) && this.state.cur.type !== tt.newline) &&
+      } else if (!((chIsNewline = isNewline(ch)) && this.state.cur.type !== tt.newline) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)))) {
@@ -294,7 +286,7 @@ export default class Lexer {
     let node = this._startCommentNode(startLoc);
     this.state.pos += startLength;
     let startKind = this.input.slice(start, this.state.pos);
-    this.onNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind, index: node.index},
+    this.finishNonToken(new Token(tt.lineCommentStart, {kind: startKind, code: startKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -310,7 +302,7 @@ export default class Lexer {
       commentBody = commentBody.slice(1);
     }
     node.value = commentBody;
-    this.onNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: commentBody, index: node.index},
+    this.finishNonToken(new Token(tt.lineCommentBody, {kind: startKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
@@ -324,7 +316,7 @@ export default class Lexer {
     this.state.pos += startLength;
     let commentKind = this.input.slice(start, this.state.pos);
     let meta = blockCommentMeta[commentKind];
-    this.onNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
+    this.finishNonToken(new Token(tt.blockCommentStart, {kind: commentKind, code: commentKind, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
@@ -350,14 +342,14 @@ export default class Lexer {
     if (meta.isCanonical) commentBody = commentBody.replace(meta.terminatorEscapeSubRe, meta.terminatorSub);
     commentBody = node.value = commentBody.replace(blockCommentJs.terminatorSubRe, blockCommentJs.terminatorEscapeSub);
 
-    this.onNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
+    this.finishNonToken(new Token(tt.blockCommentBody, {kind: commentKind, code: raw, value: commentBody, index: node.index},
       start, this.state.pos, startLoc, this.state.curPosition(), this.state
     ));
 
     start = this.state.pos;
     startLoc = this.state.curPosition();
     this.state.pos += 2;
-    this.onNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos), index: node.index},
+    this.finishNonToken(new Token(tt.blockCommentEnd, {kind: commentKind, code: this.input.slice(start, this.state.pos), index: node.index},
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
 
