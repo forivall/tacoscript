@@ -397,7 +397,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   _startLocOf(node) {
     // maybe class expressions too.
     // TODO: get this to work
-    if (node.type === "ClassMethod" || node.type === "ObjectMethod"/* || node.type === "ClassDeclaration"*/) {
+    if (
+          node.type === "ClassMethod" ||
+          node.type === "ObjectMethod" ||
+          node.type === "ObjectProperty" ||
+          /* node.type === "ClassDeclaration" || */
+        false) {
       if (node.decorators != null && node.decorators.length > 0) {
         return node.decorators[0].loc.start;
       }

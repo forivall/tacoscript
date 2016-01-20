@@ -45,6 +45,10 @@ export function _method(node, isValue) {
   let value = isValue ? node : node.value;
   let kind  = node.kind;
 
+  if (this.format.preserveLines) {
+    this.catchUp(node.key, node);
+  }
+
   if (kind === "get" || kind === "set") {
     this.push(kind);
   }
