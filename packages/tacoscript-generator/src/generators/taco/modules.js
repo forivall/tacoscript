@@ -83,9 +83,12 @@ function ExportDeclaration(node) {
       if (specifiers.length || (!specifiers.length && !hasSpecial)) {
         this.push("{");
         if (specifiers.length) {
-          this._simplePrintMultiple(specifiers, node, { separator: "," });
+          if (this.format.preserveLines) this.indent();
+          this._simplePrintMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
+          if (this.format.preserveLines) this.dedent();
         }
         if (node.hasTrailingComma) this.push(",");
+        if (this.format.preserveLines && node.source) this.catchUp(node.source, node);
         this.push("}");
       }
     }
@@ -125,8 +128,11 @@ export function ImportDeclaration(node) {
 
       if (specifiers.length) {
         this.push("{");
-        this._simplePrintMultiple(specifiers, node, { separator: "," });
+        if (this.format.preserveLines) this.indent();
+        this._simplePrintMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
+        if (this.format.preserveLines) this.dedent();
         if (node.hasTrailingComma) this.push(",");
+        if (this.format.preserveLines) this.catchUp(node.source, node);
         this.push("}");
       }
 
