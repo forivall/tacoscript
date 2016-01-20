@@ -172,7 +172,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       }
     } : omitSeparatorIfNewline ? () => {
       if (opts.iterator) opts.iterator(node, i);
-      if (i < len - 1 && !this.willCatchUp(nodes[i + 1])) {
+      if (i < len - 1 && !willCatchUpBetween([nodes[i], nodes[i + 1]])) {
         this.push(...separator);
       }
     } : () => {
@@ -280,7 +280,12 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
       this._simplePrintMultiple(nodes, parent, opts);
       if (useNewlines) this.newline();
       else if (this.format.preserveLines) {
-        this._catchUp(parent.loc.end.line, parent);
+        let lastChild;
+        for (let i = nodes.length - 1; i >= 0; i--) if ((lastChild = nodes[i]) != null) break;
+        if (lastChild) {
+          this._catchUp(parent.loc.end.line - lastChild.loc.end.line, parent);
+          this._prevCatchUp = parent;
+        }
       }
     }
   }
@@ -330,8 +335,10 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     }
   }
 
-  printComment(comment) {
+  printComment(comment, node) {
     if (!this.shouldPrintComment(comment)) return;
+
+    if (this.format.preserveLines) this.catchUp(comment, node);
 
     if (comment.ignore) return;
     comment.ignore = true;
@@ -370,7 +377,7 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
   printLeadingComments(node) {
     const comments = this.getComments("leadingComments", node);
 
-    this.printComments(comments);
+    this.printComments(comments, node);
 
     // TOOD: convert to a "catchup" style newline printing
     // print newlines after leading comments
@@ -397,26 +404,30 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     return node.loc.start;
   }
 
-  // willCatchUp(node) ->> node.loc.start.line > @curLine
-  willCatchUp(node) { return !!(node && this._startLocOf(node).line > this.curLine); }
-
   catchUp(node, parent) {
     if (node._noCatchUp) return;
-    return this._catchUp(this._startLocOf(node).line, parent);
+    const lines = this._prevCatchUp == null ? this._startLocOf(node).line
+      : parent === this._prevCatchUp ? this._startLocOf(node).line - this._startLocOf(parent).line
+      : this._startLocOf(node).line - this._prevCatchUp.loc.end.line;
+    // TODO: store a different prevCatchUp for comments
+    this._prevCatchUp = node;
+    return this._catchUp(lines, parent);
   }
 
-  _catchUp(line, parent) {
-    const newlines = line - this.curLine;
+  _catchUp(newlines, parent) {
     if (newlines <= 0) return 0;
     if (
+          // TODO: this will become unnecessary with future parsing udpates -- should remove
           parent && parent.type === "SequenceExpression" ||
         false) {
       // TODO: check other contexts
       // TODO: preserve indentation for escaped newlines
       this.push({type: tt.whitespace, value: {code: repeating("\\\n", newlines)}})
     } else {
+      let first = true;
       for (let i = newlines; i > 0; i--) {
-        this.newline(true);
+        this.newline(!first);
+        first = false;
       }
     }
     return newlines;
@@ -429,14 +440,14 @@ export function willCatchUpBetween(nodes, parent) {
       nextNode = nodes[i], i < len; i++) {
     if (prevNode && first) {
       first = false;
-      if (willCatchUpLeading(parent, prevNode)) return true;
+      if (parent && willCatchUpLeading(parent, prevNode)) return true;
     }
     if (nextNode) {
       if (prevNode != null && prevNode.loc.end.line < nextNode.loc.start.line) return true;
       prevNode = nextNode
     }
   }
-  if (willCatchUpTrailing(parent, prevNode)) return true;
+  if (parent && willCatchUpTrailing(parent, prevNode)) return true;
   return false;
 }
 

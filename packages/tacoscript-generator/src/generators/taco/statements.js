@@ -14,6 +14,7 @@ export function IfStatement(node) {
 
   this.printBlock(node, "consequent");
   if (node.alternate) {
+    if (this.format.preserveLines) this.catchUp(node.alternate, node);
     this.keyword("else");
     this.printBlock(node, "alternate");
   }
@@ -58,9 +59,10 @@ let buildForXStatement = function (op) {
 export let ForInStatement = buildForXStatement("in");
 export let ForOfStatement = buildForXStatement("of");
 
-export function DoWhileStatement(node) {
+export function DoWhileStatement(node, parent) {
   this.push("do");
   this.printBlock(node);
+  if (this.format.preserveLines) this.catchUp(node.test, node);
   this.keyword("while");
   this.print(node, "test");
   this.lineTerminator();

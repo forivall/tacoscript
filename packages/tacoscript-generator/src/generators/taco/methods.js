@@ -66,7 +66,8 @@ export function _method(node, isValue) {
 
 export function FunctionExpression(node, parent) {
 
-  let needsParens = t.isCallExpression(parent) && node === parent.callee; // TODO: better needsParens testing
+  let isCallee = t.isCallExpression(parent) && node === parent.callee; // TODO: better needsParens testing
+  let needsParens = isCallee;
   if (needsParens) this.push("(");
 
   if (node.id) {
@@ -74,7 +75,12 @@ export function FunctionExpression(node, parent) {
     this.print(node, "id");
   }
   this._finishFunction(node, parent);
-  if (needsParens) this.push(")");
+  if (needsParens) {
+    if (this.format.preserveLines && isCallee && parent.arguments[0] != null) {
+      this.catchUp(parent.arguments[0], parent);
+    }
+    this.push(")");
+  }
 }
 
 /**

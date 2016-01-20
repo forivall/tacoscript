@@ -77,6 +77,7 @@ export function Decorator(node) {
 
 export function CallExpression(node) {
   this.print(node, "callee");
+  if (this.format.preserveLines && node.arguments[0]) this.catchUp(node.arguments[0], node);
   this.printArguments(node);
 }
 
