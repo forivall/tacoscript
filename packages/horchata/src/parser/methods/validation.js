@@ -5,7 +5,7 @@
  * See LICENSE for full license text
  */
 
-import {types as tt} from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 import {isIdentifierOrStringLiteral} from "../helpers";
 
 // To be overridden by plugins

@@ -29,7 +29,7 @@
 // [opp]: http://en.wikipedia.org/wiki/Operator-precedence_parser
 // [MDNOP]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 
-import {types as tt} from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 
 // ### Expression parsing
 

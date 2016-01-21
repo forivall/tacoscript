@@ -1,13 +1,13 @@
 
 // Add methods to various prototypes
-import "./tokenizer/context";
-import "./tokenizer/indentation";
-import "./tokenizer/serialization";
+import "./lexer/context";
+import "./lexer/indentation";
+import "./lexer/serialization";
 
 // Export bindings from lexer
-export {TokenType, types as tokTypes, keywords as keywordTypes} from "./tokenizer/types";
-export Lexer, {Token} from "./tokenizer";
-export * as tokComments from "./tokenizer/comments";
+export {TokenType, types as tokTypes, keywords as keywordTypes} from "./lexer/types";
+export Lexer, {Token} from "./lexer";
+export * as tokComments from "./lexer/comments";
 export * as whitespace from "./util/whitespace.js";
 
 // Main API

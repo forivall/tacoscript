@@ -39,7 +39,7 @@ export const reservedWords = {
 
 export const keywords = reservedWords.keywords;
 
-import {keywords as keywordTokens} from "../tokenizer/types";
+import {keywords as keywordTokens} from "../lexer/types";
 
 for (let keyword in keywordTokens) {
   if (keywords.indexOf(keyword) < 0) {

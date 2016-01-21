@@ -1,4 +1,4 @@
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 
 // TODO: move to tokenizer, since this deals with token types and not node parsing. maybe
 

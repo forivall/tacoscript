@@ -9,7 +9,7 @@
 // type so that custom lval patterns can be invented. If someone wants to do
 // that. >_<
 
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 
 export function convertLeftAssign(node, tokType) {
   if (tokType === tt.eq) {

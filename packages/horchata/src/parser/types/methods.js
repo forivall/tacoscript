@@ -5,8 +5,8 @@
  * See LICENSE for full license text
  */
 
-import {types as tt} from "../../tokenizer/types";
-import Token from "../../tokenizer/token";
+import {types as tt} from "../../lexer/types";
+import Token from "../../lexer/token";
 
 // Initialize empty function node.
 

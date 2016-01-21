@@ -1,4 +1,4 @@
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 
 // TODO: comment this
 
@@ -63,7 +63,7 @@ export function parseIndentableList(close, context, inner) {
   return {firstSeparatorStart};
 }
 
-import { getLineInfo } from "../../util/location";
+import {getLineInfo} from "../../util/location";
 
 export function _getLineInfo(pos) {
   return getLineInfo(this.input, pos);

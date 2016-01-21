@@ -5,7 +5,7 @@
  * See LICENSE for full license text
  */
 
-import { types as tt } from "../../tokenizer/types";
+import {types as tt} from "../../lexer/types";
 
 // Atoms for marking loops
 const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"};

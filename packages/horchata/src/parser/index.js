@@ -5,13 +5,13 @@
  * See LICENSE for full license text
  */
 
-import Lexer from "../tokenizer";
+import Lexer from "../lexer";
 import SourceFile from "../file";
 import {getLineInfo} from "../util/location";
 import addCst from "../postprocessors/cst"
 import attachComments from "../postprocessors/comments"
 
-import { types as tt } from "../tokenizer/types";
+import {types as tt} from "../lexer/types";
 
 // Registered plugins
 export const plugins = {};
