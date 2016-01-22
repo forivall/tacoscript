@@ -46,8 +46,9 @@ export default class Parser extends Lexer {
   parse(text, metadata) {
     let file = new SourceFile(text, this.options, metadata);
     this.open(file); // set up tokenizer
-    let program = this.startNode();
     this.nextToken();
+    let program = this.startNode();
+
     // skip past leading newlines
     // TODO: this should be handled in the tokenizer
     //       leading newlines should be treated as normal whitespace
@@ -66,6 +67,32 @@ export default class Parser extends Lexer {
   // TODO: take a vinyl file as input, or vinyl-like file object
   parseFile() {
     throw new Error("Not Implemented");
+  }
+
+  //////// Core Parser methods ////////
+
+  // Check if the next token matches `type`
+  match(type) {
+    return this.state.cur.type === type;
+  }
+
+  // Check if the lookahead token matches `type`
+  matchNext(type) {
+    return this.state.next.type === type;
+  }
+
+  matchPrev(type) {
+    return this.state.prev.type === type;
+  }
+
+  // Predicate that tests whether the next token is of the given
+  // type, and if yes, consumes it as a side effect.
+  eat(type) {
+    if (this.match(type)) {
+      this.next();
+      return true;
+    }
+    return false;
   }
 
   //////// Utility methods ////////

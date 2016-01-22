@@ -33,7 +33,7 @@ export function matchNextTerminator() {
 
 export function eatLineTerminator(options = {}) {
   if (this.matchLineTerminator()) {
-    if (this.state.indentation > 0 || !this.match(tt.eof)) {
+    if (!this.match(tt.eof)) {
       this.next();
     }
     return true;

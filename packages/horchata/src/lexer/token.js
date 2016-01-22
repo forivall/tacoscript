@@ -7,7 +7,7 @@ export default class Token {
     this.value = value;
     this.start = start;
     this.end = end;
-    this.meta = meta || {};
+    this.meta = meta;
     this.loc = new SourceLocation(parent, startLoc, endLoc);
     this.index = -1;
   }

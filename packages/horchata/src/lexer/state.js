@@ -1,4 +1,5 @@
 import {types as tt} from "./types";
+import Token from "./token";
 import {Position} from "../util/location";
 
 export default class State {
@@ -92,8 +93,8 @@ export default class State {
     this.sourceElementTokens = [];
 
     let curPosition = this.curPosition();
-    // Properties of the current token:
-    this.cur = {
+    // Properties of the token that the lexer is currently extracting
+    this.lex = {
       // Its type
       type: tt.eof,
       // For tokens that include more information than their type, the value
@@ -110,12 +111,10 @@ export default class State {
 
       sourceFile: this.sourceFile,
     };
+    this.prevLexType = tt.eof;
 
-    // Position information for the previous token
-    this.prev = {...this.cur};
-
-    // Position information for the next token (single token fixed lookahead)
-    this.next = {...this.cur, type: tt.unknown};
+    // Information for the current token that the parser is analysing
+    this.cur = this.prev = this.next = new Token(tt.eof, null, 0, 0, curPosition, curPosition, this);
 
     // Used to signify information about the start of a potential anonymous
     // function expression

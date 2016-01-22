@@ -34,7 +34,6 @@ export default class Lexer {
   // that are generic, no options that pertain to the source file
   constructor(options = {}) {
     this.options = getOptions(options);
-    this.isLookahead = !!options.isLookahead;
 
     // Construct regexes for reserved words, according to settings
     this.keywordsJs = keywordRegexp([].concat(keywords));
@@ -45,10 +44,6 @@ export default class Lexer {
 
     // These will be populated by `open()`
     this.file = this.input = this.state = null;
-
-    if (!this.isLookahead) {
-      this.lookahead = new Lexer({...options, isLookahead: true});
-    }
   }
 
   raise() {
@@ -66,12 +61,8 @@ export default class Lexer {
   open(file) {
     this.file = file;
     this.input = this.file.input;
-    if (!this.isLookahead) {
-      this.state = new State();
-      this.state.init(this.options, this.file);
-
-      this.lookahead.open(file);
-    }
+    this.state = new State();
+    this.state.init(this.options, this.file);
   }
   close() {
     this.file = this.input = this.state = null;
@@ -79,57 +70,35 @@ export default class Lexer {
 
   // TODO: parse hash bang line as comment
 
-  // Move to the next token
-  // TODO: add a two-token fixed lookahead, assuming as context doesn't change
-  //    and then when context changes, the lookahead is rebuilt
-  // TODO: add dynamic lookahead, like how babylon does it.
+  // Retrieve the next token for the parser
   next() {
     this.state.index++;
-    this.endToken(Token.fromState(this.state.cur));
 
-    this.state.prev = {...this.state.cur};
-    if (!this.isLookahead) this.state.cur.index = this.state.tokens.length;
-
-    this.nextToken();
+    return this.nextToken()
   }
 
-  // Check if the next token matches `type`
-  match(type) {
-    return this.state.cur.type === type;
-  }
-
-  // Check if the lookahead token matches `type`
-  matchNext(type) {
-    return this.state.next.type === type;
-  }
-
-  matchPrev(type) {
-    return this.state.prev.type === type;
-  }
-
-  // Predicate that tests whether the next token is of the given
-  // type, and if yes, consumes it as a side effect.
-  eat(type) {
-    if (this.match(type)) {
-      this.next();
-      return true;
+  nextToken() {
+    if (this.state.tokens.length <= this.state.index) {
+      this.state.prevLexType = this.state.lex.type;
+      this.readNextToken();
     }
-    return false;
-  }
 
-  // Raise an unexpected token error
-  unexpected(pos) {
-    console.error(this.state.cur);
-    this.raise(pos != null ? pos : this.state.cur.start, "Unexpected Token");
+    this.state.prev = this.state.cur;
+    this.state.cur = this.state.tokens[this.state.index];
+    if (this.state.tokens.length > (this.state.index + 1)) {
+      this.state.next = this.state.tokens[this.state.index + 1];
+    } else {
+      this.state.resetNext();
+    }
   }
 
   // Read a single token & update the lexer state
-  nextToken() {
+  readNextToken() {
     if (this.state.nextIndentation !== this.state.indentation) {
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
       } else {
-        if (this.matchPrev(tt.newline)) {
+        if (this.state.prevLexType === tt.newline) {
           return this.finishToken(tt.dedent);
         } else {
           return this.finishToken(tt.newline);
@@ -147,14 +116,19 @@ export default class Lexer {
     }
     this.state.containsOctal = false;
     this.state.octalPosition = null;
-    this.state.cur.start = this.state.pos;
-    if (this.options.locations) this.state.cur.startLoc = this.state.curPosition();
+    this.state.lex.start = this.state.pos;
+    if (this.options.locations) this.state.lex.startLoc = this.state.curPosition();
+
     if (this.state.pos >= this.input.length) {
       if (this.state.indentation > 0) {
         this.state.nextIndentation = 0;
         return this.finishToken(tt.newline);
       }
-      return this.finishToken(tt.eof);
+      if (this.state.lex.type !== tt.eof) {
+        return this.finishToken(tt.eof);
+      } else {
+        return;
+      }
     }
 
     if (curContext.override) return curContext.override(this);
@@ -163,8 +137,7 @@ export default class Lexer {
 
   readToken(code) {
     if (!this.state.eol && isNewline(code)) {
-      // check for indentation change in the next line, if the next char is a newline.
-      // this takes some annoying amount of lookahead, but we can optimise that later. If needed.
+      // lookahead to check for indentation change in the next line, if the next char is a newline
       if (this.hasIndentationChanged(code)) {
         if (this.state.nextIndentation > this.state.indentation) {
           return this.finishToken(tt.indent);
@@ -185,17 +158,9 @@ export default class Lexer {
     return this.getTokenFromCode(code);
   }
 
-  readTokenInBlockStatementHeader(code) {
-    if (!this.state.eol && isNewline(code) && this.state.exprAllowed) {
-      if (this.hasIndentationChanged(code, 2)) {
-        // if (this.state.nextIndentation)
-      }
-    }
-  }
-
   fullCharCodeAtPos() {
     let code = this.input.charCodeAt(this.state.pos);
-    if (code <= 0xd7ff || code > 0xe000) return code; //single char code
+    if (code <= 0xd7ff || code > 0xe000) return code; // single char code
 
     let next = this.input.charCodeAt(this.state.pos + 1);
     // TODO: figure out how this magic is and document it. from acorn.
@@ -226,7 +191,7 @@ export default class Lexer {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
         this.state.curLine++; this.state.lineStart = this.state.pos;
-      } else if ((!(chIsNewline = isNewline(ch)) || (this.state.cur && this.state.cur.type.continuesExpr)) &&
+      } else if ((!(chIsNewline = isNewline(ch)) || (this.state.lex && this.state.lex.type.continuesExpr)) &&
           // skip
           (ch === 32 || ch === 160 || ch > 8 && ch < 14 ||
             ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch)))) {
@@ -394,48 +359,46 @@ export default class Lexer {
 
   // Called at the end of each token. Sets type, val, end, endLoc.
   finishToken(type, val = type.label) {
-    let cur = this.state.cur;
-    let prevType = cur.type;
-    cur.type = type;
-    cur.value = val; // or read value from pos - 1
-    cur.end = this.state.pos;
-    cur.endLoc = this.state.curPosition();
-    // when spread destructuring is optimised in babel
-    // cur = {...cur, type, val, end: this.state.pos, endLoc: this.state.curPosition()};
+    let lex = this.state.lex;
+    let prevType = lex.type;
+    lex.type = type;
+    lex.value = val; // or read value from pos - 1
+    lex.end = this.state.pos;
+    lex.endLoc = this.state.curPosition();
+    lex.index = this.state.tokens.length;
 
-    // TODO: add option to disable this
-    this.state.cur.meta = {};
+    // TODO: add option to preserve meta when advancing lex state
+    this.state.lex.meta = {};
 
     this.updateContext(type, prevType);
 
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
 
-    if (!this.isLookahead && (
+    if ((
           type === tt.star && prevType === tt.parenR ||
           type === tt._get ||
           type === tt._set ||
           false)
         ) {
-      this._doLookahead();
-    } else {
-      this.state.resetNext();
+      this.ensureLookahead();
     }
+
+    this.endToken(Token.fromState(this.state.lex))
 
     return true;
   }
 
-  ensureLookahead() {
-    if (this.state.next.type === tt.unknown) {
-      this._doLookahead();
+  ensureLookahead(count = 1) {
+    const needed = (this.state.index + count) - (this.state.tokens.length - 1);
+    if (needed > 0) {
+      this._doLookahead(needed);
     }
     return true;
   }
 
-  _doLookahead() {
-    this.lookahead.state = this.state.clone();
-    this.lookahead.next();
-    this.state.next = this.lookahead.state.cur;
+  _doLookahead(count) {
+    console.warn('TODO: reimplement lookahead')
   }
 
   finishArrow(len = 2) {
@@ -633,7 +596,7 @@ export default class Lexer {
   readRadixNumber(radix) {
     this.state.pos += 2; // 0x
     let val = this.readNumber_int(radix);
-    if (val == null) this.raise(this.state.cur.start + 2, "Expected number in radix " + radix);
+    if (val == null) this.raise(this.state.lex.start + 2, "Expected number in radix " + radix);
     if (isIdentifierStart(this.fullCharCodeAtPos())) this.raise(this.state.pos, "Identifier directly after number");
     return this.finishToken(tt.num, val);
   }
@@ -696,7 +659,7 @@ export default class Lexer {
     let out = "";
     let chunkStart = ++this.state.pos;
     for (;;) {
-      if (this.state.pos >= this.input.length) this.raise(this.state.cur.start, "Unterminated string constant");
+      if (this.state.pos >= this.input.length) this.raise(this.state.lex.start, "Unterminated string constant");
       let ch = this.input.charCodeAt(this.state.pos);
       if (ch === quoteChar) break;
       if (ch === 92) { // '\'
@@ -704,7 +667,7 @@ export default class Lexer {
         out += this.readEscapedChar(false);
         chunkStart = this.state.pos;
       } else {
-        if (isNewline(ch)) this.raise(this.state.cur.start, "Unterminated string constant");
+        if (isNewline(ch)) this.raise(this.state.lex.start, "Unterminated string constant");
         ++this.state.pos;
       }
     }
@@ -774,7 +737,7 @@ export default class Lexer {
       // `<!--`, an XML-style comment that should be interpreted as a line comment
       this.skipLineComment(4);
       this.skipNonTokens();
-      return this.nextToken();
+      return this.readNextToken();
     }
 
     if (next === 61) {
@@ -793,7 +756,7 @@ export default class Lexer {
         // A `-->` line comment
         this.skipLineComment(3);
         this.skipNonTokens();
-        return this.nextToken();
+        return this.readNextToken();
       }
       this.state.pos += 2;
       return this.finishToken(tt.incDec, next === 45 ? '--' : '++');
@@ -854,7 +817,7 @@ export default class Lexer {
       //   }
       }
     }
-    return this.finishToken(type, type === tt.name ? {value: word, raw: this.input.slice(this.state.cur.start, this.state.pos)} : word);
+    return this.finishToken(type, type === tt.name ? {value: word, raw: this.input.slice(this.state.lex.start, this.state.pos)} : word);
   }
 
   // Read an identifier, and return it as a string. Sets `state.containsEsc`
@@ -969,7 +932,7 @@ export default class Lexer {
       if (this.state.pos >= this.input.length) this.raise(this.state.start, "Unterminated template");
       let ch = this.input.charCodeAt(this.state.pos);
       if (ch === 96 || ch === 36 && this.input.charCodeAt(this.state.pos + 1) === 123) { // '``', `${`
-        if (this.state.pos === this.state.cur.start && this.matchPrev(tt.template)) {
+        if (this.state.pos === this.state.lex.start && this.state.prevLexType === tt.template) {
           if (ch === 36) {
             this.state.pos += 2;
             return this.finishToken(tt.dollarBraceL);
@@ -1009,8 +972,9 @@ export default class Lexer {
 
   ////////////// Token Storage //////////////
 
+  // TODO: rename these to "store"
+
   endToken(token) {
-    if (this.isLookahead) return;
     this.state.tokens.push(token);
     this.endSourceElementToken(token);
   }
@@ -1020,7 +984,6 @@ export default class Lexer {
   }
 
   endSourceElementToken(token) {
-    if (this.isLookahead) return;
     this.state.sourceElementTokens.push(token);
   }
 }
