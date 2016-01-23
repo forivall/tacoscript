@@ -93,8 +93,7 @@ export function parseBlockBody(node, blockContext = {}) {
   let oldStrict = this.state.strict;
   let finishedDirectives = false;
   while (!this.eat(end)) {
-    if (allowDirectives && !finishedDirectives && this.match(tt.string) &&
-        this.ensureLookahead() && this.matchNextTerminator(tt.newline)) {
+    if (allowDirectives && !finishedDirectives && this.match(tt.string) && this.matchNextTerminator()) {
       let directive = this.parseDirective();
       if (!oldStrict && directive.value === "use strict") this.state.strict = true;
       this.add(node, "directives", directive);

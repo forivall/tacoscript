@@ -46,8 +46,14 @@ export default class Lexer {
     this.file = this.input = this.state = null;
   }
 
-  raise() {
+  raise(pos, message) {
     throw new Error("Not Implemented");
+  }
+
+  assert(assertion) {
+    if (!assertion) {
+      this.raise(this.state.pos, "Assertion failed");
+    }
   }
 
   hasFeature(featureName) {
@@ -74,13 +80,13 @@ export default class Lexer {
   next() {
     this.state.index++;
 
-    return this.nextToken()
+    return this.nextToken();
   }
 
   nextToken() {
+    let token = null;
     if (this.state.tokens.length <= this.state.index) {
-      this.state.prevLexType = this.state.lex.type;
-      this.readNextToken();
+      token = this.readNextToken();
     }
 
     this.state.prev = this.state.cur;
@@ -90,10 +96,13 @@ export default class Lexer {
     } else {
       this.state.resetNext();
     }
+    return token;
   }
 
   // Read a single token & update the lexer state
   readNextToken() {
+    this.state.prevLexType = this.state.lex.type;
+
     if (this.state.nextIndentation !== this.state.indentation) {
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
@@ -116,8 +125,8 @@ export default class Lexer {
     }
     this.state.containsOctal = false;
     this.state.octalPosition = null;
-    this.state.lex.start = this.state.pos;
-    if (this.options.locations) this.state.lex.startLoc = this.state.curPosition();
+
+    this.startTokenLex();
 
     if (this.state.pos >= this.input.length) {
       if (this.state.indentation > 0) {
@@ -133,6 +142,72 @@ export default class Lexer {
 
     if (curContext.override) return curContext.override(this);
     else return this.readToken(this.fullCharCodeAtPos());
+  }
+
+  // Read n tokens (usually for lookahead)
+  readNextTokens(count) {
+    for (let i = count; i >= 0; i--) {
+      this.readNextToken();
+    }
+  }
+
+  startTokenLex() {
+    this.state.lex.start = this.state.pos;
+    if (this.options.locations) this.state.lex.startLoc = this.state.curPosition();
+  }
+
+  finishTokenLex(type, val) {
+    let lex = this.state.lex;
+    lex.type = type;
+    lex.value = val; // or read value from pos - 1
+    lex.end = this.state.pos;
+    lex.endLoc = this.state.curPosition();
+    lex.index = this.state.tokens.length;
+  }
+
+  // Called at the end of each token. Sets type, val, end, endLoc.
+  finishToken(type, val = type.label) {
+    let prevType = this.state.lex.type;
+    this.finishTokenLex(type, val);
+    this.updateContext(type, prevType);
+
+    if (type === tt.indent) ++this.state.indentation;
+    else if (type === tt.dedent) --this.state.indentation;
+
+    let token = Token.fromState(this.state.lex);
+
+    this.endToken(token);
+
+    // Lookahead to see if the newline should actually be ignored, and ignore it if so
+    if (token.type === tt.newline) {
+      let nextToken = this.readNextToken();
+
+      if (nextToken.type.continuesPreviousLine) {
+        // convert newline token to whitespace, for sourceElementTokens
+        token.type = tt.whitespace;
+        token.value = {code: this.input.slice(token.start, token.end)};
+        // TODO: coalesce sequential whitespace sourceElements
+
+        // remove newline from concrete tokens
+        this.assert(this.state.tokens.pop() === nextToken);
+        this.assert(this.state.tokens.pop() === token);
+        this.state.tokens.push(nextToken);
+        token = nextToken;
+      }
+    }
+
+    return token;
+  }
+
+  ensureLookahead(count = 1) {
+    const needed = (this.state.index + count) - (this.state.tokens.length - 1);
+    if (needed > 0) {
+      this.readNextTokens(needed);
+      if (this.state.next.type === tt.unknown) {
+        this.state.next = this.state.tokens[this.state.index + 1];
+      }
+    }
+    return true;
   }
 
   readToken(code) {
@@ -355,56 +430,6 @@ export default class Lexer {
       lineBreakG.lastIndex = 0; // reset lineBreakG
     }
     return pos;
-  }
-
-  // Called at the end of each token. Sets type, val, end, endLoc.
-  finishToken(type, val = type.label) {
-    let lex = this.state.lex;
-    let prevType = lex.type;
-    lex.type = type;
-    lex.value = val; // or read value from pos - 1
-    lex.end = this.state.pos;
-    lex.endLoc = this.state.curPosition();
-    lex.index = this.state.tokens.length;
-
-    // TODO: add option to preserve meta when advancing lex state
-    this.state.lex.meta = {};
-
-    this.updateContext(type, prevType);
-
-    if (type === tt.indent) ++this.state.indentation;
-    else if (type === tt.dedent) --this.state.indentation;
-
-    const token = Token.fromState(this.state.lex);
-    this.endToken(token);
-
-    if ((
-          type === tt.star && prevType === tt.parenR ||
-          type === tt._get ||
-          type === tt._set ||
-          false)
-        ) {
-      this.ensureLookahead();
-    }
-
-    return true;
-  }
-
-  ensureLookahead(count = 1) {
-    const needed = (this.state.index + count) - (this.state.tokens.length - 1);
-    if (needed > 0) {
-      this._doLookahead(needed);
-    }
-    if (this.state.next.type === tt.unknown) {
-      this.state.next = this.state.tokens[this.state.index + 1];
-    }
-    return true;
-  }
-
-  _doLookahead(count) {
-    for (let i = count; i >= 0; i--) {
-      this.readNextToken();
-    }
   }
 
   finishArrow(len = 2) {

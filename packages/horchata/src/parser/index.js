@@ -78,6 +78,7 @@ export default class Parser extends Lexer {
 
   // Check if the lookahead token matches `type`
   matchNext(type) {
+    this.ensureLookahead();
     return this.state.next.type === type;
   }
 
@@ -131,7 +132,6 @@ export default class Parser extends Lexer {
     err.loc = loc;
     err.raisedAt = this.pos;
     return err;
-
   }
 }
 

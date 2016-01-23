@@ -28,6 +28,7 @@ export function matchPrevTerminator() {
 }
 
 export function matchNextTerminator() {
+  this.ensureLookahead();
   return this.isLineTerminator(this.state.next.type);
 }
 
