@@ -46,8 +46,8 @@ export default class Parser extends Lexer {
   parse(text, metadata) {
     let file = new SourceFile(text, this.options, metadata);
     this.open(file); // set up tokenizer
-    this.nextToken();
     let program = this.startNode();
+    this.nextToken();
 
     // skip past leading newlines
     // TODO: this should be handled in the tokenizer
