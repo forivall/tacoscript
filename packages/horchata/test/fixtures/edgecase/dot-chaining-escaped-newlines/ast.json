@@ -1,0 +1,41 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "CallExpression",
+              "callee": {
+                "type": "Identifier",
+                "name": "$"
+              },
+              "arguments": [
+                {
+                  "type": "StringLiteral",
+                  "extra": {
+                    "raw": "\"#chaining\""
+                  },
+                  "value": "#chaining"
+                }
+              ]
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "remove"
+            },
+            "computed": false
+          },
+          "arguments": []
+        }
+      }
+    ],
+    "directives": []
+  }
+}

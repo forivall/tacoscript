@@ -88,9 +88,9 @@ function removeLocInfo(json) {
 function saveAst(filepath, ast) {
   delete ast.tokens
   delete ast.source
-  devUtils.removeLocInfo(ast)
+  removeLocInfo(ast)
   fs.writeFileSync(filepath, JSON.stringify(ast, null, '  '), 'utf-8')
-  throw new Error("Unverified ast file: " + fixtureAstPath)
+  throw new Error("Unverified ast file: " + filepath)
 }
 
 exports.ppJSON = ppJSON;

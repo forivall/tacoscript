@@ -1,0 +1,3 @@
+try
+  JSON.parse(a)
+catch e then pass

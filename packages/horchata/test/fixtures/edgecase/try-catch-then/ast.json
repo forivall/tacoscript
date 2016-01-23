@@ -1,0 +1,80 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "TryStatement",
+        "block": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "MemberExpression",
+                  "object": {
+                    "type": "Identifier",
+                    "name": "JSON",
+                    "extra": {
+                      "raw": "JSON"
+                    }
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "name": "parse",
+                    "extra": {
+                      "raw": "parse"
+                    }
+                  },
+                  "computed": false
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "a",
+                    "extra": {
+                      "raw": "a"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "handler": {
+          "type": "CatchClause",
+          "param": {
+            "type": "Identifier",
+            "name": "e",
+            "extra": {
+              "raw": "e"
+            }
+          },
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "EmptyStatement"
+              }
+            ]
+          }
+        },
+        "guardedHandlers": [],
+        "finalizer": null
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

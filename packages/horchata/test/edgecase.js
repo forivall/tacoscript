@@ -8,8 +8,9 @@ var _ = require("lodash")
 var chai = require("chai")
 var devUtils = require("../../tacoscript-dev-utils")
 chai.use(devUtils.chaiHelper)
-var expect = chai.expect;
+var expect = chai.expect
 var render = require("tacoscript-cst-utils").render
+var saveAst = devUtils.saveAst
 
 var horchata = require("../lib/index")
 

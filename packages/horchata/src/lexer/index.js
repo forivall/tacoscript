@@ -166,7 +166,8 @@ export default class Lexer {
   }
 
   // Called at the end of each token. Sets type, val, end, endLoc.
-  finishToken(type, val = type.label) {
+  finishToken(type, val) {
+    if (val === undefined) val = type.label;
     let prevType = this.state.lex.type;
     this.finishTokenLex(type, val);
     this.updateContext(type, prevType);

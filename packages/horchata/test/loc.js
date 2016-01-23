@@ -4,12 +4,16 @@ var horchata = require("../lib/index");
 var fs = require("fs");
 var _ = require("lodash");
 var specOptions = require("../../../specs/options");
-var misMatch = require("../../tacoscript-dev-utils").misMatch;
-var mochaFixtures = require("mocha-fixtures-generic");
+var devUtils = require("../../tacoscript-dev-utils");
+var misMatch = devUtils.misMatch;
+var saveAst = devUtils.saveAst;
 
 var GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
 
-var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"), specOptions["unified-loc"]);
+var mochaFixtures = require("mocha-fixtures-generic");
+var specs = mochaFixtures(require("path").resolve(__dirname + "/../../../specs/unified"), specOptions["unified-loc"]);
+// fs.writeFileSync("locSpecs.json", JSON.stringify(coreSpecs));
+// var specs = require("./fixtures/locSpecs.json");
 
 function localDisabled(task, groupName) {
   return (
@@ -23,7 +27,7 @@ function localDisabled(task, groupName) {
   false);
 }
 
-_.forOwn(coreSpecs, function(suites, setName) {
+_.forOwn(specs, function(suites, setName) {
   suites.forEach(function (testSuite) {
     const groupName = setName + "/" + testSuite.title;
     suite("horchata: location tests: unified/" + groupName, function () {

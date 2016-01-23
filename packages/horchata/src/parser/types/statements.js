@@ -126,10 +126,6 @@ export function parseDoExpressionStatement() {
   this.parseStatement(false);
 }
 
-export function parseTopLevelStatement() {
-  this.parseStatement(true, true);
-}
-
 export function parseDecorators() {
   while (this.match(tt.at)) {
     this.state.decorators.push(this.parseDecorator());
