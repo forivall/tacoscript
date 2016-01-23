@@ -1,0 +1,4 @@
+if a and (f = (a, b, c) ->
+  return 1
+)
+  callback()

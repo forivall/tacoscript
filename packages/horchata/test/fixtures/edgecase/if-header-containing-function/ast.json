@@ -1,0 +1,82 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "IfStatement",
+        "alternate": null,
+        "consequent": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "arguments": [],
+                "callee": {
+                  "name": "callback",
+                  "type": "Identifier"
+                }
+              }
+            }
+          ]
+        },
+        "test": {
+          "type": "LogicalExpression",
+          "left": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "operator": "&&",
+          "right": {
+            "type": "AssignmentExpression",
+            "left": {
+              "name": "f",
+              "type": "Identifier"
+            },
+            "operator": "=",
+            "right": {
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "argument": {
+                      "extra": {
+                        "raw": "1"
+                      },
+                      "type": "NumericLiteral",
+                      "value": 1
+                    },
+                    "type": "ReturnStatement"
+                  }
+                ],
+                "directives": []
+              },
+              "expression": false,
+              "generator": false,
+              "id": null,
+              "params": [
+                {
+                  "name": "a",
+                  "type": "Identifier"
+                },
+                {
+                  "name": "b",
+                  "type": "Identifier"
+                },
+                {
+                  "name": "c",
+                  "type": "Identifier"
+                }
+              ],
+              "type": "FunctionExpression"
+            }
+          }
+        }
+      }
+    ],
+    "directives": []
+  }
+}
