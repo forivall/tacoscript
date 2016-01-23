@@ -124,7 +124,7 @@ export default class Lexer {
         this.state.nextIndentation = 0;
         return this.finishToken(tt.newline);
       }
-      if (this.state.lex.type !== tt.eof) {
+      if (this.state.lex.type !== tt.eof || this.state.tokens.length === 0) {
         return this.finishToken(tt.eof);
       } else {
         return;
@@ -375,6 +375,9 @@ export default class Lexer {
     if (type === tt.indent) ++this.state.indentation;
     else if (type === tt.dedent) --this.state.indentation;
 
+    const token = Token.fromState(this.state.lex);
+    this.endToken(token);
+
     if ((
           type === tt.star && prevType === tt.parenR ||
           type === tt._get ||
@@ -384,8 +387,6 @@ export default class Lexer {
       this.ensureLookahead();
     }
 
-    this.endToken(Token.fromState(this.state.lex))
-
     return true;
   }
 
@@ -394,11 +395,16 @@ export default class Lexer {
     if (needed > 0) {
       this._doLookahead(needed);
     }
+    if (this.state.next.type === tt.unknown) {
+      this.state.next = this.state.tokens[this.state.index + 1];
+    }
     return true;
   }
 
   _doLookahead(count) {
-    console.warn('TODO: reimplement lookahead')
+    for (let i = count; i >= 0; i--) {
+      this.readNextToken();
+    }
   }
 
   finishArrow(len = 2) {

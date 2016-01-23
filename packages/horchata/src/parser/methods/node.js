@@ -45,7 +45,7 @@ export function _toChildReferenceToken(token, reference, value) {
     element: token.type.alias,
     start: token.start,
     end: token.end,
-    loc: new SourceLocation(this.state, token.startLoc, token.endLoc),
+    loc: token.loc.clone(),
     extra: {tokenValue: token.value, tokenIndex: token.index, tokenType: token.type.key},
   };
   return element;
@@ -127,7 +127,7 @@ export function add(parent, key, node, options = {}) {
     el.value = token.type.toCode(token, this.state);
     el.start = token.start;
     el.end = token.end;
-    el.loc = new SourceLocation(this.state, token.startLoc, token.endLoc);
+    el.loc = token.loc.clone();
     el.extra = {tokenValue: token.value, tokenIndex: token.index};
   }
   parent._childReferences.push(el);

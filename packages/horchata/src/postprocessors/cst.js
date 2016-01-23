@@ -51,7 +51,7 @@ export class Postprocessor {
           value: (token.end - token.start > 0) ? token.type.toCode(token, this.ast) : "",
           start: token.start,
           end: token.end,
-          loc: new SourceLocation(this.ast, token.startLoc, token.endLoc),
+          loc: token.loc.clone(),
           extra: {tokenValue: token.value, tokenType: token.type.key},
         };
         if (token.index >= 0) tokenJson.extra.tokenIndex = token.index;

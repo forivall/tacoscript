@@ -19,6 +19,10 @@ export class Position {
   offset(n) {
     return new Position(this.line, this.column + n);
   }
+
+  clone() {
+    return this.offset(0);
+  }
 }
 
 export class SourceLocation {
@@ -26,6 +30,10 @@ export class SourceLocation {
     this.start = start;
     this.end = end;
     if (parent.sourceFile !== null) this.source = parent.sourceFile;
+    else if (parent.source !== null) this.source = parent.source;
+  }
+  clone() {
+    return new SourceLocation(this, this.start && this.start.clone(), this.end && this.end.clone());
   }
 }
 
