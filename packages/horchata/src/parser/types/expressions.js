@@ -273,13 +273,13 @@ export function parseExpressionSubscripts(expressionContext) {
 }
 
 export function parseSubscripts(base, start, subscriptContext = {}) {
-  let noCalls = subscriptContext.isNew;
+  let noCall = subscriptContext.noCall;
   let node = base;
   for (;;) {
-    if (!noCalls && this.eat(tt.doubleColon)) {
+    if (!noCall && this.eat(tt.doubleColon)) {
       node = this.startNode(start);
       this.assign(node, "object", base);
-      this.assign(node, "callee", this.parseNonCallExpression());
+      this.assign(node, "callee", this.parseNoCallExpression());
       node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext);
       break;
     } else if (this.eat(tt.dot)) {
@@ -295,13 +295,13 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
       node.computed = true;
       this.eat(tt.bracketR) || this.unexpected();
       base = node = this.finishNode(node, "MemberExpression");
-    } else if (!noCalls && this.eat(tt.parenL)) {
+    } else if (!noCall && this.eat(tt.parenL)) {
       node = this.startNode(start);
       this.assign(node, "callee", base);
       node = this.parseCallExpressionArguments(node, tt.parenR);
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
-    } else if (!noCalls && this.eat(tt.excl)) {
+    } else if (!noCall && this.eat(tt.excl)) {
       node = this.startNode(start);
       this.assign(node, "callee", base);
       node = this.parseCallExpressionArguments(node, null, {exclCall: true});
@@ -424,13 +424,33 @@ export function parseExpressionAtomic(expressionContext) {
     // TODO:
     // case tt._do:
 
+    case tt.doubleColon:
+      node = this.parseBindExpression();
+      break;
+
     default:
       this.unexpected();
   }
   return node;
 }
 
+export function parseNoCallExpression() {
+  let start = {...this.state.cur};
+  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true});
+}
+
 // The remaining functions here are for parsing atomic expressions, alphabetized
+
+export function parseBindExpression() {
+  let node = this.startNode();
+  this.next();
+  node.object = null;
+  let callee = this.assign(node, "callee", this.parseNoCallExpression());
+  if (callee.type !== "MemberExpression") {
+    this.raise(callee.start, "Binding should be performed on object property.");
+  }
+  return this.finishNode(node, "BindExpression");
+}
 
 // New's precedence is slightly tricky. It must allow its argument
 // to be a `[]` or dot subscript expression, but not a call — at
@@ -451,8 +471,7 @@ export function parseNew() {
     this.checkMetaProperty(node);
     node = this.finishNode(node, "MetaProperty");
   } else {
-    let start = {...this.state.cur};
-    this.assign(node, "callee", this.parseSubscripts(this.parseExpressionAtomic(), start, {isNew: true}));
+    this.assign(node, "callee", this.parseNoCallExpression());
     if (this.eat(tt.parenL)) {
       node = this.parseCallExpressionArguments(node, tt.parenR)
     } else if (this.eat(tt.excl)) {
