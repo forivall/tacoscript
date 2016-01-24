@@ -1,5 +1,5 @@
 {
-  "name": "tacoscript-generator",
+  "name": "tacotruck",
   "version": "0.3.1",
   "description": "Generator for tacoscript",
   "main": "lib/index.js",

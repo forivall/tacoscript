@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as t from "babel-types";
-import {willCatchUpBetween} from "../../helpers";
+import {willCatchUpBetween} from "../helpers";
 
 export function WithStatement(node) {
   this.keyword("with");

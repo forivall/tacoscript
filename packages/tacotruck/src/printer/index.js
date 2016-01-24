@@ -7,7 +7,7 @@ import isArray from "lodash/lang/isArray";
 import * as t from "babel-types";
 import repeating from "repeating";
 
-import TacoscriptTokenBuffer from "./taco-buffer";
+import TokenBuffer from "./buffer";
 import {willCatchUpBetween, willCatchUpLeading, willCatchUpTrailing, isEmpty} from "./helpers";
 import {tokTypes as tt, tokComments} from "horchata";
 const
@@ -25,12 +25,23 @@ function canOmitParens(node, parent) {
   false);
 }
 
-export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
+export default class Printer extends TokenBuffer {
   constructor(ast, opts, code) {
     super(opts, code);
     this.ast = ast;
     this.code = code;
     this._printedCommentStarts = {};
+  }
+
+  generate() {
+    this.tokenize();
+    let code = this.stringify();
+
+    return {
+      code: code,
+      tokens: this.tokens,
+      map: this.getMap()
+    }
   }
 
   tokenize() {
@@ -438,19 +449,56 @@ export default class TacoscriptPrinter extends TacoscriptTokenBuffer {
     }
     return newlines;
   }
+
+  getMap() {
+    let map = this.map;
+    return map ? map.toJSON() : map;
+  }
+
+  // Comments printing methods. "borrowed" from babel-generator
+
+  getComments(key, node) {
+    return (node && node[key]) || [];
+  }
+
+  printComments(comments, attachedNode) {
+    if (!comments || !comments.length) return;
+
+    for (let comment of (comments: Array)) {
+      // language-specific printers should implement printComment
+      this.printComment(comment);
+    }
+  }
+
+  printInnerComments(node, indent = true) {
+    if (!node.innerComments) return;
+    if (indent) this.indent();
+    this.printComments(node.innerComments);
+    if (indent) this.dedent();
+  }
+
+  shouldPrintComment(comment) {
+    return true;
+    // if (this.format.shouldPrintComment) {
+    //   return this.format.shouldPrintComment(comment.value);
+    // } else {
+    //   if (comment.value.indexOf("@license") >= 0 || comment.value.indexOf("@preserve") >= 0) {
+    //     return true;
+    //   } else {
+    //     return this.format.comments;
+    //   }
+    // }
+  }
 }
 
-import _printer from "./_printer";
-Object.assign(TacoscriptPrinter.prototype, _printer);
-
-import * as baseGenerators from "./generators/taco/base";
-import * as classesGenerators from "./generators/taco/classes";
-import * as expressionsGenerators from "./generators/taco/expressions";
-import * as literalsGenerators from "./generators/taco/literals";
-import * as methodsGenerators from "./generators/taco/methods";
-import * as modulesGenerators from "./generators/taco/modules";
-import * as statementsGenerators from "./generators/taco/statements";
-import * as templateLiteralsGenerators from "./generators/taco/template-literals";
+import * as baseGenerators from "./types/base";
+import * as classesGenerators from "./types/classes";
+import * as expressionsGenerators from "./types/expressions";
+import * as literalsGenerators from "./types/literals";
+import * as methodsGenerators from "./types/methods";
+import * as modulesGenerators from "./types/modules";
+import * as statementsGenerators from "./types/statements";
+import * as templateLiteralsGenerators from "./types/template-literals";
 for (let generator of [
       baseGenerators,
       classesGenerators,
@@ -461,5 +509,5 @@ for (let generator of [
       statementsGenerators,
       templateLiteralsGenerators,
     ]) {
-  Object.assign(TacoscriptPrinter.prototype, generator);
+  Object.assign(Printer.prototype, generator);
 }

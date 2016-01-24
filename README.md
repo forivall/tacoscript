@@ -38,17 +38,31 @@ Parses TacoScript into an AST/[CST].
     import * as horchata from "horchata"
     ast = horchata.parse(code, options)
 
-### [tacoscript-generator](./packages/tacoscript-generator)
+### [cstify](./packages/cstify)
+
+Adds [CST] `sourceElements` to an existing JavaScript / estree CST.
+
+### [tacotruck](./packages/tacotruck)
+_(Previously `tacoscript-generator`)_
 
 Generates TacoScript code from an estree AST/CST.  
 Will also generate JavaScript code while preserving whitespace.
 
-    import generate from "tacoscript-generator"
+    import generate from "tacotruck"
     code = generate(ast, options, originalSourceCode)
 
-### [cstify](./packages/cstify)
+### [taqueria](./packages/taqueria)
+_(Not Implemented)_
 
-Adds [CST] `sourceElements` to an existing JavaScript / estree CST.
+Converts a JavaScript AST with CST elements to a TacoScript CST, which preserves
+whitespace. Inverse of `deolla`.
+
+### [deolla](./packages/deolla)
+_(Not Implemented)_
+
+Converts a TacoScript AST's CST elements to JavaScript CST elements, which then
+can be output as JavaScript code that preserves the whitespace present in the
+TacoScript code. Inverse of `taqueria`
 
 ### [comal](./packages/comal)
 _(Not Implemented)_
