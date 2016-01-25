@@ -8,9 +8,9 @@ Python, Ruby, and [frappe], and architecture inspired by [Babel].
 
 ## What does it mean that this language is "es2015+-isomorphic"?
 
-TacoScript shares its Abstract Syntax Tree (AST) with JavaScript, via the
-[estree] specification. This means that, for any valid JavaScript code, there is
-an exact, lossless version of that code in TacoScript, and vice versa: For all
+TacoScript shares its Abstract Syntax Tree (AST) with JavaScript, using the same
+format as [Babylon]. This means that, for any valid JavaScript code, there is an
+exact, lossless version of that code in TacoScript, and vice versa: For all
 valid TacoScript code, there is an exact translated representation in
 JavaScript. Currently, whitespace will not always be preserved; eventually,
 whitespace will also be preserved.
@@ -22,7 +22,7 @@ there are both British English and American English: Some people just prefer
 different conventions.
 
 And also to experiment with new syntax that won't or can't be an [ECMAScript]
-proposal.
+proposal. (so [Babel] won't support them).
 
 ## Packages
 
@@ -33,19 +33,20 @@ Command line tools.
 
 ### [horchata](./packages/horchata)
 
-Parses TacoScript into an AST/[CST].
+Parses TacoScript into an AST/[CST]. Uses the same tree format as [Babylon],
+deviating where necessary.
 
     import * as horchata from "horchata"
     ast = horchata.parse(code, options)
 
 ### [cstify](./packages/cstify)
 
-Adds [CST] `sourceElements` to an existing JavaScript / estree CST.
+Adds [CST] `sourceElements` to an existing JavaScript / [Babylon] / estree CST.
 
 ### [tacotruck](./packages/tacotruck)
 _(Previously `tacoscript-generator`)_
 
-Generates TacoScript code from an estree AST/CST.  
+Generates TacoScript code from a [Babylon] AST/CST.  
 Will also generate JavaScript code while preserving whitespace.
 
     import generate from "tacotruck"
@@ -264,6 +265,7 @@ contribute to JavaScript projects by coding in TacoScript, and vice-versa.
 [TacoScript]: http://tacoscript.github.io/
 [frappe]: https://github.com/lydell/frappe
 [Babel]: https://github.com/babel/babel
+[Babylon]: https://github.com/babel/babel/tree/master/packages/babylon
 [estree]: https://github.com/estree/estree
 [ECMAScript]: https://github.com/tc39/ecma262
 [CST]: https://github.com/estree/estree/pull/107

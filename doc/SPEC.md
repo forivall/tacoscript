@@ -4,7 +4,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 
 ## Goals
 
-* The AST follows the estree standard specification.
+* The AST follows babel/babylon's AST specification.
   * Tacoscript can be generated from _any_ javascript.
   * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are decompiled into tacoscript syntax.
     * Untransformed tacoscript can be called "masascript"
