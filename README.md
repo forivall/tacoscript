@@ -78,14 +78,14 @@ _(Not Implemented)_
 Transforms a TacoScript AST so that it can be checked by [ESLint].
 
 ### tacoscript-implicit-return-function
-_(In Progress)_
+_(In Progress, needs generator and transforms)_
 
 AST transformations for implicitly returning functions ("sharp arrows").
 
 ### tacoscript-strudel-this-member
-_(Not Implemented)_
+_(In Progress, needs generator and transforms)_
 
-Parser & Generator plugins and AST transformations for `this.` → [`@`][strudel]
+AST transformations for `this.` → [`@`][strudel]
 shorthand.
 
 ### tacoscript-logical-assign
@@ -148,7 +148,7 @@ Parser & Generator plugins and AST transformations for `not instanceof`, `not
 in` (, `not of`).
 
 ### tacoscript-universal-fat-arrow
-_(Parsing complete, transformations ready to start)_
+_(Parsing complete, generator and transformations ready to start)_
 
 AST transformations and verification for using the fat arrow (`=>`) in any
 function definition situation, for lexical binding of `this` and `arguments`.
