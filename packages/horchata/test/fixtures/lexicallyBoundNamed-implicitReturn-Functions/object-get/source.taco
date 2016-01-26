@@ -1,0 +1,10 @@
+{
+  get foo () =>>
+    return this._foo
+
+  get asyncfoo () +=>>
+
+  get genfoo () *=>>
+
+  get asyncgenfoo () *+=>>
+}

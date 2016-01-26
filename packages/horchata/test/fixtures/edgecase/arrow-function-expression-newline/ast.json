@@ -1,0 +1,58 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "id",
+              "extra": {
+                "raw": "id"
+              }
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "x",
+                  "extra": {
+                    "raw": "x"
+                  }
+                }
+              ],
+              "id": null,
+              "generator": false,
+              "expression": true,
+              "async": false,
+              "body": {
+                "type": "Identifier",
+                "name": "x",
+                "extra": {
+                  "raw": "x"
+                }
+              }
+            }
+          }
+        ],
+        "kind": "let"
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

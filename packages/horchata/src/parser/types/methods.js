@@ -51,7 +51,7 @@ export function parseArrowExpression(node) {
   node.generator = this.eat(tt.star);
   if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
 
-  let isArrowFunction;
+  let isArrowFunction, implicitReturn;
   let arrow = {...this.state.cur};
   this.next();
   switch (arrow.value) {
@@ -60,10 +60,12 @@ export function parseArrowExpression(node) {
       // fallthrough
     case '=>': case '=>>':
       isArrowFunction = true;
-      if (arrow.value === '=>>' || arrow.value === '+=>>') {
+      implicitReturn = arrow.value === '=>>' || arrow.value === '+=>>';
+      if (implicitReturn && !this.hasFeature('implicitReturnFunctions')) {
         node = this.parseArrowExpressionFunction(node);
       } else {
-        node = this.parseFunctionBody(node, {allowConcise: true});
+        node = this.parseFunctionBody(node, {allowConcise: true, implicitReturn});
+        if (implicitReturn) node = this.maybeTransformArrowFunctionBody(node)
       }
       break;
 
@@ -72,11 +74,11 @@ export function parseArrowExpression(node) {
       // fallthrough
     case '->': case '->>':
       isArrowFunction = false;
+      let functionContext = {allowConcise: true};
       if (arrow.value === '->>' || arrow.value === '+>>') {
-        throw new Error("Not Implemented");
-      } else {
-        node = this.parseFunctionBody(node, {allowConcise: true});
+        functionContext.implicitReturn = true;
       }
+      node = this.parseFunctionBody(node, functionContext);
       break;
     default: this.unexpected();
   }
@@ -85,23 +87,33 @@ export function parseArrowExpression(node) {
 }
 
 export function parseArrowExpressionFunction(node) {
+  const indent = this.eat(tt.indent);
+  if (indent) this.eat(tt.newline);
   // TODO: override to allow implicit return expressions with a body
   this.assign(node, "body", this.parseExpression());
+  if (indent) {
+    this.eat(tt.newline);
+    this.eat(tt.dedent) || this.unexpected();
+  }
   // TODO: move this to validation functions
-  let expr = node.body;
+  this.ensureArrowExpressionBodyMetadata(node.body);
+  node.expression = true;
+  this.checkArrowExpressionFunction(node);
+  return node;
+}
+
+export function ensureArrowExpressionBodyMetadata(expr) {
   if (expr.type === "ObjectExpression" && !(expr.extra != null && expr.extra.parenthesized)) {
     this.addExtra(expr, "parenthesized", true);
     this.addExtra(expr, "fakeParens", true);
   }
-  node.expression = true;
-  this.checkArrowExpressionFunction(node);
-  return node;
 }
 
 // Parse function body and check parameters.
 
 export function parseFunctionBody(node, functionContext = {}) {
   let allowConcise = !!functionContext.allowConcise;
+  let implicitReturn = !!functionContext.implicitReturn;
   // Start a new scope with regard to labels and the `inFunction`
   // flag (restore them to their old value afterwards).
 
@@ -115,7 +127,7 @@ export function parseFunctionBody(node, functionContext = {}) {
   this.state.inGenerator = node.generator;
   this.state.labels = [];
 
-  this.assign(node, "body", this.parseBlock({allowDirectives: true, allowConcise}));
+  this.assign(node, "body", this.parseBlock({allowDirectives: true, allowConcise, implicitReturn}));
   node.expression = false;
 
   this.state.inFunction = oldInFunc;
@@ -127,10 +139,12 @@ export function parseFunctionBody(node, functionContext = {}) {
   return node;
 }
 
-export function parseFunctionDeclaration(node) {
+export function parseFunctionDeclaration(node, functionContext = {}) {
   this.next();
   this.initFunction(node);
-  node = this.parseFunctionNamed(node, {}, {isStatement: true, allowConcise: true});
+  functionContext.isStatement = true;
+  functionContext.allowConcise = true;
+  node = this.parseFunctionNamed(node, {}, functionContext);
   return this.finishNode(node, node.lexicallyBound ? "ArrowFunctionDeclaration" : "FunctionDeclaration");
 }
 
@@ -155,21 +169,21 @@ export function parseFunctionParams(node/*, functionContext*/) {
   return this.parseBindingList(node, "params", tt.parenR, {allowTrailingComma: true});
 }
 
-export function parseArrowNamed(node/*, functionContext*/) {
+export function parseArrowNamed(node, functionContext) {
   node.generator = this.eat(tt.star);
   if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
   this.match(tt.arrow) || this.unexpected();
 
   switch (this.state.cur.value) {
     case '->>': case '=>>': case '+>>': case '+=>>':
-      if (this.hasFeature('implicitReturnFunctions')) node.implicitReturn = true;
-      else this.unexpected();
+      if (this.hasFeature('implicitReturnFunctions')) functionContext.implicitReturn = true;
+      else this.raise(this.state.cur.start, '"implicitReturnFunctions" not enabled');
   }
 
   switch (this.state.cur.value) {
     case '=>': case '=>>': case '+=>': case '+=>>':
       if (this.hasFeature('lexicallyBoundNamedFunctions')) node.lexicallyBound = true;
-      else this.unexpected();
+      else this.raise(this.state.cur.start, '"lexicallyBoundNamedFunctions" not enabled');
   }
 
   switch (this.state.cur.value) {
@@ -181,6 +195,25 @@ export function parseArrowNamed(node/*, functionContext*/) {
       break;
     default:
       this.unexpected();
+  }
+  return node;
+}
+
+export function maybeTransformArrowFunctionBody(node) {
+  let body = node.body;
+  if (body.type === "ImplicitReturnBlockStatement" && body.body.length === 1 && body.body[0].type === "ExpressionStatement") {
+    let expr = body.body[0].expression;
+
+    node.body = expr;
+    this.ensureArrowExpressionBodyMetadata(node.body);
+    node.expression = true;
+    this.checkArrowExpressionFunction(node);
+
+    if (body.start != null) expr.start = body.start;
+    if (body.end != null) expr.end = body.end;
+    if (body.tokenStart != null) expr.tokenStart = body.tokenStart;
+    if (body.tokenEnd != null) expr.tokenEnd = body.tokenEnd;
+    if (body.loc != null) expr.loc = body.loc;
   }
   return node;
 }

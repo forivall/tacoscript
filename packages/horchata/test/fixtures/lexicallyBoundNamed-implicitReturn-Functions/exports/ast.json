@@ -1,0 +1,98 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "ArrowFunctionDeclaration",
+          "id": null,
+          "params": [],
+          "generator": false,
+          "lexicallyBound": true,
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": [],
+            "directives": []
+          },
+          "expression": false
+        }
+      },
+      {
+        "type": "ExportNamedDeclaration",
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "ArrowFunctionDeclaration",
+          "id": {
+            "type": "Identifier",
+            "name": "foo",
+            "extra": {
+              "raw": "foo"
+            }
+          },
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "params": [],
+          "lexicallyBound": true,
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": [],
+            "directives": []
+          }
+        }
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "ArrowFunctionExpression",
+          "params": [],
+          "id": null,
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": [
+              {
+                "type": "EmptyStatement"
+              }
+            ],
+            "directives": []
+          }
+        }
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "ArrowFunctionExpression",
+          "params": [],
+          "id": null,
+          "generator": false,
+          "expression": true,
+          "async": false,
+          "body": {
+            "type": "NumericLiteral",
+            "value": 1,
+            "extra": {
+              "raw": "1"
+            }
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

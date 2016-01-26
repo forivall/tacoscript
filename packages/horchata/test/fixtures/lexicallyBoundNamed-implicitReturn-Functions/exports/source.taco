@@ -1,0 +1,9 @@
+export default function () =>>
+
+export function foo () =>>
+
+export default () =>>
+  pass
+
+export default () =>>
+  1

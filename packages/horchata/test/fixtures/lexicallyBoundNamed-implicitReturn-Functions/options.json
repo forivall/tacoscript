@@ -1,0 +1,6 @@
+{
+  "features": {
+    "lexicallyBoundNamedFunctions": true,
+    "implicitReturnFunctions": true
+  }
+}

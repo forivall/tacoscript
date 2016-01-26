@@ -1,0 +1,9 @@
+{
+  foo() =>>
+
+  asyncfoo () +=>>
+
+  genfoo () *=>>
+
+  asyncgenfoo () *+=>>
+}

@@ -1,0 +1,67 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "FunctionDeclaration",
+          "id": null,
+          "params": [],
+          "generator": false,
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": []
+          },
+          "expression": false
+        }
+      },
+      {
+        "type": "ExportNamedDeclaration",
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "FunctionDeclaration",
+          "id": {
+            "type": "Identifier",
+            "name": "foo",
+            "extra": {
+              "raw": "foo"
+            }
+          },
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "params": [],
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": []
+          }
+        }
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "FunctionExpression",
+          "params": [],
+          "id": null,
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "body": {
+            "type": "ImplicitReturnBlockStatement",
+            "body": []
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

@@ -52,7 +52,7 @@ export function parseBlockStatement(blockContext = {}) {
 
 // this can be any kind of block, not just detached (`!`) blocks
 export function parseBlock(blockContext = {}) {
-  let {allowConcise} = blockContext;
+  const {allowConcise, implicitReturn} = blockContext;
   let node = this.startNode();
   if (this.eatLineTerminator()) {
     node = this.initBlockBody(node, blockContext);
@@ -69,7 +69,7 @@ export function parseBlock(blockContext = {}) {
   } else {
     this.unexpected();
   }
-  return this.finishNode(node, "BlockStatement");
+  return this.finishNode(node, (implicitReturn ? "ImplicitReturn" : "") + "BlockStatement");
 }
 
 export function initBlockBody(node, blockContext) {

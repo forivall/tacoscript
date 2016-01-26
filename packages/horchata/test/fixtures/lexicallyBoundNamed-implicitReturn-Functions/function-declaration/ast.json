@@ -1,0 +1,35 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ArrowFunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "foo",
+          "extra": {
+            "raw": "foo"
+          }
+        },
+        "generator": false,
+        "expression": false,
+        "async": false,
+        "params": [],
+        "lexicallyBound": true,
+        "body": {
+          "type": "ImplicitReturnBlockStatement",
+          "body": [],
+          "directives": []
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}
