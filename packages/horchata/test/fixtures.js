@@ -43,6 +43,7 @@ suite("horchata", function () {
         var ast = horchata.parse(source, options)
         if (fixtureAst) {
           expect(ast).matches(fixtureAst)
+          // expect(render(ast)).to.equal(source)
         } else {
           saveAst(fixtureAstPath, ast)
         }
