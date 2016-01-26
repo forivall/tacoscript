@@ -46,8 +46,7 @@ Adds [CST] `sourceElements` to an existing JavaScript / [Babylon] / estree CST.
 ### [tacotruck](./packages/tacotruck)
 _(Previously `tacoscript-generator`)_
 
-Generates TacoScript code from a [Babylon] AST/CST.  
-Will also generate JavaScript code while preserving whitespace.
+Generates TacoScript code from a [Babylon] AST/CST.
 
     import generate from "tacotruck"
     code = generate(ast, options, originalSourceCode)
@@ -79,9 +78,22 @@ _(Not Implemented)_
 Transforms a TacoScript AST so that it can be checked by [ESLint].
 
 ### tacoscript-implicit-return-function
-_(Not Implemented)_
+_(In Progress)_
 
 AST transformations for implicitly returning functions ("sharp arrows").
+
+### tacoscript-strudel-this-member
+_(Not Implemented)_
+
+Parser & Generator plugins and AST transformations for `this.` → [`@`][strudel]
+shorthand.
+
+### tacoscript-logical-assign
+_(Not Implemented)_
+
+Parser & Generator plugins and AST transformations for `and=` and `or=`.
+
+Could also include an acorn plugin for parsing `||=` and `&&=` in javascript.
 
 ### tacoscript-auto-const-extern
 _(Not Implemented)_
@@ -113,19 +125,6 @@ _(Not Implemented)_
 
 Parser & Generator plugins and AST transformations for immediately invoked
 function expressions.
-
-### tacoscript-strudel-this-member
-_(Not Implemented)_
-
-Parser & Generator plugins and AST transformations for `this.` → [`@`][strudel]
-shorthand.
-
-### tacoscript-logical-assign
-_(Not Implemented)_
-
-Parser & Generator plugins and AST transformations for `and=` and `or=`.
-
-Could also include an acorn plugin for parsing `||=` and `&&=` in javascript.
 
 ### tacoscript-negative-conditional
 _(Not Implemented)_

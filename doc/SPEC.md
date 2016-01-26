@@ -158,15 +158,17 @@ All of the following syntax is optional, but is default, and is part of the core
 
 #### Phase 1 (Jan 2016)
 * [ ] "sharp" non-double arrows, multiline sharp arrow functions
-* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
-* [ ] Function calls without parenthises, with the `!` operator
-  * `fs.readFile! "package.json", (err, data) ->`
-  * [x] parse - TODO: store in extra
-  * [ ] generate (requires inference)
-* [ ] IIFE syntax
-  * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 * [ ] `@` ↔ `this.` ([frappe])
 * [ ] extended assign - `or=`, `and=`
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
+* [ ] Function calls without parentheses, with the `!` operator
+  * `fs.readFile! "package.json", (err, data) ->`
+  * [x] parse
+    * [ ] store metadata that this was a paren-less call
+  * [ ] generate (requires inference)
+* [ ] Function calls without parentheses, without `!` operator, only when in statement position
+* [ ] IIFE syntax
+  * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 
 #### Phase 2
 * [ ] `not instanceof` ([frappe])
@@ -175,6 +177,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] `%%` ([frappe])
 * [ ] `unless` ([frappe])
 * [ ] `until` ([frappe])
+* [ ] autobinding (=>) of named function expressions (nfe), function declarations, and methods
 * [ ] allow omitting `!` for parenthises-less function calls when used as statements ([frappe])
   * tagged template literals will have higher precedence though
 * [ ] null coalsecing and soak operator (`?` and `?.` and `?[]`)

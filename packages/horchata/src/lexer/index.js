@@ -57,9 +57,7 @@ export default class Lexer {
   }
 
   hasFeature(featureName) {
-    // equivalent to babylon "hasPlugin"
-    // TODO: set from options
-    return true;
+    return this.options.features["*"] || this.options.features[featureName];
   }
 
   // call this prior to start parsing
