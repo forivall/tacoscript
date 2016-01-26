@@ -409,6 +409,22 @@ export function parseExpressionAtomic(expressionContext) {
       node = this.parseFunctionExpressionNamed();
       break;
 
+    case tt.at:
+      if (this.hasFeature("strudelThisMember")) {
+        node = this.parseThisMemberExpression();
+        break;
+      } else {
+        this.parseDecorators();
+      }
+      // fallthrough
+    case tt.relational:
+      if (this.state.cur.value === ">" && this.hasFeature("strudelThisMember")) {
+        this.parseDecorators();
+      } else {
+        break;
+      }
+      // fallthrough
+
     case tt._class:
       node = this.parseClassExpression();
       break;
@@ -497,6 +513,13 @@ export function parseSuper() {
   return this.finishNode(node, "Super");
 }
 
+export function parseThisMemberExpression() {
+  let node = this.startNode();
+  this.next();
+  this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
+  return this.finishNode(node, "ThisMemberExpression");
+}
+
 // Parses yield expression inside generator.
 export function parseYieldExpression() {
   let node = this.startNode();
@@ -534,7 +557,7 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   expressionContext.shorthandDefaultPos = {start: 0};
   let node, spreadStart;
 
-  let {firstSeparatorStart} =
+  let {firstConcreteSeparatorStart} =
   this.parseIndentableList(tt.parenR, expressionContext, () => {
     let element;
     if (this.match(tt.ellipsis)) {
@@ -556,8 +579,8 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
     this.unexpected(spreadStart);
   } else if (expressionContext.shorthandDefaultPos.start) {
     this.unexpected(expressionContext.shorthandDefaultPos.start);
-  } else if (firstSeparatorStart) {
-    this.unexpected(firstSeparatorStart);
+  } else if (firstConcreteSeparatorStart) {
+    this.unexpected(firstConcreteSeparatorStart);
   } else if (maybeFunction.params.length > 1) {
     this.raise(this.state.pos, "Arguments list is not attached to a function");
   } else {

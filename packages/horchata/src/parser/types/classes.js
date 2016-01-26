@@ -10,6 +10,8 @@ import {isIdentifierOrStringLiteral} from "../helpers";
 
 // Parse a class declaration
 export function parseClassDeclaration(node, classContext = {}) {
+  this.consumeDecorators(node);
+
   this.next();
   node = this.parseClassId(node, classContext);
   node = this.parseClassSuper(node, classContext);
@@ -21,6 +23,10 @@ export function parseClassDeclaration(node, classContext = {}) {
 export function parseClassExpression(classContext = {}) {
   classContext.optionalId = true;
   let node = this.startNode();
+
+  // TODO: start node at location of first decorator instead of class. maybe.
+  this.consumeDecorators(node);
+
   this.next();
   node = this.parseClassId(node, classContext);
   node = this.parseClassSuper(node, classContext);
@@ -79,10 +85,12 @@ export function parseClassBody(isDeclaration, classContext) {
   let oldStrict = this.state.strict;
   this.state.strict = true;
 
+  const strudelThisMember = this.hasFeature("strudelThisMember");
+
   while(!end()) {
     if (this.eatLineTerminator()) continue;
 
-    if (this.match(tt.at)) {
+    if (this.matchDecoratorSymbol(strudelThisMember)) {
       decorators.push(this.parseDecorator());
       continue;
     }
@@ -90,7 +98,7 @@ export function parseClassBody(isDeclaration, classContext) {
     let method = this.startNode();
 
     if (decorators.length) {
-      this.assign(method, "decorators", decorators);
+      this.addAll(method, "decorators", decorators);
       decorators = [];
     }
 

@@ -67,6 +67,7 @@ export function toAssignable(node, assignableContext = {}) {
       break;
 
     case "MemberExpression":
+    case "ThisMemberExpression":
       if (!isBinding) break;
 
     default:
@@ -276,10 +277,12 @@ export function parseObject(isPattern, expressionContext) {
 
   this.next();
 
+  const atDecorator = !this.hasFeature("strudelThisMember");
+
   this.parseIndentableList(tt.braceR, {allowTrailingComma: true}, () => {
     let propertyContext = {};
 
-    while (this.match(tt.at)) {
+    while (atDecorator ? this.match(tt.at) : this.match(tt.relational) && this.state.cur.value === ">") {
       decorators.push(this.parseDecorator());
     }
 

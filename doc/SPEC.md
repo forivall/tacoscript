@@ -5,8 +5,8 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 ## Goals
 
 * The AST follows babel/babylon's AST specification.
-  * Tacoscript can be generated from _any_ javascript.
-  * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are decompiled into tacoscript syntax.
+  * Tacoscript can be generated from _any_ JavaScript.
+  * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are decompiled into tacoscript syntax, when it's possible to detect a pattern.
     * Untransformed tacoscript can be called "masascript"
   * If the original source is available, and CST tokens are provided, whitespace will be preserved as much as possible. Eventually, code style will be detected, and the generated javascript will conform to the given code style (for style rules that are meaningless in a tacoscript context).
 * Integrate with the Babel transpiler.
@@ -15,6 +15,9 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 * Create a git extension that allows switching between Taco representations just by switching branches
 
 ## Core Syntax
+
+Everything not specified here, is the same as in JavaScript
+
 1. Blocks use significant indentation. Standalone blocks start with a single `!`.
 
   ```
@@ -156,7 +159,7 @@ escaped, or if there are open parentheses.
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
 
-#### Phase 1 (Jan 2016)
+#### Phase 1 (Jan 2016) - Proof of Concept
 * [ ] "sharp" non-double arrows, multiline sharp arrow functions
 * [ ] `@` ↔ `this.` ([frappe])
 * [ ] extended assign - `or=`, `and=`
@@ -170,7 +173,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] IIFE syntax
   * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 
-#### Phase 2
+#### Phase 2 - A "Useful" language
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])
@@ -192,7 +195,7 @@ All of the following syntax is optional, but is default, and is part of the core
   * `contained = a of [b, c, d]` ↔ `contained = a === b || a === c || a === d`
   * also `not of`
 
-#### Phase 3
+#### Phase 3 - A "Complete" language
 * [ ] loose string parsing, unify string interpolation behaviour ([frappe])
   * tagged template strings will still require `\`\``
 * [ ] `@@` in class methods to `ClassName.`
@@ -234,7 +237,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] generic decorators
   * decorators can be used on any function declaration. [See also](#notes-on-the-decorators-proposal-)
 
-#### Phase 4
+#### Phase 4 - A "Modern" language
 * [ ] array and object comprehensions
 * [ ] multiline regex (coffeescript / [frappe])
 * [ ] Python style keyword arguments

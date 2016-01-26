@@ -1,0 +1,5 @@
+> classDecorator
+class A
+  > decorator
+  foo() ->
+    @bar = 1

@@ -71,6 +71,7 @@ export function assign(parent, key, value, options = {}) {
     } else {
       // warn or try to infer the relevent token
       console.log("assigning a non-node value without relevant token", parent, key);
+      console.trace();
     }
   }
   return value;
@@ -132,6 +133,12 @@ export function add(parent, key, node, options = {}) {
   }
   parent._childReferences.push(el);
   return node;
+}
+
+export function addAll(parent, key, nodes, options) {
+  for (const node of (nodes: Array)) {
+    this.add(parent, key, node, options);
+  }
 }
 
 export function addExtra(parent, key, value) {

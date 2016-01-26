@@ -1,0 +1,106 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ClassDeclaration",
+        "decorators": [
+          {
+            "type": "Decorator",
+            "expression": {
+              "type": "Identifier",
+              "name": "classDecorator",
+              "extra": {
+                "raw": "classDecorator"
+              }
+            }
+          }
+        ],
+        "id": {
+          "type": "Identifier",
+          "name": "A",
+          "extra": {
+            "raw": "A"
+          }
+        },
+        "superClass": null,
+        "body": {
+          "type": "ClassBody",
+          "body": [
+            {
+              "type": "ClassMethod",
+              "decorators": [
+                {
+                  "type": "Decorator",
+                  "expression": {
+                    "type": "Identifier",
+                    "name": "decorator",
+                    "extra": {
+                      "raw": "decorator"
+                    }
+                  }
+                }
+              ],
+              "static": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "foo",
+                "extra": {
+                  "raw": "foo"
+                }
+              },
+              "kind": "method",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "left": {
+                        "type": "ThisMemberExpression",
+                        "property": {
+                          "type": "Identifier",
+                          "name": "bar",
+                          "extra": {
+                            "raw": "bar"
+                          }
+                        }
+                      },
+                      "operator": "=",
+                      "right": {
+                        "type": "NumericLiteral",
+                        "value": 1,
+                        "extra": {
+                          "raw": "1"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

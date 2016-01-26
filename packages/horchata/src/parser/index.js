@@ -17,6 +17,8 @@ import {types as tt} from "../lexer/types";
 export const plugins = {};
 
 export default class Parser extends Lexer {
+  __isParser = true;
+
   static addPlugin(name, initializer) {
     let currentPlugin = plugins[name];
     if (currentPlugin != null && currentPlugin !== initializer) {
@@ -104,7 +106,13 @@ export default class Parser extends Lexer {
     let message = "Unexpected Token";
     if (pos == null) {
       pos = this.state.cur.start;
-      message += ": " + this.state.cur.type.key + " (" + JSON.stringify(this.state.cur.value) + ")";
+    }
+    let token = pos === this.state.cur.start ? this.state.cur : pos === this.state.prev.start ? this.state.prev : null;
+    if (token == null) for (let i = this.state.index - 2; i >= 0; i--) {
+      if (this.state.tokens[i].start === pos) token = this.state.tokens[i];
+    }
+    if (token) {
+      message += ": " + token.type.key + " (" + JSON.stringify(token.value) + ")";
     }
     this.raise(pos, message);
   }

@@ -59,6 +59,7 @@ export const defaultOptions = {
     statementNoParenCall: false,
     implicitReturnFunctions: false,
     lexicallyBoundNamedFunctions: false,
+    strudelThisMember: false,
   },
 
   // TODO: callbacks will be only added via plugin

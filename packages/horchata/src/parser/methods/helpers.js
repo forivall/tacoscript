@@ -9,7 +9,7 @@ export function parseIndentableList(close, context, inner) {
   let indented = false;
   let first = true;
 
-  let firstSeparatorStart;
+  let firstSeparatorStart, firstConcreteSeparatorStart;
 
   if (this.eat(tt.newline)) {
     // must be empty
@@ -27,11 +27,13 @@ export function parseIndentableList(close, context, inner) {
         first = false;
       }
     }
+
     if (first) {
       first = false;
     } else {
       if (firstSeparatorStart === undefined) firstSeparatorStart = this.state.cur.start;
-      if (this.eat(tt.comma)) {
+      if (this.eat(separator)) {
+        if (firstConcreteSeparatorStart === undefined) firstConcreteSeparatorStart = this.state.prev.start;
         indented && this.eat(tt.newline); // TODO: allow a strict mode where commas + newlines aren't allowed
       } else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline))) {}
       else if (close === null && (noTerminator || this.matchLineTerminator() || this.matchPrev(tt.newline))) {
@@ -69,7 +71,7 @@ export function parseIndentableList(close, context, inner) {
       noTerminator || this.eatLineTerminator() || this.matchPrev(tt.newline) || this.unexpected();
     }
   }
-  return {firstSeparatorStart};
+  return {firstSeparatorStart, firstConcreteSeparatorStart};
 }
 
 import {getLineInfo} from "../../util/location";

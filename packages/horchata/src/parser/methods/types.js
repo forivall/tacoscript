@@ -7,6 +7,10 @@ export function isForKeyword(type) {
   return type === tt._in || type === tt._of;
 }
 
+export function matchDecoratorSymbol(strudelThisMember = this.hasFeature("strudelThisMember")) {
+  return !strudelThisMember ? this.match(tt.at) : this.match(tt.relational) && this.state.cur.value === ">";
+}
+
 export function matchForKeyword() {
   return this.isForKeyword(this.state.cur.type);
 }

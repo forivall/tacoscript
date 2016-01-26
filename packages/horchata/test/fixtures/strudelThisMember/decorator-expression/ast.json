@@ -1,0 +1,45 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ClassExpression",
+          "decorators": [
+            {
+              "type": "Decorator",
+              "expression": {
+                "type": "Identifier",
+                "name": "classDecorator",
+                "extra": {
+                  "raw": "classDecorator"
+                }
+              }
+            }
+          ],
+          "id": {
+            "type": "Identifier",
+            "name": "A",
+            "extra": {
+              "raw": "A"
+            }
+          },
+          "superClass": null,
+          "body": {
+            "type": "ClassBody",
+            "body": []
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

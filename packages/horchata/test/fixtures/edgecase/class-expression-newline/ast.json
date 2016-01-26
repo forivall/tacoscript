@@ -1,0 +1,44 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ClassExpression",
+          "id": {
+            "type": "Identifier",
+            "name": "A",
+            "extra": {
+              "raw": "A"
+            }
+          },
+          "superClass": null,
+          "body": {
+            "type": "ClassBody",
+            "body": []
+          },
+          "extra": {
+            "parenthesized": true,
+            "parenEnd": 0,
+            "parens": [
+              {}
+            ]
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

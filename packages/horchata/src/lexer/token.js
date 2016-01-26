@@ -23,18 +23,6 @@ export default class Token {
     return token;
   }
 
-  // static from(babelToken) {
-  //   let type = TokenType.from(babelToken.type);
-  //   let state = {
-  //     type: type,
-  //     value: type.convertValue(babelToken.value)
-  //   };
-  //   let token = new Token(state);
-  //   token.origLoc = babelToken.loc;
-  //   token.origStart = babelToken.start;
-  //   token.origEnd = babelToken.end;
-  //   return token;
-  // }
   static _fromCodeCache = {};
   // should not be used on regex, etc.
   static stateFromCode(code) {

@@ -17,8 +17,10 @@ const loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"};
 export function parseStatement(declaration = true, topLevel = false) {
   let parentStatementAllowed = this.state.statementAllowed;
   this.state.statementAllowed = true;
+  let decoratorLoc;
 
-  if (this.match(tt.at)) {
+  if (this.matchDecoratorSymbol()) {
+    decoratorLoc = this.state.cur.start;
     this.parseDecorators();
   }
 
@@ -92,6 +94,10 @@ export function parseStatement(declaration = true, topLevel = false) {
       } else {
         node = this.parseExpressionStatement(node, expr);
       }
+
+      if (this.state.decorators.length) {
+        this.raise(decoratorLoc, "Leading decorators must be attached to a compatible statement")
+      }
   }
 
   this.state.statementAllowed = parentStatementAllowed;
@@ -127,10 +133,28 @@ export function parseDoExpressionStatement() {
 }
 
 export function parseDecorators() {
-  while (this.match(tt.at)) {
+  const atDecorator = !this.hasFeature("strudelThisMember");
+  while (atDecorator ? this.match(tt.at) : this.match(tt.relational) && this.state.cur.value === ">") {
     this.state.decorators.push(this.parseDecorator());
   }
   this.checkDecorators();
+  this.eat(tt.newline);
+}
+
+export function parseDecorator() {
+  let node = this.startNode();
+  this.next();
+  // TODO: see if we should be more restrictive than JavaScript.
+  //       currently, we disallow expressions that don't make sense as decorators.
+  // this.assign(node, "expression", this.parseExpression());
+  this.assign(node, "expression", this.parseExpressionSubscripts({}));
+  return this.finishNode(node, "Decorator");
+}
+
+export function consumeDecorators(node) {
+  this.addAll(node, "decorators", this.state.decorators);
+  this.state.decorators = [];
+  return node;
 }
 
 //// Statement parsers by type ////
