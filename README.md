@@ -148,7 +148,7 @@ Parser & Generator plugins and AST transformations for `not instanceof`, `not
 in` (, `not of`).
 
 ### tacoscript-universal-fat-arrow
-_(In Progress)_
+_(Parsing complete, transformations ready to start)_
 
 AST transformations and verification for using the fat arrow (`=>`) in any
 function definition situation, for lexical binding of `this` and `arguments`.

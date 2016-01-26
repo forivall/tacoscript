@@ -21,21 +21,31 @@ var fixtureRootDirs = fs.readdirSync(fixtureRootBase)
 
 suite("horchata", function () {
   _.forEach(fixtureRootDirs, function(fixtureRootDir) { suite(fixtureRootDir, function () {
+
     var fixtureDirs = fs.readdirSync(path.join(fixtureRootBase, fixtureRootDir))
+    .filter(function(fixtureDir) { return fs.statSync(path.join(fixtureRootBase, fixtureRootDir, fixtureDir)).isDirectory() })
+
     var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
     var options = {}; try { options = require(optionsPath) } catch(e) {}
+
     _.forEach(fixtureDirs, function(fixtureDir) { test(fixtureDir, function () {
 
       var fixtureBase = path.join(fixtureRootBase, fixtureRootDir, fixtureDir)
       var fixtureAstPath = path.join(fixtureBase, "ast.json")
       var fixtureAst; try { fixtureAst = require(fixtureAstPath) } catch(e) {}
-
+      var expectedErr; try { expectedErr = require(path.join(fixtureBase, "error.json")) } catch(e) {}
       var source = fs.readFileSync(path.join(fixtureBase, "source.taco"), "utf-8")
-      var ast = horchata.parse(source, options)
-      if (fixtureAst) {
-        expect(ast).matches(fixtureAst)
+
+      var fixtureAstPath = path.join(fixtureBase, "ast.json")
+      if (expectedErr) {
+        expect(horchata.parse.bind(horchata, source, options)).to.throw(expectedErr.message)
       } else {
-        saveAst(fixtureAstPath, ast)
+        var ast = horchata.parse(source, options)
+        if (fixtureAst) {
+          expect(ast).matches(fixtureAst)
+        } else {
+          saveAst(fixtureAstPath, ast)
+        }
       }
 
     }) /* end test */ }) /* end forEach fixtureDirs */

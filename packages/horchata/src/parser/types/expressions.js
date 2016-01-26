@@ -301,7 +301,7 @@ export function parseSubscripts(base, start, subscriptContext = {}) {
       node = this.parseCallExpressionArguments(node, tt.parenR);
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
-    } else if (!noCall && this.eat(tt.excl)) {
+    } else if (!noCall && this.hasFeature("exclCall") && this.eat(tt.excl)) {
       node = this.startNode(start);
       this.assign(node, "callee", base);
       node = this.parseCallExpressionArguments(node, null, {exclCall: true});
@@ -474,7 +474,7 @@ export function parseNew() {
     this.assign(node, "callee", this.parseNoCallExpression());
     if (this.eat(tt.parenL)) {
       node = this.parseCallExpressionArguments(node, tt.parenR)
-    } else if (this.eat(tt.excl)) {
+    } else if (this.hasFeature("exclCall") && this.eat(tt.excl)) {
       node = this.parseCallExpressionArguments(node, tt.newline, {exclCall: true})
     } else {
       node.arguments = [];

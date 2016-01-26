@@ -81,7 +81,7 @@ function _getOptions(opts, spec) {
       options[key] = _getOptions(opts[key] || {}, spec[key]);
     } else {
       options[key] = opts && key in opts ? opts[key] :
-        defaultOptions[key] === emptyObject ? {} : defaultOptions[key];
+        spec[key] === emptyObject ? {} : spec[key];
     }
   }
   return options;

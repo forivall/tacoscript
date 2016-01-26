@@ -144,7 +144,7 @@ export const types = {
   backQuote:    punctuator("`",   startsExpr),
   dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true, continuesExpr: true}),
   at:           punctuator("@"),
-  excl:         punctuator("!",  {postfix: true, startsArguments: true}),
+  excl:         punctuator("!",  {startsArguments: true}),
 
   // Operators. These carry several kinds of properties to help the
   // parser use them properly (the presence of these properties is
