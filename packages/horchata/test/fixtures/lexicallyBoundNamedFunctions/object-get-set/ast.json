@@ -1,0 +1,302 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "foo",
+                "extra": {
+                  "raw": "foo"
+                }
+              },
+              "kind": "get",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "MemberExpression",
+                      "object": {
+                        "type": "ThisExpression"
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "name": "_foo",
+                        "extra": {
+                          "raw": "_foo"
+                        }
+                      },
+                      "computed": false
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "foo",
+                "extra": {
+                  "raw": "foo"
+                }
+              },
+              "kind": "set",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "value",
+                  "extra": {
+                    "raw": "value"
+                  }
+                }
+              ],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "left": {
+                        "type": "MemberExpression",
+                        "object": {
+                          "type": "ThisExpression"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "_foo",
+                          "extra": {
+                            "raw": "_foo"
+                          }
+                        },
+                        "computed": false
+                      },
+                      "operator": "=",
+                      "right": {
+                        "type": "Identifier",
+                        "name": "value",
+                        "extra": {
+                          "raw": "value"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncfoo",
+                "extra": {
+                  "raw": "asyncfoo"
+                }
+              },
+              "kind": "get",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": true,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncfoo",
+                "extra": {
+                  "raw": "asyncfoo"
+                }
+              },
+              "kind": "set",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": true,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "value",
+                  "extra": {
+                    "raw": "value"
+                  }
+                }
+              ],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "genfoo",
+                "extra": {
+                  "raw": "genfoo"
+                }
+              },
+              "kind": "get",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": false,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "genfoo",
+                "extra": {
+                  "raw": "genfoo"
+                }
+              },
+              "kind": "set",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "value",
+                  "extra": {
+                    "raw": "value"
+                  }
+                }
+              ],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncgenfoo",
+                "extra": {
+                  "raw": "asyncgenfoo"
+                }
+              },
+              "kind": "get",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": true,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ObjectArrowMethod",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncgenfoo",
+                "extra": {
+                  "raw": "asyncgenfoo"
+                }
+              },
+              "kind": "set",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": true,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "value",
+                  "extra": {
+                    "raw": "value"
+                  }
+                }
+              ],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            }
+          ],
+          "extra": {
+            "parenthesized": true,
+            "fakeParens": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

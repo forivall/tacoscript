@@ -337,12 +337,13 @@ export function parsePropertyValue(prop, start, isPattern, propertyContext, expr
     prop.kind = propertyContext.kind;
     prop = this.parseMethod(prop);
     this.checkGetterSetterProperty(prop);
-    prop = this.finishNode(prop, "ObjectMethod");
+    // TODO: check if a setter is allowed to return a value, and deny arrows if so
+    prop = this.finishNode(prop, prop.lexicallyBound ? "ObjectArrowMethod" : "ObjectMethod");
   } else if (this.match(tt.parenL)) {
     prop.kind = "method";
     prop.method = true;
     prop = this.parseMethod(prop, {allowEmpty: true});
-    prop = this.finishNode(prop, "ObjectMethod");
+    prop = this.finishNode(prop, prop.lexicallyBound ? "ObjectArrowMethod" : "ObjectMethod");
   } else if (this.eat(tt.colon)) {
     prop.kind = "init";
     this.assign(prop, "value", isPattern

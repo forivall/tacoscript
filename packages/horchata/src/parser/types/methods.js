@@ -131,7 +131,7 @@ export function parseFunctionDeclaration(node) {
   this.next();
   this.initFunction(node);
   node = this.parseFunctionNamed(node, {}, {isStatement: true, allowConcise: true});
-  return this.finishNode(node, "FunctionDeclaration");
+  return this.finishNode(node, node.lexicallyBound ? "ArrowFunctionDeclaration" : "FunctionDeclaration");
 }
 
 export function parseFunctionExpressionNamed() {
@@ -139,7 +139,7 @@ export function parseFunctionExpressionNamed() {
   this.next();
   this.initFunction(node);
   node = this.parseFunctionNamed(node, {}, {allowConcise: true});
-  return this.finishNode(node, "FunctionExpression");
+  return this.finishNode(node, node.lexicallyBound ? "NamedArrowFunctionExpression" : "FunctionExpression");
 }
 
 export function parseFunctionNamed(node, identifierContext, functionContext) {
@@ -159,14 +159,28 @@ export function parseArrowNamed(node/*, functionContext*/) {
   node.generator = this.eat(tt.star);
   if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
   this.match(tt.arrow) || this.unexpected();
+
   switch (this.state.cur.value) {
-    case '+>':
-      node.async = true
-    case '->':
+    case '->>': case '=>>': case '+>>': case '+=>>':
+      if (this.hasFeature('implicitReturnFunctions')) node.implicitReturn = true;
+      else this.unexpected();
+  }
+
+  switch (this.state.cur.value) {
+    case '=>': case '=>>': case '+=>': case '+=>>':
+      if (this.hasFeature('lexicallyBoundNamedFunctions')) node.lexicallyBound = true;
+      else this.unexpected();
+  }
+
+  switch (this.state.cur.value) {
+    case '+>': case '+>>': case '+=>': case '+=>>':
+      node.async = true;
+      // fallthrough
+    case '->': case '->>': case '=>': case '=>>':
       this.next();
       break;
     default:
-      this.abort("Not Implemented");
+      this.unexpected();
   }
   return node;
 }

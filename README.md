@@ -15,7 +15,7 @@ valid TacoScript code, there is an exact translated representation in
 JavaScript. Currently, whitespace will not always be preserved; eventually,
 whitespace will also be preserved.
 
-> Unlike CoffeeScript, TacoScript _actually_ is just JavaScript.
+> Unlike CoffeeScript, TacoScript _actually_ is, 100%, just JavaScript.
 
 So, if it is just JavaScript, why does this exist? For the same reason that
 there are both British English and American English: Some people just prefer
@@ -146,6 +146,13 @@ _(Not Implemented)_
 
 Parser & Generator plugins and AST transformations for `not instanceof`, `not
 in` (, `not of`).
+
+### tacoscript-universal-fat-arrow
+_(In Progress)_
+
+AST transformations and verification for using the fat arrow (`=>`) in any
+function definition situation, for lexical binding of `this` and `arguments`.
+Uses horchata's `lexicallyBoundNamedFunctions` feature parsing option.
 
 ### tacoscript-asbool
 _(Not Implemented)_

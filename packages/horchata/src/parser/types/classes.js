@@ -140,7 +140,7 @@ export function parseClassBody(isDeclaration, classContext) {
     if (method.kind === "get" || method.kind === "set") {
       this.checkGetterSetterProperty(method);
     }
-    this.add(node, "body", this.finishNode(method, "ClassMethod"));
+    this.add(node, "body", this.finishNode(method, method.lexicallyBound ? "ClassArrowMethod" : "ClassMethod"));
   }
 
   if (decorators.length) this.raise(this.state.start, "Class has trailing decorators");

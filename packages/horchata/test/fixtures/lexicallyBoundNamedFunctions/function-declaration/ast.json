@@ -1,0 +1,34 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ArrowFunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "foo",
+          "extra": {
+            "raw": "foo"
+          }
+        },
+        "generator": false,
+        "expression": false,
+        "async": false,
+        "params": [],
+        "lexicallyBound": true,
+        "body": {
+          "type": "BlockStatement",
+          "body": []
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

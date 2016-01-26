@@ -533,12 +533,11 @@ export default class Lexer {
         return this.readToken_slash();
 
       case 37: return this.finishEqOrType(tt.modulo); // '%'
-      case 42: return this.finishEqOrType(tt.star); //'*'
       case 124: return this.finishEqOrType(tt.bitwiseOR); // '|'
       case 38: return this.finishEqOrType(tt.bitwiseAND); // '&'
       case 94: return this.finishEqOrType(tt.bitwiseXOR); // '^'
 
-      // TODO: handle arrows _here_
+      case 42: return this.readToken_star(); //'*'
 
       case 43: case 45: // '+-'
         return this.readToken_plus_min(code);
@@ -827,6 +826,20 @@ export default class Lexer {
       return this.finishToken(tt.assign, "/=");
     }
     return this.finishToken(tt.slash, "/")
+  }
+
+  readToken_star() {
+    // ensure that *=> is tokenized as star & `=>` arrow and not `*=` assign and relational `>`
+
+    let start = this.state.pos;
+    ++this.state.pos;
+    let next = this.input.charCodeAt(this.state.pos);
+
+    if (next === 61 && this.input.charCodeAt(this.state.pos + 1) !== 62) {
+      ++this.state.pos;
+      return this.finishToken(tt.eq, this.input.slice(start, this.state.pos));
+    }
+    return this.finishToken(tt.star);
   }
 
   // Read an identifier or keyword token

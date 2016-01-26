@@ -1,0 +1,82 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "ArrowFunctionDeclaration",
+          "id": null,
+          "params": [],
+          "generator": false,
+          "lexicallyBound": true,
+          "body": {
+            "type": "BlockStatement",
+            "body": []
+          },
+          "expression": false
+        }
+      },
+      {
+        "type": "ExportNamedDeclaration",
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "ArrowFunctionDeclaration",
+          "id": {
+            "type": "Identifier",
+            "name": "foo",
+            "extra": {
+              "raw": "foo"
+            }
+          },
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "params": [],
+          "lexicallyBound": true,
+          "body": {
+            "type": "BlockStatement",
+            "body": []
+          }
+        }
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "declaration": {
+          "type": "ArrowFunctionExpression",
+          "params": [],
+          "id": null,
+          "generator": false,
+          "expression": false,
+          "async": false,
+          "body": {
+            "type": "BlockStatement",
+            "body": []
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "CommentLine",
+            "index": 0,
+            "value": " this is a normal es2015 arrow function"
+          }
+        ]
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": [
+    {
+      "type": "CommentLine",
+      "index": 0,
+      "value": " this is a normal es2015 arrow function"
+    }
+  ]
+}

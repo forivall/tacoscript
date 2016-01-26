@@ -22,6 +22,8 @@ var fixtureRootDirs = fs.readdirSync(fixtureRootBase)
 suite("horchata", function () {
   _.forEach(fixtureRootDirs, function(fixtureRootDir) { suite(fixtureRootDir, function () {
     var fixtureDirs = fs.readdirSync(path.join(fixtureRootBase, fixtureRootDir))
+    var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
+    var options = {}; try { options = require(optionsPath) } catch(e) {}
     _.forEach(fixtureDirs, function(fixtureDir) { test(fixtureDir, function () {
 
       var fixtureBase = path.join(fixtureRootBase, fixtureRootDir, fixtureDir)
@@ -29,7 +31,7 @@ suite("horchata", function () {
       var fixtureAst; try { fixtureAst = require(fixtureAstPath) } catch(e) {}
 
       var source = fs.readFileSync(path.join(fixtureBase, "source.taco"), "utf-8")
-      var ast = horchata.parse(source)
+      var ast = horchata.parse(source, options)
       if (fixtureAst) {
         expect(ast).matches(fixtureAst)
       } else {

@@ -1,0 +1,20 @@
+class A
+
+  get foo () =>
+    return this._foo
+
+  set foo (value) =>
+    this._foo = value
+
+
+  get asyncfoo () +=>
+
+  set asyncfoo (value) +=>
+
+  get genfoo () *=>
+
+  set genfoo (value) *=>
+
+  get asyncgenfoo () *+=>
+
+  set asyncgenfoo (value) *+=>

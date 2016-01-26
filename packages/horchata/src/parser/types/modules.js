@@ -31,7 +31,7 @@ export function parseExport(node) {
     let expr = this.startNode();
     if (this.eat(tt._function)) {
       expr = this.parseFunctionNamed(expr, {isOptional: true}, {});
-      expr = this.finishNode(expr, "FunctionDeclaration");
+      expr = this.finishNode(expr, expr.lexicallyBound ? "ArrowFunctionDeclaration" : "FunctionDeclaration");
     } else if (this.match(tt._class)) {
       expr = this.parseClassDeclaration(expr, {optionalId: true});
     } else {

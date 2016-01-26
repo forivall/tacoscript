@@ -1,0 +1,6 @@
+export default function () =>
+
+export function foo () =>
+
+# this is a normal es2015 arrow function
+export default () =>

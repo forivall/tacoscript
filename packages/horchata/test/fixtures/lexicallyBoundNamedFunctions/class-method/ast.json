@@ -1,0 +1,127 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ClassDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "A",
+          "extra": {
+            "raw": "A"
+          }
+        },
+        "superClass": null,
+        "body": {
+          "type": "ClassBody",
+          "body": [
+            {
+              "type": "ClassArrowMethod",
+              "static": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "foo",
+                "extra": {
+                  "raw": "foo"
+                }
+              },
+              "kind": "method",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ClassArrowMethod",
+              "static": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncfoo",
+                "extra": {
+                  "raw": "asyncfoo"
+                }
+              },
+              "kind": "method",
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": true,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ClassArrowMethod",
+              "static": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "genfoo",
+                "extra": {
+                  "raw": "genfoo"
+                }
+              },
+              "kind": "method",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": false,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            },
+            {
+              "type": "ClassArrowMethod",
+              "static": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "asyncgenfoo",
+                "extra": {
+                  "raw": "asyncgenfoo"
+                }
+              },
+              "kind": "method",
+              "id": null,
+              "generator": true,
+              "expression": false,
+              "async": true,
+              "params": [],
+              "lexicallyBound": true,
+              "body": {
+                "type": "BlockStatement",
+                "body": []
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
