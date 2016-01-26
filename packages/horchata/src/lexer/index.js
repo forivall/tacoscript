@@ -69,6 +69,7 @@ export default class Lexer {
     this.state = new State();
     this.state.init(this.options, this.file);
   }
+
   close() {
     this.file = this.input = this.state = null;
   }

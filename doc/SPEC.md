@@ -363,7 +363,10 @@ use any binary operator safely that isn't also a prefix (like `+`).)
 
 If python had a `self.` shorthand, it would be used instead of `@`. Nor can we
 follow this [ruby proof of concept of decorators]. So `>` is a decent
-replacement, since it's reminiscent of shell redirection. :shrug:
+replacement, since it's reminiscent of shell redirection. :shrug: With the
+additiion of other stage-0 proposals to use the @ character, other possible
+alternatives are the diamond `<>` operator, the fat x `><` operator and the
+sideways y `-<`/`>-`, or to reintroduce `||` or `&&`.
 
 
 ## formatting directives (work in progress)
