@@ -4,7 +4,7 @@
  */
 
 import {SourceLocation} from "../util/location";
-import {dereference} from "tacoscript-cst-utils";
+import {dereference, startOf, tokenStartOf} from "tacoscript-cst-utils";
 
 export default function(ast, tokens) { new Postprocessor().process(ast, tokens); return ast; }
 
@@ -21,7 +21,7 @@ export class Postprocessor {
 
   nextSourceTokenIndex(el, node) {
     if (el.extra && el.extra.tokenIndex != null) return el.extra.tokenIndex;
-    if (node) return node.tokenStart;
+    if (node) return tokenStartOf(node);
     throw new Error("Cannot get index of el " + JSON.stringify(el));
   }
 
@@ -40,9 +40,9 @@ export class Postprocessor {
           token != null && (
             !nextChild ||
             nextChild.element == null ||
-            (token.index !== -1 ? token.index < this.nextSourceTokenIndex(nextChild, nextNode) : token.start < (nextChild.start || nextNode.start)) ||
+            (token.index !== -1 ? token.index < this.nextSourceTokenIndex(nextChild, nextNode) : token.start < (nextChild.start || startOf(nextNode))) ||
           false) &&
-          (!nextNode || !nextNode.__isNode || token.index < nextNode.tokenStart) &&
+          (!nextNode || !nextNode.__isNode || token.index < tokenStartOf(nextNode)) &&
           token.end <= node.end &&
           token.index <= node.tokenEnd &&
       true) {

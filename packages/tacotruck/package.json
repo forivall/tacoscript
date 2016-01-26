@@ -25,7 +25,8 @@
   "dependencies": {
     "babel-types": "^6.2.0",
     "horchata": "^0.3.1",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "tacoscript-cst-utils": "^0.3.0"
   },
   "devDependencies": {
     "cstify": "^0.2.6"

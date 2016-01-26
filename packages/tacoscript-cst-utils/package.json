@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-cst-utils",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Adds cst elements to an ast",
   "main": "lib/index.js",
   "repository": {

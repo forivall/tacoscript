@@ -284,18 +284,20 @@ export function parseObject(isPattern, expressionContext) {
 
     while (atDecorator ? this.match(tt.at) : this.match(tt.relational) && this.state.cur.value === ">") {
       decorators.push(this.parseDecorator());
+      this.eat(tt.newline);
     }
 
     let prop;
     let start;
-    if (decorators.length > 0) {
-      prop.decorators = decorators;
-      decorators = [];
-    }
     if (this.match(tt.ellipsis)) {
+      if (decorators.length > 0) this.raise(this.state.cur.start, "Decorators cannot be attached to an ellipsis")
       prop = isPattern ? this.parseRest() : this.parseSpread();
     } else {
       prop = this.startNode();
+
+      this.addAll(prop, "decorators", decorators);
+      decorators = [];
+
       prop.method = false;
       prop.shorthand = false;
 
@@ -313,6 +315,7 @@ export function parseObject(isPattern, expressionContext) {
 
       prop = this.parsePropertyName(prop);
       prop = this.parsePropertyValue(prop, start, isPattern, propertyContext, expressionContext);
+
       this.checkPropClash(prop, propHash);
     }
     this.add(node, "properties", prop);

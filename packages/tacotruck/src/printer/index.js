@@ -9,6 +9,8 @@ import repeating from "repeating";
 
 import TokenBuffer from "./buffer";
 import {willCatchUpBetween, willCatchUpLeading, willCatchUpTrailing, isEmpty} from "./helpers";
+import {startLocOf} from "tacoscript-cst-utils";
+
 import {tokTypes as tt, tokComments} from "horchata";
 const
   blockCommentJs = tokComments.blockCommentMeta['/*'],
@@ -405,27 +407,11 @@ export default class Printer extends TokenBuffer {
     this.printComments(comments);
   }
 
-  _startLocOf(node) {
-    // maybe class expressions too.
-    // TODO: get this to work
-    if (
-          node.type === "ClassMethod" ||
-          node.type === "ObjectMethod" ||
-          node.type === "ObjectProperty" ||
-          /* node.type === "ClassDeclaration" || */
-        false) {
-      if (node.decorators != null && node.decorators.length > 0) {
-        return node.decorators[0].loc.start;
-      }
-    }
-    return node.loc.start;
-  }
-
   catchUp(node, parent) {
     if (node._noCatchUp) return;
-    const lines = this._prevCatchUp == null ? this._startLocOf(node).line
-      : parent === this._prevCatchUp ? this._startLocOf(node).line - this._startLocOf(parent).line
-      : this._startLocOf(node).line - this._prevCatchUp.loc.end.line;
+    const lines = this._prevCatchUp == null ? startLocOf(node).line
+      : parent === this._prevCatchUp ? startLocOf(node).line - startLocOf(parent).line
+      : startLocOf(node).line - this._prevCatchUp.loc.end.line;
     // TODO: store a different prevCatchUp for comments
     this._prevCatchUp = node;
     return this._catchUp(lines, parent);

@@ -19,7 +19,6 @@ function localDisabled(task, groupName) {
   return (
     groupName === "es2015/basic" && (
       task.title === "AwaitExpression" ||
-      task.title === "Decorator" ||
       task.title === "ExportDefaultDeclaration ExportSpecifier ExportNamedDeclaration" ||
     false) ||
     groupName === "es2015/edgecase" && task.title === "exports" ||

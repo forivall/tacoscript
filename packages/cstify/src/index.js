@@ -2,7 +2,7 @@
 import {VISITOR_KEYS} from 'babel-types';
 import heap from 'heapjs';
 import TYPE_TO_ELEMENT from './type-to-element';
-import {dereference} from 'tacoscript-cst-utils';
+import {dereference, startOf} from 'tacoscript-cst-utils';
 import * as visitors from './visitors';
 
 export default function cstify(ast, source, options = {}) {
@@ -83,8 +83,8 @@ export class Processor {
 
   // generate source elements from tokens and whitespace between the two children of `node`
   collect(node, prevChild, nextChild) {
-    let start = prevChild !== undefined ? prevChild.end : node.start;
-    let end = nextChild !== undefined ? nextChild.start : node.end;
+    let start = prevChild !== undefined ? prevChild.end : startOf(node);
+    let end = nextChild !== undefined ? startOf(nextChild) : node.end;
     let {sourceElements} = node;
     for (let token; this.index < this.tokensLength && (token = this.tokens[this.index]).end <= end; this.index++) {
       sourceElements.push(...this.captureWhitespace(start, token.start));
@@ -157,11 +157,11 @@ export class Processor {
         let childNode = node[nextChildReference];
         // if the childNode is omitted (optional), we don't include it
         // if the childNode was cloned as a shorthand of the previous childNode, we don't include it
-        if (childNode != null && !(prevChildNode && childNode.start === prevChildNode.start && childNode.end === prevChildNode.end)) {
+        if (childNode != null && !(prevChildNode && startOf(childNode) === startOf(prevChildNode) && childNode.end === prevChildNode.end)) {
           // if the previous childNode is a child of the current childNode,
           if (prevChildNode && VISITOR_KEYS[childNode.type].some((key) => {
             let test = childNode[key];
-            return test && !Array.isArray(test) && test.start === prevChildNode.start && test.end === prevChildNode.end;
+            return test && !Array.isArray(test) && startOf(test) === startOf(prevChildNode) && test.end === prevChildNode.end;
           })) {
             // then we remove the previous childNode, since it has been included in the currentChild as shorthand
             childReferences.pop();
@@ -206,10 +206,10 @@ function nodePos(parent, key, listState) {
     // let n = c[listState[key] ?= 0]
     let n = c[listState[key] != null ? listState[key] : (listState[key] = 0)];
     if (n == null) return -1;
-    return avg(n.start, n.end);
+    return avg(startOf(n), n.end);
   } else {
     if (c == null) return -1;
-    return avg(c.start, c.end);
+    return avg(startOf(c), c.end);
   }
 }
 
