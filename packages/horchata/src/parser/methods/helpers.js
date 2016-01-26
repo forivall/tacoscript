@@ -1,7 +1,8 @@
 import {types as tt} from "../../lexer/types";
 
 // TODO: comment this
-
+// TODO: eventually, this could be replaced by a pass through the tokenizer
+//       where the newlines, etc. are replaced by commas where appropriate
 export function parseIndentableList(close, context, inner) {
   const {allowTrailingComma, separator = tt.comma, noTerminator} = context;
   let elements = [];
@@ -9,6 +10,14 @@ export function parseIndentableList(close, context, inner) {
   let first = true;
 
   let firstSeparatorStart;
+
+  if (this.eat(tt.newline)) {
+    // must be empty
+    if (close !== null) {
+      this.eat(close) || this.unexpected();
+    }
+    return {};
+  }
 
   loop: while (close === null || !this.match(close)) {
     if (!indented) {

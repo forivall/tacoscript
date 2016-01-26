@@ -52,6 +52,15 @@ export const defaultOptions = {
   // expression statements and not directives
   noTopLevelDirectives: false,
 
+  // Features, for simple parsing extensions needed for foundational plugins
+
+  features: {
+    exclCall: true,
+    statementNoParenCall: false,
+    implicitReturnFunctions: false,
+    lexicallyBoundNamedFunctions: false,
+  },
+
   // TODO: callbacks will be only added via plugin
 
   // TODO: create a `loose` preset that allows all of these "allowSomethingSomewhere"
@@ -62,10 +71,18 @@ export const defaultOptions = {
 // Interpret and default an options object
 
 export function getOptions(opts) {
+  return _getOptions(opts, defaultOptions);
+}
+
+function _getOptions(opts, spec) {
   let options = {};
-  for (let key in defaultOptions) {
-    options[key] = opts && key in opts ? opts[key] :
-      defaultOptions[key] === emptyObject ? {} : defaultOptions[key];
+  for (let key in spec) {
+    if (spec[key] !== null && typeof spec[key] === "object") {
+      options[key] = _getOptions(opts[key] || {}, spec[key]);
+    } else {
+      options[key] = opts && key in opts ? opts[key] :
+        defaultOptions[key] === emptyObject ? {} : defaultOptions[key];
+    }
   }
   return options;
 }

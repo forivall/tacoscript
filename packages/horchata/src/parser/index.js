@@ -31,6 +31,7 @@ export default class Parser extends Lexer {
     // Load plugins
     this.loadPlugins(this.options.plugins);
   }
+
   extend(name, f) {
     this[name] = f(this[name])
   }
