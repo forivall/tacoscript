@@ -15,7 +15,7 @@ var saveAst = devUtils.saveAst
 var horchata = require("horchata")
 var plugin = require("../lib/horchata/index")
 
-horchata.registerPlugin("logicalAssign", plugin.init, plugin.load);
+horchata.registerPlugin("logicalAssign", plugin.load, plugin.init);
 
 // TODO: rewrite mocha-fixtures-generic to be more generic, w.r.t directory structure
 
@@ -29,7 +29,7 @@ suite("tacoscript-logical-assign", function () {
     .filter(function(fixtureDir) { return fs.statSync(path.join(fixtureRootBase, fixtureRootDir, fixtureDir)).isDirectory() })
 
     var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
-    var options = {}; try { options = require(optionsPath) } catch(e) {}
+    var options = {plugins: {"logicalAssign": true}};
 
     _.forEach(fixtureDirs, function(fixtureDir) { test(fixtureDir, function () {
 

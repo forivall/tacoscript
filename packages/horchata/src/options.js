@@ -79,10 +79,13 @@ function _getOptions(opts, spec) {
   let options = {};
   for (let key in spec) {
     if (spec[key] !== null && typeof spec[key] === "object") {
-      options[key] = _getOptions(opts[key] || {}, spec[key]);
+      if (spec[key] === emptyObject) {
+        options[key] = opts[key] || {};
+      } else {
+        options[key] = _getOptions(opts[key] || {}, spec[key]);
+      }
     } else {
-      options[key] = opts && key in opts ? opts[key] :
-        spec[key] === emptyObject ? {} : spec[key];
+      options[key] = opts && key in opts ? opts[key] : spec[key];
     }
   }
   return options;

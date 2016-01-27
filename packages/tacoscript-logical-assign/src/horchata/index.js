@@ -6,13 +6,13 @@ import * as lexer from "./lexer";
 export function init(pp, lp) {
   // TODO: error if overriding
   for (let method in lexer) {
-    if (!/^extend[A-Z]/.test(method)) {
+    if (method !== '__esModule' && !/^extend[A-Z]/.test(method)) {
       lp[method] = lexer[method];
     }
   }
 
   for (let method in parser) {
-    if (!/^extend[A-Z]/.test(method)) {
+    if (method !== '__esModule' && !/^extend[A-Z]/.test(method)) {
       pp[method] = parser[method];
     }
   }
@@ -20,13 +20,13 @@ export function init(pp, lp) {
 
 export function load(instance) {
   for (let method in lexer) {
-    if (/^extend[A-Z]/.test(method)) {
+    if (method !== '__esModule' && /^extend[A-Z]/.test(method)) {
       instance.extend(removeExtendPrefix(method), lexer[method]);
     }
   }
 
   if (instance.__isParser) for (let method in parser) {
-    if (/^extend[A-Z]/.test(method)) {
+    if (method !== '__esModule' && /^extend[A-Z]/.test(method)) {
       instance.extend(removeExtendPrefix(method), parser[method]);
     }
   }
