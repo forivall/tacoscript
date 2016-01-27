@@ -28,7 +28,7 @@ suite("tacoscript-logical-assign", function () {
     var fixtureDirs = fs.readdirSync(path.join(fixtureRootBase, fixtureRootDir))
     .filter(function(fixtureDir) { return fs.statSync(path.join(fixtureRootBase, fixtureRootDir, fixtureDir)).isDirectory() })
 
-    var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
+    // var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
     var options = {plugins: {"logicalAssign": true}};
 
     _.forEach(fixtureDirs, function(fixtureDir) { test(fixtureDir, function () {

@@ -16,7 +16,7 @@
               "raw": "foo"
             }
           },
-          "operator": "and=",
+          "operator": "&&=",
           "right": {
             "type": "Identifier",
             "name": "bar",
