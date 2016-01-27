@@ -1,7 +1,7 @@
 import * as parser from "./parser";
 import * as lexer from "./lexer";
 
-// TODO: move this pattern into a standard horchata parser loader module.
+// TODO: move this pattern into a standard horchata parser plugin loader module.
 
 export function init(pp, lp) {
   // TODO: error if overriding

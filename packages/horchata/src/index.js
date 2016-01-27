@@ -11,6 +11,7 @@ export * as tokComments from "./lexer/comments";
 export * as whitespace from "./util/whitespace.js";
 
 // Main API
+import Lexer from "./lexer";
 import Parser from "./parser";
 
 // The main interface is a `parse` function that takes a code string and
@@ -25,4 +26,9 @@ export function parse(input, options) {
 
 export function parseFile(file, options) {
   return new Parser(options).parseFile(file);
+}
+
+export function registerPlugin(name, load, init) {
+  Parser.addPlugin(name, load);
+  if (init != null) init(Parser.prototype, Lexer.prototype);
 }

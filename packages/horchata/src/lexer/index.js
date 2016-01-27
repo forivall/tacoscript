@@ -846,23 +846,23 @@ export default class Lexer {
   // Read an identifier or keyword token
   readWord() {
     let word = this.readWordSingle();
-    let type = tt.name;
     if (!this.state.containsEsc && this.keywords.test(word)) {
-      type = keywordTypes[word];
-      // TODO: move to method to allow customization by plugins
-      if (type === tt._and || type === tt._or) {
-        if (this.input.charCodeAt(this.state.pos) === 61) { // and=, or=
-          ++this.state.pos;
-          return this.finishToken(tt.assign, type.keyword + "=");
-        }
-      // } else if (type === tt._upto || type === tt._downto) {
-      //   throw new Error("Not Implemented");
-      //   if (this.input.charCodeAt(this.state.pos) === 61) { // upto=, downto=
-      //     // TODO
-      //   }
-      }
+      return this.finishKeyword(word);
     }
-    return this.finishToken(type, type === tt.name ? {value: word, raw: this.input.slice(this.state.lex.start, this.state.pos)} : word);
+    return this.finishToken(tt.name, {value: word, raw: this.input.slice(this.state.lex.start, this.state.pos)});
+  }
+
+  finishKeyword(word) {
+    let type = keywordTypes[word];
+
+    // if (type === tt._upto || type === tt._downto) {
+    //   throw new Error("Not Implemented");
+    //   if (this.input.charCodeAt(this.state.pos) === 61) { // upto=, downto=
+    //     // TODO
+    //   }
+    // }
+
+    return this.finishToken(type, word);
   }
 
   // Read an identifier, and return it as a string. Sets `state.containsEsc`
