@@ -89,7 +89,7 @@ AST transformations for `this.` → [`@`][strudel]
 shorthand.
 
 ### tacoscript-logical-assign
-_(Not Implemented)_
+_(In Progress, needs generator and transforms)_
 
 Parser & Generator plugins and AST transformations for `and=` and `or=`.
 

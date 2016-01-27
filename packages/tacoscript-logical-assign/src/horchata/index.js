@@ -18,7 +18,7 @@ export function init(pp, lp) {
   }
 }
 
-export function load(instance, options) {
+export function load(instance) {
   for (let method in lexer) {
     if (/^extend[A-Z]/.test(method)) {
       instance.extend(removeExtendPrefix(method), lexer[method]);
