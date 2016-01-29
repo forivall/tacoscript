@@ -189,7 +189,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] `%%` ([frappe])
 * [ ] `unless` ([frappe])
 * [ ] `until` ([frappe])
-* [ ] autobinding (`=>`) of named function expressions (nfe), function declarations, and methods
+* [ ] autobinding (`=>`) of named function expressions (nfe), function declarations, methods, and generator functions
 * [ ] allow omitting `!` for parenthises-less function calls when used as statements ([frappe])
   * tagged template literals will have higher precedence though
 * [ ] null coalsecing and soak operator (`?` and `?.` and `?[]`)
