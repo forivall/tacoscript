@@ -1,0 +1,24 @@
+{
+  "name": "tacoscript-iife",
+  "version": "0.4.0",
+  "description": "plugin for tacoscript for tacoscript's iife shorthand syntax",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/tacoscript.git"
+  },
+  "keywords": [
+    "tacoscript",
+    "tacoscript-plugin",
+    "horchata-plugin"
+  ],
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "devDependencies": {
+    "horchata": "^0.3.1",
+    "tacoscript-cst-utils": "^0.3.0"
+  }
+}

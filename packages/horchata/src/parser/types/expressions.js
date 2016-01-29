@@ -544,15 +544,20 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   const {canBeArrow} = expressionContext;
   if (start == null) start = this.state.cur;
 
-  let maybeFunction = this.startNode(start);
-  maybeFunction.params = [];
+  let node = this.startNode(start);
 
   this.next();
 
-  // TODO: add hook to parse comprehensions here
+  return this.finishParseParenAndDistinguishExpression(node, expressionContext)
+}
+
+// overridden by iife and generator expression plugins
+export function finishParseParenAndDistinguishExpression(node, expressionContext) {
+  let maybeFunction = node;
+  maybeFunction.params = [];
 
   expressionContext.shorthandDefaultPos = {start: 0};
-  let node, spreadStart;
+  let spreadStart;
 
   let {firstConcreteSeparatorStart} =
   this.parseIndentableList(tt.parenR, expressionContext, () => {
