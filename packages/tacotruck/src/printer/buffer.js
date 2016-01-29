@@ -58,7 +58,7 @@ export default class TacoBuffer {
     return last.type === type;
   }
 
-  lastTokenIsNewline(type) {
+  lastTokenIsNewline() {
     return this.isLastType(tt.newline);
   }
 
@@ -266,7 +266,7 @@ export default class TacoBuffer {
   }
 
   _insertFormattingSpace(state) {
-    if (this.format.compact || this.format.preserve) return false;
+    if (this.format.compact) return false;
     let last = this._last();
 
     let insertFormatting = last && last.type.formattingSpaceAfter;

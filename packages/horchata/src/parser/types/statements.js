@@ -172,7 +172,6 @@ export function parseContinueStatement(node) {
 }
 
 export function parseJump(node, keyword) {
-  let isBreak = keyword === "break";
   this.next();
   if (this.match(tt.name)) {
     this.assign(node, "label", this.parseIdentifier());
@@ -415,7 +414,6 @@ export function parseSwitchStatement(node) {
 }
 
 export function parseSwitchCaseBody(node, isDefault = false) {
-  let finishedDirectives = false;
   node.consequent = [];
   let isEmpty = false;
   if (!this.match(tt.indent)) {

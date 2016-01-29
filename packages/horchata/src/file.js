@@ -5,6 +5,8 @@ import {Position} from "./util/location";
 export default class File extends Node {
   constructor(input, options, metadata = {}) {
     super({options}, {start: 0, startLoc: new Position(1, 0), index: 0});
+
+    // TODO: allow input to be a buffer or a stream
     this.input = input;
     this.filename = metadata.filename;
     this.sourceType = metadata.sourceType || "module";

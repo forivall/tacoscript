@@ -224,7 +224,6 @@ export function parseExpressionPrefix(expressionContext) {
   node.prefix = true;
   this.next();
 
-  let type = this.state.type;
   // should be able to infer from child
   // this.addExtra(node, "parenthesizedArgument", type === tt.parenL);
   this.assign(node, "argument", this.parseExpressionMaybeUnary());
@@ -549,8 +548,6 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
   maybeFunction.params = [];
 
   this.next();
-
-  let innerStart = this.state.cur;
 
   // TODO: add hook to parse comprehensions here
 

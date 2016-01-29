@@ -154,7 +154,7 @@ escaped, or if there are open parentheses.
 
   <code>\*\\#</code> for parts of a block comment that contains <code>\*#</code>. etc.
 
-12. `switch` with fallthroughs starts with `switch!`, and a plugin is used for "safe" switch statements.
+12. `switch` with fallthroughs starts with `switch!`, and a phase 3 "[safe switch]" plugin will be written for "safe" switch statements, where each case breaks, and fallthrough is opt-in.
 
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
@@ -201,7 +201,7 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] loose string parsing, unify string interpolation behaviour ([frappe])
   * tagged template strings will still require `\`\``
 * [ ] `@@` in class methods to `ClassName.`
-* [ ] non-fallthrough `switch` [(spec)](./safe-switch.md)
+* [ ] non-fallthrough `switch` [(spec)][safe switch]
 * [ ] boolean switch statements (a la Coffeescript)
 * [ ] expression version of boolean switch statements
 * [ ] `rescue` a la Ruby or Go's `recover`
@@ -396,6 +396,8 @@ TODO: determine an encoding for unexpected spacing around tokens that are redund
     be used. sequences that already exist in the code are noted in the
     file-trailing comment, so that they are ignored.
 
+
+[safe switch]: ./safe-switch.md
 [frappe]: https://github.com/lydell/frappe
 [wycats' private state proposal]: https://github.com/wycats/javascript-private-state
 [the decorators propsal]: https://github.com/wycats/javascript-decorators

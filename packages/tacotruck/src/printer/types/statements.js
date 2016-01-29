@@ -60,7 +60,7 @@ let buildForXStatement = function (op) {
 export let ForInStatement = buildForXStatement("in");
 export let ForOfStatement = buildForXStatement("of");
 
-export function DoWhileStatement(node, parent) {
+export function DoWhileStatement(node) {
   this.push("do");
   this.printBlock(node);
   if (this.format.preserveLines) this.catchUp(node.test, node);
@@ -102,7 +102,7 @@ export function TryStatement(node) {
     this.keyword("finally");
     this.printBlock(node, "finalizer");
   }
-  if (!this.format.preserve && !this.format.preserveLines) this.newline(true);
+  if (!this.format.preserveLines) this.newline(true);
 }
 
 export function CatchClause(node) {
@@ -122,7 +122,7 @@ export function SwitchStatement(node) {
     indent: true
   });
 
-  if (!this.format.preserve && !this.format.preserveLines) this.newline(true);
+  if (!this.format.preserveLines) this.newline(true);
 }
 
 export function _switchCase(node) {
@@ -173,20 +173,17 @@ export function VariableDeclaration(node, parent) {
       }
     }
   }
-  if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
-    throw new Error("Not Implemented");
-  } else {
-    let useNewlines = !this.format.compact && !this.format.preserveLines && hasInits && node.declarations.length > 1;
 
-    let opts = {
-      separator: useNewlines ? {type: "newline"} : ",",
-      indent: useNewlines || this.format.preserveLines && willCatchUpBetween(node.declarations, node),
-      omitSeparatorIfNewline: true
-    };
-    if (useNewlines) this.newline();
-    this.printMultiple(node, "declarations", opts);
-    if (!isLoopHead) this.newline();
-  }
+  let useNewlines = !this.format.compact && !this.format.preserveLines && hasInits && node.declarations.length > 1;
+
+  let opts = {
+    separator: useNewlines ? {type: "newline"} : ",",
+    indent: useNewlines || this.format.preserveLines && willCatchUpBetween(node.declarations, node),
+    omitSeparatorIfNewline: true
+  };
+  if (useNewlines) this.newline();
+  this.printMultiple(node, "declarations", opts);
+  if (!isLoopHead) this.newline();
 }
 
 export function VariableDeclarator(node) {

@@ -25,7 +25,7 @@ export function DirectiveLiteral(node) {
  * Print BlockStatement, collapses empty blocks, prints body.
  */
 
-export function BlockStatement(node, parent) {
+export function BlockStatement(node) {
   this.push("!");
   this.newline();
   this.printInnerComments(node);

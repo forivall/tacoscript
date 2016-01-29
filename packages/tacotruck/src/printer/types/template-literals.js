@@ -12,21 +12,16 @@ export function TemplateElement(node) {
 export function TemplateLiteral(node) {
   this.push("`");
 
-  // TODO
-  if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
-    throw new Error("Not Implemented");
-  } else {
 
-    let quasis = node.quasis;
+  let quasis = node.quasis;
 
-    for (let i = 0; i < quasis.length; i++) {
-      this._simplePrint(quasis[i], node, {});
+  for (let i = 0; i < quasis.length; i++) {
+    this._print(quasis[i], node, {});
 
-      if (i + 1 < quasis.length) {
-        this.push("${");
-        this._simplePrint(node.expressions[i], node, {});
-        this.push("}");
-      }
+    if (i + 1 < quasis.length) {
+      this.push("${");
+      this._print(node.expressions[i], node, {});
+      this.push("}");
     }
   }
 

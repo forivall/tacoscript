@@ -64,33 +64,29 @@ function ExportDeclaration(node) {
     }
 
     // TODO: share code between export and import
-    if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
-      throw new Error("Not Implemented");
-    } else {
-      let specifiers = node.specifiers.slice(0);
+    let specifiers = node.specifiers.slice(0);
 
-      let first = specifiers[0];
-      let hasSpecial = false;
-      if (t.isExportDefaultSpecifier(first) || t.isExportNamespaceSpecifier(first)) {
-        hasSpecial = true;
-        let defaultSpecifier = specifiers.shift();
-        this._simplePrint(defaultSpecifier, node, {});
-        if (specifiers.length) {
-          this.push(",");
-        }
+    let first = specifiers[0];
+    let hasSpecial = false;
+    if (t.isExportDefaultSpecifier(first) || t.isExportNamespaceSpecifier(first)) {
+      hasSpecial = true;
+      let defaultSpecifier = specifiers.shift();
+      this._print(defaultSpecifier, node, {});
+      if (specifiers.length) {
+        this.push(",");
       }
+    }
 
-      if (specifiers.length || (!specifiers.length && !hasSpecial)) {
-        this.push("{");
-        if (specifiers.length) {
-          if (this.format.preserveLines) this.indent();
-          this._simplePrintMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
-          if (this.format.preserveLines) this.dedent();
-        }
-        if (node.hasTrailingComma) this.push(",");
-        if (this.format.preserveLines && node.source) this.catchUp(node.source, node);
-        this.push("}");
+    if (specifiers.length || (!specifiers.length && !hasSpecial)) {
+      this.push("{");
+      if (specifiers.length) {
+        if (this.format.preserveLines) this.indent();
+        this._printMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
+        if (this.format.preserveLines) this.dedent();
       }
+      if (node.hasTrailingComma) this.push(",");
+      if (this.format.preserveLines && node.source) this.catchUp(node.source, node);
+      this.push("}");
     }
 
     if (node.source) {
@@ -110,39 +106,35 @@ export function ImportDeclaration(node) {
   }
 
   // TODO: share code between export and import
-  if (this.format.preserve && node.tokenElements && node.tokenElements.length) {
-    throw new Error("Not Implemented");
-  } else {
-    let specifiers = node.specifiers.slice(0);
-    if (specifiers && specifiers.length) {
-      let first = specifiers[0];
-      if (t.isImportDefaultSpecifier(first)) {
-        this._simplePrint(specifiers.shift(), node, {});
-        if (specifiers.length) this.push(",");
-      }
-      first = specifiers[0];
-      if (t.isImportNamespaceSpecifier(first)) {
-        this._simplePrint(specifiers.shift(), node, {});
-        if (specifiers.length) this.push(",");
-      }
-
-      if (specifiers.length) {
-        this.push("{");
-        if (this.format.preserveLines) this.indent();
-        this._simplePrintMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
-        if (this.format.preserveLines) this.dedent();
-        if (node.hasTrailingComma) this.push(",");
-        if (this.format.preserveLines) this.catchUp(node.source, node);
-        this.push("}");
-      }
-
-      this.keyword("from");
-    } else if (node.isEmptyImport) {
-      this.push("{");
-      if (node.hasTrailingComma) this.push(",")
-      this.push("}");
-      this.keyword("from");
+  let specifiers = node.specifiers.slice(0);
+  if (specifiers && specifiers.length) {
+    let first = specifiers[0];
+    if (t.isImportDefaultSpecifier(first)) {
+      this._print(specifiers.shift(), node, {});
+      if (specifiers.length) this.push(",");
     }
+    first = specifiers[0];
+    if (t.isImportNamespaceSpecifier(first)) {
+      this._print(specifiers.shift(), node, {});
+      if (specifiers.length) this.push(",");
+    }
+
+    if (specifiers.length) {
+      this.push("{");
+      if (this.format.preserveLines) this.indent();
+      this._printMultiple(specifiers, node, { separator: ",", omitSeparatorIfNewline: true });
+      if (this.format.preserveLines) this.dedent();
+      if (node.hasTrailingComma) this.push(",");
+      if (this.format.preserveLines) this.catchUp(node.source, node);
+      this.push("}");
+    }
+
+    this.keyword("from");
+  } else if (node.isEmptyImport) {
+    this.push("{");
+    if (node.hasTrailingComma) this.push(",")
+    this.push("}");
+    this.keyword("from");
   }
 
   this.print(node, "source");

@@ -170,7 +170,7 @@ export function parseSpread(expressionContext) {
 export function parseRest(identifierContext = {}) {
   let node = this.startNode();
   this.next();
-  this.assign(node, "argument", this.parseIdentifier());
+  this.assign(node, "argument", this.parseIdentifier(identifierContext));
   return this.finishNode(node, "RestElement");
 }
 

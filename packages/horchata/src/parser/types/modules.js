@@ -69,7 +69,6 @@ export function parseExportFrom(node, exportFromContext = {}) {
 // Parses a comma-separated list of module exports.
 export function parseExportSpecifiers(parent) {
   if (!parent.specifiers) parent.specifiers = [];
-  let first = true;
   let needsFrom;
 
   // export { x, y as z } [from '...']
@@ -115,8 +114,6 @@ export function parseExportDeclaration() {
   return this.parseStatement();
 }
 
-// const empty = Symbol("EmptySpecifiers");
-const empty = "__emptySpecifiers";
 // Parses module import declarations
 export function parseImport(node) {
   this.next();

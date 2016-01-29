@@ -6,7 +6,6 @@
  */
 
 import {types as tt} from "../../lexer/types";
-import Token from "../../lexer/token";
 
 // Initialize empty function node.
 
@@ -33,7 +32,7 @@ export function parseMethod(node, functionContext = {}, callbacks = {}) {
 
 export function parseClassMethod(method, functionContext) {
   return this.parseMethod(method, functionContext, {
-    afterArrowParse(method, functionContext) {
+    afterArrowParse(method/*, functionContext*/) {
       if (method.kind === "constructor") {
         this.checkClassConstructorProperties(method);
       }

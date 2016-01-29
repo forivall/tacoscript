@@ -9,7 +9,7 @@ import detectIndent from "./detect-indent";
 export default function (ast, opts, code) {
   opts = opts || {};
   opts.language = opts.language || 'tacoscript';
-  opts.format = opts.format || {preserve: true};
+  opts.format = opts.format || {};
   opts.format.indent = opts.format.indent || detectIndent(code);
 
   let gen = new Printer(ast, opts, code);

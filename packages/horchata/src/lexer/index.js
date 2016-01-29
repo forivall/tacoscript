@@ -47,7 +47,7 @@ export default class Lexer {
   }
 
   raise(pos, message) {
-    throw new Error("Not Implemented");
+    throw new Error(`${message} at pos ${pos}`);
   }
 
   assert(assertion) {
@@ -335,7 +335,6 @@ export default class Lexer {
     startLoc = this.state.curPosition();
     for (let ch; ch = this.input.charCodeAt(this.state.pos),
     this.state.pos < this.input.length && !isNewline(ch); ++this.state.pos);
-    let len = this.state.pos - start;
 
     let raw = this.input.slice(start, this.state.pos);
     let commentBody = raw;

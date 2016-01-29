@@ -6,7 +6,6 @@
  */
 
 import {types as tt} from "../../lexer/types";
-import {isNewline} from "../../util/whitespace";
 
 // Top Level Parsing
 

@@ -5,7 +5,6 @@ import {types as tt} from "../../lexer/types";
 //       where the newlines, etc. are replaced by commas where appropriate
 export function parseIndentableList(close, context, inner) {
   const {allowTrailingComma, separator = tt.comma, noTerminator} = context;
-  let elements = [];
   let indented = false;
   let first = true;
 

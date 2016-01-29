@@ -4,10 +4,6 @@
 
 export default function(ast) { new Postprocessor().process(ast); return ast; }
 
-function last(a) {
-  return a[a.length - 1];
-}
-
 export class Postprocessor {
   process(ast) {
     this.ast = ast;

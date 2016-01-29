@@ -3,8 +3,6 @@ import forOwn from "lodash/object/forOwn";
 import includes from "lodash/collection/includes";
 import {types as tt, keywords} from "./types";
 import {reservedWords} from "../util/identifier";
-import {tokTypes as btt} from "babylon";
-import toFastProperties from "to-fast-properties";
 import repeating from "repeating";
 
 // helper for looking up token types
@@ -13,19 +11,11 @@ import repeating from "repeating";
 // update the lookup helper
 export function added() {
   forOwn(tt, function(tokType, keyStr) {
-    // tokType[key] = keyStr;
     tokType.key = keyStr;
     if (!tokType.babylonName) {
       tokType.babylonName = keyStr;
     }
   });
-  // forOwn(btt, function(tokType, keyStr) {
-  //   tokType.key = keyStr;
-  // });
-}
-
-export function from(babelTokenType) {
-  throw new Error("Not Implemented");
 }
 
 // set up serialization
@@ -71,7 +61,7 @@ tt.regexp.toCode = function(token) { return token.value.code || token.value.raw 
 tt.string.toCode = function(token) { return token.value.code || token.value.raw || JSON.stringify(token.value.value); };
 tt.template.toCode = function(token) { return token.value.raw; };
 tt.name.toCode = function(token, state) {
-  // TODO: keyword conflict resolution
+  // TODO: allow bare keywords when allowed, i.e. object keys
   let code = token.value.code || token.value.raw || token.value.value;
   if ((keywords.hasOwnProperty(code) || includes(reservedWords.strict, code)) && token.value.standalone) code = "\\$" + code;
   return code;
@@ -79,11 +69,11 @@ tt.name.toCode = function(token, state) {
 tt.tab.toCode = function(token, state) {
   return token.value ? repeating(state.format.indent.indent, token.value) : "";
 };
-tt.indent.toCode = function(token, state) {
+tt.indent.toCode = function() {
   // marker to parser that indentation has increased
   return "";
 };
-tt.dedent.toCode = function(token, state) {
+tt.dedent.toCode = function() {
   // marker to parser that indentation has decreased
   return "";
 };
@@ -142,7 +132,7 @@ forOwn(keywords, function(keywordType) {
   keywordType.formattingSpaceWhenAfter.parenR = true;
 });
 
-tt.plusMin.formattingSpaceAfter = function(left, right) { return !left.meta.unary; };
+tt.plusMin.formattingSpaceAfter = function(left) { return !left.meta.unary; };
 tt.plusMin.formattingSpaceWhenAfter.name = true;
 tt.plusMin.formattingSpaceWhenAfter.num = true;
 tt.plusMin.formattingSpaceWhenAfter.parenR = true;

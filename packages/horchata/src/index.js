@@ -11,6 +11,7 @@ export * as tokComments from "./lexer/comments";
 export * as whitespace from "./util/whitespace.js";
 
 // Main API
+import SourceFile from "./file";
 import Lexer from "./lexer";
 import Parser from "./parser";
 
@@ -24,10 +25,17 @@ export function parse(input, options) {
   return new Parser(options).parse(input);
 }
 
-export function parseFile(file, options) {
-  return new Parser(options).parseFile(file);
+// TODO: test this function
+export function lex(input, options) {
+  let lexer = new Lexer(options);
+  let file = new SourceFile(input, options);
+  lexer.open(file);
+  lexer.nextToken();
+  while (lexer.next());
+  let tokens = lexer.state.tokens;
+  lexer.close();
+  return tokens;
 }
-
 
 // Plugin API
 export {registerPlugin, registerPluginModule} from "./plugin";

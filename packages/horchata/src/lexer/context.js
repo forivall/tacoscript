@@ -161,7 +161,7 @@ tt.parenR.updateContext = function(type) {
     this.state.exprAllowed = true;
     return;
   }
-  let out = this.state.context.pop();
+  this.state.context.pop();
   this.state.exprAllowed = type.beforeExpr;
 };
 

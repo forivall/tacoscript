@@ -23,7 +23,7 @@ export function _functionBody(parent, prop = "body") {
   if (t.isBlock(node)) {
     this.indent();
     if ((node[prop].length + (node.directives == null ? 0 : node.directives.length)) > 0) { this.startBlock(); }
-    this._startPrint(parent, prop, opts);
+    this.startPrint(parent, prop, opts);
     if (node.directives) this.printStatements(node, 'directives', opts);
     this.printStatements(node, prop, opts);
     this._finishPrint(node, parent, opts);
@@ -100,7 +100,7 @@ export function FunctionDeclaration(node, parent) {
   this.newline(); // note: won't be printed if there's already a newline
 }
 
-export function _finishFunction(node, parent) {
+export function _finishFunction(node) {
   this._params(node);
 
   if (node.generator) this.push("*");
@@ -117,7 +117,7 @@ export function _finishFunction(node, parent) {
  * TODO: Preserve if parens were included for a single argument
  */
 
-export function ArrowFunctionExpression(node, parent) {
+export function ArrowFunctionExpression(node) {
   this._params(node);
 
   if (t.isBlock(node.body)) {

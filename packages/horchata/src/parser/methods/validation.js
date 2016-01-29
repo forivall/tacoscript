@@ -14,9 +14,9 @@ export function checkReferencedList(expressions) { return expressions; }
 
 // equivalent to "checkLVal"
 // will be used by a validator plugin
-export function checkAssignable(node, assignableContext = {}) {
-  let isBinding = !!assignableContext.isBinding;
-  let checkClashes = !!assignableContext.checkClashes;
+export function checkAssignable(/*node, assignableContext = {}*/) {
+  // let isBinding = !!assignableContext.isBinding;
+  // let checkClashes = !!assignableContext.checkClashes;
   // TODO
 }
 

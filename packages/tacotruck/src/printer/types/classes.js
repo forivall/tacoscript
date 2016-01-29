@@ -32,7 +32,7 @@ export function _printClass(node) {
   this.print(node, "body");
 }
 
-export function ClassDeclaration(node, parent) {
+export function ClassDeclaration(node) {
   this._printClass(node);
   this.newline();
 }

@@ -1,4 +1,4 @@
-import {TokenType, types as tt} from "./types";
+import {types as tt} from "./types";
 import {SourceLocation} from "../util/location";
 
 export default class Token {

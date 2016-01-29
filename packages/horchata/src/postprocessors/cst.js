@@ -3,7 +3,6 @@
  *
  */
 
-import {SourceLocation} from "../util/location";
 import {dereference, startOf, tokenStartOf} from "tacoscript-cst-utils";
 
 export default function(ast, tokens) { new Postprocessor().process(ast, tokens); return ast; }

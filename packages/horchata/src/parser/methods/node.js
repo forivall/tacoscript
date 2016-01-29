@@ -10,7 +10,6 @@
 // overridden to not set (see http://jsperf.com/if-vs-override for approach)
 
 import Node from "../node";
-import {SourceLocation} from "../../util/location";
 
 // Start an AST node, attaching location information.
 

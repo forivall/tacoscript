@@ -186,7 +186,6 @@ export function MemberExpression(node) {
     this.push("]");
   } else {
     if (t.isLiteral(node.object)) {
-      // TODO: preserve original format
       let val = this._stringLiteral(node.object);
       if (isInteger(+val) && !SCIENTIFIC_NOTATION.test(val) && !this.endsWith(".")) {
         this.push(".");
