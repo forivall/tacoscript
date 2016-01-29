@@ -65,6 +65,10 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._with: node = this.parseWithStatement(node); break;
 
     // Variable declaration
+    case tt._extern:
+      if (!this.hasFeature("externDeclarations")) {
+        this.raise(this.state.cur.start, '"externDeclarations" not enabled');
+      }
     case tt._let:
     case tt._const:
       if (!declaration) this.unexpected();

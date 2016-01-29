@@ -60,6 +60,7 @@ export const defaultOptions = {
     implicitReturnFunctions: false,
     lexicallyBoundNamedFunctions: false,
     strudelThisMember: false,
+    externDeclarations: false,
   },
 
   // TODO: callbacks will be only added via plugin

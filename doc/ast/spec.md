@@ -5,6 +5,7 @@ These are additions to the [core Babylon AST node types](https://github.com/babe
   - [ImplicitReturnBlockStatement](#implicitreturnblockstatement)
 - [Declarations](#declarations)
   - [ArrowFunctionDeclaration](#arrowfunctiondeclaration)
+  - [VariableDeclaration](#variabledeclaration)
 - [Expressions](#expressions)
   - [NamedArrowFunctionExpression](#namedarrowfunctionexpression)
   - [ObjectExpression](#objectexpression)
@@ -44,6 +45,12 @@ Enabled by `lexicallyBoundNamedFunctions` horchata feature
 Performs the same lexical binding that an ArrowFunctionExpression would, but as a declaration.
 
 inherits `FunctionDeclaration`
+
+## VariableDeclaration
+
+`kind`: `"extern"` added by `externDeclarations` horchata feature
+
+
 
 # Expressions
 

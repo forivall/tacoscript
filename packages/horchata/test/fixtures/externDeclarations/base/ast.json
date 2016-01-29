@@ -1,0 +1,38 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "$",
+              "extra": {
+                "raw": "$"
+              }
+            },
+            "init": {
+              "type": "Identifier",
+              "name": "jQuery",
+              "extra": {
+                "raw": "jQuery"
+              }
+            }
+          }
+        ],
+        "kind": "extern"
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}
