@@ -13,7 +13,6 @@ var render = require("tacoscript-cst-utils").render
 var saveAst = devUtils.saveAst
 
 var horchata = require("horchata")
-var plugin = require("../lib/horchata/index")
 
 // TODO: should load parser and lexer from ../lib/index
 horchata.registerPluginModule("logicalAssign", require("../lib/horchata/parser"), require("../lib/horchata/lexer"));
