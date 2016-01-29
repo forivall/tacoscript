@@ -10,6 +10,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
     * Untransformed tacoscript can be called "masascript"
   * If the original source is available, and CST tokens are provided, whitespace will be preserved as much as possible. Eventually, code style will be detected, and the generated javascript will conform to the given code style (for style rules that are meaningless in a tacoscript context).
 * Integrate with the Babel transpiler.
+* Repurpose neglected keywords, such as `switch` and `with`.
 
 ## Aspirations
 * Create a git extension that allows switching between Taco representations just by switching branches
@@ -156,6 +157,8 @@ escaped, or if there are open parentheses.
 
 12. `switch` with fallthroughs starts with `switch!`, and a phase 3 "[safe switch]" plugin will be written for "safe" switch statements, where each case breaks, and fallthrough is opt-in.
 
+13. `with` will be reused for iife. The vanilla, (deprecated in strict mode anyways) `with` must be declared as `with!`
+
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
 
@@ -169,13 +172,17 @@ All of the following syntax is optional, but is default, and is part of the core
     * [ ] store metadata that this was a paren-less call
   * [ ] generate (requires inference)
 * [ ] Function calls without parentheses, without `!` operator, only when in statement position
-* [ ] IIFE syntax
-  * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
 
 
 * [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 
 #### Phase 2 - A "Useful" language
+* [ ] IIFE syntax
+  * [ ] `(function(a, b, c){})(d, e, c)` ↔ `with d as a, e as b, c`
+  * [ ] `(function*(a, b, c){})(d, e, c)` ↔ `with* d as a, e as b, c`
+  * [ ] `(async function(a, b, c){})(d, e, c)` ↔ `with+ d as a, e as b, c`
+  * [ ] `((a, b, c) => {})(d, e, c)` ↔ `with= d as a, e as b, c`
+  * [ ] `((a, b, c) => (a + b + c))(d, e, c)` ↔ `with= d as a, e as b, c > a + b + c`
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])
