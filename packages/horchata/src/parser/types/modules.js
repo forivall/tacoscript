@@ -51,7 +51,7 @@ export function parseExport(node) {
   }
 
   this.checkExport(node);
-  node = this.takeDecoratorsMaybe(node);
+  node = this.consumeDecorators(node);
   return this.finishNode(node, nodeType);
 }
 

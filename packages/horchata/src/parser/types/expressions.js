@@ -420,7 +420,7 @@ export function parseExpressionAtomic(expressionContext) {
       if (this.state.cur.value === ">" && this.hasFeature("strudelThisMember")) {
         this.parseDecorators();
       } else {
-        break;
+        this.unexpected();
       }
       // fallthrough
 
@@ -541,7 +541,6 @@ export function parseYieldExpression() {
 // * anything else that a plugin might want to add (ex. flow type annotations)
 // Our job is to distinguish which of these things it is, and
 export function parseParenAndDistinguishExpression(start, expressionContext = {}) {
-  const {canBeArrow} = expressionContext;
   if (start == null) start = this.state.cur;
 
   let node = this.startNode(start);
@@ -553,6 +552,7 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
 
 // overridden by iife and generator expression plugins
 export function finishParseParenAndDistinguishExpression(node, expressionContext) {
+  const {canBeArrow} = expressionContext;
   let maybeFunction = node;
   maybeFunction.params = [];
 

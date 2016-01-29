@@ -28,27 +28,29 @@ suite("horchata", function () {
     var optionsPath = path.join(fixtureRootBase, fixtureRootDir, "options.json")
     var options = {}; try { options = require(optionsPath) } catch(e) {}
 
-    _.forEach(fixtureDirs, function(fixtureDir) { test(fixtureDir, function () {
-
+    _.forEach(fixtureDirs, function(fixtureDir) {
       var fixtureBase = path.join(fixtureRootBase, fixtureRootDir, fixtureDir)
-      var fixtureAstPath = path.join(fixtureBase, "ast.json")
-      var fixtureAst; try { fixtureAst = require(fixtureAstPath) } catch(e) {}
-      var expectedErr; try { expectedErr = require(path.join(fixtureBase, "error.json")) } catch(e) {}
-      var source = fs.readFileSync(path.join(fixtureBase, "source.taco"), "utf-8")
+      var source; try {source = fs.readFileSync(path.join(fixtureBase, "source.taco"), "utf-8")} catch (e) {}
+      test(fixtureDir, source !== undefined && function () {
 
-      var fixtureAstPath = path.join(fixtureBase, "ast.json")
-      if (expectedErr) {
-        expect(horchata.parse.bind(horchata, source, options)).to.throw(expectedErr.message)
-      } else {
-        var ast = horchata.parse(source, options)
-        if (fixtureAst) {
-          expect(ast).matches(fixtureAst)
-          // expect(render(ast)).to.equal(source)
+        var fixtureAstPath = path.join(fixtureBase, "ast.json")
+        var fixtureAst; try { fixtureAst = require(fixtureAstPath) } catch(e) {}
+        var expectedErr; try { expectedErr = require(path.join(fixtureBase, "error.json")) } catch(e) {}
+
+        var fixtureAstPath = path.join(fixtureBase, "ast.json")
+        if (expectedErr) {
+          expect(horchata.parse.bind(horchata, source, options)).to.throw(expectedErr.message)
         } else {
-          saveAst(fixtureAstPath, ast)
+          var ast = horchata.parse(source, options)
+          if (fixtureAst) {
+            expect(ast).matches(fixtureAst)
+            // expect(render(ast)).to.equal(source)
+          } else {
+            saveAst(fixtureAstPath, ast)
+          }
         }
-      }
 
-    }) /* end test */ }) /* end forEach fixtureDirs */
+      }) /* end test */
+    }) /* end forEach fixtureDirs */
   }) /* end suite */ }) /* end forEach fixtureRootDirs */
 })

@@ -1,0 +1,109 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "EmptyStatement"
+      },
+      {
+        "type": "EmptyStatement"
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "BinaryExpression",
+          "left": {
+            "type": "NumericLiteral",
+            "value": 1,
+            "extra": {
+              "raw": "1"
+            }
+          },
+          "operator": "+",
+          "right": {
+            "type": "NumericLiteral",
+            "value": 2,
+            "extra": {
+              "raw": "2"
+            }
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "CommentLine",
+            "index": 0,
+            "value": " a"
+          },
+          {
+            "type": "CommentBlock",
+            "index": 1,
+            "value": "\r\n\r\n"
+          }
+        ]
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "StringLiteral",
+          "value": "",
+          "extra": {
+            "raw": "\"\\\r\n\\\r\""
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "CommentLine",
+            "index": 2,
+            "value": ""
+          },
+          {
+            "type": "CommentLine",
+            "index": 2,
+            "value": ""
+          }
+        ]
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "TemplateLiteral",
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "value": {
+                "raw": "\n\n ",
+                "cooked": "\n\n "
+              },
+              "tail": true
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": [
+    {
+      "type": "CommentLine",
+      "index": 0,
+      "value": " a"
+    },
+    {
+      "type": "CommentBlock",
+      "index": 1,
+      "value": "\r\n\r\n"
+    },
+    {
+      "type": "CommentLine",
+      "index": 2,
+      "value": ""
+    }
+  ]
+}

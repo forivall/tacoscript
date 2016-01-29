@@ -70,7 +70,6 @@ module.exports['unified-loc'] = {
   skip: function(test, testPath) {
     return (
       unifiedOptions.skip(test, testPath) ||
-      testPath.indexOf("/base/auto-indentation/") !== -1 ||
       testPath.indexOf("/base/edgecase/") !== -1 ||
       testPath.indexOf("/base/parentheses/") !== -1 ||
       false

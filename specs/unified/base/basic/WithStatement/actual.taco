@@ -1,5 +1,5 @@
-with foo
-with foo then pass
+with! foo
+with! foo then pass
 
-with foo
+with! foo
   bar()
