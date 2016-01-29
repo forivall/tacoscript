@@ -52,7 +52,7 @@ export function parseArrowExpression(node) {
   if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
 
   let isArrowFunction, implicitReturn;
-  let arrow = {...this.state.cur};
+  let arrow = this.state.cur;
   this.next();
   switch (arrow.value) {
     case '+=>': case '+=>>':

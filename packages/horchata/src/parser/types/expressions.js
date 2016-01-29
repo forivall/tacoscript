@@ -55,7 +55,7 @@ export function parseExpression(expressionContext = {}, callbacks = {}) {
 
 // precedence: 0
 export function parseExpressionMaybeSequence(expressionContext, callbacks = {}) {
-  let start = {...this.state.cur};
+  let start = this.state.cur;
   let expr = this.parseExpressionMaybeKeywordOrAssignment(expressionContext, callbacks);
   if (this.match(tt.semi)) {
     let node = this.startNode(start);
@@ -97,7 +97,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
         expressionContext.shorthandDefaultPos = {start: 0};
       }
 
-      let start = {...this.state.cur};
+      let start = this.state.cur;
 
       // tacoscript arrow functions _always_ have arguments surrounded by parens
       // TODO: add plugin extension point here for custom function syntax, to
@@ -163,7 +163,7 @@ export function parseOtherKeywordExpression() {
 
 // Start the precedence parser
 export function parseExpressionOperators(expressionContext) {
-  let start = {...this.state.cur};
+  let start = this.state.cur;
   let node = this.parseExpressionMaybeUnary(expressionContext);
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
@@ -190,7 +190,7 @@ export function parseExpressionOperator(node, start, minPrec, expressionContext)
     this.next();
 
     // rightStart needs to be stored here, since `parseExpressionMaybeUnary` will advance the parser
-    let rightStart = {...this.state.cur};
+    let rightStart = this.state.cur;
     this.assign(node, "right", this.parseExpressionOperator(this.parseExpressionMaybeUnary(),
       rightStart, op.rightAssociative ? prec - 1 : prec, expressionContext));
     node = this.finishNode(node, op.binopExpressionName);
@@ -206,7 +206,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
   if (this.state.cur.type.prefix) {
     node = this.parseExpressionPrefix(expressionContext);
   } else {
-    let start = {...this.state.cur};
+    let start = this.state.cur;
     node = this.parseExpressionSubscripts(expressionContext);
     if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
       // noop
@@ -258,7 +258,7 @@ export function isArrowExpression(node) {
 
 // Parse call, dot, and `[]`-subscript expressions.
 export function parseExpressionSubscripts(expressionContext) {
-  let start = {...this.state.cur};
+  let start = this.state.cur;
   let potentialLambdaOn = this.state.potentialLambdaOn;
   let node = this.parseExpressionAtomic(expressionContext);
 
@@ -451,7 +451,7 @@ export function parseExpressionAtomic(expressionContext) {
 }
 
 export function parseNoCallExpression() {
-  let start = {...this.state.cur};
+  let start = this.state.cur;
   return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true});
 }
 
@@ -543,14 +543,14 @@ export function parseYieldExpression() {
 // Our job is to distinguish which of these things it is, and
 export function parseParenAndDistinguishExpression(start, expressionContext = {}) {
   const {canBeArrow} = expressionContext;
-  if (start == null) start = {...this.state.cur};
+  if (start == null) start = this.state.cur;
 
   let maybeFunction = this.startNode(start);
   maybeFunction.params = [];
 
   this.next();
 
-  let innerStart = {...this.state.cur};
+  let innerStart = this.state.cur;
 
   // TODO: add hook to parse comprehensions here
 

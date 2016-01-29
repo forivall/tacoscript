@@ -181,7 +181,7 @@ export function parseAssignableListItemTypes(param) {
 
 // Parses assignment pattern around given atom if possible.
 export function parseMaybeDefault(start, left) {
-  if (start == null) start = {...this.state.cur};
+  if (start == null) start = this.state.cur;
   if (left == null) left = this.parseBindingAtomic();
   let node;
   if (this.eat(tt.eq)) {
@@ -302,7 +302,7 @@ export function parseObject(isPattern, expressionContext) {
       prop.shorthand = false;
 
       if (isPattern || expressionContext.shorthandDefaultPos) {
-        start = {...this.state.cur};
+        start = this.state.cur;
       }
 
       if (!isPattern && !this.matchNext(tt.colon) && !this.matchNext(tt.parenL)) {

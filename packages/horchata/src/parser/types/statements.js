@@ -70,7 +70,7 @@ export function parseStatement(declaration = true, topLevel = false) {
       if (!declaration) this.unexpected();
       // fallthrough
     case tt._var:
-      node = this.parseDeclarationStatement(node, {...this.state.cur}); break;
+      node = this.parseDeclarationStatement(node, this.state.cur); break;
 
     // Symbols
     case tt.excl: node = this.parseBlockStatement(node); break;
@@ -226,7 +226,7 @@ export function parseForStatement(node) {
     node = this.parseFor(node, null);
   } else if (this.match(tt._var) || this.match(tt._let) || this.match(tt._const)) {
     let init = this.startNode();
-    let varToken = {...this.state.cur};
+    let varToken = this.state.cur;
     this.next();
     init = this.parseDeclaration(init, varToken, {isFor: true});
     init = this.finishNode(init, "VariableDeclaration");
