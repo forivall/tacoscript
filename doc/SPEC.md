@@ -163,7 +163,6 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] "sharp" non-double arrows, multiline sharp arrow functions
 * [ ] `@` ↔ `this.` ([frappe])
 * [ ] extended assign - `or=`, `and=`
-* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 * [ ] Function calls without parentheses, with the `!` operator
   * `fs.readFile! "package.json", (err, data) ->`
   * [x] parse
@@ -172,6 +171,9 @@ All of the following syntax is optional, but is default, and is part of the core
 * [ ] Function calls without parentheses, without `!` operator, only when in statement position
 * [ ] IIFE syntax
   * [ ] `(function(a, b, c){})(d, e, c)` ↔ `(! d as a, e as b, c) ->`
+
+
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 
 #### Phase 2 - A "Useful" language
 * [ ] `not instanceof` ([frappe])

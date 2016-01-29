@@ -28,7 +28,6 @@ export function parseFile(file, options) {
   return new Parser(options).parseFile(file);
 }
 
-export function registerPlugin(name, load, init) {
-  Parser.addPlugin(name, load);
-  if (init != null) init(Parser.prototype, Lexer.prototype);
-}
+
+// Plugin API
+export {registerPlugin, registerPluginModule} from "./plugin";

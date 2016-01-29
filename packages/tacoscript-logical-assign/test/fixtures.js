@@ -15,7 +15,8 @@ var saveAst = devUtils.saveAst
 var horchata = require("horchata")
 var plugin = require("../lib/horchata/index")
 
-horchata.registerPlugin("logicalAssign", plugin.load, plugin.init);
+// TODO: should load parser and lexer from ../lib/index
+horchata.registerPluginModule("logicalAssign", require("../lib/horchata/parser"), require("../lib/horchata/lexer"));
 
 // TODO: rewrite mocha-fixtures-generic to be more generic, w.r.t directory structure
 
