@@ -7,6 +7,7 @@ import "./lexer/serialization";
 // Export bindings from lexer
 export {TokenType, types as tokTypes, keywords as keywordTypes} from "./lexer/types";
 export {TokContext, types as contextTypes} from "./lexer/context-types";
+export {codePointToString} from "./util/identifier";
 export Lexer, {Token} from "./lexer";
 export * as tokComments from "./lexer/comments";
 export * as whitespace from "./util/whitespace.js";
