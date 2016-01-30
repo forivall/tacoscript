@@ -82,13 +82,13 @@ _(In Progress, needs generator and transforms)_
 
 AST transformations for implicitly returning functions ("sharp arrows").
 
-### tacoscript-strudel-this-member
+### [tacoscript-strudel-this-member](./packages/tacoscript-strudel-this-member)
 _(In Progress, needs generator and transforms)_
 
 AST transformations for `this.` → [`@`][strudel]
 shorthand.
 
-### tacoscript-logical-assign
+### [tacoscript-logical-assign](./packages/tacoscript-logical-assign)
 _(In Progress, needs generator and transforms)_
 
 Parser & Generator plugins and AST transformations for `and=` and `or=`.
@@ -120,11 +120,25 @@ _(Not Implemented)_
 AST transformations for automatic const variables anywhere forms.
 [_(Spec)_](./doc/auto-const.md). May create ugly JavaScript code.
 
-### tacoscript-iife
+### [tacoscript-iife-with](./packages/tacoscript-iife-with)
+_(In Progress, needs generator)_
+Parser & Generator for iife's created with the `with` keyword syntax. Uses
+`comal-iife` for transforms.
+
+Example:
+```
+with= {bar: foo, boop: beep} > bar + boop
+```
+
+### tacoscript-iife-with
+_(Just a stub)_
+Parser & Generator for iife's in the style of
+`(! foo as bar, beep as boop) =>> bar + boop`.
+
+### comal-iife
 _(Not Implemented)_
 
-Parser & Generator plugins and AST transformations for immediately invoked
-function expressions.
+AST transforms for desugaring [ImmediatelyInvokedFunctionExpression] nodes.
 
 ### tacoscript-negative-conditional
 _(Not Implemented)_
@@ -278,3 +292,4 @@ contribute to JavaScript projects by coding in TacoScript, and vice-versa.
 [strudel]: http://www.catb.org/~esr/jargon/html/S/strudel.html
 [ESLint]: http://eslint.org
 [conditional catch clauses]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch#Conditional_catch_clauses
+[ImmediatelyInvokedFunctionExpression]: ./doc/ast/spec.md#immediatelyinvokedfunctionexpression
