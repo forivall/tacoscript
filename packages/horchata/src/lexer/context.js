@@ -90,7 +90,7 @@ let blockStatementUpdateContext = function(type) {
   this.state.context.push(types.stmt_head);
   this.state.exprAllowed = type.beforeExpr;
 };
-tt._if.updateContext = tt._with.updateContext = blockStatementUpdateContext;
+tt._if.updateContext = blockStatementUpdateContext;
 
 tt._for.updateContext = function(type) {
   this.state.inForHeaderInit = true;
@@ -111,7 +111,7 @@ tt.excl.updateContext = function(type, prevType) {
   if (prevType === tt._if) {
     this.state.context.pop();
     this.state.exprAllowed = true;
-  } else if (prevType === tt._switch) {
+  } else if (prevType === tt._switch || prevType === tt._with) {
     this.state.exprAllowed = true;
   }
 }

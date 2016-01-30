@@ -1,0 +1,69 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "AssignmentExpression",
+          "left": {
+            "type": "Identifier",
+            "name": "bar",
+            "extra": {
+              "raw": "bar"
+            }
+          },
+          "operator": "=",
+          "right": {
+            "type": "ImmediatelyInvokedFunctionExpression",
+            "generator": false,
+            "async": true,
+            "arrow": false,
+            "binding": {
+              "type": "ObjectPattern",
+              "properties": [
+                {
+                  "type": "ObjectProperty",
+                  "method": false,
+                  "shorthand": true,
+                  "computed": false,
+                  "key": {
+                    "type": "Identifier",
+                    "name": "foo",
+                    "extra": {
+                      "raw": "foo"
+                    }
+                  },
+                  "kind": "init",
+                  "value": {
+                    "type": "Identifier",
+                    "name": "foo",
+                    "extra": {
+                      "raw": "foo"
+                    }
+                  },
+                  "extra": {
+                    "shorthand": true
+                  }
+                }
+              ]
+            },
+            "body": {
+              "type": "BlockStatement",
+              "body": []
+            },
+            "expression": false
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

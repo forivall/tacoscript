@@ -7,6 +7,7 @@ These are additions to the [core Babylon AST node types](https://github.com/babe
   - [ArrowFunctionDeclaration](#arrowfunctiondeclaration)
   - [VariableDeclaration](#variabledeclaration)
 - [Expressions](#expressions)
+  - [ImmediatelyInvokedFunctionExpression](#immediatelyinvokedfunctionexpression)
   - [NamedArrowFunctionExpression](#namedarrowfunctionexpression)
   - [ObjectExpression](#objectexpression)
     - [ObjectMember](#objectmember)
@@ -53,6 +54,20 @@ inherits `FunctionDeclaration`
 
 
 # Expressions
+
+## ImmediatelyInvokedFunctionExpression
+```js
+interface ImmediatelyInvokedFunctionExpression <: Expression {
+  type: "ImmediatelyInvokedFunctionExpression";
+  generator:  boolean;
+  async: boolean;
+  arrow: boolean;
+  body: BlockStatement | Expression;
+  binding: ObjectPattern;
+}
+```
+
+TODO: revise the above, so that instead of body, it includes a `FunctionExpression`/`ArrowFunctionExpression`/`NamedArrowFunctionExpression` under `callee`, and instead of binding, it includes `arguments: [ Expression ]`
 
 ## NamedArrowFunctionExpression
 

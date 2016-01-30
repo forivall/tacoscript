@@ -80,10 +80,9 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt.excl: node = this.parseBlockStatement(node); break;
 
     case tt._new: if (this.hasFeature("statementNoParenCall") && !this.matchNext(tt.dot)) {
-      let expr = this.startNode();
+      const expr = this.startNode();
       this.next();
-      expr = this.parseNewCall(expr, start, {statementNoParenCall: true});
-      node = this.parseExpressionStatement(node, expr);
+      node = this.parseExpressionStatement(node, this.parseNewCall(expr, start, {statementNoParenCall: true}));
       break;
     } // else fallthrough
     default:

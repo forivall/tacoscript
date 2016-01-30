@@ -128,8 +128,10 @@ export function checkFunctionAssignable(node, setStrict) {
   if (node.id) {
     this.checkAssignable(node.id, {isBinding: true});
   }
-  for (let param of (node.params: Array<Object>)) {
-    this.checkAssignable(param, {isBinding: true, checkClashes: nameHash});
+  if (node.params != null) {
+    for (let param of (node.params: Array<Object>)) {
+      this.checkAssignable(param, {isBinding: true, checkClashes: nameHash});
+    }
   }
   this.state.strict = oldStrict;
 }

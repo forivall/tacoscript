@@ -1,0 +1,41 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ImmediatelyInvokedFunctionExpression",
+          "generator": false,
+          "async": false,
+          "arrow": false,
+          "binding": {
+            "type": "ObjectPattern",
+            "properties": []
+          },
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "EmptyStatement"
+              }
+            ]
+          },
+          "expression": false
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

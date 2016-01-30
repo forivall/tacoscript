@@ -17,6 +17,9 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "peerDependencies": {
+    "horchata": ">=0.3.1 <1"
+  },
   "devDependencies": {
     "horchata": "^0.3.1",
     "tacoscript-cst-utils": "^0.3.0"

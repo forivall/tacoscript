@@ -15,7 +15,7 @@ var saveAst = devUtils.saveAst
 var horchata = require("horchata")
 
 // TODO: should load parser and lexer from ../lib/index
-horchata.registerPluginModule("iife-with", require("../lib/horchata/parser"));
+horchata.registerPluginModule("iife-with", require("../lib/horchata/parser"), require("../lib/horchata/lexer"));
 
 // TODO: rewrite mocha-fixtures-generic to be more generic, w.r.t directory structure
 

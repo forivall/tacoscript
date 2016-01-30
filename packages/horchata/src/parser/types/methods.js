@@ -71,7 +71,7 @@ export function parseArrowExpression(node) {
         node = this.parseArrowExpressionFunction(node);
       } else {
         node = this.parseFunctionBody(node, {allowConcise: true, implicitReturn});
-        if (implicitReturn) node = this.maybeTransformArrowFunctionBody(node)
+        if (implicitReturn) node = this.maybeTransformArrowFunctionBody(node);
       }
       break;
 
