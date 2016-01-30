@@ -28,9 +28,16 @@
               },
               {
                 "type": "StringLiteral",
-                "value": "console.log(foo)",
+                "value": "bar",
                 "extra": {
-                  "raw": "\"console.log(foo)\""
+                  "raw": "\"bar\""
+                }
+              },
+              {
+                "type": "StringLiteral",
+                "value": "console.log(foo, bar)",
+                "extra": {
+                  "raw": "\"console.log(foo, bar)\""
                 }
               }
             ]
@@ -38,9 +45,16 @@
           "arguments": [
             {
               "type": "StringLiteral",
-              "value": "bar",
+              "value": "beep",
               "extra": {
-                "raw": "\"bar\""
+                "raw": "\"beep\""
+              }
+            },
+            {
+              "type": "StringLiteral",
+              "value": "boop",
+              "extra": {
+                "raw": "\"boop\""
               }
             }
           ],
@@ -53,7 +67,11 @@
     "directives": []
   },
   "format": {
-    "indent": null
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
   },
   "comments": []
 }

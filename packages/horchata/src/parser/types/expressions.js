@@ -483,7 +483,7 @@ export function parseBindExpression() {
 
 export function parseNew() {
   let node = this.startNode();
-  let meta = this.parseIdentifier({allowKeywords: true, convertKeywordToken: false});
+  let meta = this.parseIdentifier({allowKeywords: true, convertKeywordToken: false}); // also eats the `new`
   if (this.eat(tt.dot)) {
     this.assign(node, "meta", meta);
     this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
@@ -523,12 +523,11 @@ export function parseNewCall(node, start, newContext = {}) {
       node = this.parseMaybeNoParenCall(node, start);
     }
   } else if (this.hasFeature("exclCall") && this.eat(tt.excl)) {
-    node = this.parseCallExpressionArguments(node, tt.newline, {exclCall: true});
+    node = this.parseCallExpressionArguments(node, null, {exclCall: true});
     node = this.finishNode(node, "NewExpression");
   } else if (statementNoParenCall) {
-    let ateNewline = this.eat(tt.newline);
-    if (ateNewline ? this.match(tt.indent) : !this.matchLineTerminator()) {
-      node = this.parseCallExpressionArguments(node, tt.newline, {statementNoParenCall: true});
+    if (this.match(tt.indent) || !this.matchLineTerminator()) {
+      node = this.parseCallExpressionArguments(node, null, {statementNoParenCall: true});
     } else {
       node.arguments = [];
       this.addExtra(node, "noParens", true);
@@ -545,11 +544,10 @@ export function parseNewCall(node, start, newContext = {}) {
 export function parseMaybeNoParenCall(expr, start) {
   let node = expr;
 
-  let ateNewline = this.eat(tt.newline);
-  if (ateNewline ? this.match(tt.indent) : !this.matchLineTerminator()) {
+  if (this.match(tt.indent) || !this.matchLineTerminator()) {
     node = this.startNode(start);
     this.assign(node, "callee", expr);
-    node = this.parseCallExpressionArguments(node, tt.newline, {statementNoParenCall: true});
+    node = this.parseCallExpressionArguments(node, null, {statementNoParenCall: true});
     node = this.finishNode(node, "CallExpression");
   }
   return node;

@@ -1,0 +1,51 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "NewExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "App",
+            "extra": {
+              "raw": "App"
+            }
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "HOSTNAME",
+              "extra": {
+                "raw": "HOSTNAME"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "BOOTSTRAP",
+              "extra": {
+                "raw": "BOOTSTRAP"
+              }
+            }
+          ],
+          "extra": {
+            "statementNoParenCall": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
