@@ -48,7 +48,11 @@ export function parseArrowExpression(node) {
   this.initFunction(node);
   node.params = this.toArguments(node.params);
   node.generator = this.eat(tt.star);
-  if (node.generator) this.assignToken(node, "generator", "*", {token: this.state.prev});
+  let generatorPos;
+  if (node.generator) {
+    this.assignToken(node, "generator", "*", {token: this.state.prev});
+    generatorPos = this.state.prev.start;
+  }
 
   let isArrowFunction, implicitReturn;
   let arrow = this.state.cur;
@@ -58,6 +62,9 @@ export function parseArrowExpression(node) {
       node.async = true;
       // fallthrough
     case '=>': case '=>>':
+      if (node.generator && !this.options.allowArrowFunctionGenerators) {
+        this.raise(generatorPos, "Arrow functions cannot be generators")
+      }
       isArrowFunction = true;
       implicitReturn = arrow.value === '=>>' || arrow.value === '+=>>';
       if (implicitReturn && !this.hasFeature('implicitReturnFunctions')) {
