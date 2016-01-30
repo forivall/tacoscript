@@ -35,7 +35,7 @@ export default class Parser extends Lexer {
   }
 
   extend(name, f) {
-    this[name] = f(this[name])
+    this[name] = f(this[name], Parser.prototype)
   }
 
   loadPlugins(pluginConfigs) {
