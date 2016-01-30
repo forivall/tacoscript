@@ -163,26 +163,42 @@ escaped, or if there are open parentheses.
 All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
 
 #### Phase 1 (Jan 2016) - Proof of Concept
-* [ ] "sharp" non-double arrows, multiline sharp arrow functions
 * [ ] `@` ↔ `this.` ([frappe])
+  * [x] parse
+  * [ ] transform
+  * [ ] generate
 * [ ] extended assign - `or=`, `and=`
+  * [x] parse
+  * [ ] transform
+  * [ ] generate
+* [ ] "sharp" non-double arrows, multiline sharp arrow functions
+  * [x] parse
+  * [ ] transform
+  * [ ] generate
 * [ ] Function calls without parentheses, with the `!` operator
   * `fs.readFile! "package.json", (err, data) ->`
   * [x] parse
-    * [ ] store metadata that this was a paren-less call
+    * [x] store metadata that this was a paren-less call
   * [ ] generate (requires inference)
 * [ ] Function calls without parentheses, without `!` operator, only when in statement position
+  * [x] parse
+  * [ ] generate
 
-
+#### Phase 1.5 -
 * [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
 
 #### Phase 2 - A "Useful" language
-* [ ] IIFE syntax
-  * [ ] `(function(a, b, c){})(d, e, c)` ↔ `with d as a, e as b, c`
-  * [ ] `(function*(a, b, c){})(d, e, c)` ↔ `with* d as a, e as b, c`
-  * [ ] `(async function(a, b, c){})(d, e, c)` ↔ `with+ d as a, e as b, c`
-  * [ ] `((a, b, c) => {})(d, e, c)` ↔ `with= d as a, e as b, c`
-  * [ ] `((a, b, c) => (a + b + c))(d, e, c)` ↔ `with= d as a, e as b, c > a + b + c`
+* [ ] IIFE syntax  
+  `(function(a, b, c){})(d, e, c)` ↔ `with {a: d, b: e, c}`  
+  `(function*(a, b, c){})(d, e, c)` ↔ `with* {a: d, b: e, c}`  
+  `(async function(a, b, c){})(d, e, c)` ↔ `with+ {a: d, b: e, c}`  
+  `((a, b, c) => {})(d, e, c)` ↔ `with= {a: d, b: e, c}`  
+  `((a, b, c) => (a + b + c))(d, e, c)` ↔ `with= {a: d, b: e, c} > a + b + c`  
+
+  * [x] parse
+    * [ ] change ast node to be closer to a `CallExpression`
+  * [ ] transform
+  * [ ] generate
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])

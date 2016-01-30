@@ -1,0 +1,37 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "WithStatement",
+        "object": {
+          "type": "Identifier",
+          "name": "foo",
+          "extra": {
+            "raw": "foo"
+          }
+        },
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "EmptyStatement"
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
