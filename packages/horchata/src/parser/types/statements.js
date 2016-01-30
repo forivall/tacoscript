@@ -62,7 +62,7 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._throw: node = this.parseThrowStatement(node); break;
     case tt._try: node = this.parseTryStatement(node); break;
     case tt._while: node = this.parseWhileStatement(node); break;
-    case tt._with: node = this.parseWithStatement(node); break;
+    case tt._with: node = this.parseWithStatementMaybeAlt(node); break;
 
     // Variable declaration
     case tt._extern:
@@ -478,9 +478,23 @@ export function parseWhileStatement(node) {
   return this.finishNode(node, "WhileStatement");
 }
 
+export function parseWithStatementMaybeAlt(node) {
+  let start = this.state.cur;
+  this.next();
+  if (this.eat(tt.excl)) {
+    node = this.parseWithStatement(node);
+  } else {
+    node = this.parseExpressionStatement(node, this.parseWithExpression(start));
+  }
+  return node;
+}
+
+export function parseSafeSwitchStatement(/*node*/) {
+  this.abort("Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
+}
+
 export function parseWithStatement(node) {
   this.checkWithStatementAllowed();
-  this.next();
   this.assign(node, "object", this.parseExpression());
   this.assign(node, "body", this.parseStatementBody());
   return this.finishNode(node, "WithStatement");

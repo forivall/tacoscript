@@ -81,6 +81,7 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
   let node;
   switch (this.state.cur.type) {
     case tt._yield: node = this.parseYieldExpression(); break;
+    case tt._with: node = this.parseWithExpression(); break;
     case tt._if:
       this.next();
       node = this.parseConditionalExpression();
@@ -517,6 +518,18 @@ export function parseThisMemberExpression() {
   this.next();
   this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
   return this.finishNode(node, "ThisMemberExpression");
+}
+
+export function parseWithExpression(start = this.state.cur) {
+  let node = this.startNode(start);
+  if (start === this.state.cur) {
+    this.eat(tt._with) || this.unexpected();
+  }
+  return this.parseWithExpressionBody(node);
+}
+
+export function parseWithExpressionBody(node) {
+  this.abort("Deprecated with statements require `!` after `with`. Enable a with expression plugin (such as iife-with) to use with expressions.")
 }
 
 // Parses yield expression inside generator.

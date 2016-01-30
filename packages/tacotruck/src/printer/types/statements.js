@@ -5,6 +5,7 @@ import {willCatchUpBetween} from "../helpers";
 
 export function WithStatement(node) {
   this.keyword("with");
+  this.push("!");
   this.print(node, "object");
   this.printBlock(node);
 }
