@@ -333,6 +333,13 @@ export function parseCallExpressionArguments(node, close, expressionContext = {}
     this.add(node, "arguments", argument);
   });
 
+  if (expressionContext.exclCall) {
+    this.addExtra(node, "exclCall", true);
+  }
+  if (expressionContext.statementNoParenCall) {
+    this.addExtra(node, "statementNoParenCall", true);
+  }
+
   return node;
 }
 
@@ -487,16 +494,63 @@ export function parseNew() {
     this.checkMetaProperty(node);
     node = this.finishNode(node, "MetaProperty");
   } else {
-    this.assign(node, "callee", this.parseNoCallExpression());
-    if (this.eat(tt.parenL)) {
-      node = this.parseCallExpressionArguments(node, tt.parenR)
-    } else if (this.hasFeature("exclCall") && this.eat(tt.excl)) {
-      node = this.parseCallExpressionArguments(node, tt.newline, {exclCall: true})
+    node = this.parseNewCall(node);
+  }
+  return node;
+}
+
+// With noParenCalls, new's precedence is even trickier. It must allow
+// a new to be invoked as a paren-less call, or, if there are parens,
+// for the result of the new to be invoked. Even though it usually
+// doesn't make sense to do this, it's still required for completion.
+
+// new Function "foo", "console.log(foo)"
+// vs
+// new Function("foo", "console.log(foo)") "bar"
+
+// In the latter case, this actually will return a "CallExpression", with
+// the "NewExpression" as the callee.
+
+export function parseNewCall(node, start, newContext = {}) {
+  const {statementNoParenCall} = newContext;
+  this.assign(node, "callee", this.parseNoCallExpression());
+  if (this.eat(tt.parenL)) {
+    node = this.parseCallExpressionArguments(node, tt.parenR);
+    node = this.finishNode(node, "NewExpression");
+
+    if (statementNoParenCall) {
+      // new Function("foo", "console.log(foo)") "bar"
+      node = this.parseMaybeNoParenCall(node, start);
+    }
+  } else if (this.hasFeature("exclCall") && this.eat(tt.excl)) {
+    node = this.parseCallExpressionArguments(node, tt.newline, {exclCall: true});
+    node = this.finishNode(node, "NewExpression");
+  } else if (statementNoParenCall) {
+    let ateNewline = this.eat(tt.newline);
+    if (ateNewline ? this.match(tt.indent) : !this.matchLineTerminator()) {
+      node = this.parseCallExpressionArguments(node, tt.newline, {statementNoParenCall: true});
     } else {
       node.arguments = [];
       this.addExtra(node, "noParens", true);
     }
     node = this.finishNode(node, "NewExpression");
+  } else {
+    node.arguments = [];
+    this.addExtra(node, "noParens", true);
+    node = this.finishNode(node, "NewExpression");
+  }
+  return node;
+}
+
+export function parseMaybeNoParenCall(expr, start) {
+  let node = expr;
+
+  let ateNewline = this.eat(tt.newline);
+  if (ateNewline ? this.match(tt.indent) : !this.matchLineTerminator()) {
+    node = this.startNode(start);
+    this.assign(node, "callee", expr);
+    node = this.parseCallExpressionArguments(node, tt.newline, {statementNoParenCall: true});
+    node = this.finishNode(node, "CallExpression");
   }
   return node;
 }

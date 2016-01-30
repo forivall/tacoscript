@@ -1,0 +1,81 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "NewExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "App",
+            "extra": {
+              "raw": "App"
+            }
+          },
+          "arguments": [
+            {
+              "type": "ObjectExpression",
+              "properties": [
+                {
+                  "type": "ObjectProperty",
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "Identifier",
+                    "name": "port",
+                    "extra": {
+                      "raw": "port"
+                    }
+                  },
+                  "kind": "init",
+                  "value": {
+                    "type": "MemberExpression",
+                    "object": {
+                      "type": "MemberExpression",
+                      "object": {
+                        "type": "Identifier",
+                        "name": "process",
+                        "extra": {
+                          "raw": "process"
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "name": "env",
+                        "extra": {
+                          "raw": "env"
+                        }
+                      },
+                      "computed": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "PORT",
+                      "extra": {
+                        "raw": "PORT"
+                      }
+                    },
+                    "computed": false
+                  }
+                }
+              ]
+            }
+          ],
+          "extra": {
+            "statementNoParenCall": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

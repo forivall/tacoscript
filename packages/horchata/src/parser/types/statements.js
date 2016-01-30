@@ -28,10 +28,10 @@ export function parseStatement(declaration = true, topLevel = false) {
   // start with. Many are trivial to parse, some require a bit of
   // complexity.
 
-  let startType = this.state.cur.type;
+  let start = this.state.cur;
   let node = this.startNode();
 
-  switch(startType) {
+  switch(start.type) {
     // Keywords
     case tt._break: node = this.parseBreakStatement(node); break;
     case tt._class:
@@ -78,6 +78,13 @@ export function parseStatement(declaration = true, topLevel = false) {
 
     // Symbols
     case tt.excl: node = this.parseBlockStatement(node); break;
+
+    case tt._new: if (this.hasFeature("statementNoParenCall") && !this.matchNext(tt.dot)) {
+      let expr = this.startNode();
+      expr = this.parseNewCall(expr, start, {statementNoParenCall: true});
+      node = this.parseExpressionStatement(node, expr);
+      break;
+    } // else fallthrough
     default:
       let maybeOtherStatementNode = this.parseOtherStatement(node);
       if (maybeOtherStatementNode) {
@@ -93,10 +100,14 @@ export function parseStatement(declaration = true, topLevel = false) {
       let maybeName = this.state.cur.value.value || this.state.cur.value;
       let expr = this.parseExpression();
 
-      if (startType === tt.name && expr.type === "Identifier" && this.eat(tt.colon)) {
+      if (start.type === tt.name && expr.type === "Identifier" && this.eat(tt.colon)) {
         node = this.parseLabeledStatement(node, maybeName, expr);
       } else {
-        node = this.parseExpressionStatement(node, expr);
+        if (this.hasFeature("statementNoParenCall")) {
+          node = this.parseExpressionStatement(node, this.parseMaybeNoParenCall(expr, start));
+        } else {
+          node = this.parseExpressionStatement(node, expr);
+        }
       }
 
       if (this.state.decorators.length) {

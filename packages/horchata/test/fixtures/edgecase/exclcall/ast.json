@@ -18,20 +18,20 @@
           },
           "operator": "=",
           "right": {
-            "type": "NewExpression",
+            "type": "CallExpression",
             "callee": {
               "type": "Identifier",
-              "name": "A",
+              "name": "bar",
               "extra": {
-                "raw": "A"
+                "raw": "bar"
               }
             },
             "arguments": [
               {
                 "type": "Identifier",
-                "name": "bar",
+                "name": "baz",
                 "extra": {
-                  "raw": "bar"
+                  "raw": "baz"
                 }
               }
             ],

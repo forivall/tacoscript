@@ -1,0 +1,58 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "Identifier",
+              "name": "console",
+              "extra": {
+                "raw": "console"
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "log",
+              "extra": {
+                "raw": "log"
+              }
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "foo",
+              "extra": {
+                "raw": "foo"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            }
+          ],
+          "extra": {
+            "statementNoParenCall": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

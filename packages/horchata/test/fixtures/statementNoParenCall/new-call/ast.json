@@ -1,0 +1,59 @@
+{
+  "type": "File",
+  "sourceType": "module",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "NewExpression",
+          "callee": {
+            "type": "NewExpression",
+            "callee": {
+              "type": "Identifier",
+              "name": "Function",
+              "extra": {
+                "raw": "Function"
+              }
+            },
+            "arguments": [
+              {
+                "type": "StringLiteral",
+                "value": "foo",
+                "extra": {
+                  "raw": "\"foo\""
+                }
+              },
+              {
+                "type": "StringLiteral",
+                "value": "console.log(foo)",
+                "extra": {
+                  "raw": "\"console.log(foo)\""
+                }
+              }
+            ]
+          },
+          "arguments": [
+            {
+              "type": "StringLiteral",
+              "value": "bar",
+              "extra": {
+                "raw": "\"bar\""
+              }
+            }
+          ],
+          "extra": {
+            "statementNoParenCall": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

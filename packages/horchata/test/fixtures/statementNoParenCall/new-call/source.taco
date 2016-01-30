@@ -1,0 +1,1 @@
+new Function("foo", "console.log(foo)") "bar"

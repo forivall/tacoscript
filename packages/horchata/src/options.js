@@ -52,7 +52,6 @@ export const defaultOptions = {
   // expression statements and not directives
   noTopLevelDirectives: false,
 
-
   // When enabled, allows the creation of arrow function generators.
   // These cannot be directly expressed in vanilla es2015+, however
   // babel transforms them properly into es5 and older.
