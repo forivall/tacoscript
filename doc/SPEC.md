@@ -66,7 +66,10 @@ Everything not specified here, is the same as in JavaScript
     ```
 
 4. No semicolons to end statements. A newline always ends a statement, unless
-escaped, or if there are open parentheses.
+escaped, or if the line ends with a [`continuesExpr` token][tokens]. Unfortunately, 
+python behaviour of allowing newlines anywhere within parens cannot be mirrored,
+since blocks can appear inside of parens, whereas in python, only expressions can
+appear within parens.
 
 5. In objects, arrays and arguments, newlines can be used instead of commas. These can be mixed.
 
@@ -419,7 +422,7 @@ TODO: determine an encoding for unexpected spacing around tokens that are redund
     be used. sequences that already exist in the code are noted in the
     file-trailing comment, so that they are ignored.
 
-
+[tokens]: ../packages/horchata/src/lexer/types.js
 [safe switch]: ./safe-switch.md
 [frappe]: https://github.com/lydell/frappe
 [wycats' private state proposal]: https://github.com/wycats/javascript-private-state
