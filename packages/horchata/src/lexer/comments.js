@@ -1,5 +1,7 @@
 import {lineBreak} from "../util/whitespace";
 
+// Comment formatting metadata
+
 export const blockCommentMeta = {
   "#*": {
     terminator: "*#",

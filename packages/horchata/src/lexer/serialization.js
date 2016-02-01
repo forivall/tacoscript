@@ -1,4 +1,7 @@
 
+// Data that generators (tacotruck) uses to turn tacoscript tokens into source
+// code.
+
 import forOwn from "lodash/object/forOwn";
 import includes from "lodash/collection/includes";
 import {types as tt, keywords} from "./types";
