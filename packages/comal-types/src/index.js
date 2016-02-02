@@ -149,20 +149,21 @@ each(t.BUILDER_KEYS, function (keys, type) {
  * Description
  */
 
- for (let type in t.DEPRECATED_KEYS) {
-   let newType = t.DEPRECATED_KEYS[type];
 
-   function proxy(fn) {
-     return function () {
-       console.trace(`The node type ${type} has been renamed to ${newType}`);
-       return fn.apply(this, arguments);
-     };
-   }
+  function proxy(fn, type, newType) {
+    return function () {
+      console.trace(`The node type ${type} has been renamed to ${newType}`);
+      return fn.apply(this, arguments);
+    };
+  }
 
-   t[type] = t[type[0].toLowerCase() + type.slice(1)] = proxy(t[newType]);
-   t[`is${type}`] = proxy(t[`is${newType}`]);
-   t[`assert${type}`] = proxy(t[`assert${newType}`]);
- }
+  for (let type in t.DEPRECATED_KEYS) {
+    let newType = t.DEPRECATED_KEYS[type];
+
+    t[type] = t[type[0].toLowerCase() + type.slice(1)] = proxy(t[newType]);
+    t[`is${type}`] = proxy(t[`is${newType}`], type, newType);
+    t[`assert${type}`] = proxy(t[`assert${newType}`], type, newType);
+  }
 
 /**
  * Description
