@@ -9,7 +9,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "babel-runtime": "^5.0.0",
-    "comal-traverse": ">=0.3.2 <1.0.0",
+    "comal-traverse": "^0.4.0",
     "esutils": "^2.0.2",
     "lodash": "^3.10.1",
     "to-fast-properties": "^1.0.1"
