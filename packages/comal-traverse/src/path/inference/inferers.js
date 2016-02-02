@@ -1,4 +1,4 @@
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 export { default as Identifier } from "./inferer-reference";
 

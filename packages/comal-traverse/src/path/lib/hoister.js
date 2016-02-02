@@ -1,5 +1,5 @@
-import { react } from "babel-types";
-import * as t from "babel-types";
+import { react } from "comal-types";
+import * as t from "comal-types";
 
 let referenceVisitor = {
   ReferencedIdentifier(path, state) {

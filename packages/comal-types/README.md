@@ -1,6 +1,6 @@
-# babel-types
+# comal-types
 
-This module contains methods for building ASTs manually and for checking the types of AST nodes.
+This module contains methods for building ASTs manually and for checking the types of AST nodes. Unlike `babel-types`, custom types can easily be added by plugins.
 
 ## API
 
@@ -1138,4 +1138,3 @@ Aliases: `Expression`, `Terminatorless`
 
 
 <!-- end generated section -->
-

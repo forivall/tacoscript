@@ -2,8 +2,8 @@ import isPlainObject from "lodash/lang/isPlainObject";
 import isNumber from "lodash/lang/isNumber";
 import isRegExp from "lodash/lang/isRegExp";
 import isString from "lodash/lang/isString";
-import traverse from "babel-traverse";
-import type { Scope } from "babel-traverse";
+import traverse from "comal-traverse";
+import type { Scope } from "comal-traverse";
 import * as t from "./index";
 
 export function toComputedKey(node: Object, key: Object = node.key || node.property): Object {

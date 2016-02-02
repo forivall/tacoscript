@@ -1,6 +1,6 @@
 var assert = require("assert");
 var util   = require("../lib/util");
-var t      = require("babel-types");
+var t      = require("comal-types");
 
 suite("util", function () {
   test("canCompile", function () {

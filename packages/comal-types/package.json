@@ -1,15 +1,15 @@
 {
-  "name": "babel-types",
-  "version": "6.4.5",
-  "description": "",
-  "author": "Sebastian McKenzie <sebmck@gmail.com>",
-  "homepage": "https://babeljs.io/",
+  "name": "comal-types",
+  "version": "0.3.2",
+  "description": "Extensible module for building & analysing ASTs",
+  "author": "Jordan J Klassen <forivall@gmail.com>",
+  "homepage": "http://tacoscript.github.io/",
   "license": "MIT",
-  "repository": "https://github.com/babel/babel/tree/master/packages/babel-types",
+  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/comal-types",
   "main": "lib/index.js",
   "dependencies": {
     "babel-runtime": "^5.0.0",
-    "babel-traverse": "^6.4.5",
+    "comal-traverse": ">=0.3.2 <1.0.0",
     "esutils": "^2.0.2",
     "lodash": "^3.10.1",
     "to-fast-properties": "^1.0.1"

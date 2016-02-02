@@ -1,6 +1,6 @@
 import type Plugin from "./plugin";
 import Store from "../store";
-import traverse from "babel-traverse";
+import traverse from "comal-traverse";
 import File from "./file";
 
 export default class PluginPass extends Store {

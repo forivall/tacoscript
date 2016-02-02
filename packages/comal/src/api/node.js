@@ -5,7 +5,6 @@ import fs from "fs";
 
 export { default as File } from "../transformation/file";
 export { default as options } from "../transformation/file/options/config";
-export { default as buildExternalHelpers } from "../tools/build-external-helpers";
 export { default as template } from "babel-template";
 export { version } from "../../package";
 
@@ -17,10 +16,10 @@ export { util };
 import * as messages from "babel-messages";
 export { messages };
 
-import * as t from "babel-types";
+import * as t from "comal-types";
 export { t as types };
 
-import traverse from "babel-traverse";
+import traverse from "comal-traverse";
 export { traverse };
 
 import OptionManager from "../transformation/file/options/option-manager";

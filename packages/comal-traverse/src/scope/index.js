@@ -7,7 +7,7 @@ import defaults from "lodash/object/defaults";
 import * as messages from "babel-messages";
 import Binding from "./binding";
 import globals from "globals";
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 //
 

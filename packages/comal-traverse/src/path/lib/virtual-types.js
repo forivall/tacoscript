@@ -1,6 +1,6 @@
 import type NodePath from "../index";
-import { react } from "babel-types";
-import * as t from "babel-types";
+import { react } from "comal-types";
+import * as t from "comal-types";
 
 export let ReferencedIdentifier = {
   types: ["Identifier", "JSXIdentifier"],

@@ -1,5 +1,5 @@
 import Plugin from "../plugin";
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 export default new Plugin({
   visitor: {

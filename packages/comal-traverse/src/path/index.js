@@ -7,7 +7,7 @@ import invariant from "invariant";
 import traverse from "../index";
 import assign from "lodash/object/assign";
 import Scope from "../scope";
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 let debug = buildDebug("babel");
 

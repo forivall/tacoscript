@@ -1,5 +1,5 @@
 import Binding from "../binding";
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 let renameVisitor = {
   ReferencedIdentifier({ node }, state) {

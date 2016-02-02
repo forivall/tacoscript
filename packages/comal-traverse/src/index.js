@@ -2,7 +2,7 @@ import TraversalContext from "./context";
 import * as visitors from "./visitors";
 import * as messages from "babel-messages";
 import includes from "lodash/collection/includes";
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 export { default as NodePath } from "./path";
 export { default as Scope } from "./scope";

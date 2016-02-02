@@ -1,5 +1,4 @@
 var babel                = require("../lib/api/node");
-var buildExternalHelpers = require("../lib/tools/build-external-helpers");
 var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
 var assert               = require("assert");
@@ -38,8 +37,8 @@ suite("api", function () {
 
   test("options merge backwards", function () {
     return transformAsync("", {
-      presets: [__dirname + "/../../babel-preset-es2015"],
-      plugins: [__dirname + "/../../babel-plugin-syntax-jsx"]
+      presets: [__dirname + "/../node_modules/babel-preset-es2015"],
+      plugins: [__dirname + "/../node_modules/babel-plugin-syntax-jsx"]
     }).then(function (result) {
       assert.ok(result.options.plugins[0][0].manipulateOptions.toString().indexOf("jsx") >= 0);
     });
@@ -83,13 +82,13 @@ suite("api", function () {
           },
 
           // ES2015 preset
-          require(__dirname + "/../../babel-preset-es2015"),
+          require(__dirname + "/../node_modules/babel-preset-es2015"),
 
           // Third preset for Flow.
           {
             plugins: [
-              require(__dirname + "/../../babel-plugin-syntax-flow"),
-              require(__dirname + "/../../babel-plugin-transform-flow-strip-types"),
+              require(__dirname + "/../node_modules/babel-plugin-syntax-flow"),
+              require(__dirname + "/../node_modules/babel-plugin-transform-flow-strip-types"),
             ]
           }
         ],
@@ -198,9 +197,9 @@ suite("api", function () {
     });
   });
 
-  test("modules metadata", function () {
-    return Promise.all([
-      transformAsync('import { externalName as localName } from "external";').then(function (result) {
+  suite("modules metadata", function () {
+    test("import as", function() {
+      return transformAsync('import { externalName as localName } from "external";').then(function (result) {
         assert.deepEqual(result.metadata.modules.imports[0], {
           source: "external",
           imported: ["externalName"],
@@ -210,9 +209,11 @@ suite("api", function () {
             local: "localName"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('import * as localName2 from "external";').then(function (result) {
+    test("import *", function() {
+      return transformAsync('import * as localName2 from "external";').then(function (result) {
         assert.deepEqual(result.metadata.modules.imports[0], {
           source: "external",
           imported: ["*"],
@@ -221,9 +222,11 @@ suite("api", function () {
             local: "localName2"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('import localName3 from "external";').then(function (result) {
+    test("import default", function() {
+      return transformAsync('import localName3 from "external";').then(function (result) {
         assert.deepEqual(result.metadata.modules.imports[0], {
           source: "external",
           imported: ["default"],
@@ -233,9 +236,11 @@ suite("api", function () {
             local: "localName3"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('import localName from "./array";', {
+    test("import resolve", function() {
+      return transformAsync('import localName from "./array";', {
         resolveModuleSource: function() {
           return "override-source";
         }
@@ -253,10 +258,12 @@ suite("api", function () {
             ]
           }
         ]);
-      }),
+      });
+    });
 
-      transformAsync('export * as externalName1 from "external";', {
-        plugins: [require("../../babel-plugin-syntax-export-extensions")]
+    test("export extensions star", function() {
+      return transformAsync('export * as externalName1 from "external";', {
+        plugins: [require("babel-plugin-syntax-export-extensions")]
       }).then(function (result) {
          assert.deepEqual(result.metadata.modules.exports, {
           exported: ['externalName1'],
@@ -266,10 +273,12 @@ suite("api", function () {
             source: "external",
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('export externalName2 from "external";', {
-        plugins: [require("../../babel-plugin-syntax-export-extensions")]
+    test("export extensions default", function() {
+      return transformAsync('export externalName2 from "external";', {
+        plugins: [require("babel-plugin-syntax-export-extensions")]
       }).then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: ["externalName2"],
@@ -280,9 +289,11 @@ suite("api", function () {
             source: "external"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('export function namedFunction() {}').then(function (result) {
+    test("export function", function() {
+      return transformAsync('export function namedFunction() {}').then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: ["namedFunction"],
           specifiers: [{
@@ -291,9 +302,11 @@ suite("api", function () {
             exported: "namedFunction"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('export var foo = "bar";').then(function (result) {
+    test("base", function() {
+      return transformAsync('export var foo = "bar";').then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           "exported": ["foo"],
           specifiers: [{
@@ -302,9 +315,11 @@ suite("api", function () {
             exported: "foo"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync("export { localName as externalName3 };").then(function (result) {
+    test("base", function() {
+      return transformAsync("export { localName as externalName3 };").then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: ["externalName3"],
           specifiers: [{
@@ -313,9 +328,11 @@ suite("api", function () {
             exported: "externalName3"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('export { externalName4 } from "external";').then(function (result) {
+    test("base", function() {
+      return transformAsync('export { externalName4 } from "external";').then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: ["externalName4"],
           specifiers: [{
@@ -325,9 +342,11 @@ suite("api", function () {
             source: "external"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync('export * from "external";').then(function (result) {
+    test("base", function() {
+      return transformAsync('export * from "external";').then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: [],
           specifiers: [{
@@ -335,9 +354,11 @@ suite("api", function () {
             source: "external"
           }]
         });
-      }),
+      });
+    });
 
-      transformAsync("export default function defaultFunction() {}").then(function (result) {
+    test("base", function() {
+      return transformAsync("export default function defaultFunction() {}").then(function (result) {
         assert.deepEqual(result.metadata.modules.exports, {
           exported: ["defaultFunction"],
           specifiers: [{
@@ -346,8 +367,8 @@ suite("api", function () {
             exported: "default"
           }]
         });
-      })
-    ]);
+      });
+    });
   });
 
   test("ignore option", function () {
@@ -463,28 +484,4 @@ suite("api", function () {
     });
   });
 
-  suite("buildExternalHelpers", function () {
-    test("all", function () {
-      var script = buildExternalHelpers();
-      assert.ok(script.indexOf("classCallCheck") >= -1);
-      assert.ok(script.indexOf("inherits") >= 0);
-    });
-
-    test("whitelist", function () {
-      var script = buildExternalHelpers(["inherits"]);
-      assert.ok(script.indexOf("classCallCheck") === -1);
-      assert.ok(script.indexOf("inherits") >= 0);
-    });
-
-    test("empty whitelist", function () {
-      var script = buildExternalHelpers([]);
-      assert.ok(script.indexOf("classCallCheck") === -1);
-      assert.ok(script.indexOf("inherits") === -1);
-    });
-
-    test("underscored", function () {
-      var script = buildExternalHelpers(["typeof"]);
-      assert.ok(script.indexOf("typeof") >= 0);
-    });
-  });
 });

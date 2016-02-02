@@ -1,4 +1,4 @@
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 export let ModuleDeclaration = {
   enter(path, file) {

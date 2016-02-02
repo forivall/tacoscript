@@ -1,11 +1,11 @@
-# babel-core
+# comal
 
-> Babel compiler core.
+> Tacoscript transformation core.
 
 ## Install
 
 ```
-$ npm install babel-core
+$ npm install comal
 ```
 
 ## Usage
@@ -13,12 +13,17 @@ $ npm install babel-core
 ```js
 import babel from 'babel-core';
 
-const code = `class Example {}`;
-const result = babel.transform(code, { /* options */ });
+const code = `a = () ->`;
+const result = comal.transform(code, { /* options */ });
 
 result.code; // Generated code
 result.map; // Sourcemap
 result.ast; // AST
-```
 
-For more in depth documentation see: http://babeljs.io/docs/usage/api/
+import {render} from 'tacoscript-cst-utils';
+render(result.ast, 'tacoscriptSourceElements'); // whitespace-preserved tacoscript
+render(result.ast, 'sourceElements'); // whitespace-preserved javascript
+
+import generateTacoscript from 'tacotruck';
+generateTacoscript(result.ast); // Generated tacoscript code
+```

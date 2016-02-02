@@ -1,4 +1,4 @@
-var traverse = require("babel-traverse").default;
+var traverse = require("comal-traverse").default;
 var assert   = require("assert");
 var parse    = require("babylon").parse;
 

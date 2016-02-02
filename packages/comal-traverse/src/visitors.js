@@ -1,6 +1,6 @@
 import * as virtualTypes from "./path/lib/virtual-types";
 import * as messages from "babel-messages";
-import * as t from "babel-types";
+import * as t from "comal-types";
 import clone from "lodash/lang/clone";
 
 /**
@@ -11,7 +11,7 @@ import clone from "lodash/lang/clone";
  * The various shorthands are:
  * * `Identifier() { ... }` -> `Identifier: { enter() { ... } }`
  * * `"Identifier|NumericLiteral": { ... }` -> `Identifier: { ... }, NumericLiteral: { ... }`
- * * Aliases in `babel-types`: e.g. `Property: { ... }` -> `ObjectProperty: { ... }, ClassProperty: { ... }`
+ * * Aliases in `comal-types`: e.g. `Property: { ... }` -> `ObjectProperty: { ... }, ClassProperty: { ... }`
  *
  * Other normalizations are:
  * * Visitors of virtual types are wrapped, so that they are only visited when

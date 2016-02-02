@@ -1,6 +1,6 @@
 /* @noflow */
 
-import * as t from "babel-types";
+import * as t from "comal-types";
 
 /**
  * Normalize an AST.
