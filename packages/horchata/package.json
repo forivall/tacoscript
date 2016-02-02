@@ -1,6 +1,6 @@
 {
   "name": "horchata",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "horchata",
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
     "lodash": "^3.10.1",
     "repeating": "^2.0.0",
     "to-fast-properties": "^1.0.1",
-    "tacoscript-cst-utils": "^0.3.0"
+    "tacoscript-cst-utils": "^0.4.0"
   }
 }
