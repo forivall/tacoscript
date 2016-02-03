@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "FunctionDeclaration",
@@ -19,7 +20,8 @@
         "params": [],
         "body": {
           "type": "ImplicitReturnBlockStatement",
-          "body": []
+          "body": [],
+          "directives": []
         }
       }
     ],

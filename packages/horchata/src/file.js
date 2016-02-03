@@ -29,6 +29,7 @@ export default class File extends Node {
   toJSON() {
     return {
       type: this.type,
+      sourceLanguage: this.sourceLanguage,
       sourceType: this.sourceType,
       program: this.program,
       filename: this.filename,

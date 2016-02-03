@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "EmptyStatement"

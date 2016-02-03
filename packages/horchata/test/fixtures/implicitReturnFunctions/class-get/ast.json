@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "ClassDeclaration",
@@ -54,7 +55,8 @@
                       "computed": false
                     }
                   }
-                ]
+                ],
+                "directives": []
               }
             },
             {
@@ -76,7 +78,8 @@
               "params": [],
               "body": {
                 "type": "ImplicitReturnBlockStatement",
-                "body": []
+                "body": [],
+                "directives": []
               }
             },
             {
@@ -98,7 +101,8 @@
               "params": [],
               "body": {
                 "type": "ImplicitReturnBlockStatement",
-                "body": []
+                "body": [],
+                "directives": []
               }
             },
             {
@@ -120,7 +124,8 @@
               "params": [],
               "body": {
                 "type": "ImplicitReturnBlockStatement",
-                "body": []
+                "body": [],
+                "directives": []
               }
             }
           ]

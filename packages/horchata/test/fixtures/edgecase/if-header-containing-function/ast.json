@@ -3,10 +3,84 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "IfStatement",
-        "alternate": null,
+        "test": {
+          "type": "LogicalExpression",
+          "left": {
+            "type": "Identifier",
+            "name": "a",
+            "extra": {
+              "raw": "a"
+            }
+          },
+          "operator": "&&",
+          "right": {
+            "type": "AssignmentExpression",
+            "left": {
+              "type": "Identifier",
+              "name": "f",
+              "extra": {
+                "raw": "f"
+              }
+            },
+            "operator": "=",
+            "right": {
+              "type": "FunctionExpression",
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "a",
+                  "extra": {
+                    "raw": "a"
+                  }
+                },
+                {
+                  "type": "Identifier",
+                  "name": "b",
+                  "extra": {
+                    "raw": "b"
+                  }
+                },
+                {
+                  "type": "Identifier",
+                  "name": "c",
+                  "extra": {
+                    "raw": "c"
+                  }
+                }
+              ],
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "value": 1,
+                      "extra": {
+                        "raw": "1"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "extra": {
+              "parenthesized": true,
+              "parenEnd": 0,
+              "parens": [
+                {}
+              ]
+            }
+          }
+        },
         "consequent": {
           "type": "BlockStatement",
           "body": [
@@ -14,69 +88,29 @@
               "type": "ExpressionStatement",
               "expression": {
                 "type": "CallExpression",
-                "arguments": [],
                 "callee": {
+                  "type": "Identifier",
                   "name": "callback",
-                  "type": "Identifier"
-                }
+                  "extra": {
+                    "raw": "callback"
+                  }
+                },
+                "arguments": []
               }
             }
           ]
         },
-        "test": {
-          "type": "LogicalExpression",
-          "left": {
-            "type": "Identifier",
-            "name": "a"
-          },
-          "operator": "&&",
-          "right": {
-            "type": "AssignmentExpression",
-            "left": {
-              "name": "f",
-              "type": "Identifier"
-            },
-            "operator": "=",
-            "right": {
-              "body": {
-                "type": "BlockStatement",
-                "body": [
-                  {
-                    "argument": {
-                      "extra": {
-                        "raw": "1"
-                      },
-                      "type": "NumericLiteral",
-                      "value": 1
-                    },
-                    "type": "ReturnStatement"
-                  }
-                ],
-                "directives": []
-              },
-              "expression": false,
-              "generator": false,
-              "id": null,
-              "params": [
-                {
-                  "name": "a",
-                  "type": "Identifier"
-                },
-                {
-                  "name": "b",
-                  "type": "Identifier"
-                },
-                {
-                  "name": "c",
-                  "type": "Identifier"
-                }
-              ],
-              "type": "FunctionExpression"
-            }
-          }
-        }
+        "alternate": null
       }
     ],
     "directives": []
-  }
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
 }

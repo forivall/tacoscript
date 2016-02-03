@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "IfStatement",

@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "ExpressionStatement",
@@ -37,5 +38,9 @@
       }
     ],
     "directives": []
-  }
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
 }

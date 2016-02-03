@@ -16,6 +16,7 @@ import {types as tt} from "../../lexer/types";
 
 export function parseTopLevel(file, program) {
   program.sourceType = this.options.sourceType;
+  program.sourceLanguage = this.options.sourceLanguage || 'tacoscript';
 
   program = this.parseBlockBody(program, {allowDirectives: !this.options.noTopLevelDirectives, isTopLevel: true});
 

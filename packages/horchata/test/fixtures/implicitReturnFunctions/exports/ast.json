@@ -3,6 +3,7 @@
   "program": {
     "type": "Program",
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "ExportDefaultDeclaration",
@@ -13,7 +14,8 @@
           "generator": false,
           "body": {
             "type": "ImplicitReturnBlockStatement",
-            "body": []
+            "body": [],
+            "directives": []
           },
           "expression": false
         }
@@ -37,7 +39,8 @@
           "params": [],
           "body": {
             "type": "ImplicitReturnBlockStatement",
-            "body": []
+            "body": [],
+            "directives": []
           }
         }
       },
@@ -52,7 +55,8 @@
           "async": false,
           "body": {
             "type": "ImplicitReturnBlockStatement",
-            "body": []
+            "body": [],
+            "directives": []
           }
         }
       }
