@@ -1,6 +1,6 @@
 var assert = require("assert");
 var async = require("async");
-var babel = require("../lib/api/node");
+var comal = require("../lib/index");
 var fs = require("fs");
 var path = require("path");
 
@@ -33,7 +33,7 @@ suite("addon resolution", function () {
     function fixturesReady (err) {
       if (err) return done(err);
 
-      var actual = babel.transform(fixtures.actual, {
+      var actual = comal.transform(fixtures.actual, {
         filename: paths.actual,
         plugins: ["addons/plugin"],
         presets: ["addons/preset"],

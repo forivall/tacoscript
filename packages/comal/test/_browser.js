@@ -1,5 +1,5 @@
 if (process.browser) {
-  require("../lib/api/browser");
+  require("../lib/browser");
   require("./generation");
   require("./transformation");
   require("./traverse");

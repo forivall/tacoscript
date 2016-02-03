@@ -1,7 +1,7 @@
 /* eslint no-new-func: 0 */
 
-import { transform } from "./node";
-export * from "./node";
+import { transform } from "./index";
+export * from "./index";
 
 export function run(code: string, opts: Object = {}): any {
   return new Function(transform(code, opts).code)();

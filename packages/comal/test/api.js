@@ -1,4 +1,4 @@
-var babel                = require("../lib/api/node");
+var comal                = require("../lib/index");
 var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
 var assert               = require("assert");
@@ -17,14 +17,14 @@ function assertNotIgnored(result) {
 function transformAsync(code, opts) {
   return {
     then: function (resolve) {
-      resolve(babel.transform(code, opts));
+      resolve(comal.transform(code, opts));
     }
   };
 }
 
 suite("api", function () {
   test("transformFile", function (done) {
-    babel.transformFile(__dirname + "/fixtures/api/file.js", {}, function (err, res) {
+    comal.transformFile(__dirname + "/fixtures/api/file.js", {}, function (err, res) {
       if (err) return done(err);
       assert.equal(res.code, "foo();");
       done();
@@ -32,7 +32,7 @@ suite("api", function () {
   });
 
   test("transformFileSync", function () {
-    assert.equal(babel.transformFileSync(__dirname + "/fixtures/api/file.js", {}).code, "foo();");
+    assert.equal(comal.transformFileSync(__dirname + "/fixtures/api/file.js", {}).code, "foo();");
   });
 
   test("options merge backwards", function () {
@@ -48,7 +48,7 @@ suite("api", function () {
     var aliasBaseType = null;
 
     function execTest(passPerPreset) {
-      return babel.transform('type Foo = number; let x = (y): Foo => y;', {
+      return comal.transform('type Foo = number; let x = (y): Foo => y;', {
         passPerPreset: passPerPreset,
         presets: [
           // First preset with our plugin, "before"
@@ -128,7 +128,7 @@ suite("api", function () {
   });
 
   test("source map merging", function () {
-    var result = babel.transform([
+    var result = comal.transform([
       'function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }',
       '',
       'let Foo = function Foo() {',
@@ -182,7 +182,7 @@ suite("api", function () {
       auxiliaryCommentBefore: "before",
       auxiliaryCommentAfter: "after",
       plugins: [function (babel) {
-        var t = babel.types;
+        var t = comal.types;
         return {
           visitor: {
             Program: function (path) {

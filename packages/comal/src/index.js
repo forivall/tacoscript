@@ -3,14 +3,14 @@ import fs from "fs";
 
 //
 
-export { default as File } from "../transformation/file";
-export { default as options } from "../transformation/file/options/config";
+export { default as File } from "./transformation/file";
+export { default as options } from "./transformation/file/options/config";
 export { default as template } from "babel-template";
-export { version } from "../../package";
+export { version } from "../package.json";
 
 //
 
-import * as util from "../util";
+import * as util from "./util";
 export { util };
 
 import * as messages from "babel-messages";
@@ -22,12 +22,12 @@ export { t as types };
 import traverse from "comal-traverse";
 export { traverse };
 
-import OptionManager from "../transformation/file/options/option-manager";
+import OptionManager from "./transformation/file/options/option-manager";
 export { OptionManager };
 
 //
 
-import Pipeline from "../transformation/pipeline";
+import Pipeline from "./transformation/pipeline";
 export { Pipeline };
 
 let pipeline = new Pipeline;

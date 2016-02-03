@@ -1,4 +1,4 @@
-import * as context from "../../../api/node";
+import * as context from "../../../index";
 import type Logger from "../logger";
 import Plugin from "../../plugin";
 import * as messages from "babel-messages";
