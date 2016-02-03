@@ -1,6 +1,5 @@
 {
   "type": "File",
-  "sourceType": "module",
   "program": {
     "type": "Program",
     "start": 0,

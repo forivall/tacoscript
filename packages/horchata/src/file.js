@@ -9,7 +9,6 @@ export default class File extends Node {
     // TODO: allow input to be a buffer or a stream
     this.input = input;
     this.filename = metadata.filename;
-    this.sourceType = metadata.sourceType || "module";
 
     this.type = "File";
     // populated by the parser
