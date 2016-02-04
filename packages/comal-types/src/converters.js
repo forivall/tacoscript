@@ -1,8 +1,8 @@
-import isPlainObject from "lodash/lang/isPlainObject";
-import isNumber from "lodash/lang/isNumber";
-import isRegExp from "lodash/lang/isRegExp";
-import isString from "lodash/lang/isString";
-import traverse from "comal-traverse";
+import isPlainObject from "lodash/isPlainObject";
+import isNumber from "lodash/isNumber";
+import isRegExp from "lodash/isRegExp";
+import isString from "lodash/isString";
+import traverse from "babel-traverse";
 import type { Scope } from "comal-traverse";
 import * as t from "./index";
 
