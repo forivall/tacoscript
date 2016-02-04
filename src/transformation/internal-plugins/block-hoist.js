@@ -1,7 +1,7 @@
 /* @flow */
 
 import Plugin from "../plugin";
-import sortBy from "lodash/collection/sortBy";
+import sortBy from "lodash/sortBy";
 
 export default new Plugin({
   /**
