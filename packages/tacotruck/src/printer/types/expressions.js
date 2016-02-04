@@ -1,7 +1,7 @@
 
 import isInteger from "is-integer";
-import isNumber from "lodash/lang/isNumber";
-import clone from "lodash/lang/clone";
+import isNumber from "lodash/isNumber";
+import clone from "lodash/clone";
 import * as t from "babel-types";
 import {Token} from "horchata";
 

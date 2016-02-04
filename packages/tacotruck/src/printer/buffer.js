@@ -6,8 +6,8 @@
 import sourceMap from "source-map";
 import Position from "./position";
 import {Token, tokTypes as tt, keywordTypes as kw, whitespace as ws} from "horchata";
-import isString from "lodash/lang/isString";
-import equalsDeep from "lodash/lang/isEqual";
+import isString from "lodash/isString";
+import equalsDeep from "lodash/isEqual";
 import "./special-tokens";
 
 // TODO: move to tacoscript-options package

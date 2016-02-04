@@ -4,7 +4,7 @@
 // TODO: allow reading indent from directives.
 
 import detectIndent from "detect-indent";
-import isString from "lodash/lang/isString";
+import isString from "lodash/isString";
 
 export default function (code, fallback = {amount: 2, type: 'space', indent: '  '}) {
   if (!isString(code)) return fallback;

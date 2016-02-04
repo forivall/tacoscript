@@ -1,7 +1,7 @@
 import Tokenizer from "babylon/lib/tokenizer";
 import State from "babylon/lib/tokenizer/state";
 import { isKeyword } from "babylon/lib/util/identifier";
-import isString from "lodash/lang/isString";
+import isString from "lodash/isString";
 
 var tokenizer = null;
 

@@ -2,7 +2,7 @@ import isPlainObject from "lodash/isPlainObject";
 import isNumber from "lodash/isNumber";
 import isRegExp from "lodash/isRegExp";
 import isString from "lodash/isString";
-import traverse from "babel-traverse";
+import traverse from "comal-traverse";
 import type { Scope } from "comal-traverse";
 import * as t from "./index";
 

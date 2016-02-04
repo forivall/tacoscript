@@ -1,7 +1,7 @@
 
 // prints an ast, as tacoscript, preserves newlines if the option is set
 
-import isArray from "lodash/lang/isArray";
+import isArray from "lodash/isArray";
 import * as t from "babel-types";
 import repeating from "repeating";
 
