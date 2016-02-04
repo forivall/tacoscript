@@ -14,7 +14,7 @@ import traverse, { NodePath, Hub, Scope } from "comal-traverse";
 import sourceMap from "source-map";
 import generate from "babel-generator";
 import codeFrame from "babel-code-frame";
-import defaults from "lodash/object/defaults";
+import defaults from "lodash/defaults";
 import Logger from "./logger";
 import Store from "../../store";
 import { parse } from "babylon";

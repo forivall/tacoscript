@@ -1,4 +1,4 @@
-import isFunction from "lodash/lang/isFunction";
+import isFunction from "lodash/isFunction";
 import fs from "fs";
 
 //
@@ -31,6 +31,7 @@ import Pipeline from "./transformation/pipeline";
 export { Pipeline };
 
 let pipeline = new Pipeline;
+export let analyse = pipeline.analyse.bind(pipeline);
 export let transform = pipeline.transform.bind(pipeline);
 export let transformFromAst = pipeline.transformFromAst.bind(pipeline);
 
