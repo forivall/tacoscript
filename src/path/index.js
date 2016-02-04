@@ -5,7 +5,7 @@ import buildDebug from "debug";
 import { PATH_CACHE_KEY } from "./constants";
 import invariant from "invariant";
 import traverse from "../index";
-import assign from "lodash/object/assign";
+import assign from "lodash/assign";
 import Scope from "../scope";
 import * as t from "babel-types";
 
