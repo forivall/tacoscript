@@ -1,6 +1,6 @@
 import TraversalContext from "./context";
 import * as visitors from "./visitors";
-import * as messages from "babel-messages";
+import msg from "./messages";
 import includes from "lodash/includes";
 import * as t from "comal-types";
 
@@ -21,7 +21,7 @@ export default function traverse(
 
   if (!opts.noScope && !scope) {
     if (parent.type !== "Program" && parent.type !== "File") {
-      throw new Error(messages.get("traverseNeedsParent", parent.type));
+      throw new Error(msg("needsParent", parent.type));
     }
   }
 

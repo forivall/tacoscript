@@ -1,7 +1,7 @@
 import * as context from "../../../index";
 import type Logger from "../logger";
 import Plugin from "../../plugin";
-import * as messages from "babel-messages";
+import message from "../../../messages";
 import { normaliseOptions } from "./index";
 import resolve from "../../../helpers/resolve";
 import json5 from "json5";
@@ -80,7 +80,7 @@ export default class OptionManager {
       });
       return plugin;
     } else {
-      throw new TypeError(messages.get("pluginNotObject", loc, i, typeof obj) + loc + i);
+      throw new TypeError(msg("pluginNotObject", loc, i, typeof obj) + loc + i);
     }
   }
 
@@ -103,7 +103,7 @@ export default class OptionManager {
       if (typeof plugin === "function" || typeof plugin === "object") {
         plugin = OptionManager.memoisePluginContainer(plugin, loc, i, alias);
       } else {
-        throw new TypeError(messages.get("pluginNotFunction", loc, i, typeof plugin));
+        throw new TypeError(msg("pluginNotFunction", loc, i, typeof plugin));
       }
     }
 
@@ -131,7 +131,7 @@ export default class OptionManager {
         if (pluginLoc) {
           plugin = require(pluginLoc);
         } else {
-          throw new ReferenceError(messages.get("pluginUnknown", plugin, loc, i, dirname));
+          throw new ReferenceError(msg("pluginUnknown", plugin, loc, i, dirname));
         }
       }
 

@@ -4,7 +4,7 @@ import Renamer from "./lib/renamer";
 import type NodePath from "../path";
 import traverse from "../index";
 import defaults from "lodash/defaults";
-import * as messages from "babel-messages";
+import msg from "../messages";
 import Binding from "./binding";
 import globals from "globals";
 import * as t from "comal-types";
@@ -370,7 +370,7 @@ export default class Scope {
     if (!duplicate) duplicate = local.kind === "param" && (kind === "let" || kind === "const");
 
     if (duplicate) {
-      throw this.hub.file.buildCodeFrameError(id, messages.get("scopeDuplicateDeclaration", name), TypeError);
+      throw this.hub.file.buildCodeFrameError(id, msg("scopeDuplicateDeclaration", name), TypeError);
     }
   }
 

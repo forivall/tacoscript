@@ -9,11 +9,11 @@
   "main": "lib/index.js",
   "dependencies": {
     "babel-code-frame": "^6.3.13",
-    "babel-messages": "^6.3.13",
     "babel-runtime": "^5.0.0",
     "comal-types": "^0.4.0",
     "babylon": "^6.4.5",
     "debug": "^2.2.0",
+    "errmsg": "^1.0.0",
     "globals": "^8.3.0",
     "invariant": "^2.2.0",
     "lodash": "^4.2.0",

@@ -1,5 +1,5 @@
 import * as virtualTypes from "./path/lib/virtual-types";
-import * as messages from "babel-messages";
+import msg from "./messages";
 import * as t from "comal-types";
 import clone from "lodash/clone";
 
@@ -91,7 +91,7 @@ export function explode(visitor) {
 
     let deprecratedKey = t.DEPRECATED_KEYS[nodeType];
     if (deprecratedKey) {
-      console.trace(`Visitor defined for ${nodeType} but it has been renamed to ${deprecratedKey}`);
+      console.trace(msg("deprecatedNodeType", nodeType, deprecatedKey));
       aliases = [deprecratedKey];
     }
 
@@ -123,7 +123,7 @@ export function verify(visitor) {
   if (visitor._verified) return;
 
   if (typeof visitor === "function") {
-    throw new Error(messages.get("traverseVerifyRootFunction"));
+    throw new Error(msg("verifyRootFunction"));
   }
 
   for (let nodeType in visitor) {
@@ -134,7 +134,7 @@ export function verify(visitor) {
     if (shouldIgnoreKey(nodeType)) continue;
 
     if (t.TYPES.indexOf(nodeType) < 0) {
-      throw new Error(messages.get("traverseVerifyNodeType", nodeType));
+      throw new Error(msg("verifyNodeType", nodeType));
     }
 
     let visitors = visitor[nodeType];
@@ -144,7 +144,7 @@ export function verify(visitor) {
           // verify that it just contains functions
           validateVisitorMethods(`${nodeType}.${visitorKey}`, visitors[visitorKey]);
         } else {
-          throw new Error(messages.get("traverseVerifyVisitorProperty", nodeType, visitorKey));
+          throw new Error(msg("verifyVisitorProperty", nodeType, visitorKey));
         }
       }
     }
@@ -157,7 +157,7 @@ function validateVisitorMethods(path, val) {
   let fns = [].concat(val);
   for (let fn of fns) {
     if (typeof fn !== "function") {
-      throw new TypeError(`Non-function found defined in ${path} with type ${typeof fn}`);
+      throw new TypeError(msg("needsFunction", path, typeof fn));
     }
   }
 }

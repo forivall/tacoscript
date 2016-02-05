@@ -1,7 +1,7 @@
 /* @noflow */
 
 import OptionManager from "./file/options/option-manager"
-import * as messages from "babel-messages";
+import msg from "../messages";
 import Store from "../store";
 import traverse from "comal-traverse";
 import assign from "lodash/assign";
@@ -78,7 +78,7 @@ export default class Plugin extends Store {
     this.maybeInherit(loc);
 
     for (let key in this.raw) {
-      throw new Error(messages.get("pluginInvalidProperty", loc, i, key));
+      throw new Error(msg("pluginInvalidProperty", loc, i, key));
     }
   }
 

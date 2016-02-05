@@ -13,9 +13,6 @@ export { version } from "../package.json";
 import * as util from "./util";
 export { util };
 
-import * as messages from "babel-messages";
-export { messages };
-
 import * as t from "comal-types";
 export { t as types };
 
