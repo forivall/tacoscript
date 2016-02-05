@@ -1,3 +1,9 @@
+// TODO: add a target: Array<string> property
+// to automatically split out options that should go to the generator, parser, etc.
+// then move these options into their appropriate location
+
+// rearchitect to use nested options like browserify
+
 module.exports = {
   filename: {
     type: "filename",
