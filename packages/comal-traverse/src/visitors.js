@@ -89,10 +89,10 @@ export function explode(visitor) {
 
     let aliases: ?Array<string> = t.FLIPPED_ALIAS_KEYS[nodeType];
 
-    let deprecratedKey = t.DEPRECATED_KEYS[nodeType];
-    if (deprecratedKey) {
+    let deprecatedKey = t.DEPRECATED_KEYS[nodeType];
+    if (deprecatedKey) {
       console.trace(msg("deprecatedNodeType", nodeType, deprecatedKey));
-      aliases = [deprecratedKey];
+      aliases = [deprecatedKey];
     }
 
     if (!aliases) continue;

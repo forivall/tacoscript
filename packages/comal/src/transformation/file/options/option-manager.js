@@ -1,7 +1,7 @@
 import * as context from "../../../index";
 import type Logger from "../logger";
 import Plugin from "../../plugin";
-import message from "../../../messages";
+import msg from "../../../messages";
 import { normaliseOptions } from "./index";
 import resolve from "../../../helpers/resolve";
 import json5 from "json5";
