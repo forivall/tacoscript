@@ -21,6 +21,7 @@ import { parse } from "babylon";
 import * as util from  "../../util";
 import path from "path";
 import * as t from "comal-types";
+import pick from "lodash/pick";
 
 import blockHoistPlugin from "../internal-plugins/block-hoist";
 import shadowFunctionsPlugin from "../internal-plugins/shadow-functions";
@@ -562,11 +563,27 @@ export default class File extends Store {
   }
 
   generate(): BabelFileResult {
-    let opts = this.opts;
     let ast  = this.ast;
 
     let result: BabelFileResult = { ast };
-    if (!opts.code) return this.makeResult(result);
+    if (!this.opts.code) return this.makeResult(result);
+
+    let opts = pick(this.opts, [
+      "filename",
+      "retainLines",
+      "comments",
+      "compact",
+      "minified",
+      "concise",
+      "quotes",
+      "sourceMaps",
+      "sourceRoot",
+      "sourceFileName",
+      "sourceMapTarget",
+      "auxiliaryCommentBefore",
+      "auxiliaryCommentAfter",
+      "shouldPrintComment",
+    ]);
 
     this.log.debug("Generation start");
 
