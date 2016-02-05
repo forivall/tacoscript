@@ -34,10 +34,24 @@ function buildFn(options) { return function() {
   return s;
 }}
 
+function copyFn(options) { return function() {
+  var watch = !!options.watch, force = !!options.force;
+  var s = gulp.src('packages/*/src/**/{!(*.*),*.!(js)}');
+  s = s.pipe(plumber({errorHandler: function (err) { gutil.log(err.stack); }}));
+  if (watch) s = s.pipe(gwatch('packages/*/src/**/*.json')); // TODO: gwatch doesn't seem to use minimatch
+  if (!force) s = s.pipe(newer({dest: 'packages', map: srcToLibStr}));
+  s = s.pipe(rename(srcToLib));
+  s = s.pipe(size({showFiles: true}));
+  s = s.pipe(gulp.dest('packages'));
+  return s;
+}}
+
 gulp.task('default', buildFn({}));
 gulp.task('clean-build', ['clean'], buildFn({}));
 gulp.task('clean-watch', ['clean'], buildFn({watch: true}));
-gulp.task('watch', buildFn({watch: true}));
+gulp.task('watch-build', buildFn({watch: true}));
+gulp.task('watch-copy', copyFn({watch: true}));
+gulp.task('watch', ['watch-build', 'watch-copy']);
 gulp.task('force', buildFn({force: true}));
 gulp.task('dist', ['clean'], buildFn({force: true, dist: true}));
 gulp.task('clean', function(cb) { rimraf('packages/*/lib', cb); });
