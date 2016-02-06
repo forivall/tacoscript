@@ -3,9 +3,9 @@ import Store from "../store";
 import traverse from "comal-traverse";
 import File from "./file";
 
-export default class PluginPass extends Store {
+export default class PluginPass {
   constructor(file: File, plugin: Plugin, options: Object = {}) {
-    super();
+    this.store = new Store();
     this.plugin = plugin;
     this.file   = file;
     this.opts   = options;
