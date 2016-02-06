@@ -1,3 +1,6 @@
+// An extension to Map that allows for "dynamic data" - that is, data that is
+// returned by a function instead of being just stored in the map
+
 export default class Store extends Map {
   constructor() {
     super();

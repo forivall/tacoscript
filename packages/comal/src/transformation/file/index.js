@@ -41,9 +41,9 @@ let errorVisitor = {
   }
 };
 
-export default class File extends Store {
+export default class File {
   constructor(opts: Object = {}, pipeline: Pipeline) {
-    super();
+    this.store = new Store();
 
     this.pipeline = pipeline;
 
@@ -287,8 +287,8 @@ export default class File extends Store {
       this.usedHelpers[name] = true;
     }
 
-    let generator = this.get("helperGenerator");
-    let runtime   = this.get("helpersNamespace");
+    let generator = this.store.get("helperGenerator");
+    let runtime   = this.store.get("helpersNamespace");
     if (generator) {
       let res = generator(name);
       if (res) return res;
