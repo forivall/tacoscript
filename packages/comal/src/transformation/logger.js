@@ -1,4 +1,4 @@
-import type File from "./index";
+import type Transformation from "./index";
 import buildDebug from "debug/node";
 
 let verboseDebug = buildDebug("babel:verbose");
@@ -7,13 +7,17 @@ let generalDebug = buildDebug("babel");
 let seenDeprecatedMessages = [];
 
 export default class Logger {
-  constructor(file: File, filename: string) {
+  constructor(parent: Transformation) {
+    this.parent   = parent;
+    this.filename = '(unknown)';
+  }
+
+  setFilename(filename) {
     this.filename = filename;
-    this.file     = file;
   }
 
   filename: string;
-  file: File;
+  parent: Transformation;
 
   _buildMessage(msg: string): string {
     let parts = `[BABEL] ${this.filename}`;
@@ -30,7 +34,7 @@ export default class Logger {
   }
 
   deprecate(msg: string) {
-    if (this.file.opts && this.file.opts.suppressDeprecationMessages) return;
+    if (this.parent && this.parent.opts && this.parent.opts.suppressDeprecationMessages) return;
 
     msg = this._buildMessage(msg);
 

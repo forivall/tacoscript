@@ -1,5 +1,6 @@
 import * as t from "comal-types";
 
+// visitors that attach metadata regarding module imports and exports to the file
 export let ModuleDeclaration = {
   enter(path, file) {
     let { node } = path;

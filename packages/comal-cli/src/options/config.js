@@ -12,15 +12,6 @@ module.exports = {
     shorthand: "f"
   },
 
-  filenameRelative: {
-    hidden: true,
-    type: "string"
-  },
-
-  inputSourceMap: {
-    hidden: true
-  },
-
   env: {
     hidden: true,
     default: {}
@@ -28,24 +19,6 @@ module.exports = {
 
   mode: {
     description: "",
-    hidden: true
-  },
-
-  retainLines: {
-    type: "boolean",
-    default: false,
-    description: "retain line numbers - will result in really ugly code"
-  },
-
-  highlightCode: {
-    description: "enable/disable ANSI syntax highlighting of code frames (on by default)",
-    type: "boolean",
-    default: true
-  },
-
-  suppressDeprecationMessages: {
-    type: "boolean",
-    default: false,
     hidden: true
   },
 
@@ -95,6 +68,25 @@ module.exports = {
     hidden: true
   },
 
+
+  babelrc: {
+    description: "Whether or not to look up .babelrc and .babelignore files",
+    type: "boolean",
+    default: true
+  },
+
+  sourceType: {
+    description: "",
+    default: "module"
+  },
+
+  /// GENERATOR
+  retainLines: {
+    type: "boolean",
+    default: false,
+    description: "retain line numbers - will result in really ugly code"
+  },
+
   comments: {
     type: "boolean",
     default: true,
@@ -118,44 +110,6 @@ module.exports = {
     description: "save as much bytes when printing [true|false]"
   },
 
-  sourceMap: {
-    alias: "sourceMaps",
-    hidden: true
-  },
-
-  sourceMaps: {
-    type: "booleanString",
-    description: "[true|false|inline]",
-    default: false,
-    shorthand: "s"
-  },
-
-  sourceMapTarget: {
-    type: "string",
-    description: "set `file` on returned source map"
-  },
-
-  sourceFileName: {
-    type: "string",
-    description: "set `sources[0]` on returned source map"
-  },
-
-  sourceRoot: {
-    type: "filename",
-    description: "the root from which all sources are relative"
-  },
-
-  babelrc: {
-    description: "Whether or not to look up .babelrc and .babelignore files",
-    type: "boolean",
-    default: true
-  },
-
-  sourceType: {
-    description: "",
-    default: "module"
-  },
-
   auxiliaryCommentBefore: {
     type: "string",
     description: "print a comment before any injected non-user code"
@@ -166,35 +120,4 @@ module.exports = {
     description: "print a comment after any injected non-user code"
   },
 
-  resolveModuleSource: {
-    hidden: true
-  },
-
-  getModuleId: {
-    hidden: true
-  },
-
-  moduleRoot: {
-    type: "filename",
-    description: "optional prefix for the AMD module formatter that will be prepend to the filename on module definitions"
-  },
-
-  moduleIds: {
-    type: "boolean",
-    default: false,
-    shorthand: "M",
-    description: "insert an explicit id for modules"
-  },
-
-  moduleId: {
-    description: "specify a custom name for module ids",
-    type: "string"
-  },
-
-  passPerPreset: {
-    description: "Whether to spawn a traversal pass per a preset. By default all presets are merged.",
-    type: "boolean",
-    default: false,
-    hidden: true,
-  },
 };

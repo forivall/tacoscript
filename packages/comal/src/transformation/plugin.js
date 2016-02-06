@@ -1,6 +1,6 @@
 /* @noflow */
 
-import OptionManager from "./file/options/option-manager"
+import {normalisePlugin} from "../plugins"
 import msg from "../messages";
 import Store from "../store";
 import traverse from "comal-traverse";
@@ -58,7 +58,7 @@ export default class Plugin extends Store {
     let inherits = this.take("inherits");
     if (!inherits) return;
 
-    inherits = OptionManager.normalisePlugin(inherits, loc, "inherits");
+    inherits = normalisePlugin(inherits, loc, "inherits");
 
     this.manipulateOptions = this.chain(inherits, "manipulateOptions");
     this.post = this.chain(inherits, "post");

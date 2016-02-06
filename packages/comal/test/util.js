@@ -3,28 +3,6 @@ var util   = require("../lib/util");
 var t      = require("comal-types");
 
 suite("util", function () {
-  test("canCompile", function () {
-    assert.ok(util.canCompile("test.js"));
-    assert.ok(util.canCompile("/test.js"));
-    assert.ok(util.canCompile("/scripts/test.js"));
-
-    assert.ok(util.canCompile("test.es6"));
-    assert.ok(util.canCompile("/test.es6"));
-    assert.ok(util.canCompile("/scripts/test.es6"));
-
-    assert.ok(util.canCompile("test.es"));
-    assert.ok(util.canCompile("/test.es"));
-    assert.ok(util.canCompile("/scripts/test.es"));
-
-    assert.ok(util.canCompile("test.jsx"));
-    assert.ok(util.canCompile("/test.jsx"));
-    assert.ok(util.canCompile("/scripts/test.jsx"));
-
-    assert.ok(!util.canCompile("test"));
-    assert.ok(!util.canCompile("test.css"));
-    assert.ok(!util.canCompile("/test.css"));
-    assert.ok(!util.canCompile("/scripts/test.css"));
-  });
 
   test("list", function () {
     assert.deepEqual(util.list(undefined), []);

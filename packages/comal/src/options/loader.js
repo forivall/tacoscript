@@ -1,25 +1,21 @@
-import * as context from "../../../index";
 import type Logger from "../logger";
-import Plugin from "../../plugin";
-import msg from "../../../messages";
-import { normaliseOptions } from "./index";
-import resolve from "../../../helpers/resolve";
+import Plugin from "../transformation/plugin";
+
+import msg from "../messages";
+import resolve from "../helpers/resolve";
 import json5 from "json5";
 import isAbsolute from "path-is-absolute";
 import pathExists from "path-exists";
 import cloneDeepWith from "lodash/cloneDeepWith";
-import clone from "lodash/clone";
-import merge from "../../../helpers/merge";
-import config from "./config";
+import merge from "../helpers/merge";
 import path from "path";
 import fs from "fs";
 
-let existsCache = {};
-let jsonCache   = {};
+import {normalisePlugins} from "../transformation/plugin-normalize";
+import {resolvePresets} from "../transformation/presets";
 
-const BABELIGNORE_FILENAME = ".babelignore";
-const BABELRC_FILENAME     = ".babelrc";
-const PACKAGE_FILENAME     = "package.json";
+const existsCache = {};
+const jsonCache   = {};
 
 function exists(filename) {
   let cached = existsCache[filename];
@@ -30,23 +26,29 @@ function exists(filename) {
   }
 }
 
-type PluginObject = {
-  pre?: Function;
-  post?: Function;
-  manipulateOptions?: Function;
+import coreConfig from "./core-config";
 
-  visitor: ?{
-    [key: string]: Function | {
-      enter?: Function | Array<Function>;
-      exit?: Function | Array<Function>;
-    }
-  };
-};
+function cleanMeta(meta) {
+  meta = {...meta};
+  if (meta.config == null) meta.config = {...coreConfig};
+  else meta.config = {...coreConfig, ...meta.config};
 
-export default class OptionManager {
-  constructor(log?: Logger) {
+  if (meta.loader == null) meta.loader = {};
+
+  if (meta.loader.packageKey) {
+    if (meta.loader.packageFileName == null) meta.loader.packageFileName = "package.json";
+  }
+
+  if (meta.prefix == null) meta.prefix = false;
+  return meta;
+}
+
+export default class OptionLoader {
+  constructor(meta, log?: Logger) {
+    this.meta = cleanMeta(meta);
+
     this.resolvedConfigs = [];
-    this.options = OptionManager.createBareOptions();
+    this.options = this.createBareOptions();
     this.log = log;
   }
 
@@ -54,91 +56,16 @@ export default class OptionManager {
   options: Object;
   log: ?Logger;
 
-  static memoisedPlugins: Array<{
-    container: Function;
-    plugin: Plugin;
-  }>;
-
-  static memoisePluginContainer(fn, loc, i, alias) {
-    for (let cache of (OptionManager.memoisedPlugins: Array<Object>)) {
-      if (cache.container === fn) return cache.plugin;
-    }
-
-    let obj: ?PluginObject;
-
-    if (typeof fn === "function") {
-      obj = fn(context);
-    } else {
-      obj = fn;
-    }
-
-    if (typeof obj === "object") {
-      let plugin = new Plugin(obj, alias);
-      OptionManager.memoisedPlugins.push({
-        container: fn,
-        plugin: plugin
-      });
-      return plugin;
-    } else {
-      throw new TypeError(msg("pluginNotObject", loc, i, typeof obj) + loc + i);
-    }
-  }
-
-  static createBareOptions() {
+  createBareOptions() {
+    const {config} = this.meta;
     let opts = {};
 
     for (let key in config) {
       let opt = config[key];
-      opts[key] = clone(opt.default);
+      opts[key] = {...opt.default};
     }
 
     return opts;
-  }
-
-  static normalisePlugin(plugin, loc, i, alias) {
-    plugin = plugin.__esModule ? plugin.default : plugin;
-
-    if (!(plugin instanceof Plugin)) {
-      // allow plugin containers to be specified so they don't have to manually require
-      if (typeof plugin === "function" || typeof plugin === "object") {
-        plugin = OptionManager.memoisePluginContainer(plugin, loc, i, alias);
-      } else {
-        throw new TypeError(msg("pluginNotFunction", loc, i, typeof plugin));
-      }
-    }
-
-    plugin.init(loc, i);
-
-    return plugin;
-  }
-
-  static normalisePlugins(loc, dirname, plugins) {
-    return plugins.map(function (val, i) {
-      let plugin, options;
-
-      // destructure plugins
-      if (Array.isArray(val)) {
-        [plugin, options] = val;
-      } else {
-        plugin = val;
-      }
-
-      let alias = typeof plugin === "string" ? plugin : `${loc}$${i}`;
-
-      // allow plugins to be specified as strings
-      if (typeof plugin === "string") {
-        let pluginLoc = resolve(`babel-plugin-${plugin}`, dirname) || resolve(plugin, dirname);
-        if (pluginLoc) {
-          plugin = require(pluginLoc);
-        } else {
-          throw new ReferenceError(msg("pluginUnknown", plugin, loc, i, dirname));
-        }
-      }
-
-      plugin = OptionManager.normalisePlugin(plugin, loc, i, alias);
-
-      return [plugin, options];
-    });
   }
 
   addConfig(loc: string, key?: string, json = json5): boolean {
@@ -192,6 +119,7 @@ export default class OptionManager {
     dirname = dirname || process.cwd();
     loc = loc || alias;
 
+    const {config} = this.meta;
     for (let key in opts) {
       let option = config[key];
 
@@ -202,11 +130,11 @@ export default class OptionManager {
     }
 
     // normalise options
-    normaliseOptions(opts);
+    this.parseOptions(opts);
 
     // resolve plugins
     if (opts.plugins) {
-      opts.plugins = OptionManager.normalisePlugins(loc, dirname, opts.plugins);
+      opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.meta.prefix);
     }
 
     // add extends clause
@@ -225,12 +153,12 @@ export default class OptionManager {
       // If we're in the "pass per preset" mode, we resolve the presets
       // and keep them for further execution to calculate the options.
       if (opts.passPerPreset) {
-        opts.presets = this.resolvePresets(opts.presets, dirname, (preset, presetLoc) => {
+        opts.presets = resolvePresets(opts.presets, dirname, (preset, presetLoc) => {
           this.mergeOptions(preset, preset, presetLoc, presetLoc, dirname);
         });
       } else {
         // Otherwise, just merge presets options into the main options.
-        this.mergePresets(opts.presets, dirname);
+        this.mergePresetOptions(opts.presets, dirname);
         delete opts.presets;
       }
     }
@@ -260,8 +188,8 @@ export default class OptionManager {
    * Merges all presets into the main options in case we are not in the
    * "pass per preset" mode. Otherwise, options are calculated per preset.
    */
-  mergePresets(presets: Array<string | Object>, dirname: string) {
-    this.resolvePresets(presets, dirname, (presetOpts, presetLoc) => {
+  mergePresetOptions(presets: Array<string | Object>, dirname: string) {
+    resolvePresets(presets, dirname, (presetOpts, presetLoc) => {
       this.mergeOptions(
         presetOpts,
         this.options,
@@ -269,30 +197,6 @@ export default class OptionManager {
         presetLoc,
         path.dirname(presetLoc)
       );
-    });
-  }
-
-  /**
-   * Resolves presets options which can be either direct object data,
-   * or a module name to require.
-   */
-  resolvePresets(presets: Array<string | Object>, dirname: string, onResolve?) {
-    return presets.map(val => {
-      if (typeof val === "string") {
-        let presetLoc = resolve(`babel-preset-${val}`, dirname) || resolve(val, dirname);
-        if (presetLoc) {
-          let val = require(presetLoc);
-          onResolve && onResolve(val, presetLoc);
-          return val;
-        } else {
-          throw new Error(`Couldn't find preset ${JSON.stringify(val)} relative to directory ${JSON.stringify(dirname)}`);
-        }
-      } else if (typeof val === "object") {
-        onResolve && onResolve(val);
-        return val;
-      } else {
-        throw new Error(`Unsupported preset format: ${val}.`);
-      }
     });
   }
 
@@ -307,7 +211,12 @@ export default class OptionManager {
     this.mergeOptions({ ignore: lines }, this.options, loc);
   }
 
-  findConfigs(loc) {
+  loadConfigs(loc) {
+    const {rcFileName, ignoreFileName, packageFileName, packageKey} = this.meta.loader;
+
+    // no files to load
+    if (!(ignoreFileName || rcFileName || packageFileName)) return;
+
     if (!loc) return;
 
     if (!isAbsolute(loc)) {
@@ -319,20 +228,20 @@ export default class OptionManager {
 
     while (loc !== (loc = path.dirname(loc))) {
       if (!foundConfig) {
-        let configLoc = path.join(loc, BABELRC_FILENAME);
+        let configLoc = path.join(loc, rcFileName);
         if (exists(configLoc)) {
           this.addConfig(configLoc);
           foundConfig = true;
         }
 
-        let pkgLoc = path.join(loc, PACKAGE_FILENAME);
+        let pkgLoc = path.join(loc, packageFileName);
         if (!foundConfig && exists(pkgLoc)) {
-          foundConfig = this.addConfig(pkgLoc, "babel", JSON);
+          foundConfig = this.addConfig(pkgLoc, packageKey, JSON);
         }
       }
 
       if (!foundIgnore) {
-        let ignoreLoc = path.join(loc, BABELIGNORE_FILENAME);
+        let ignoreLoc = path.join(loc, ignoreFileName);
         if (exists(ignoreLoc)) {
           this.addIgnoreConfig(ignoreLoc);
           foundIgnore = true;
@@ -344,6 +253,7 @@ export default class OptionManager {
   }
 
   normaliseOptions() {
+    const {config} = this.meta;
     let opts = this.options;
 
     for (let key in config) {
@@ -360,9 +270,30 @@ export default class OptionManager {
         opts[key] = val;
       }
     }
+    return opts;
   }
 
-  init(opts: Object = {}): Object {
+  parseOptions(options: Object = {}): Object {
+    const {config} = this.meta;
+
+    for (let key in options) {
+      let val = options[key];
+      if (val == null) continue;
+
+      let opt = config[key];
+      if (opt && opt.alias) opt = config[opt.alias];
+      if (!opt) continue;
+
+      let parser = parsers[opt.type];
+      if (parser) val = parser(val);
+
+      options[key] = val;
+    }
+
+    return options;
+  }
+
+  load(opts: Object = {}): Object {
     let filename = opts.filename;
 
     // merge in base options
@@ -370,7 +301,7 @@ export default class OptionManager {
 
     // resolve all .babelrc files
     if (this.options.babelrc !== false) {
-      this.findConfigs(filename);
+      this.loadConfigs(filename);
     }
 
     // normalise
@@ -379,5 +310,3 @@ export default class OptionManager {
     return this.options;
   }
 }
-
-OptionManager.memoisedPlugins = [];

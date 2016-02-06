@@ -19,15 +19,15 @@ export { t as types };
 import traverse from "comal-traverse";
 export { traverse };
 
-import OptionManager from "./transformation/file/options/option-manager";
-export { OptionManager };
+import OptionLoader from "./options/loader";
+export { OptionLoader };
 
 //
 
 import Pipeline from "./transformation/pipeline";
 export { Pipeline };
 
-let pipeline = new Pipeline;
+let pipeline = new Pipeline();
 export let analyse = pipeline.analyse.bind(pipeline);
 export let transform = pipeline.transform.bind(pipeline);
 export let transformFromAst = pipeline.transformFromAst.bind(pipeline);

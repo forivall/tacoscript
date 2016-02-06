@@ -13,22 +13,6 @@ import slash from "slash";
 export { inherits, inspect } from "util";
 
 /**
- * Test if a filename ends with a compilable extension.
- */
-
-export function canCompile(filename: string, altExts?: Array<string>) {
-  let exts = altExts || canCompile.EXTENSIONS;
-  let ext = path.extname(filename);
-  return includes(exts, ext);
-}
-
-/**
- * Default set of compilable extensions.
- */
-
-canCompile.EXTENSIONS = [".js", ".jsx", ".es6", ".es"];
-
-/**
  * Create an array from any value, splitting strings by ",".
  */
 

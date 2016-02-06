@@ -2,26 +2,20 @@
 
 import normalizeAst from "../helpers/normalize-ast";
 import Plugin from "./plugin";
-import File from "./file";
+import File from "../file";
+import Transformation from "./index";
+
+import Logger from "./logger";
 
 export default class Pipeline {
-  lint(code: string, opts?: Object = {}) {
-    opts.code = false;
-    opts.mode = "lint";
-    return this.transform(code, opts);
-  }
-
-  pretransform(code: string, opts?: Object) {
-    let file = new File(opts, this);
-    return file.wrap(code, function () {
-      file.addCode(code);
-      file.parseCode(code);
-      return file;
-    });
+  constructor(optMeta) {
+    this.optionMeta = optMeta;
   }
 
   transform(code: string, opts?: Object) {
-    let file = new File(opts, this);
+    let transformer = new Transformation(this.optionMeta, opts, this);
+    let file = new File(new OptionLoader(fileOptMeta, this.log).load(opts));
+
     return file.wrap(code, function () {
       file.addCode(code);
       file.parseCode(code);
