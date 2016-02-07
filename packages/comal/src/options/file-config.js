@@ -1,5 +1,5 @@
-export default fileConfig;
 
+export default fileConfig;
 const fileConfig = {
 
   filename: {

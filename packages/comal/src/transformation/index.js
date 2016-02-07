@@ -1,7 +1,5 @@
 /* @noflow */
-/* global BabelParserOptions */
-/* global BabelFileMetadata */
-/* global BabelFileResult */
+/* global FileResult */
 
 import getHelper from "babel-helpers";
 import * as metadataVisitor from "./metadata";
@@ -12,13 +10,12 @@ import PluginPass from "../plugin-pass";
 import shebangRegex from "shebang-regex";
 import traverse, { NodePath, Hub, Scope } from "comal-traverse";
 import sourceMap from "source-map";
-import generate from "babel-generator";
 import codeFrame from "babel-code-frame";
 import defaults from "lodash/defaults";
 import Logger from "./logger";
-import Store from "../../store";
-import { parse } from "babylon";
-import * as util from  "../../util";
+import msg from "../messages";
+import Store from "../store";
+import * as util from  "../util";
 import path from "path";
 import * as t from "comal-types";
 import pick from "lodash/pick";
@@ -32,22 +29,48 @@ const INTERNAL_PLUGINS = [
   [shadowFunctionsPlugin]
 ];
 
+function cleanMeta(meta: {
+  parse?: Boolean,
+  generate?: Boolean,
+  parser?: {parse: Function},
+  parserDefaultOpts?: Object,
+  generator?: {generate: Function},
+  generatorDefaultOpts?: Object,
+}) {
+  meta = {...meta};
+  if (meta.parse !== false) meta.parse = true;
+  if (meta.generate !== false) meta.generate = true;
+  if (meta.parse) {
+    if (meta.parser == null) throw new Error(msg("missingProperty", "meta", "parser"));
+    if (meta.parserDefaultOpts == null) meta.parserDefaultOpts = {};
+  }
+  if (meta.generate) {
+    if (meta.generator == null) throw new Error(msg("missingProperty", "meta", "generator"));
+    if (meta.generatorDefaultOpts == null) meta.generatorDefaultOpts = {};
+  }
+  return meta;
+}
+
 export default class Transformation {
   constructor(meta, opts: Object = {}, pipeline: Pipeline) {
     this.store = new Store();
 
+    meta = cleanMeta(meta);
+
     this.pipeline = pipeline;
 
     this.log  = new Logger(this, opts.filename || "unknown");
-    this.opts = this.initOptions(optMeta, opts);
+    this.opts = this.initOptions(meta, opts);
 
-    this.parserOpts = {
-      highlightCode: this.opts.highlightCode,
-      nonStandard:   this.opts.nonStandard,
-      sourceType:    this.opts.sourceType,
-      filename:      this.opts.filename,
-      plugins:       []
-    };
+    if (meta.parse) {
+      this.parser = meta.parser;
+      this.parserOpts = {...meta.parserDefaultOpts};
+    } else this.parser = false;
+
+    if (meta.generate) {
+      this.generator = meta.generator;
+      this.generatorOpts = {...meta.generatorDefaultOpts};
+    } else this.generator = false;
 
     this.pluginVisitors = [];
     this.pluginPasses = [];
@@ -73,7 +96,7 @@ export default class Transformation {
   pluginVisitors: Array<Object>;
   pluginPasses: Array<PluginPass>;
   pipeline: Pipeline;
-  parserOpts: BabelParserOptions;
+  parserOpts: Object;
   log: Logger;
 
   // proxy store
@@ -108,7 +131,7 @@ export default class Transformation {
       currentPluginPasses.push(new PluginPass(this, plugin, pluginOpts));
 
       if (plugin.manipulateOptions) {
-        plugin.manipulateOptions(opts, this.parserOpts, this);
+        plugin.manipulateOptions(opts, this.parserOpts, this.generatorOpts, this);
       }
     }
 
@@ -126,10 +149,11 @@ export default class Transformation {
     return source;
   }
 
-  parse(file: File) {
+  parse(file: File, setAst = true) {
     this.log.debug("Parse start");
-    let ast = parse(file.code, this.parserOpts);
+    let ast = this.parser.parse(file.code, this.parserOpts);
     this.log.debug("Parse stop");
+    if (setAst) this.setAst(file, ast);
     return ast;
   }
 
@@ -139,7 +163,7 @@ export default class Transformation {
     this.log.debug("End set AST");
   }
 
-  transform(file: File): BabelFileResult {
+  transform(file: File): FileResult {
     // In the "pass per preset" mode, we have grouped passes.
     // Otherwise, there is only one plain pluginPasses array.
     this.pluginPasses.forEach((pluginPasses, index) => {
@@ -153,20 +177,20 @@ export default class Transformation {
     return this.generate();
   }
 
-  wrap(code: string, callback: Function): BabelFileResult {
-    code = code + "";
+  runWrapped(file: File, inner: Function): FileResult {
+    const code = file.code || "";
 
     try {
       if (this.shouldIgnore()) {
         return this.makeResult({ code, ignored: true });
       } else {
-        return callback();
+        return inner();
       }
     } catch (err) {
-      if (err._babel) {
+      if (err._comal) {
         throw err;
       } else {
-        err._babel = true;
+        err._comal = true;
       }
 
       let message = err.message = `${this.opts.filename}: ${err.message}`;
@@ -192,18 +216,6 @@ export default class Transformation {
     }
   }
 
-  addCode(code: string) {
-    code = (code || "") + "";
-    code = this.parseInputSourceMap(code);
-    this.code = code;
-  }
-
-  parse(file: File) {
-    this.parseShebang();
-    let ast = this.parse(file);
-    this.setAst(ast);
-  }
-
   shouldIgnore(file: File) {
     let opts = this.opts;
     return util.shouldIgnore(file.filename, opts.ignore, opts.only);
@@ -217,29 +229,7 @@ export default class Transformation {
     }
   }
 
-  parseInputSourceMap(code: string): string {
-    let opts = this.opts;
-
-    if (opts.inputSourceMap !== false) {
-      let inputMap = convertSourceMap.fromSource(code);
-      if (inputMap) {
-        opts.inputSourceMap = inputMap.toObject();
-        code = convertSourceMap.removeComments(code);
-      }
-    }
-
-    return code;
-  }
-
-  parseShebang() {
-    let shebangMatch = shebangRegex.exec(this.code);
-    if (shebangMatch) {
-      this.shebang = shebangMatch[0];
-      this.code = this.code.replace(shebangRegex, "");
-    }
-  }
-
-  makeResult({ code, map, ast, ignored } /*: BabelFileResult */): BabelFileResult {
+  makeResult({ code, map, ast, ignored } /*: FileResult */): FileResult {
     let result = {
       metadata: null,
       options:  this.opts,
@@ -264,56 +254,48 @@ export default class Transformation {
     return result;
   }
 
-  generate(file: File): BabelFileResult {
+  generate(file: File): FileResult {
     let ast  = this.ast;
 
-    let result: BabelFileResult = { ast };
+    let result: FileResult = { ast };
     if (!this.opts.code) return this.makeResult(result);
 
-    let opts = pick(this.opts, [
-      "filename",
-      "retainLines",
-      "comments",
-      "compact",
-      "minified",
-      "concise",
-      "quotes",
-      "sourceMaps",
-      "sourceRoot",
-      "sourceFileName",
-      "sourceMapTarget",
-      "auxiliaryCommentBefore",
-      "auxiliaryCommentAfter",
-      "shouldPrintComment",
-    ]);
+    if (this.generator) {
+      let fileOpts = pick(file, [
+        "filename",
+        "sourceMaps",
+        "sourceRoot",
+        "sourceFileName",
+        "sourceMapTarget",
+      ]);
+      this.log.debug("Generation start");
 
-    this.log.debug("Generation start");
+      let _result = this.generator.generate(ast, defaults({...this.generatorOpts}, fileOpts), this.code);
+      result.code = _result.code;
+      result.map  = _result.map;
 
-    let _result = generate(ast, opts, this.code);
-    result.code = _result.code;
-    result.map  = _result.map;
+      this.log.debug("Generation end");
 
-    this.log.debug("Generation end");
-
-    if (this.shebang) {
-      // add back shebang
-      result.code = `${this.shebang}\n${result.code}`;
+      if (this.file.shebang) {
+        // add back shebang
+        result.code = `${this.file.shebang}\n${result.code}`;
+      }
     }
 
     if (result.map) {
-      result.map = this.mergeSourceMap(result.map);
+      result.map = this.file.mergeSourceMap(result.map);
     }
 
-    if (opts.sourceMaps === "inline" || opts.sourceMaps === "both") {
-      result.code += "\n" + convertSourceMap.fromObject(result.map).toComment();
-    }
+    if (this.generator) {
+      if (opts.sourceMaps === "inline" || opts.sourceMaps === "both") {
+        result.code += "\n" + convertSourceMap.fromObject(result.map).toComment();
+      }
 
-    if (opts.sourceMaps === "inline") {
-      result.map = null;
+      if (opts.sourceMaps === "inline") {
+        result.map = null;
+      }
     }
 
     return this.makeResult(result);
   }
 }
-
-export { File };

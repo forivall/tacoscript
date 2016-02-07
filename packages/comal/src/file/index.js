@@ -22,8 +22,10 @@ let errorVisitor = {
 };
 
 export default class File {
-  constructor(opts) {
+  constructor(opts, code?) {
     this.store = new Store();
+
+    if (code != null) this.setCode(code);
 
     this.opts = {
       sourceMaps: opts.sourceMaps || !!opts.inputSourceMap,
@@ -171,12 +173,14 @@ export default class File {
     this.getMetadata();
   }
 
-  setCode(code: string) {
-    code = (code || "") + "";
+  setCode(code: string, preprocess = false) {
+    this.code = code = (code || "") + "";
+    if (preprocess) this.preprocessCode()
+  }
+  preprocessCode() {
     if (this.opts.sourceMaps) {
-      code = this.parseInputSourceMap(code);
+      this.code = this.parseInputSourceMap(this.code);
     }
-    this.code = code;
 
     this.parseShebang();
   }

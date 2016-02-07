@@ -1,4 +1,3 @@
-import * as context from "../index";
 import msg from "../messages";
 import resolve from "../helpers/resolve";
 
@@ -19,7 +18,7 @@ type PluginObject = {
   };
 };
 
-function memoisePluginContainer(fn, loc, i, alias) {
+function memoisePluginContainer(fn, loc, i, alias, context) {
   for (let cacheItem of (pluginCache: Array<Object>)) {
     if (cacheItem.container === fn) return cacheItem.plugin;
   }
@@ -44,13 +43,13 @@ function memoisePluginContainer(fn, loc, i, alias) {
   }
 }
 
-export function normalisePlugin(plugin, loc, i, alias) {
+export function normalisePlugin(plugin, loc, i, alias, context) {
   plugin = plugin.__esModule ? plugin.default : plugin;
 
   if (!(plugin instanceof Plugin)) {
     // allow plugin containers to be specified so they don't have to manually require
     if (typeof plugin === "function" || typeof plugin === "object") {
-      plugin = memoisePluginContainer(plugin, loc, i, alias);
+      plugin = memoisePluginContainer(plugin, loc, i, alias, context);
     } else {
       throw new TypeError(msg("pluginNotFunction", loc, i, typeof plugin));
     }
@@ -61,7 +60,7 @@ export function normalisePlugin(plugin, loc, i, alias) {
   return plugin;
 }
 
-export function normalisePlugins(loc, dirname, plugins, prefix: (string|false) = false) {
+export function normalisePlugins(loc, dirname, plugins, context, prefix: (string|false) = false) {
   return plugins.map(function (val, i) {
     let plugin, options;
 

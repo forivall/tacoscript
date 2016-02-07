@@ -1,7 +1,6 @@
 import fileConfig from "./file-config";
 
 export default coreConfig;
-
 const coreConfig = {
   ...fileConfig,
 

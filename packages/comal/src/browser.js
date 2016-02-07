@@ -1,5 +1,7 @@
 /* eslint no-new-func: 0 */
 
+// TODO: completely overhaul this
+
 import { transform } from "./index";
 export * from "./index";
 

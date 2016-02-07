@@ -273,6 +273,9 @@ export default class OptionLoader {
     return opts;
   }
 
+  // parses options that are still in cli-form
+  // TODO: by default, don't use this, for stricter API use. Only should be
+  // enabled by an option.
   parseOptions(options: Object = {}): Object {
     const {config} = this.meta;
 

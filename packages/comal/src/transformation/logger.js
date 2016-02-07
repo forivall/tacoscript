@@ -7,9 +7,13 @@ let generalDebug = buildDebug("babel");
 let seenDeprecatedMessages = [];
 
 export default class Logger {
-  constructor(parent: Transformation) {
-    this.parent   = parent;
-    this.filename = '(unknown)';
+  constructor(opts = {}) {
+    this.config(opts);
+  }
+
+  config(opts) {
+    this.suppressDeprecationMessages = opts.suppressDeprecationMessages;
+    this.filename = opts.filename || '(unknown)';
   }
 
   setFilename(filename) {
@@ -17,7 +21,6 @@ export default class Logger {
   }
 
   filename: string;
-  parent: Transformation;
 
   _buildMessage(msg: string): string {
     let parts = `[BABEL] ${this.filename}`;
@@ -34,7 +37,7 @@ export default class Logger {
   }
 
   deprecate(msg: string) {
-    if (this.parent && this.parent.opts && this.parent.opts.suppressDeprecationMessages) return;
+    if (this.suppressDeprecationMessages) return;
 
     msg = this._buildMessage(msg);
 

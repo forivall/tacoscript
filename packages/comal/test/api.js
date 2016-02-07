@@ -1,4 +1,3 @@
-var comal                = require("../lib/index");
 var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
 var assert               = require("assert");
@@ -13,20 +12,23 @@ function assertNotIgnored(result) {
   assert.ok(!result.ignored);
 }
 
+var Api = require("../lib/api");
+var api = new Api(/*TODO*/);
+
 // shim
 function transformAsync(code, opts) {
   return {
     then: function (resolve) {
-      resolve(comal.transform(code, opts));
+      resolve(api.transform(code, opts));
     }
   };
 }
 
 suite("api", function () {
   test("analyze", function () {
-    assert.equal(comal.analyse("foobar;").marked.length, 0);
+    assert.equal(api.analyse("foobar;").marked.length, 0);
 
-    assert.equal(comal.analyse("foobar;", {
+    assert.equal(api.analyse("foobar;", {
       plugins: [new Plugin({
         visitor: {
           Program: function (path) {
@@ -36,7 +38,7 @@ suite("api", function () {
       })]
     }).marked[0].message, "foobar");
 
-    assert.equal(comal.analyse("foobar;", {}, {
+    assert.equal(api.analyse("foobar;", {}, {
       Program: function (path) {
         path.mark("category", "foobar");
       }
@@ -44,7 +46,7 @@ suite("api", function () {
   });
 
   test("transformFile", function (done) {
-    comal.transformFile(__dirname + "/fixtures/api/file.js", {}, function (err, res) {
+    api.transformFile(__dirname + "/fixtures/api/file.js", {}, function (err, res) {
       if (err) return done(err);
       assert.equal(res.code, "foo();");
       done();
@@ -52,7 +54,7 @@ suite("api", function () {
   });
 
   test("transformFileSync", function () {
-    assert.equal(comal.transformFileSync(__dirname + "/fixtures/api/file.js", {}).code, "foo();");
+    assert.equal(api.transformFileSync(__dirname + "/fixtures/api/file.js", {}).code, "foo();");
   });
 
   test("options merge backwards", function () {
@@ -68,7 +70,7 @@ suite("api", function () {
     var aliasBaseType = null;
 
     function execTest(passPerPreset) {
-      return comal.transform('type Foo = number; let x = (y): Foo => y;', {
+      return api.transform('type Foo = number; let x = (y): Foo => y;', {
         passPerPreset: passPerPreset,
         presets: [
           // First preset with our plugin, "before"
@@ -148,7 +150,7 @@ suite("api", function () {
   });
 
   test("source map merging", function () {
-    var result = comal.transform([
+    var result = api.transform([
       'function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }',
       '',
       'let Foo = function Foo() {',
@@ -201,8 +203,8 @@ suite("api", function () {
     return transformAsync("class Foo {}", {
       auxiliaryCommentBefore: "before",
       auxiliaryCommentAfter: "after",
-      plugins: [function (comal) {
-        var t = comal.types;
+      plugins: [function (api) {
+        var t = api.types;
         return {
           visitor: {
             Program: function (path) {
