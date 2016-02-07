@@ -9,7 +9,7 @@ import template from "babel-template";
 import * as util from "./util";
 import * as types from "comal-types";
 import traverse from "comal-traverse";
-import OptionLoader from "./options/loader";
+import OptionsLoader from "./options/loader";
 
 import isFunction from "lodash/isFunction";
 import fs from "fs";
@@ -25,7 +25,7 @@ export default class Api {
   util = util;
   types = types;
   traverse = traverse;
-  OptionLoader = OptionsLoader;
+  OptionsLoader = OptionsLoader;
   Pipeline = Pipeline;
 
   constructor(meta) {

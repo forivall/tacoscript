@@ -1,6 +1,6 @@
 /* @noflow */
 
-import {normalisePlugin} from "../plugins"
+import {normalisePlugin} from "./plugin-normalize"
 import msg from "../messages";
 import Store from "../store";
 import traverse from "comal-traverse";

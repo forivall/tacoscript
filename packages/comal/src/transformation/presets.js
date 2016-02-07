@@ -1,4 +1,6 @@
 
+import resolve from "../helpers/resolve";
+
 /**
  * Resolves presets options which can be either direct object data,
  * or a module name to require.

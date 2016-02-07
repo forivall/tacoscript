@@ -7,6 +7,7 @@ import Transformation from "./index";
 
 import Logger from "./logger";
 import fileOptMeta from "../options/file-config";
+import OptionsLoader from "../options/loader";
 
 // TODO: accept streams and buffers for code.
 
@@ -15,7 +16,7 @@ export default class Pipeline {
     this.optionMeta = optMeta;
 
     this.fileLogger = new Logger();
-    this.fileOptionLoader = new OptionLoader(fileOptMeta, this.fileLogger);
+    this.fileOptionLoader = new OptionsLoader(fileOptMeta, this.fileLogger);
   }
 
   // TODO: cache transformers
@@ -30,11 +31,11 @@ export default class Pipeline {
   }
 
   exec(transformer: Transformation, code: string, fileOpts?: Object) {
-    return execFile(transformer, this.createFile(code, fileOpts));
+    return this.execFile(transformer, this.createFile(code, fileOpts));
   }
 
   execFile(transformer: Transformation, file: File) {
-    return transformer.runWrapped(code, function () {
+    return transformer.runWrapped(file, function () {
       file.preprocessCode();
       transformer.parse(file);
       return transformer.transform(file);

@@ -1,5 +1,8 @@
-import type Logger from "../logger";
+import type Logger from "../transformation/logger";
+import type Api from "../api";
 import Plugin from "../transformation/plugin";
+
+import * as optionParsers from "./parsers";
 
 import msg from "../messages";
 import resolve from "../helpers/resolve";
@@ -288,7 +291,7 @@ export default class OptionLoader {
       if (opt && opt.alias) opt = config[opt.alias];
       if (!opt) continue;
 
-      let parser = parsers[opt.type];
+      let parser = optionParsers[opt.type];
       if (parser) val = parser(val);
 
       options[key] = val;

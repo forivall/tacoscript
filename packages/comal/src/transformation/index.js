@@ -140,7 +140,7 @@ export default class Transformation {
   }
 
   getModuleName(file): ?string {
-    return file.getModuleName(opts.getModuleId);
+    return file.getModuleName(this.opts.getModuleId);
   }
 
   resolveModuleSource(file, source: string): string {
@@ -287,11 +287,11 @@ export default class Transformation {
     }
 
     if (this.generator) {
-      if (opts.sourceMaps === "inline" || opts.sourceMaps === "both") {
+      if (file.sourceMaps === "inline" || file.sourceMaps === "both") {
         result.code += "\n" + convertSourceMap.fromObject(result.map).toComment();
       }
 
-      if (opts.sourceMaps === "inline") {
+      if (file.sourceMaps === "inline") {
         result.map = null;
       }
     }
