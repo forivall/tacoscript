@@ -44,7 +44,8 @@ function cleanMeta(meta) {
 }
 
 export default class OptionLoader {
-  constructor(meta, log?: Logger) {
+  // TODO: propagate context to plugins
+  constructor(meta, log?: Logger, context?: Api) {
     this.meta = cleanMeta(meta);
 
     this.resolvedConfigs = [];
