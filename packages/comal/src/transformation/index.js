@@ -2,7 +2,7 @@
 /* global FileResult */
 
 import convertSourceMap from "convert-source-map";
-import OptionLoader from "../options/loader";
+import OptionsLoader from "../options/loader";
 import type Pipeline from "./pipeline";
 import PluginPass from "./plugin-pass";
 import traverse from "comal-traverse";
@@ -13,6 +13,7 @@ import msg from "../messages";
 import Store from "../store";
 import * as util from  "../util";
 import pick from "lodash/pick";
+import isFunction from "lodash/isFunction";
 import File from "../file";
 
 import blockHoistPlugin from "./internal-plugins/block-hoist";
@@ -44,7 +45,7 @@ function cleanMeta(meta: {
 }
 
 export default class Transformation {
-  constructor(meta, opts: Object = {}, pipeline: Pipeline) {
+  constructor(meta, opts: Object = {}, pipeline: Pipeline, context?) {
     this.store = new Store();
 
     meta = cleanMeta(meta);
@@ -52,16 +53,24 @@ export default class Transformation {
     this.pipeline = pipeline;
 
     this.log  = new Logger(opts);
-    this.opts = this.initOptions(meta, opts);
+    this.opts = this.initOptions(meta, opts, context);
 
     if (meta.parse) {
       this.parser = meta.parser;
-      this.parserOpts = {...meta.parserDefaultOpts};
+
+      this.parserOpts = isFunction(meta.parserDefaultOpts)
+        ? meta.parserDefaultOpts(this.opts, this, context)
+        : {...meta.parserDefaultOpts};
+
     } else this.parser = false;
 
     if (meta.generate) {
       this.generator = meta.generator;
-      this.generatorOpts = {...meta.generatorDefaultOpts};
+
+      this.generatorOpts = isFunction(meta.generatorDefaultOpts)
+        ? meta.generatorDefaultOpts(this.opts, this, context)
+        : {...meta.generatorDefaultOpts};
+
     } else this.generator = false;
 
     this.pluginVisitors = [];
@@ -96,8 +105,8 @@ export default class Transformation {
   set(key, value) { return this.store.set(key, value); }
   setDynamic(key, value) { return this.store.setDynamic(key, value); }
 
-  initOptions(optMeta, opts) {
-    opts = new OptionLoader(optMeta, this.log).load(opts);
+  initOptions(optMeta, opts, context?) {
+    opts = new OptionsLoader(optMeta, this.log, context).load(opts);
 
     opts.ignore = util.arrayify(opts.ignore, util.regexify);
 
@@ -161,11 +170,23 @@ export default class Transformation {
     // In the "pass per preset" mode, we have grouped passes.
     // Otherwise, there is only one plain pluginPasses array.
     this.pluginPasses.forEach((pluginPasses, index) => {
+      for (let pass of (pluginPasses: Array<PluginPass>)) {
+        pass.open(file);
+      }
+
       this.call("pre", file, pluginPasses);
       this.log.debug(`Start transform traverse`);
+      // babel plugin compat
+
+      // console.log(this.pluginVisitors[index])
       traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), file.scope);
+
       this.log.debug(`End transform traverse`);
       this.call("post", file, pluginPasses);
+
+      for (let pass of (pluginPasses: Array<PluginPass>)) {
+        pass.close();
+      }
     });
     return this.generate(file);
   }
@@ -218,7 +239,7 @@ export default class Transformation {
     for (let pass of pluginPasses) {
       let plugin = pass.plugin;
       let fn = plugin[key];
-      if (fn) fn.call(pass, this);
+      if (fn) fn.call(pass, file, this);
     }
   }
 
@@ -256,11 +277,12 @@ export default class Transformation {
     if (this.generator) {
       let fileOpts = pick(file, [
         "filename",
-        "sourceMaps",
         "sourceRoot",
         "sourceFileName",
         "sourceMapTarget",
       ]);
+      fileOpts.sourceMaps = file.opts.sourceMaps;
+
       this.log.debug("Generation start");
 
       let _result = this.generator.generate(ast, defaults({...this.generatorOpts}, fileOpts), file.code);

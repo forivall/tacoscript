@@ -1,40 +1,45 @@
 import type Plugin from "./plugin";
 import Store from "../store";
 import traverse from "comal-traverse";
-import File from "../file";
+import type Transformation from "./index";
+import type File from "../file";
 
 export default class PluginPass {
-  constructor(file: File, plugin: Plugin, options: Object = {}) {
+  constructor(transformer: Transformation, plugin: Plugin, options: Object = {}) {
     this.store = new Store();
     this.plugin = plugin;
-    this.file   = file;
-    this.opts   = options;
+    this.transformer = transformer;
+    this.opts = options;
+    this.file = null;
   }
 
   plugin: Plugin;
-  file: File;
+  transformer: Transformation;
   opts: Object;
+  file: ?File;
 
-  transform() {
-    let file = this.file;
-    file.log.debug(`Start transformer ${this.key}`);
+  open(file: File) { this.file = file; }
+  close() { this.file = null; }
+
+  transform(file) {
+    this.transformer.log.debug(`Start plugin pass ${this.key}`);
     traverse(file.ast, this.plugin.visitor, file.scope, file);
-    file.log.debug(`Finish transformer ${this.key}`);
+    this.transformer.log.debug(`Finish plugin pass ${this.key}`);
   }
 
   addHelper(...args) {
-    return this.file.addHelper(...args);
+    return this.transformer.addHelper(...args);
   }
 
   addImport(...args) {
-    return this.file.addImport(...args);
+    return this.transformer.addImport(...args);
   }
 
   getModuleName(...args) {
-    return this.file.getModuleName(...args);
+    return this.transformer.getModuleName(...args);
   }
 
   buildCodeFrameError(...args) {
-    return this.file.buildCodeFrameError(...args);
+    return this.transformer.buildCodeFrameError(...args);
   }
 }

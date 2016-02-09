@@ -205,7 +205,6 @@ export default class File {
 
   mergeSourceMap(map: Object) {
     let inputMap = this.inputSourceMap;
-
     if (inputMap) {
       let inputMapConsumer   = new sourceMap.SourceMapConsumer(inputMap);
       let outputMapConsumer  = new sourceMap.SourceMapConsumer(map);

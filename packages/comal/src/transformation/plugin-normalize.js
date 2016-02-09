@@ -83,7 +83,7 @@ export function normalisePlugins(loc, dirname, plugins, context, prefix: (string
       }
     }
 
-    plugin = normalisePlugin(plugin, loc, i, alias);
+    plugin = normalisePlugin(plugin, loc, i, alias, context);
 
     return [plugin, options];
   });

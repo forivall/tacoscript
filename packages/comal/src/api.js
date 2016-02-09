@@ -32,7 +32,7 @@ export default class Api {
     this.transformFile = this.transformFile.bind(this);
     this.transformFileSync = this.transformFileSync.bind(this);
 
-    let pipeline = new Pipeline(meta);
+    let pipeline = new Pipeline(meta, this);
     // this.analyse = pipeline.analyse.bind(pipeline);
     this.transform = pipeline.transform.bind(pipeline);
     this.transformFromAst = pipeline.transformFromAst.bind(pipeline);

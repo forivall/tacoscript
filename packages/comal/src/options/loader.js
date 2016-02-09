@@ -46,7 +46,7 @@ function cleanMeta(meta) {
   return meta;
 }
 
-export default class OptionLoader {
+export default class OptionsLoader {
   constructor(meta, log?: Logger, context?: Api) {
     this.meta = cleanMeta(meta);
 

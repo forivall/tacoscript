@@ -17,6 +17,15 @@ var babylon = require("babylon");
 var Api = require("../lib/api");
 var api = new Api({
   parser: babylon,
+  parserDefaultOpts: function(opts) {
+    return {
+      highlightCode: opts.highlightCode,
+      nonStandard:   opts.nonStandard,
+      sourceType:    opts.sourceType,
+      filename:      opts.filename,
+      plugins:       []
+    };
+  },
   generator: { generate: require("babel-generator").default }
 });
 

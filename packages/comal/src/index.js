@@ -11,7 +11,7 @@ export { util, types };
 
 export traverse from "comal-traverse";
 
-export OptionLoader from "./options/loader";
+export OptionsLoader from "./options/loader";
 
 export Pipeline from "./transformation/pipeline";
 

@@ -11,8 +11,9 @@ import OptionsLoader from "../options/loader";
 // TODO: accept streams and buffers for code.
 
 export default class Pipeline {
-  constructor(optMeta) {
+  constructor(optMeta, context) {
     this.optionMeta = optMeta;
+    this.context = context;
 
     this.fileLogger = new Logger();
   }
@@ -25,7 +26,7 @@ export default class Pipeline {
 
   createFile(code: string, opts?: Object) {
     this.fileLogger.config(opts);
-    return new File(new OptionsLoader(fileOptMeta, this.fileLogger).load(opts), code);
+    return new File(new OptionsLoader(fileOptMeta, this.fileLogger, this.context).load(opts), code);
   }
 
   exec(transformer: Transformation, code: string, fileOpts?: Object) {
