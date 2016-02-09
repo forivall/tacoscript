@@ -52,7 +52,7 @@ export default class Pipeline {
     });
   }
 
-  transform(code: string, opts?: Object) {
+  transform(code: string, opts?: Object = {}) {
     let file = this.createFile(code, opts);
     return this.transformFile(file, opts);
   }
@@ -63,7 +63,7 @@ export default class Pipeline {
     return this.execFile(transformer, file);
   }
 
-  transformFromAst(ast, code: string, opts: Object) {
+  transformFromAst(ast, code: string, opts: Object = {}) {
     let transformer = this.createTransform(opts);
     return this.execFromAst(transformer, ast, code, opts);
   }

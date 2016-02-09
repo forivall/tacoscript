@@ -238,7 +238,7 @@ export default class Transformation {
     }
   }
 
-  makeResult({ code, map, ast, ignored } /*: FileResult */): FileResult {
+  makeResult({ code, map, ast, ignored, metadata } /*: FileResult */): FileResult {
     let result = {
       metadata: null,
       options:  this.opts,
@@ -257,7 +257,7 @@ export default class Transformation {
     }
 
     if (this.opts.metadata) {
-      result.metadata = this.metadata;
+      result.metadata = metadata;
     }
 
     return result;
@@ -266,7 +266,7 @@ export default class Transformation {
   generate(file: File): FileResult {
     let ast  = file.ast;
 
-    let result: FileResult = { ast };
+    let result: FileResult = { ast, metadata: file.metadata };
     if (!this.opts.code) return this.makeResult(result);
 
     if (this.generator) {

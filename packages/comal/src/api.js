@@ -42,6 +42,8 @@ export default class Api {
     if (isFunction(opts)) {
       callback = opts;
       opts = {};
+    } else if (opts == null) {
+      opts = {};
     }
 
     opts.filename = filename;
