@@ -15,7 +15,6 @@ export default class Pipeline {
     this.optionMeta = optMeta;
 
     this.fileLogger = new Logger();
-    this.fileOptionLoader = new OptionsLoader(fileOptMeta, this.fileLogger);
   }
 
   // TODO: cache transformers
@@ -26,7 +25,7 @@ export default class Pipeline {
 
   createFile(code: string, opts?: Object) {
     this.fileLogger.config(opts);
-    return new File(this.fileOptionLoader.load(opts), code);
+    return new File(new OptionsLoader(fileOptMeta, this.fileLogger).load(opts), code);
   }
 
   exec(transformer: Transformation, code: string, fileOpts?: Object) {

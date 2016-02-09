@@ -25,8 +25,6 @@ export default class File {
   constructor(opts, code?) {
     this.store = new Store();
 
-    if (code != null) this.setCode(code);
-
     this.opts = {
       sourceMaps: opts.sourceMaps || !!opts.inputSourceMap,
       moduleIds: opts.moduleIds || opts.moduleId != null,
@@ -73,6 +71,8 @@ export default class File {
     this.shebang = "";
 
     this.hub = new Hub(this);
+
+    if (code != null) this.setCode(code);
   }
 
   static helpers: Array<string>;
@@ -174,9 +174,10 @@ export default class File {
   }
 
   setCode(code: string, preprocess = false) {
-    this.code = code = (code || "") + "";
-    if (preprocess) this.preprocessCode()
+    this.code = (code || "") + "";
+    if (preprocess) this.preprocessCode();
   }
+
   preprocessCode() {
     if (this.opts.sourceMaps) {
       this.code = this.parseInputSourceMap(this.code);

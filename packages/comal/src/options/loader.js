@@ -8,6 +8,7 @@ import resolve from "../helpers/resolve";
 import json5 from "json5";
 import isAbsolute from "path-is-absolute";
 import pathExists from "path-exists";
+import clone from "lodash/clone";
 import cloneDeepWith from "lodash/cloneDeepWith";
 import merge from "../helpers/merge";
 import path from "path";
@@ -67,7 +68,7 @@ export default class OptionLoader {
 
     for (let key in config) {
       let opt = config[key];
-      opts[key] = {...opt.default};
+      opts[key] = clone(opt.default);
     }
 
     return opts;

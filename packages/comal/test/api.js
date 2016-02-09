@@ -1,8 +1,9 @@
 require('source-map-support').install();
+// try { require('longjohn'); } catch (e) {}
 
 var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
-var assert               = require("assert");
+var assert               = require("chai").assert;
 var Plugin               = require("../lib/transformation/plugin");
 
 function assertIgnored(result) {
@@ -12,10 +13,10 @@ function assertIgnored(result) {
 function assertNotIgnored(result) {
   assert.ok(!result.ignored);
 }
-
+var babylon = require("babylon");
 var Api = require("../lib/api");
 var api = new Api({
-  parser: require("babylon"),
+  parser: babylon,
   generator: { generate: require("babel-generator").default }
 });
 

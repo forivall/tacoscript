@@ -30,8 +30,8 @@ function cleanMeta(meta: {
   generatorDefaultOpts?: Object,
 }) {
   meta = {...meta};
-  if (meta.parse != null) meta.parse = meta.parser != null;
-  if (meta.generate != null) meta.generate = meta.generator != null;
+  if (meta.parse == null) meta.parse = meta.parser != null;
+  if (meta.generate == null) meta.generate = meta.generator != null;
   if (meta.parse) {
     if (meta.parser == null) throw new Error(msg("missingProperty", "meta", "parser"));
     if (meta.parserDefaultOpts == null) meta.parserDefaultOpts = {};
@@ -163,19 +163,18 @@ export default class Transformation {
     this.pluginPasses.forEach((pluginPasses, index) => {
       this.call("pre", file, pluginPasses);
       this.log.debug(`Start transform traverse`);
-      traverse(this.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), this.scope);
+      traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), file.scope);
       this.log.debug(`End transform traverse`);
       this.call("post", pluginPasses);
     });
-
-    return this.generate();
+    return this.generate(file);
   }
 
   runWrapped(file: File, inner: Function): FileResult {
     const code = file.code || "";
 
     try {
-      if (this.shouldIgnore()) {
+      if (this.shouldIgnore(file)) {
         return this.makeResult({ code, ignored: true });
       } else {
         return inner();
@@ -249,7 +248,7 @@ export default class Transformation {
   }
 
   generate(file: File): FileResult {
-    let ast  = this.ast;
+    let ast  = file.ast;
 
     let result: FileResult = { ast };
     if (!this.opts.code) return this.makeResult(result);
@@ -270,14 +269,14 @@ export default class Transformation {
 
       this.log.debug("Generation end");
 
-      if (this.file.shebang) {
+      if (file.shebang) {
         // add back shebang
-        result.code = `${this.file.shebang}\n${result.code}`;
+        result.code = `${file.shebang}\n${result.code}`;
       }
     }
 
     if (result.map) {
-      result.map = this.file.mergeSourceMap(result.map);
+      result.map = file.mergeSourceMap(result.map);
     }
 
     if (this.generator) {

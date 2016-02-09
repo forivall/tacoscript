@@ -2,8 +2,7 @@
 
 import fileConfig from "./file-config";
 
-export default babelGeneratorConfig;
-const babelGeneratorConfig = {
+export default {
   filename: fileConfig.filename,
 
   sourceMap: fileConfig.sourceMap,

@@ -1,6 +1,5 @@
 
-export default fileConfig;
-const fileConfig = {
+export default {
 
   filename: {
     type: "filename",

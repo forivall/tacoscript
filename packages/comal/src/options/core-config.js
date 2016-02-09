@@ -1,7 +1,6 @@
 import fileConfig from "./file-config";
 
-export default coreConfig;
-const coreConfig = {
+export default {
   ...fileConfig,
 
   // babel-code-frame
@@ -30,5 +29,13 @@ const coreConfig = {
     type: "boolean",
     default: false,
     hidden: true,
+  },
+
+  // toggles if code should be generated. Alternatively, meta should just not
+  // include a generator
+  code: {
+    hidden: true,
+    default: true,
+    type: "boolean"
   },
 };

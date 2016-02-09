@@ -46,7 +46,7 @@ export default class Api {
 
     opts.filename = filename;
 
-    fs.readFile(filename, (err, code) => {
+    fs.readFile(filename, "utf8", (err, code) => {
       let result;
 
       if (!err) {
