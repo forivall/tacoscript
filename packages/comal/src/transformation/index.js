@@ -165,7 +165,7 @@ export default class Transformation {
       this.log.debug(`Start transform traverse`);
       traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), file.scope);
       this.log.debug(`End transform traverse`);
-      this.call("post", pluginPasses);
+      this.call("post", file, pluginPasses);
     });
     return this.generate(file);
   }
@@ -263,7 +263,7 @@ export default class Transformation {
       ]);
       this.log.debug("Generation start");
 
-      let _result = this.generator.generate(ast, defaults({...this.generatorOpts}, fileOpts), this.code);
+      let _result = this.generator.generate(ast, defaults({...this.generatorOpts}, fileOpts), file.code);
       result.code = _result.code;
       result.map  = _result.map;
 

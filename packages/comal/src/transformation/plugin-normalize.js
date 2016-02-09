@@ -3,7 +3,7 @@ import resolve from "../helpers/resolve";
 
 import Plugin from "./plugin";
 
-const pluginCache = {};
+const pluginCache = [];
 
 type PluginObject = {
   pre?: Function;

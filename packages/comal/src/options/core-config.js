@@ -24,11 +24,41 @@ export default {
     hidden: true
   },
 
+  presets: {
+    type: "list",
+    description: "",
+    default: []
+  },
+
+  plugins: {
+    type: "list",
+    default: [],
+    description: ""
+  },
+
   passPerPreset: {
     description: "Whether to spawn a traversal pass per a preset. By default all presets are merged.",
     type: "boolean",
     default: false,
     hidden: true,
+  },
+
+
+  ignore: {
+    type: "list",
+    description: "list of glob paths to **not** compile",
+    default: []
+  },
+
+  only: {
+    type: "list",
+    description: "list of glob paths to **only** compile"
+  },
+
+  metadata: {
+    hidden: true,
+    default: true,
+    type: "boolean"
   },
 
   // toggles if code should be generated. Alternatively, meta should just not

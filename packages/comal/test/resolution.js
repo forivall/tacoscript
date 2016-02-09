@@ -1,6 +1,12 @@
 var assert = require("assert");
 var async = require("async");
+
 var comal = require("../lib/index");
+var api = new comal.Api({
+  parser: require("babylon"),
+  generator: { generate: require("babel-generator").default }
+});
+
 var fs = require("fs");
 var path = require("path");
 
@@ -33,7 +39,7 @@ suite("addon resolution", function () {
     function fixturesReady (err) {
       if (err) return done(err);
 
-      var actual = comal.transform(fixtures.actual, {
+      var actual = api.transform(fixtures.actual, {
         filename: paths.actual,
         plugins: ["addons/plugin"],
         presets: ["addons/preset"],
