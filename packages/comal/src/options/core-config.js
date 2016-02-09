@@ -68,4 +68,11 @@ export default {
     default: true,
     type: "boolean"
   },
+
+  // toggles if the ast should be included in the results
+  ast: {
+    hidden: true,
+    default: true,
+    type: "boolean"
+  },
 };

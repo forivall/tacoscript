@@ -47,7 +47,8 @@ function cleanMeta(meta) {
 }
 
 export default class OptionsLoader {
-  constructor(meta, log?: Logger, context?: Api) {
+  constructor(meta, log?: Logger, context?: Api, strict = true) {
+    this.strict = strict;
     this.meta = cleanMeta(meta);
 
     this.resolvedConfigs = [];
@@ -136,7 +137,7 @@ export default class OptionsLoader {
       let option = config[key];
 
       // check for an unknown option
-      if (!option && this.log) {
+      if (!option && this.strict && this.log) {
         this.log.error(`Unknown option: ${alias}.${key}`, ReferenceError);
       }
     }

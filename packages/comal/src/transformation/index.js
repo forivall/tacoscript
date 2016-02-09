@@ -26,20 +26,20 @@ const INTERNAL_PLUGINS = [
 
 function cleanMeta(meta: {
   parser?: {parse: Function},
-  parserDefaultOpts?: Object,
+  parserOpts?: Object,
   generator?: {generate: Function},
-  generatorDefaultOpts?: Object,
+  generatorOpts?: Object,
 }) {
   meta = {...meta};
   if (meta.parse == null) meta.parse = meta.parser != null;
   if (meta.generate == null) meta.generate = meta.generator != null;
   if (meta.parse) {
     if (meta.parser == null) throw new Error(msg("missingProperty", "meta", "parser"));
-    if (meta.parserDefaultOpts == null) meta.parserDefaultOpts = {};
+    if (meta.parserOpts == null) meta.parserOpts = {};
   }
   if (meta.generate) {
     if (meta.generator == null) throw new Error(msg("missingProperty", "meta", "generator"));
-    if (meta.generatorDefaultOpts == null) meta.generatorDefaultOpts = {};
+    if (meta.generatorOpts == null) meta.generatorOpts = {};
   }
   return meta;
 }
@@ -58,18 +58,19 @@ export default class Transformation {
     if (meta.parse) {
       this.parser = meta.parser;
 
-      this.parserOpts = isFunction(meta.parserDefaultOpts)
-        ? meta.parserDefaultOpts(this.opts, this, context)
-        : {...meta.parserDefaultOpts};
+      this.parserOpts = isFunction(meta.parserOpts)
+        ? meta.parserOpts(this.opts, this, context)
+        : {...meta.parserOpts};
 
     } else this.parser = false;
 
     if (meta.generate) {
       this.generator = meta.generator;
 
-      this.generatorOpts = isFunction(meta.generatorDefaultOpts)
-        ? meta.generatorDefaultOpts(this.opts, this, context)
-        : {...meta.generatorDefaultOpts};
+      this.generatorOpts = isFunction(meta.generatorOpts)
+        ? meta.generatorOpts(this.opts, this, context)
+        : {...meta.generatorOpts};
+
 
     } else this.generator = false;
 
@@ -105,8 +106,8 @@ export default class Transformation {
   set(key, value) { return this.store.set(key, value); }
   setDynamic(key, value) { return this.store.setDynamic(key, value); }
 
-  initOptions(optMeta, opts, context?) {
-    opts = new OptionsLoader(optMeta, this.log, context).load(opts);
+  initOptions(meta, opts, context?) {
+    opts = new OptionsLoader(meta, this.log, context).load(opts);
 
     opts.ignore = util.arrayify(opts.ignore, util.regexify);
 
@@ -134,7 +135,7 @@ export default class Transformation {
       currentPluginPasses.push(new PluginPass(this, plugin, pluginOpts));
 
       if (plugin.manipulateOptions) {
-        plugin.manipulateOptions(opts, this.parserOpts, this.generatorOpts, this);
+        plugin.manipulateOptions(opts, this.parserOpts, this);
       }
     }
 

@@ -26,7 +26,7 @@ export default class Pipeline {
 
   createFile(code: string, opts?: Object) {
     this.fileLogger.config(opts);
-    return new File(new OptionsLoader(fileOptMeta, this.fileLogger, this.context).load(opts), code);
+    return new File(new OptionsLoader(fileOptMeta, this.fileLogger, this.context, false).load(opts), code);
   }
 
   exec(transformer: Transformation, code: string, fileOpts?: Object) {
