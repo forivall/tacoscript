@@ -1,7 +1,8 @@
+require('source-map-support').install();
+
 var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
 var assert               = require("assert");
-var File                 = require("../lib/transformation/file").default;
 var Plugin               = require("../lib/transformation/plugin");
 
 function assertIgnored(result) {
@@ -13,7 +14,10 @@ function assertNotIgnored(result) {
 }
 
 var Api = require("../lib/api");
-var api = new Api(/*TODO*/);
+var api = new Api({
+  parser: require("babylon"),
+  generator: { generate: require("babel-generator").default }
+});
 
 // shim
 function transformAsync(code, opts) {
@@ -25,25 +29,6 @@ function transformAsync(code, opts) {
 }
 
 suite("api", function () {
-  test("analyze", function () {
-    assert.equal(api.analyse("foobar;").marked.length, 0);
-
-    assert.equal(api.analyse("foobar;", {
-      plugins: [new Plugin({
-        visitor: {
-          Program: function (path) {
-            path.mark("category", "foobar");
-          }
-        }
-      })]
-    }).marked[0].message, "foobar");
-
-    assert.equal(api.analyse("foobar;", {}, {
-      Program: function (path) {
-        path.mark("category", "foobar");
-      }
-    }).marked[0].message, "foobar");
-  });
 
   test("transformFile", function (done) {
     api.transformFile(__dirname + "/fixtures/api/file.js", {}, function (err, res) {

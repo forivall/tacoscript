@@ -1,7 +1,7 @@
 /* @flow */
 
 import slash from "slash";
-import * as util from "../../../util";
+import * as util from "../util";
 
 export let filename = slash;
 

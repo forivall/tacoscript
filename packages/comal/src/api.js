@@ -1,7 +1,7 @@
 
 import { version } from "../package.json";
 
-import File from "./transformation/file";
+import File from "./file";
 import coreOptions from "./options/core-config";
 import fileOptions from "./options/file-config";
 import template from "babel-template";
@@ -46,7 +46,7 @@ export default class Api {
 
     opts.filename = filename;
 
-    fs.readFile(filename, function (err, code) {
+    fs.readFile(filename, (err, code) => {
       let result;
 
       if (!err) {

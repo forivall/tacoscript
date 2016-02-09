@@ -1,28 +1,22 @@
 /* @noflow */
 /* global FileResult */
 
-import getHelper from "babel-helpers";
-import * as metadataVisitor from "./metadata";
 import convertSourceMap from "convert-source-map";
 import OptionLoader from "../options/loader";
-import type Pipeline from "../pipeline";
-import PluginPass from "../plugin-pass";
-import shebangRegex from "shebang-regex";
-import traverse, { NodePath, Hub, Scope } from "comal-traverse";
-import sourceMap from "source-map";
+import type Pipeline from "./pipeline";
+import PluginPass from "./plugin-pass";
+import traverse from "comal-traverse";
 import codeFrame from "babel-code-frame";
 import defaults from "lodash/defaults";
-import Logger from "./logger";
+import Logger from "../logger";
 import msg from "../messages";
 import Store from "../store";
 import * as util from  "../util";
-import path from "path";
-import * as t from "comal-types";
 import pick from "lodash/pick";
 import File from "../file";
 
-import blockHoistPlugin from "../internal-plugins/block-hoist";
-import shadowFunctionsPlugin from "../internal-plugins/shadow-functions";
+import blockHoistPlugin from "./internal-plugins/block-hoist";
+import shadowFunctionsPlugin from "./internal-plugins/shadow-functions";
 
 const INTERNAL_PLUGINS = [
   [blockHoistPlugin],
@@ -30,16 +24,14 @@ const INTERNAL_PLUGINS = [
 ];
 
 function cleanMeta(meta: {
-  parse?: Boolean,
-  generate?: Boolean,
   parser?: {parse: Function},
   parserDefaultOpts?: Object,
   generator?: {generate: Function},
   generatorDefaultOpts?: Object,
 }) {
   meta = {...meta};
-  if (meta.parse !== false) meta.parse = true;
-  if (meta.generate !== false) meta.generate = true;
+  if (meta.parse != null) meta.parse = meta.parser != null;
+  if (meta.generate != null) meta.generate = meta.generator != null;
   if (meta.parse) {
     if (meta.parser == null) throw new Error(msg("missingProperty", "meta", "parser"));
     if (meta.parserDefaultOpts == null) meta.parserDefaultOpts = {};
@@ -59,7 +51,7 @@ export default class Transformation {
 
     this.pipeline = pipeline;
 
-    this.log  = new Logger(this, opts.filename || "unknown");
+    this.log  = new Logger(opts);
     this.opts = this.initOptions(meta, opts);
 
     if (meta.parse) {
@@ -110,6 +102,8 @@ export default class Transformation {
     opts.ignore = util.arrayify(opts.ignore, util.regexify);
 
     if (opts.only) opts.only = util.arrayify(opts.only, util.regexify);
+
+    this.log.config(opts);
 
     return opts;
   }

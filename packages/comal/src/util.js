@@ -4,10 +4,8 @@ import escapeRegExp from "lodash/escapeRegExp";
 import startsWith from "lodash/startsWith";
 import isBoolean from "lodash/isBoolean";
 import minimatch from "minimatch";
-import includes from "lodash/includes";
 import isString from "lodash/isString";
 import isRegExp from "lodash/isRegExp";
-import path from "path";
 import slash from "slash";
 
 export { inherits, inspect } from "util";

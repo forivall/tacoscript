@@ -1,10 +1,9 @@
-import type Logger from "../transformation/logger";
+import type Logger from "../logger";
 import type Api from "../api";
 import Plugin from "../transformation/plugin";
 
 import * as optionParsers from "./parsers";
 
-import msg from "../messages";
 import resolve from "../helpers/resolve";
 import json5 from "json5";
 import isAbsolute from "path-is-absolute";
@@ -47,13 +46,15 @@ function cleanMeta(meta) {
 }
 
 export default class OptionLoader {
-  // TODO: propagate context to plugins
   constructor(meta, log?: Logger, context?: Api) {
     this.meta = cleanMeta(meta);
 
     this.resolvedConfigs = [];
     this.options = this.createBareOptions();
     this.log = log;
+    // TODO: provide a default context, or warn when there's no context. Or
+    //       remove the need for context all together, if not needed.
+    this.context = context;
   }
 
   resolvedConfigs: Array<string>;
@@ -104,7 +105,13 @@ export default class OptionLoader {
    *  - `dirname` is used to resolve plugins relative to it.
    */
 
-  mergeOptions(rawOpts?: Object, extendingOpts?: Object, alias: string = "foreign", loc?: string, dirname?: string) {
+  mergeOptions(
+    rawOpts?: Object,
+    extendingOpts?: Object,
+    alias: string = "foreign",
+    loc?: string,
+    dirname?: string
+  ) {
     if (!rawOpts) return;
 
     //
@@ -138,7 +145,8 @@ export default class OptionLoader {
 
     // resolve plugins
     if (opts.plugins) {
-      opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.meta.prefix);
+      // TODO: warn or throw if context not provided
+      opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.context, this.meta.prefix);
     }
 
     // add extends clause
@@ -157,7 +165,7 @@ export default class OptionLoader {
       // If we're in the "pass per preset" mode, we resolve the presets
       // and keep them for further execution to calculate the options.
       if (opts.passPerPreset) {
-        opts.presets = resolvePresets(opts.presets, dirname, (preset, presetLoc) => {
+        opts.presets = resolvePresets(opts.presets, dirname, this.meta.prefix, (preset, presetLoc) => {
           this.mergeOptions(preset, preset, presetLoc, presetLoc, dirname);
         });
       } else {
@@ -193,7 +201,7 @@ export default class OptionLoader {
    * "pass per preset" mode. Otherwise, options are calculated per preset.
    */
   mergePresetOptions(presets: Array<string | Object>, dirname: string) {
-    resolvePresets(presets, dirname, (presetOpts, presetLoc) => {
+    resolvePresets(presets, dirname, this.meta.prefix, (presetOpts, presetLoc) => {
       this.mergeOptions(
         presetOpts,
         this.options,
@@ -300,7 +308,11 @@ export default class OptionLoader {
     return options;
   }
 
-  load(opts: Object = {}): Object {
+  load(opts: Object = {}, context = this.context): Object {
+    // override context if overridden
+    const prevContext = this.context;
+    if (context !== prevContext) this.context = context;
+
     let filename = opts.filename;
 
     // merge in base options
@@ -313,6 +325,9 @@ export default class OptionLoader {
 
     // normalise
     this.normaliseOptions(opts);
+
+    // reset context if overridden
+    if (context !== prevContext) this.context = context;
 
     return this.options;
   }

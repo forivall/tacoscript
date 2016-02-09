@@ -1,11 +1,10 @@
 /* @noflow */
 
 import normalizeAst from "../helpers/normalize-ast";
-import Plugin from "./plugin";
 import File from "../file";
 import Transformation from "./index";
 
-import Logger from "./logger";
+import Logger from "../logger";
 import fileOptMeta from "../options/file-config";
 import OptionsLoader from "../options/loader";
 

@@ -1,4 +1,3 @@
-import type Transformation from "./index";
 import buildDebug from "debug/node";
 
 let verboseDebug = buildDebug("babel:verbose");
@@ -13,7 +12,8 @@ export default class Logger {
 
   config(opts) {
     this.suppressDeprecationMessages = opts.suppressDeprecationMessages;
-    this.filename = opts.filename || '(unknown)';
+    this.filename = opts.filename || "(unknown)";
+    this.messagePrefix = opts.messagePrefix || "COMAL";
   }
 
   setFilename(filename) {
@@ -23,7 +23,7 @@ export default class Logger {
   filename: string;
 
   _buildMessage(msg: string): string {
-    let parts = `[BABEL] ${this.filename}`;
+    let parts = `[${this.messagePrefix}] ${this.filename}`;
     if (msg) parts += `: ${msg}`;
     return parts;
   }

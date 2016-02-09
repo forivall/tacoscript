@@ -1,7 +1,7 @@
 import type Plugin from "./plugin";
 import Store from "../store";
 import traverse from "comal-traverse";
-import File from "./file";
+import File from "../file";
 
 export default class PluginPass {
   constructor(file: File, plugin: Plugin, options: Object = {}) {
