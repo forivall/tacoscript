@@ -52,4 +52,8 @@ export default {
     type: "string"
   },
 
+  // see tests for usage
+  resolveModuleSource: {
+    hidden: true
+  },
 }

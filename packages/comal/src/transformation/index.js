@@ -147,12 +147,6 @@ export default class Transformation {
     return file.getModuleName(this.opts.getModuleId);
   }
 
-  resolveModuleSource(file, source: string): string {
-    let resolveModuleSource = this.opts.resolveModuleSource;
-    if (resolveModuleSource) source = resolveModuleSource(source, file.filename);
-    return source;
-  }
-
   parse(file: File, setAst = true) {
     this.log.debug("Parse start");
     let ast = this.parser.parse(file.code, this.parserOpts);

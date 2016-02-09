@@ -16,10 +16,6 @@ export default {
     hidden: true
   },
 
-  resolveModuleSource: {
-    hidden: true
-  },
-
   getModuleId: {
     hidden: true
   },

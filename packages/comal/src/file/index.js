@@ -28,6 +28,7 @@ export default class File {
     this.opts = {
       sourceMaps: opts.sourceMaps || !!opts.inputSourceMap,
       moduleIds: opts.moduleIds || opts.moduleId != null,
+      resolveModuleSource: opts.resolveModuleSource
     };
 
     this.moduleId = opts.moduleId;
