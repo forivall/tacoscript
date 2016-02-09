@@ -3,6 +3,12 @@ import fileConfig from "./file-config";
 export default {
   ...fileConfig,
 
+  // environment variables
+  env: {
+    hidden: true,
+    default: {}
+  },
+
   // babel-code-frame
   highlightCode: {
     description: "enable/disable ANSI syntax highlighting of code frames (on by default)",

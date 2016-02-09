@@ -9,9 +9,9 @@ import clone from "lodash/clone";
 
 const GLOBAL_VISITOR_PROPS = ["enter", "exit"];
 
-export default class Plugin extends Store {
+export default class Plugin {
   constructor(plugin: Object, key?: string) {
-    super();
+    this.store = new Store();
 
     this.initialized = false;
     this.raw         = assign({}, plugin);
@@ -29,6 +29,11 @@ export default class Plugin extends Store {
   post: ?Function;
   pre: ?Function;
   visitor: Object;
+
+  // proxy store
+  get(key) { return this.store.get(key); }
+  set(key, value) { return this.store.set(key, value); }
+  setDynamic(key, value) { return this.store.setDynamic(key, value); }
 
   take(key) {
     let val = this.raw[key];

@@ -1,4 +1,5 @@
-var transform = require("../lib/index").transform;
+var transform = require("./_api").transform;
+// var transform = require("../lib/index").transform;
 var Plugin    = require("../lib/transformation/plugin");
 var chai      = require("chai");
 

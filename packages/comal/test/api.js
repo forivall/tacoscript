@@ -5,8 +5,8 @@ var Pipeline             = require("../lib/transformation/pipeline");
 var sourceMap            = require("source-map");
 var assert               = require("chai").assert;
 var Plugin               = require("../lib/transformation/plugin");
-var assign = require("lodash/assign");
-var pick = require("lodash/pick");
+
+var api = require("./_api");
 
 function assertIgnored(result) {
   assert.ok(result.ignored);
@@ -15,41 +15,6 @@ function assertIgnored(result) {
 function assertNotIgnored(result) {
   assert.ok(!result.ignored);
 }
-var babylon = require("babylon");
-var Api = require("../lib/api");
-var meta, api = new Api(meta = {
-  config: assign({}, require("../lib/options/babylon-config"), require("../lib/options/babel-generator-config")),
-  parser: babylon,
-  parserOpts: function(opts) {
-    return {
-      highlightCode: opts.highlightCode,
-      nonStandard:   opts.nonStandard,
-      sourceType:    opts.sourceType,
-      filename:      opts.filename,
-      plugins:       []
-    };
-  },
-  generator: { generate: require("babel-generator").default },
-  generatorOpts: function(opts) {
-    return pick(opts, [
-      "filename",
-      "sourceMap",
-      "sourceMaps",
-      "sourceMapTarget",
-      "sourceFileName",
-      "sourceRoot",
-      "retainLines",
-      "comments",
-      "shouldPrintComment",
-      "compact",
-      "minified",
-      "concise",
-      "quotes",
-      "auxiliaryCommentBefore",
-      "auxiliaryCommentAfter",
-    ])
-  }
-});
 
 // shim
 function transformAsync(code, opts) {
