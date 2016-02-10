@@ -1,4 +1,9 @@
 {
   "name": "tacoscript-dev-utils",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "babel-code-frame": "^6.5.0",
+    "babel-helper-fixtures": "^6.5.0",
+    "mocha-fixtures-generic": "^2.3.0"
+  }
 }

@@ -1,37 +1,17 @@
 /* global test */
 /* global suite */
 
-import * as babel from "babel-core";
-import { buildExternalHelpers } from "babel-core";
 import path from "path";
+// import getFixtures from "mocha-fixtures-generic";
 import getFixtures from "babel-helper-fixtures";
 import sourceMap from "source-map";
 import codeFrame from "babel-code-frame";
 import * as helpers from "./helpers";
-import assert from "assert";
 import chai from "chai";
 import _ from "lodash";
-import "babel-polyfill";
-import register from "babel-register";
+// import type {Api} from "comal";
 
-register({
-  ignore: [
-    path.resolve(__dirname + "/../.."),
-    "node_modules",
-  ]
-});
-
-let babelHelpers = eval(buildExternalHelpers(null, "var"));
-
-function wrapPackagesArray(type, names) {
-  return (names || []).map(function (val) {
-    if (typeof val === "string") val = [val];
-    val[0] = __dirname + "/../../babel-" + type + "-" + val[0];
-    return val;
-  });
-}
-
-function run(task) {
+function run(api, task) {
   let actual = task.actual;
   let expect = task.expect;
   let exec   = task.exec;
@@ -42,11 +22,6 @@ function run(task) {
       filename: self.loc,
     }, opts);
 
-    newOpts.plugins = wrapPackagesArray("plugin", newOpts.plugins);
-    newOpts.presets = wrapPackagesArray("preset", newOpts.presets).map(function (val) {
-      return val[0];
-    });
-
     return newOpts;
   }
 
@@ -55,11 +30,11 @@ function run(task) {
 
   if (execCode) {
     let execOpts = getOpts(exec);
-    result = babel.transform(execCode, execOpts);
+    result = api.transform(execCode, execOpts);
     execCode = result.code;
 
     try {
-      runExec(execOpts, execCode);
+      runExec(api, execOpts, execCode);
     } catch (err) {
       err.message = exec.loc + ": " + err.message;
       err.message += codeFrame(execCode);
@@ -70,7 +45,7 @@ function run(task) {
   let actualCode = actual.code;
   let expectCode = expect.code;
   if (!execCode || actualCode) {
-    result     = babel.transform(actualCode, getOpts(actual));
+    result     = api.transform(actualCode, getOpts(actual));
     actualCode = result.code.trim();
 
     try {
@@ -97,12 +72,11 @@ function run(task) {
   }
 }
 
-function runExec(opts, execCode) {
+function runExec(api, opts, execCode) {
   let sandbox = {
     ...helpers,
-    babelHelpers,
     assert: chai.assert,
-    transform: babel.transform,
+    transform: api.transform,
     opts,
     exports: {},
   };
@@ -112,25 +86,27 @@ function runExec(opts, execCode) {
 }
 
 export default function (
+  api,
   fixturesLoc: string,
   name: string,
   suiteOpts = {},
   taskOpts = {},
   dynamicOpts?: Function,
 ) {
+  // let suites = getFixtures(fixturesLoc, getFixtures.presets.babel);
   let suites = getFixtures(fixturesLoc);
 
   for (let testSuite of suites) {
-    if (_.contains(suiteOpts.ignoreSuites, testSuite.title)) continue;
+    if (_.includes(suiteOpts.ignoreSuites, testSuite.title)) continue;
 
     suite(name + "/" + testSuite.title, function () {
       for (let task of testSuite.tests) {
-        if (_.contains(suiteOpts.ignoreTasks, task.title) ||
-            _.contains(suiteOpts.ignoreTasks, testSuite.title + "/" + task.title)) continue;
+        if (_.includes(suiteOpts.ignoreTasks, task.title) ||
+            _.includes(suiteOpts.ignoreTasks, testSuite.title + "/" + task.title)) continue;
 
         test(task.title, !task.disabled && function () {
           function runTask() {
-            run(task);
+            run(api, task);
           }
 
           _.defaults(task.options, {
@@ -152,7 +128,7 @@ export default function (
             // the options object with useless options
             delete task.options.throws;
 
-            assert.throws(runTask, function (err) {
+            chai.assert.throws(runTask, function (err) {
               return throwMsg === true || err.message.indexOf(throwMsg) >= 0;
             });
           } else {

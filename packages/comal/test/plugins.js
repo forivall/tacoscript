@@ -1,1 +1,1 @@
-// require("babel-helper-transform-fixture-test-runner")(__dirname + "/fixtures/plugins", "plugins");
+require("../../tacoscript-dev-utils").fixtureRunner(require("./_api"), __dirname + "/fixtures/plugins", "plugins");

@@ -99,3 +99,4 @@ exports.misMatch = misMatch;
 exports.chaiHelper = chaiHelper;
 exports.removeLocInfo = removeLocInfo;
 exports.saveAst = saveAst;
+exports.fixtureRunner = require('./lib/fixture-runner');
