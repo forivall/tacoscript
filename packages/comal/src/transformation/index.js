@@ -143,10 +143,6 @@ export default class Transformation {
     this.pluginPasses.push(currentPluginPasses);
   }
 
-  getModuleName(file): ?string {
-    return file.getModuleName(this.opts.getModuleId);
-  }
-
   parse(file: File, setAst = true) {
     this.log.debug("Parse start");
     let ast = this.parser.parse(file.code, this.parserOpts);
@@ -297,11 +293,11 @@ export default class Transformation {
     }
 
     if (this.generator) {
-      if (file.sourceMaps === "inline" || file.sourceMaps === "both") {
+      if (file.opts.sourceMaps === "inline" || file.opts.sourceMaps === "both") {
         result.code += "\n" + convertSourceMap.fromObject(result.map).toComment();
       }
 
-      if (file.sourceMaps === "inline") {
+      if (file.opts.sourceMaps === "inline") {
         result.map = null;
       }
     }
