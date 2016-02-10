@@ -122,23 +122,12 @@ AST transformations for automatic const variables anywhere forms.
 
 ### [tacoscript-iife-with](./packages/tacoscript-iife-with)
 _(In Progress, needs generator)_
-Parser & Generator for iife's created with the `with` keyword syntax. Uses
-`comal-iife` for transforms.
+Parser & Generator and transformations for iife's created with the `with` keyword syntax.
 
 Example:
 ```
 with= {bar: foo, boop: beep} > bar + boop
 ```
-
-### tacoscript-iife-with
-_(Just a stub)_
-Parser & Generator for iife's in the style of
-`(! foo as bar, beep as boop) =>> bar + boop`.
-
-### comal-iife
-_(Not Implemented)_
-
-AST transforms for desugaring [ImmediatelyInvokedFunctionExpression] nodes.
 
 ### tacoscript-negative-conditional
 _(Not Implemented)_
