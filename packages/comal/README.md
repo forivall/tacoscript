@@ -2,6 +2,13 @@
 
 > Tacoscript transformation core.
 
+Originally forked from `babel-core`. Significant differences include removal
+of hardcoded ids, allows custom generators and parsers, uses `comal-types` and
+`comal-traverse` instead of their babel counterparts, and splits up babel-core's
+`File` (which contains the data and performs the transformation) into
+`Transformation` (which just performs the transformation) and `File` (which just
+contains the data).
+
 ## Install
 
 ```
@@ -11,12 +18,36 @@ $ npm install comal
 ## Usage
 
 ```js
-import babel from 'babel-core';
+import comal from 'comal';
+
+const minimalBabel = new Api({
+  parser: require("babylon"),
+  parserOpts: function(opts) {
+    return {
+      highlightCode: opts.highlightCode,
+      sourceType:    opts.sourceType,
+      filename:      opts.filename,
+      plugins:       []
+    };
+  },
+  generator: { generate: require("babel-generator").default },
+  generatorOpts: function(opts) {
+    return {
+      filename: opts.filename
+    }
+  }
+});
+
+// not implemented yet
+const tacoscriptCompiler = new Api({
+  parser: require("horchata"),
+  generator: require("alpastor")
+});
 
 const code = `a = () ->`;
-const result = comal.transform(code, { /* options */ });
+const result = tacoscriptCompiler.transform(code, { /* options */ });
 
-result.code; // Generated code
+result.code; // Generated JavaScript code
 result.map; // Sourcemap
 result.ast; // AST
 
