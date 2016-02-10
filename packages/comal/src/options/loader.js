@@ -320,8 +320,8 @@ export default class OptionsLoader {
     // merge in base options
     this.mergeOptions(opts, this.options, "base", null, filename && path.dirname(filename));
 
-    // resolve all .babelrc files
-    if (this.options.babelrc !== false) {
+    // resolve all .*rc files
+    if (this.options.dotfiles !== false) {
       this.loadConfigs(filename);
     }
 

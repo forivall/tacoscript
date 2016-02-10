@@ -6,6 +6,11 @@ var Api = require("../lib/api");
 
 module.exports = new Api({
   config: assign({}, require("../lib/options/babylon-config"), require("../lib/options/babel-generator-config")),
+  loader: {
+    rcFileName: ".babelrc",
+    ignoreFileName: ".babelignore",
+    packageKey: "babel"
+  },
   parser: require("babylon"),
   parserOpts: function(opts) {
     return {

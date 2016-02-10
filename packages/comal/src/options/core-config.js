@@ -77,4 +77,10 @@ export default {
     default: true,
     type: "boolean"
   },
+
+  dotfiles: {
+    description: "Whether or not to look up .*rc and .*ignore files",
+    type: "boolean",
+    default: true
+  },
 };

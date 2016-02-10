@@ -114,7 +114,7 @@ export default function (
             sourceFileName:   task.actual.filename,
             sourceMapTarget:  task.expect.filename,
             suppressDeprecationMessages: true,
-            babelrc: false,
+            dotfiles: false,
             sourceMap: !!(task.sourceMappings || task.sourceMap),
           });
 

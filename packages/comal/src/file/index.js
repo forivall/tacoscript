@@ -38,7 +38,7 @@ export default class File {
     this.filename = opts.filename;
     this.basename = path.basename(opts.filename, path.extname(opts.filename));
 
-    let basenameRelative = path.basename(opts.filenameRelative);
+    let basenameRelative = path.basename(opts.filenameRelative || opts.filename);
 
     this.sourceFileName = opts.sourceFileName || basenameRelative;
     this.sourceMapTarget = opts.sourceMapTarget || basenameRelative;

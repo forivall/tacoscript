@@ -8,6 +8,11 @@ export default {
     shorthand: "f"
   },
 
+  filenameRelative: {
+    hidden: true,
+    type: "string"
+  },
+
   sourceMap: {
     alias: "sourceMaps",
     hidden: true
