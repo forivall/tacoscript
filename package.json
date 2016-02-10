@@ -39,16 +39,25 @@
     "gulp-watch": "^4.3.5"
   },
   "scripts": {
+    "bootstrap": "npm install && lerna bootstrap && npm run build",
     "build": "npm run clean && ./scripts/build.sh",
     "watch": "npm run clean && ./scripts/build.sh --watch",
     "watch-dev": "npm run clean && gulp watch",
     "clean": "rm -rf packages/*/lib",
     "lint": "eslint packages/*/src",
-    "pretest": "./scripts/test-task.sh pre",
-    "test": "npm run lint && ./scripts/test.sh",
-    "posttest": "./scripts/test-task.sh pre",
+    "tasks-pretest": "./scripts/test-task.sh pre",
+    "tasks-posttest": "./scripts/test-task.sh post",
+
+    "pretest": "npm run lint && npm run tasks-pretest",
+    "test": "mocha -- $(scripts/_get-test-directories.sh)",
+    "posttest": "npm run tasks-posttest",
+
+    "pretest-cov": "npm run tasks-pretest",
+    "test-cov": "istanbul cover _mocha -- $(scripts/_get-test-directories.sh)",
+    "posttest-cov": "npm run tasks-posttest && echo 'View results with `npm run test-cov-results`.'",
+    "test-cov-results": "(sleep 1; python3 -m webbrowser -t http://127.0.0.1:8123) & (cd coverage/lcov-report && python3 -m http.server 8123 -b 127.0.0.1)",
+
     "publish": "git pull --ff-only && npm run build && npm test && lerna publish && npm run clean",
-    "bootstrap": "npm install && lerna bootstrap && npm run build",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },
   "babel": {

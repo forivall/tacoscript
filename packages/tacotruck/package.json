@@ -22,6 +22,9 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "babel-types": "^6.2.0",
     "horchata": "^0.4.0",

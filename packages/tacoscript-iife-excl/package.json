@@ -17,6 +17,9 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "scripts": {
+    "test": "mocha"
+  },
   "devDependencies": {
     "horchata": "^0.4.0",
     "tacoscript-cst-utils": "^0.4.0"

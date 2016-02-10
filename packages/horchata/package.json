@@ -14,6 +14,9 @@
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "bin": "bin/horchata.js",
   "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "babel-runtime": "^5.8.34",
     "lodash": "^4.2.0",

@@ -7,6 +7,9 @@
   "license": "MIT",
   "repository": "https://github.com/forivall/tacoscript/tree/master/packages/comal-traverse",
   "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "babel-code-frame": "^6.3.13",
     "babel-runtime": "^5.0.0",
