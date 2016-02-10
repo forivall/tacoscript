@@ -12,7 +12,9 @@ module.exports = new Api({
     ignoreFileName: ".babelignore",
     packageKey: "babel"
   },
-  parser: require("babylon"),
+  parser: assign({
+    name: "babylon"
+  }, require("babylon")),
   parserOpts: function(opts) {
     return {
       highlightCode: opts.highlightCode,
@@ -22,7 +24,10 @@ module.exports = new Api({
       plugins:       []
     };
   },
-  generator: { generate: require("babel-generator").default },
+  generator: {
+    name: "babel-generator",
+    generate: require("babel-generator").default
+  },
   generatorOpts: function(opts) {
     return pick(opts, [
       "filename",

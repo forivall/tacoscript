@@ -13,6 +13,7 @@ import msg from "../messages";
 import Store from "../store";
 import * as util from  "../util";
 import pick from "lodash/pick";
+import isArray from "lodash/isArray";
 import isFunction from "lodash/isFunction";
 import File from "../file";
 
@@ -41,6 +42,7 @@ function cleanMeta(meta: {
     if (meta.generator == null) throw new Error(msg("missingProperty", "meta", "generator"));
     if (meta.generatorOpts == null) meta.generatorOpts = {};
   }
+  if (meta.visitor == null) meta.visitor = "visitor";
   return meta;
 }
 
@@ -74,6 +76,7 @@ export default class Transformation {
 
     } else this.generator = false;
 
+    this.visitor = meta.visitor;
     this.pluginVisitors = [];
     this.pluginPasses = [];
 
@@ -131,16 +134,22 @@ export default class Transformation {
     for (let ref of plugins) {
       let [plugin, pluginOpts] = ref; // todo: fix - can't embed in loop head because of flow bug
 
-      currentPluginVisitors.push(plugin.visitor);
+      currentPluginVisitors.push(plugin[this.visitor]);
       currentPluginPasses.push(new PluginPass(this, plugin, pluginOpts));
 
+      // TODO: more init options from meta.
       if (plugin.manipulateOptions) {
-        plugin.manipulateOptions(opts, this.parserOpts, this);
+        const result = plugin.manipulateOptions(opts, this.parserOpts, this);
+        if (result != null) {
+          opts = result;
+        }
       }
     }
 
     this.pluginVisitors.push(currentPluginVisitors);
     this.pluginPasses.push(currentPluginPasses);
+
+    return opts;
   }
 
   parse(file: File, setAst = true) {

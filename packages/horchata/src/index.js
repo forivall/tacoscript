@@ -1,4 +1,6 @@
 
+export {name, version} from "../package.json";
+
 // Add methods to various prototypes
 import "./lexer/context";
 import "./lexer/indentation";

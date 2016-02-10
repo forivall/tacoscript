@@ -13,3 +13,5 @@ _babel.github.io
 tags
 .imdone
 /packages/packages
+/coverage
+/packages/*/coverage

@@ -8,6 +8,7 @@ export default class PluginPass {
   constructor(transformer: Transformation, plugin: Plugin, options: Object = {}) {
     this.store = new Store();
     this.plugin = plugin;
+    this.visitor = transformer.visitor;
     this.transformer = transformer;
     this.opts = options;
     this.file = null;
@@ -23,7 +24,7 @@ export default class PluginPass {
 
   transform(file) {
     this.transformer.log.debug(`Start plugin pass ${this.key}`);
-    traverse(file.ast, this.plugin.visitor, file.scope, file);
+    traverse(file.ast, this.plugin[this.visitor], file.scope, file);
     this.transformer.log.debug(`Finish plugin pass ${this.key}`);
   }
 

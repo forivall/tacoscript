@@ -36,9 +36,10 @@ function buildFn(options) { return function() {
 
 function copyFn(options) { return function() {
   var watch = !!options.watch, force = !!options.force;
-  var s = gulp.src('packages/*/src/**/{!(*.*),*.!(js)}');
+  var s = gulp.src('packages/*/src/**/!(*.js)');
   s = s.pipe(plumber({errorHandler: function (err) { gutil.log(err.stack); }}));
-  if (watch) s = s.pipe(gwatch('packages/*/src/**/*.json')); // TODO: gwatch doesn't seem to use minimatch
+  // TODO: gwatch passes this directly to chokidar, which doesn't use minimatch
+  if (watch) s = s.pipe(gwatch('packages/*/src/**/*.json'));
   if (!force) s = s.pipe(newer({dest: 'packages', map: srcToLibStr}));
   s = s.pipe(rename(srcToLib));
   s = s.pipe(size({showFiles: true}));
