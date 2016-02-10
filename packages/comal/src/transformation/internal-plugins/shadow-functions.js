@@ -1,6 +1,8 @@
 import Plugin from "../plugin";
 import * as t from "comal-types";
 
+// TODO: pull in documentation for this from babel, or create it
+
 export default new Plugin({
   visitor: {
     ThisExpression(path) {

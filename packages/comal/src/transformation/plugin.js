@@ -7,7 +7,7 @@ import traverse from "comal-traverse";
 import assign from "lodash/assign";
 import clone from "lodash/clone";
 
-const GLOBAL_VISITOR_PROPS = ["enter", "exit"];
+const GLOBAL_VISITOR_PROPS: Array = ["enter", "exit"];
 
 export default class Plugin {
   constructor(plugin: Object, key?: string) {

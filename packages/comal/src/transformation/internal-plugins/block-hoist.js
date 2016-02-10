@@ -1,5 +1,7 @@
 /* @flow */
 
+// TODO: this might need to be removed, and only included if meta requests it
+
 import Plugin from "../plugin";
 import sortBy from "lodash/sortBy";
 
