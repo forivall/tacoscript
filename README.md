@@ -55,9 +55,9 @@ Generates TacoScript code from a [Babylon] AST/CST.
 _(Not Implemented)_
 
 Converts a JavaScript AST with CST elements to a TacoScript CST, which preserves
-whitespace. Inverse of `deolla`.
+whitespace. Inverse of `alpastor`.
 
-### [deolla](./packages/deolla)
+### [alpastor](./packages/alpastor)
 _(Not Implemented)_
 
 Converts a TacoScript AST's CST elements to JavaScript CST elements, which then
