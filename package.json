@@ -44,7 +44,9 @@
     "watch-dev": "npm run clean && gulp watch",
     "clean": "rm -rf packages/*/lib",
     "lint": "eslint packages/*/src",
+    "pretest": "./scripts/test-task.sh pre",
     "test": "npm run lint && ./scripts/test.sh",
+    "posttest": "./scripts/test-task.sh pre",
     "publish": "git pull --ff-only && npm run build && npm test && lerna publish && npm run clean",
     "bootstrap": "npm install && lerna bootstrap && npm run build",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"

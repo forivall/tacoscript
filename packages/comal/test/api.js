@@ -6,7 +6,7 @@ var sourceMap            = require("source-map");
 var assert               = require("chai").assert;
 var Plugin               = require("../lib/transformation/plugin");
 
-var api = require("./_api");
+var api = require("./_babel_api");
 
 function assertIgnored(result) {
   assert.ok(result.ignored);
@@ -41,8 +41,8 @@ suite("api", function () {
 
   test("options merge backwards", function () {
     return transformAsync("", {
-      presets: [__dirname + "/../node_modules/babel-preset-es2015"],
-      plugins: [__dirname + "/../node_modules/babel-plugin-syntax-jsx"]
+      presets: [__dirname + "/node_modules/babel-preset-es2015"],
+      plugins: [__dirname + "/node_modules/babel-plugin-syntax-jsx"]
     }).then(function (result) {
       assert.ok(result.options.plugins[0][0].manipulateOptions.toString().indexOf("jsx") >= 0);
     });
@@ -86,13 +86,13 @@ suite("api", function () {
           },
 
           // ES2015 preset
-          require(__dirname + "/../node_modules/babel-preset-es2015"),
+          require(__dirname + "/node_modules/babel-preset-es2015"),
 
           // Third preset for Flow.
           {
             plugins: [
-              require(__dirname + "/../node_modules/babel-plugin-syntax-flow"),
-              require(__dirname + "/../node_modules/babel-plugin-transform-flow-strip-types"),
+              require(__dirname + "/node_modules/babel-plugin-syntax-flow"),
+              require(__dirname + "/node_modules/babel-plugin-transform-flow-strip-types"),
             ]
           }
         ],

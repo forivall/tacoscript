@@ -28,18 +28,18 @@ export default class PluginPass {
   }
 
   addHelper(...args) {
-    return this.transformer.addHelper(...args);
+    return this.file.addHelper(...args);
   }
 
   addImport(...args) {
-    return this.transformer.addImport(...args);
+    return this.file.addImport(...args);
   }
 
   getModuleName(...args) {
-    return this.transformer.getModuleName(...args);
+    return this.file.getModuleName(...args);
   }
 
   buildCodeFrameError(...args) {
-    return this.transformer.buildCodeFrameError(...args);
+    return this.file.buildCodeFrameError(...args);
   }
 }

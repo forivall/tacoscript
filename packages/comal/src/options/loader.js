@@ -29,12 +29,9 @@ function exists(filename) {
   }
 }
 
-import coreConfig from "./core-config";
-
 function cleanMeta(meta) {
   meta = {...meta};
-  if (meta.config == null) meta.config = {...coreConfig};
-  else meta.config = {...coreConfig, ...meta.config};
+  if (meta.config == null) meta.config = {};
 
   if (meta.loader == null) meta.loader = {};
 
@@ -43,12 +40,20 @@ function cleanMeta(meta) {
   }
 
   if (meta.prefix == null) meta.prefix = false;
+  else {
+    if (meta.loader.rcFileName == null) meta.loader.rcFileName = `.${meta.prefix}rc`;
+    if (meta.loader.ignoreFileName == null) meta.loader.ignoreFileName = `.${meta.prefix}ignore`;
+    if (meta.loader.packageKey == null) meta.loader.packageKey = meta.prefix;
+    if (meta.loader.pluginModulePrefix == null) meta.loader.pluginModulePrefix = `${meta.prefix}-plugin`;
+    if (meta.loader.presetModulePrefix == null) meta.loader.presetModulePrefix = `${meta.prefix}-preset`;
+  }
+
   return meta;
 }
 
 export default class OptionsLoader {
-  constructor(meta, log?: Logger, context?: Api, strict = true) {
-    this.strict = strict;
+  constructor(meta, log?: Logger, context?: Api, loose = false) {
+    this.loose = loose;
     this.meta = cleanMeta(meta);
 
     this.resolvedConfigs = [];
@@ -137,7 +142,7 @@ export default class OptionsLoader {
       let option = config[key];
 
       // check for an unknown option
-      if (!option && this.strict && this.log) {
+      if (!option && !this.loose && this.log) {
         this.log.error(`Unknown option: ${alias}.${key}`, ReferenceError);
       }
     }
@@ -147,8 +152,12 @@ export default class OptionsLoader {
 
     // resolve plugins
     if (opts.plugins) {
-      // TODO: warn or throw if context not provided
-      opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.context, this.meta.prefix);
+      if (config.plugins) {
+        // TODO: warn or throw if context not provided
+        opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.context, this.meta.loader.pluginModulePrefix);
+      } else {
+        delete opts.plugins;
+      }
     }
 
     // add extends clause
@@ -167,7 +176,7 @@ export default class OptionsLoader {
       // If we're in the "pass per preset" mode, we resolve the presets
       // and keep them for further execution to calculate the options.
       if (opts.passPerPreset) {
-        opts.presets = resolvePresets(opts.presets, dirname, this.meta.prefix, (preset, presetLoc) => {
+        opts.presets = resolvePresets(opts.presets, dirname, this.meta.loader.presetModulePrefix, (preset, presetLoc) => {
           this.mergeOptions(preset, preset, presetLoc, presetLoc, dirname);
         });
       } else {

@@ -5,14 +5,23 @@ import File from "../file";
 import Transformation from "./index";
 
 import Logger from "../logger";
-import fileOptMeta from "../options/file-config";
+import fileConfig from "../options/file-config";
+import coreConfig from "../options/core-config";
 import OptionsLoader from "../options/loader";
+import defaults from "lodash/defaults";
 
 // TODO: accept streams and buffers for code.
 
+const fileOptMeta = {
+  config: fileConfig
+};
+
 export default class Pipeline {
-  constructor(optMeta, context) {
-    this.optionMeta = optMeta;
+  constructor(meta, context) {
+    this.meta = meta;
+
+    meta.config = defaults(meta.config, coreConfig);
+
     this.context = context;
 
     this.fileLogger = new Logger();
@@ -21,12 +30,12 @@ export default class Pipeline {
   // TODO: cache transformers
 
   createTransform(opts?: Object) {
-    return new Transformation(this.optionMeta, opts, this);
+    return new Transformation(this.meta, opts, this, this.context);
   }
 
   createFile(code: string, opts?: Object) {
     this.fileLogger.config(opts);
-    return new File(new OptionsLoader(fileOptMeta, this.fileLogger, this.context, false).load(opts), code);
+    return new File(new OptionsLoader(fileOptMeta, this.fileLogger, this.context, true).load(opts), code);
   }
 
   exec(transformer: Transformation, code: string, fileOpts?: Object) {

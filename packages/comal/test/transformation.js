@@ -1,1 +1,1 @@
-require("../../tacoscript-dev-utils").fixtureRunner(require("./_api"), __dirname + "/fixtures/transformation", "transformation");
+require("../../tacoscript-dev-utils").fixtureRunner(require("./_babel_api"), __dirname + "/fixtures/transformation", "transformation");

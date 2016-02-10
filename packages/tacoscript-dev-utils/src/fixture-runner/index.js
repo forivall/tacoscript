@@ -8,6 +8,7 @@ import sourceMap from "source-map";
 import codeFrame from "babel-code-frame";
 import * as helpers from "./helpers";
 import chai from "chai";
+import assert from "assert";
 import _ from "lodash";
 // import type {Api} from "comal";
 
@@ -128,7 +129,7 @@ export default function (
             // the options object with useless options
             delete task.options.throws;
 
-            chai.assert.throws(runTask, function (err) {
+            assert.throws(runTask, function (err) {
               return throwMsg === true || err.message.indexOf(throwMsg) >= 0;
             });
           } else {

@@ -1,6 +1,5 @@
 
 export default {
-
   filename: {
     type: "filename",
     description: "filename used in source-maps, errors etc",
