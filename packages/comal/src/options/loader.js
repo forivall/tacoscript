@@ -29,7 +29,18 @@ function exists(filename) {
   }
 }
 
-function cleanMeta(meta) {
+function cleanMeta(meta: {
+  prefix: string,
+  config: ?Object,
+  loader: {
+    packageKey: ?string,
+    packageFileName: ?string,
+    rcFileName: ?string,
+    ignoreFileName: ?string,
+    pluginModulePrefix: ?string,
+    presetModulePrefix: ?string
+  }
+}) {
   meta = {...meta};
   if (meta.config == null) meta.config = {};
 

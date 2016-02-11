@@ -30,6 +30,7 @@ function cleanMeta(meta: {
   parserOpts?: Object,
   generator?: {generate: Function},
   generatorOpts?: Object,
+  visitor: string,
 }) {
   meta = {...meta};
   if (meta.parse == null) meta.parse = meta.parser != null;
