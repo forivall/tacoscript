@@ -51,25 +51,50 @@ for (let type in t.VISITOR_KEYS) {
 
 t.FLIPPED_ALIAS_KEYS = {};
 
+function addAlias(type, alias) {
+  let types = t.FLIPPED_ALIAS_KEYS[alias] = t.FLIPPED_ALIAS_KEYS[alias] || [];
+  types.push(type);
+}
+
+function registerAlias(type, alias) {
+  const isNew = !t.FLIPPED_ALIAS_KEYS[alias];
+  addAlias(type, alias);
+  if (isNew) _registerAlias(t.FLIPPED_ALIAS_KEYS[alias], alias);
+}
+
 each(t.ALIAS_KEYS, function (aliases, type) {
-  each(aliases, function (alias) {
-    let types = t.FLIPPED_ALIAS_KEYS[alias] = t.FLIPPED_ALIAS_KEYS[alias] || [];
-    types.push(type);
-  });
+  each(aliases, function(alias) { addAlias(type, alias) });
 });
 
 /**
  * Registers `is[Alias]` and `assert[Alias]` functions for all aliases.
  */
 
-each(t.FLIPPED_ALIAS_KEYS, function (types, type) {
+function _registerAlias(types, type) {
   t[type.toUpperCase() + "_TYPES"] = types;
   registerType(type);
-});
+}
+each(t.FLIPPED_ALIAS_KEYS, _registerAlias);
 
 export const TYPES = Object.keys(t.VISITOR_KEYS)
   .concat(Object.keys(t.FLIPPED_ALIAS_KEYS))
   .concat(Object.keys(t.DEPRECATED_KEYS));
+
+
+import _defineType from "./definitions";
+
+/**
+ * Allows for plugins to add custom types.
+ * TODO: lots of checks to make sure this doesn't go crazy
+ * TODO: move data to an instance rather than at the root level
+ */
+
+export function defineType(type, opts) {
+  // TODO
+  // _defineType
+  // registerType
+  // createBuilder
+}
 
 /**
  * Returns whether `node` is of given `type`.
@@ -114,7 +139,7 @@ export function isType(nodeType: string, targetType: string): boolean {
  * Description
  */
 
-each(t.BUILDER_KEYS, function (keys, type) {
+function createBuilder (keys, type) {
   function builder() {
     if (arguments.length > keys.length) {
       throw new Error(`t.${type}: Too many arguments passed. Received ${arguments.length} but can receive no more than ${keys.length}`);
@@ -143,10 +168,12 @@ each(t.BUILDER_KEYS, function (keys, type) {
 
   t[type] = builder;
   t[type[0].toLowerCase() + type.slice(1)] = builder;
-});
+}
+
+each(t.BUILDER_KEYS, createBuilder);
 
 /**
- * Description
+ * Proxy deprecated node types to updated names
  */
 
 
