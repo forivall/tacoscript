@@ -1,10 +1,8 @@
 require('source-map-support').install();
-// try { require('longjohn'); } catch (e) {}
 
-var Pipeline             = require("../lib/transformation/pipeline");
-var sourceMap            = require("source-map");
-var assert               = require("chai").assert;
-var Plugin               = require("../lib/transformation/plugin");
+var sourceMap = require("source-map");
+var assert = require("chai").assert;
+var Plugin = require("../lib/transformation/plugin");
 
 var api = require("./_babel_api");
 

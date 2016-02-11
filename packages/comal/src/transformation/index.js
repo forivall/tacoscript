@@ -17,10 +17,10 @@ import isArray from "lodash/isArray";
 import isFunction from "lodash/isFunction";
 import File from "../file";
 
-import blockHoistPlugin from "./internal-plugins/block-hoist";
-import shadowFunctionsPlugin from "./internal-plugins/shadow-functions";
+import blockHoistPlugin from "./internal-visitor-plugins/block-hoist";
+import shadowFunctionsPlugin from "./internal-visitor-plugins/shadow-functions";
 
-const INTERNAL_PLUGINS = [
+const INTERNAL_VISITOR_PLUGINS = [
   [blockHoistPlugin],
   [shadowFunctionsPlugin]
 ];
@@ -127,7 +127,9 @@ export default class Transformation {
       return;
     }
 
-    let plugins: Array<[PluginPass, Object]> = opts.plugins.concat(INTERNAL_PLUGINS);
+    let plugins: Array<[PluginPass, Object]> = opts.plugins;
+    if (this.visitor === "visitor") plugins = plugins.concat(INTERNAL_VISITOR_PLUGINS);
+
     let currentPluginVisitors = [];
     let currentPluginPasses = [];
 

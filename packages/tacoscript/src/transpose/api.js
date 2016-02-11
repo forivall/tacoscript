@@ -29,10 +29,7 @@ export default new Api({
   },
   visitor: "desugar",
   // TODO: allow multiple generators, with a default
-  generator: {
-    name: "tacotruck",
-    generate: tacotruck
-  },
+  generator: tacotruck,
   generatorOpts: function(opts) {
     return {
       ...opts.generate,
