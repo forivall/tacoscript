@@ -1,6 +1,8 @@
 let emptyObject = {};
 
 export const defaultOptions = {
+  filename: null,
+
   // The two source types have different static semantics.
   // The added "expression" source type is like wrapping a script in parenthises,
   // and allows return outside of functions

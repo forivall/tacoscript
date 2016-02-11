@@ -11,8 +11,11 @@ export default function (api) {
     desugar: {
 
     },
-    manipulateOptions(opts, parserOpts) {
-      parserOpts.features.push("strudelThisMember");
+    manipulateOptions(opts, parserOpts, transformation) {
+      const parser = transformation.parser;
+      if (parser && parser.name === "horchata") {
+        parserOpts.features.strudelThisMember = true;
+      }
     },
     // parse
     // generate

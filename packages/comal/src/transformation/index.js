@@ -27,9 +27,9 @@ const INTERNAL_PLUGINS = [
 
 function cleanMeta(meta: {
   parser?: {parse: Function},
-  parserOpts?: Object,
+  parserOpts?: Object|Function,
   generator?: {generate: Function},
-  generatorOpts?: Object,
+  generatorOpts?: Object|Function,
   visitor: string,
 }) {
   meta = {...meta};
