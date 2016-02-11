@@ -9,7 +9,7 @@ import assign from "lodash/assign";
 import Scope from "../scope";
 import * as t from "comal-types";
 
-let debug = buildDebug("babel");
+let debug = buildDebug("comal");
 
 export default class NodePath {
   constructor(hub: Hub, parent: Object) {

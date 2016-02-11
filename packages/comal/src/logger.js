@@ -1,7 +1,7 @@
 import buildDebug from "debug/node";
 
-let verboseDebug = buildDebug("babel:verbose");
-let generalDebug = buildDebug("babel");
+let verboseDebug = buildDebug("comal:verbose");
+let generalDebug = buildDebug("comal");
 
 let seenDeprecatedMessages = [];
 
