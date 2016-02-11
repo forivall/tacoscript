@@ -8,14 +8,14 @@ var api = require("../lib/compose/api");
 suite("api", function () {
 
   test("transformFile", function (done) {
-    api.transformFile(__dirname + "/fixtures/compose-api/file.js", {}, function (err, res) {
+    api.transformFile(__dirname + "/fixtures/compose-api/file.taco", {}, function (err, res) {
       if (err) return done(err);
-      assert.equal(res.code, "foo();");
+      assert.equal(res.code, "foo = function () {};");
       done();
     });
   });
 
   test("transformFileSync", function () {
-    assert.equal(api.transformFileSync(__dirname + "/fixtures/compose-api/file.js", {}).code, "foo();");
+    assert.equal(api.transformFileSync(__dirname + "/fixtures/compose-api/file.taco", {}).code, "foo = function () {};");
   });
 });
