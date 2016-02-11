@@ -6,6 +6,9 @@ var assert = require("chai").assert;
 var api = require("../lib/transpose/api");
 
 suite("api", function () {
+  test("transform", function () {
+    assert.equal(api.transform("foo = function() {};").code, "foo = () ->\n");
+  });
 
   test("transformFile", function (done) {
     api.transformFile(__dirname + "/fixtures/transpose-api/file.js", {}, function (err, res) {
