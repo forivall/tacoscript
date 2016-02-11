@@ -45,16 +45,15 @@ export default {
     hidden: true,
   },
 
-
   ignore: {
     type: "list",
-    description: "list of glob paths to **not** compile",
+    description: "list of glob paths to **not** process",
     default: []
   },
 
   only: {
     type: "list",
-    description: "list of glob paths to **only** compile"
+    description: "list of glob paths to **only** process"
   },
 
   metadata: {
@@ -63,8 +62,7 @@ export default {
     type: "boolean"
   },
 
-  // toggles if code should be generated. Alternatively, meta should just not
-  // include a generator
+  // toggles if code should be generated
   code: {
     hidden: true,
     default: true,

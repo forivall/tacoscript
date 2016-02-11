@@ -176,9 +176,7 @@ export default class Transformation {
 
       this.call("pre", file, pluginPasses);
       this.log.debug(`Start transform traverse`);
-      // babel plugin compat
 
-      // console.log(this.pluginVisitors[index])
       traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), file.scope);
 
       this.log.debug(`End transform traverse`);

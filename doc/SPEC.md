@@ -6,14 +6,21 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
 
 * The AST follows babel/babylon's AST specification.
   * Tacoscript can be generated from _any_ JavaScript.
-  * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are decompiled into tacoscript syntax, when it's possible to detect a pattern.
-    * Untransformed tacoscript can be called "masascript"
+  * Custom features are implemented with additional AST types that are tranformed down into vanilla js. Common patterns in vanilla js then are transposed into tacoscript syntax, when it's possible to detect a pattern.
+    * Untransformed / simple tacoscript can be called "masascript"
   * If the original source is available, and CST tokens are provided, whitespace will be preserved as much as possible. Eventually, code style will be detected, and the generated javascript will conform to the given code style (for style rules that are meaningless in a tacoscript context).
 * Integrate with the Babel transpiler.
 * Repurpose neglected keywords, such as `switch` and `with`.
 
 ## Aspirations
 * Create a git extension that allows switching between Taco representations just by switching branches
+
+## Terminology
+
+* Compose - like "compile" or "transpile", turns tacoscript into vanilla (es2015+) javascript
+  * can also just turn tacoscript into simple tacoscript ("masascript")
+  * could also be used for turning experimental javascript into plain javascript
+* Transpose - like "decompile" or "detranspile", turns javascript into tacoscript
 
 ## Core Syntax
 
@@ -66,7 +73,7 @@ Everything not specified here, is the same as in JavaScript
     ```
 
 4. No semicolons to end statements. A newline always ends a statement, unless
-escaped, or if the line ends with a [`continuesExpr` token][tokens]. Unfortunately, 
+escaped, or if the line ends with a [`continuesExpr` token][tokens]. Unfortunately,
 python behaviour of allowing newlines anywhere within parens cannot be mirrored,
 since blocks can appear inside of parens, whereas in python, only expressions can
 appear within parens.
@@ -137,7 +144,7 @@ appear within parens.
   * `if (true);` ↔ `if true then pass`
   * `if (true) {}` ↔ `if true`
 
-10. When decompiling, variables that would be tacoscript keywords have a leading `\$`
+10. When transposing, variables that would be tacoscript keywords have a leading `\$`
   `var extern = 1;` ↔ `var \$extern = 1`
 
   ```
@@ -310,7 +317,7 @@ All of the following syntax is optional, but is default, and is part of the core
     // do something
   } else {
     // something else
-    // but if instance is used here, decompilation does not occur
+    // but if instance is used here, transposition does not occur
   }}
   ```
   ↔

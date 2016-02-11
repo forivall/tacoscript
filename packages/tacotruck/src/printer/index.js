@@ -380,7 +380,6 @@ export default class Printer extends TokenBuffer {
     if (!comments || !comments.length) return;
 
     for (let comment of (comments: Array)) {
-      // language-specific printers should implement printComment
       this.printComment(comment);
     }
   }

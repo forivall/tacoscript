@@ -11,7 +11,7 @@ shadowed.
 
 It also encourages a functional style of programming.
 
-### Translation from javascript to tacoscript
+### Transposition (javascript to tacoscript)
 
 A const will be assumed automatic if:
   * it has a single initializer in the declaration.
@@ -37,7 +37,7 @@ is equivalent to
 If a variable is not found in lexical scope, it will be added to an extern
 declaration at the top of the lowest common scope.
 
-### Translation / Compilation from tacoscript to javascript
+### Composition (tacoscript to javascript)
 
 A const will be automatically declared if
 
@@ -68,11 +68,11 @@ will initially be forbidden. However, it can eventually be translated to
     }}
 
 Even more complex cases, or even simple cases with `or` would (A) need more
-complex compilation, or (B) use let, but add a compilation check (for
-tacoscript) and an eslint plugin (for javascript) forbid / discourage
-modification within the block.
+complex transformation, or (B) use let, but add a check (for tacoscript) and an
+eslint plugin (for javascript) forbid / discourage modification within the
+block.
 
-In this case, the following would be the compilations:
+In this case, the following would be the compositions:
 
     if (result = test()) or (result2 = otherTest())
       use(result, result2)

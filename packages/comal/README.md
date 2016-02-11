@@ -58,3 +58,7 @@ render(result.ast, 'sourceElements'); // whitespace-preserved javascript
 import generateTacoscript from 'tacotruck';
 generateTacoscript(result.ast); // Generated tacoscript code
 ```
+
+## format of api config
+
+For now, see `cleanMeta()` in `options/loader` and `transformation/index`
