@@ -81,7 +81,7 @@ suite("taco-printer", function () {
 
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: (preserve=false) core/" + setName + "/" + testSuite.title, function () {
+    suite("tacotruck: (preserve=false) core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
@@ -108,7 +108,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
 [false, true].forEach(function(preserveLines) {
 _.forOwn(unifiedSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: "+ (preserveLines?"(preserveLines) ":"") +"unified/" + setName + "/" + testSuite.title, function () {
+    suite("tacotruck: "+ (preserveLines?"(preserveLines) ":"") +"unified/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
@@ -117,9 +117,9 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
           var js = task.js;
 
           var expectedAst;
-          try {
+          if (task.json.code !== null) {
             expectedAst = JSON.parse(task.json.code);
-          } catch(e) {
+          } else {
             expectedAst = cstify(
               babylon.parse(js.code,
                 _.assign({}, babylonParseOpts, {
@@ -150,7 +150,7 @@ _.forOwn(unifiedSpecs, function(suites, setName) {
 
 if (false) _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("tacoscript-generator: (preserve=true) core/" + setName + "/" + testSuite.title, function () {
+    suite("tacotruck: (preserve=true) core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function (task) {
         // comment out the following line when generating new specs
         // if (!task.auto.code && !fs.existsSync(task.auto.loc.replace('expected.json/', ''))) { task.disabled = true; }
