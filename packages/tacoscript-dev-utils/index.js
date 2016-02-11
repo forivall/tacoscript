@@ -2,6 +2,7 @@
 // TODO: move to external library
 
 var fs = require('fs')
+var _ = require("lodash")
 
 function ppJSON(v) {
   return v instanceof RegExp ? v.toString() : JSON.stringify(v, null, 2);
@@ -93,10 +94,21 @@ function saveAst(filepath, ast) {
   throw new Error("Unverified ast file: " + filepath)
 }
 
+function eachSuite(testSuites, body) {
+  _.forEach(testSuites, function(testSuite) {
+    suite(testSuite.title, function() {
+      body(testSuite);
+    })
+  })
+}
+
 exports.ppJSON = ppJSON;
 exports.addPath = addPath;
 exports.misMatch = misMatch;
 exports.chaiHelper = chaiHelper;
 exports.removeLocInfo = removeLocInfo;
 exports.saveAst = saveAst;
-exports.fixtureRunner = require('./lib/fixture-runner');
+exports.eachSuite = eachSuite;
+
+exports.execFixtureRunner = require('./lib/exec-fixture-runner');
+exports.parseFixtureRunner = require('./lib/parse-fixture-runner');
