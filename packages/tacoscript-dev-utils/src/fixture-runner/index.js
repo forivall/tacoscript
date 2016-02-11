@@ -2,8 +2,8 @@
 /* global suite */
 
 import path from "path";
-// import getFixtures from "mocha-fixtures-generic";
-import getFixtures from "babel-helper-fixtures";
+import fixtures from "mocha-fixtures-generic";
+const getFixtures = fixtures.get;
 import sourceMap from "source-map";
 import codeFrame from "babel-code-frame";
 import * as helpers from "./helpers";
@@ -94,8 +94,7 @@ export default function (
   taskOpts = {},
   dynamicOpts?: Function,
 ) {
-  // let suites = getFixtures(fixturesLoc, getFixtures.presets.babel);
-  let suites = getFixtures(fixturesLoc);
+  let suites = getFixtures(fixturesLoc, fixtures.presets.babel);
 
   for (let testSuite of suites) {
     if (_.includes(suiteOpts.ignoreSuites, testSuite.title)) continue;
