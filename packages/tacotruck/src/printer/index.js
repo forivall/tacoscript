@@ -42,7 +42,7 @@ export default class Printer extends TokenBuffer {
     super(opts, code);
     this.ast = ast;
     this.code = code;
-    this.alt = mergedPlugins(opts.plugins);
+    this.alt = this.opts.plugins != null ? mergedPlugins(this.opts.plugins) : {};
     this._printedCommentStarts = {};
   }
 

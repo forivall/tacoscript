@@ -19,6 +19,7 @@ function normalizeOptions(input) {
   opts.dialect = {};
   opts.dialect["equality-symbols"] = !!inputDialect["equality-symbols"];
   opts.format = input.format || {};
+  // TODO: plugins
   return opts;
 }
 
