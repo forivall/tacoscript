@@ -93,7 +93,7 @@ function loadPlugin(prefix, id, dirname, loc, i) {
 }
 
 export function normalisePlugins(meta, loc, dirname, plugins, context) {
-  let prefix = meta.loader.pluginModulePrefix != null ? meta.loader.pluginModulePrefix : false;
+  const prefix = meta.loader.pluginModulePrefix != null ? meta.loader.pluginModulePrefix : false;
   return plugins.map(function (val, i) {
     let plugin, options;
 
@@ -118,6 +118,7 @@ export function normalisePlugins(meta, loc, dirname, plugins, context) {
 }
 
 export function normaliseGeneratorPlugins(meta, dirname, plugins, fromCorePlugins = false) {
+  const prefix = meta.loader.pluginModulePrefix != null ? meta.loader.pluginModulePrefix : false;
   let normalised = plugins.map(function (val, i) {
     let plugin, options;
 

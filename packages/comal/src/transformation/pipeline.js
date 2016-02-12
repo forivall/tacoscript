@@ -1,6 +1,6 @@
 /* @noflow */
 
-import normalizeAst from "../helpers/normalize-ast";
+import normaliseAst from "../helpers/normalise-ast";
 import File from "../file";
 import Transformation from "./index";
 
@@ -52,7 +52,7 @@ export default class Pipeline {
 
   execFromAst(transformer: Transformation, ast: Object, code: string, opts?: Object) {
     let file = this.createFile(code, opts);
-    ast = normalizeAst(ast);
+    ast = normaliseAst(ast);
 
     return transformer.runWrapped(file, function () {
       file.preprocessCode();

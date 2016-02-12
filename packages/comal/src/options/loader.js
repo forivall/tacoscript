@@ -14,7 +14,7 @@ import merge from "../helpers/merge";
 import path from "path";
 import fs from "fs";
 
-import {normalisePlugins, normaliseGeneratorPlugins} from "../transformation/plugin-normalize";
+import {normalisePlugins, normaliseGeneratorPlugins} from "../transformation/plugin-normalise";
 import {resolvePresets} from "../transformation/presets";
 
 const existsCache = {};
@@ -225,7 +225,7 @@ export default class OptionsLoader {
 
     // Merge them into current extending options in case of top-level
     // options. In case of presets, just re-assign options which are got
-    // normalized during the `mergeOptions`.
+    // normalised during the `mergeOptions`.
     if (rawOpts !== extendingOpts) {
       merge(extendingOpts, opts);
     } else {

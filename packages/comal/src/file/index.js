@@ -150,7 +150,7 @@ export default class File {
 
     moduleName += filenameRelative;
 
-    // normalize path separators
+    // normalise path separators
     moduleName = moduleName.replace(/\\/g, "/");
 
     if (getModuleId) {
