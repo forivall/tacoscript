@@ -107,7 +107,7 @@ export function defineType(type, opts) {
 
   createBuilder(opts.builder, type);
 
-  each(type.aliases || [], function (alias) {
+  each(opts.aliases || [], function (alias) {
     registerAlias(type, alias);
   });
 }
