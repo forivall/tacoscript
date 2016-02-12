@@ -33,6 +33,7 @@ function cleanMeta(meta: {
   prefix: string,
   config: ?Object,
   loader: {
+    pluginProp: ?string,
     packageKey: ?string,
     packageFileName: ?string,
     rcFileName: ?string,
@@ -45,6 +46,8 @@ function cleanMeta(meta: {
   if (meta.config == null) meta.config = {};
 
   if (meta.loader == null) meta.loader = {};
+
+  if (meta.loader.pluginProp == null) meta.loader.pluginProp = false;
 
   if (meta.loader.packageKey) {
     if (meta.loader.packageFileName == null) meta.loader.packageFileName = "package.json";
@@ -165,7 +168,7 @@ export default class OptionsLoader {
     if (opts.plugins) {
       if (config.plugins) {
         // TODO: warn or throw if context not provided
-        opts.plugins = normalisePlugins(loc, dirname, opts.plugins, this.context, this.meta.loader.pluginModulePrefix);
+        opts.plugins = normalisePlugins(this.meta, loc, dirname, opts.plugins, this.context, this.meta.loader.pluginModulePrefix);
       } else {
         delete opts.plugins;
       }

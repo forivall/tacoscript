@@ -14,13 +14,13 @@ export default class Plugin {
     this.store = new Store();
 
     this.initialized = false;
-    this.raw         = assign({}, plugin);
-    this.key         = key;
+    this.raw = assign({}, plugin);
+    this.key = key;
 
     this.manipulateOptions = this.take("manipulateOptions");
-    this.post              = this.take("post");
-    this.pre               = this.take("pre");
-    this.visitor           = this.normaliseVisitor(clone(this.take("visitor")) || {});
+    this.post = this.take("post");
+    this.pre = this.take("pre");
+    this.visitor = this.normaliseVisitor(clone(this.take("visitor")) || {});
   }
 
   initialized: boolean;
@@ -82,10 +82,9 @@ export default class Plugin {
 
     this.maybeInherit(loc);
 
-    // TODO: allow custom keys
-    // for (let key in this.raw) {
-    //   throw new Error(msg("pluginInvalidProperty", loc, i, key));
-    // }
+    for (let key in this.raw) {
+      throw new Error(msg("pluginInvalidProperty", loc, i, key));
+    }
   }
 
   normaliseVisitor(visitor: Object): Object {

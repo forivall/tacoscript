@@ -43,7 +43,6 @@ function cleanMeta(meta: {
     if (meta.generator == null) throw new Error(msg("missingProperty", "meta", "generator"));
     if (meta.generatorOpts == null) meta.generatorOpts = {};
   }
-  if (meta.visitor == null) meta.visitor = "visitor";
   return meta;
 }
 
@@ -77,7 +76,6 @@ export default class Transformation {
 
     } else this.generator = false;
 
-    this.visitor = meta.visitor;
     this.pluginVisitors = [];
     this.pluginPasses = [];
 
@@ -128,7 +126,7 @@ export default class Transformation {
     }
 
     let plugins: Array<[PluginPass, Object]> = opts.plugins;
-    if (this.visitor === "visitor") plugins = plugins.concat(INTERNAL_VISITOR_PLUGINS);
+    plugins = plugins.concat(INTERNAL_VISITOR_PLUGINS);
 
     let currentPluginVisitors = [];
     let currentPluginPasses = [];
@@ -137,7 +135,7 @@ export default class Transformation {
     for (let ref of plugins) {
       let [plugin, pluginOpts] = ref; // todo: fix - can't embed in loop head because of flow bug
 
-      currentPluginVisitors.push(plugin[this.visitor]);
+      currentPluginVisitors.push(plugin.visitor);
       currentPluginPasses.push(new PluginPass(this, plugin, pluginOpts));
 
       // TODO: more init options from meta.

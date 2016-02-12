@@ -9,6 +9,7 @@ export default new Api({
   config,
   prefix: "tacoscript-transpose",
   loader: {
+    pluginProp: "transpose",
     rcFileName: ".tacorc",
     ignoreFileName: ".tacoignore",
     packageKey: "tacoscript",
@@ -27,7 +28,6 @@ export default new Api({
       features:      {}
     };
   },
-  visitor: "desugar",
   // TODO: allow multiple generators, with a default
   generator: tacotruck,
   generatorOpts: function(opts) {

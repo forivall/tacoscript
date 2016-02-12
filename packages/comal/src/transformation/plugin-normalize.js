@@ -43,12 +43,14 @@ function memoisePluginContainer(fn, loc, i, alias, context) {
   }
 }
 
-export function normalisePlugin(plugin, loc, i, alias, context) {
-  plugin = plugin.__esModule ? plugin.default : plugin;
+function isValidPlugin(plugin) {
+  return typeof plugin === "function" || (typeof plugin === "object" && plugin !== null);
+}
 
+export function normalisePlugin(plugin, loc, i, alias, context) {
   if (!(plugin instanceof Plugin)) {
     // allow plugin containers to be specified so they don't have to manually require
-    if (typeof plugin === "function" || typeof plugin === "object") {
+    if (isValidPlugin(plugin)) {
       plugin = memoisePluginContainer(plugin, loc, i, alias, context);
     } else {
       throw new TypeError(msg("pluginNotFunction", loc, i, typeof plugin));
@@ -60,7 +62,22 @@ export function normalisePlugin(plugin, loc, i, alias, context) {
   return plugin;
 }
 
-export function normalisePlugins(loc, dirname, plugins, context, prefix: (string|false) = false) {
+function normalisePluginModule(meta, plugin) {
+  const pluginProp = meta.loader.pluginProp;
+  if (plugin.__esModule) {
+    if (pluginProp) {
+      return plugin[pluginProp];
+    } else {
+      return plugin.default;
+    }
+  } else if (pluginProp && isValidPlugin(plugin[pluginProp])) {
+    return plugin[pluginProp];
+  } else {
+    return plugin;
+  }
+}
+
+export function normalisePlugins(meta, loc, dirname, plugins, context, prefix: (string|false) = false) {
   return plugins.map(function (val, i) {
     let plugin, options;
 
@@ -77,11 +94,14 @@ export function normalisePlugins(loc, dirname, plugins, context, prefix: (string
     if (typeof plugin === "string") {
       let pluginLoc = prefix && resolve(`${prefix}-${plugin}`, dirname) || resolve(plugin, dirname);
       if (pluginLoc) {
+        // TODO: load plugins with systemjs + async optionally instead
         plugin = require(pluginLoc);
       } else {
         throw new ReferenceError(msg("pluginUnknown", plugin, loc, i, dirname));
       }
     }
+
+    plugin = normalisePluginModule(meta, plugin);
 
     plugin = normalisePlugin(plugin, loc, i, alias, context);
 
