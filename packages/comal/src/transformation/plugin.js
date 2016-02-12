@@ -82,9 +82,10 @@ export default class Plugin {
 
     this.maybeInherit(loc);
 
-    for (let key in this.raw) {
-      throw new Error(msg("pluginInvalidProperty", loc, i, key));
-    }
+    // TODO: allow custom keys
+    // for (let key in this.raw) {
+    //   throw new Error(msg("pluginInvalidProperty", loc, i, key));
+    // }
   }
 
   normaliseVisitor(visitor: Object): Object {

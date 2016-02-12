@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "devDependencies": {
-    "tacoscript": "^0.4.0"
+    "tacoscript": "^0.4.0",
+    "comal-types": "^0.4.0"
   }
 }

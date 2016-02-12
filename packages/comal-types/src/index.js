@@ -60,6 +60,7 @@ function registerAlias(type, alias) {
   const isNew = !t.FLIPPED_ALIAS_KEYS[alias];
   addAlias(type, alias);
   if (isNew) _registerAlias(t.FLIPPED_ALIAS_KEYS[alias], alias);
+  TYPES.push(alias);
 }
 
 each(t.ALIAS_KEYS, function (aliases, type) {
@@ -81,20 +82,42 @@ export const TYPES = Object.keys(t.VISITOR_KEYS)
   .concat(Object.keys(t.DEPRECATED_KEYS));
 
 
-import _defineType from "./definitions";
+import _defineType, {
+  assertEach,
+  assertOneOf,
+  assertNodeType,
+  assertNodeOrValueType,
+  assertValueType,
+  chain
+} from "./definitions";
 
 /**
  * Allows for plugins to add custom types.
  * TODO: lots of checks to make sure this doesn't go crazy
  * TODO: move data to an instance rather than at the root level
+ *       OR, add namespacing
  */
 
 export function defineType(type, opts) {
-  // TODO
-  // _defineType
-  // registerType
-  // createBuilder
+  _defineType(type, opts);
+
+  TYPES.push(type);
+
+  registerType(type);
+
+  createBuilder(opts.builder, type);
+
+  each(type.aliases || [], function (alias) {
+    registerAlias(type, alias);
+  });
 }
+defineType.assertEach = assertEach;
+defineType.assertOneOf = assertOneOf;
+defineType.assertNodeType = assertNodeType;
+defineType.assertNodeOrValueType = assertNodeOrValueType;
+defineType.assertValueType = assertValueType;
+defineType.chain = chain;
+
 
 /**
  * Returns whether `node` is of given `type`.
