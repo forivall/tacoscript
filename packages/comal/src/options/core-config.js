@@ -38,6 +38,12 @@ export default {
     description: ""
   },
 
+  generatorPlugins: {
+    type: "list",
+    default: [],
+    description: ""
+  },
+
   passPerPreset: {
     description: "Whether to spawn a traversal pass per a preset. By default all presets are merged.",
     type: "boolean",

@@ -14,7 +14,7 @@ import merge from "../helpers/merge";
 import path from "path";
 import fs from "fs";
 
-import {normalisePlugins} from "../transformation/plugin-normalize";
+import {normalisePlugins, normaliseGeneratorPlugins} from "../transformation/plugin-normalize";
 import {resolvePresets} from "../transformation/presets";
 
 const existsCache = {};
@@ -33,6 +33,7 @@ function cleanMeta(meta: {
   prefix: string,
   config: ?Object,
   loader: {
+    generatorPluginProp: ?string,
     pluginProp: ?string,
     packageKey: ?string,
     packageFileName: ?string,
@@ -48,6 +49,7 @@ function cleanMeta(meta: {
   if (meta.loader == null) meta.loader = {};
 
   if (meta.loader.pluginProp == null) meta.loader.pluginProp = false;
+  if (meta.loader.generatorPluginProp == null) meta.loader.generatorPluginProp = "generator";
 
   if (meta.loader.packageKey) {
     if (meta.loader.packageFileName == null) meta.loader.packageFileName = "package.json";
@@ -164,11 +166,24 @@ export default class OptionsLoader {
     // normalise options
     this.parseOptions(opts);
 
+    // resolve generator plugins
+    if (opts.generatorPlugins || opts.plugins) {
+      if (config.generatorPlugins) {
+        opts.generatorPlugins = normaliseGeneratorPlugins(this.meta, dirname, opts.generatorPlugins || this.options.generatorPlugins);
+        if (opts.plugins && config.plugins) {
+          opts.generatorPlugins =
+            opts.generatorPlugins.concat(normaliseGeneratorPlugins(this.meta, dirname, opts.plugins || this.options.plugins, true));
+        }
+      } else {
+        delete opts.generatorPlugins;
+      }
+    }
+
     // resolve plugins
     if (opts.plugins) {
       if (config.plugins) {
         // TODO: warn or throw if context not provided
-        opts.plugins = normalisePlugins(this.meta, loc, dirname, opts.plugins, this.context, this.meta.loader.pluginModulePrefix);
+        opts.plugins = normalisePlugins(this.meta, loc, dirname, opts.plugins, this.context);
       } else {
         delete opts.plugins;
       }

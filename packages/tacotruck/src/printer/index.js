@@ -2,6 +2,7 @@
 // prints an ast, as tacoscript, preserves newlines if the option is set
 
 import isArray from "lodash/isArray";
+import assign from "lodash/assign";
 import * as t from "babel-types";
 import repeating from "repeating";
 
@@ -25,11 +26,23 @@ function canOmitParens(node, parent) {
   false);
 }
 
+function mergedPlugins(plugins: Array) {
+  let merged = {};
+  for (let plugin of plugins) {
+    if (typeof plugin === "function") {
+      plugin = plugin(tt);
+    }
+    merged = assign(merged, plugin);
+  }
+  return merged;
+}
+
 export default class Printer extends TokenBuffer {
   constructor(ast, opts, code) {
     super(opts, code);
     this.ast = ast;
     this.code = code;
+    this.alt = mergedPlugins(opts.plugins);
     this._printedCommentStarts = {};
   }
 
@@ -57,8 +70,13 @@ export default class Printer extends TokenBuffer {
 
   _print(node, parent, opts) {
     this._startPrint(node, parent, opts);
-    if (!this[node.type]) { throw new Error(`Cannot print node of type ${node.type}`); }
-    this[node.type](node, parent, opts);
+    if (this[node.type]) {
+      this[node.type](node, parent, opts);
+    } else if (this.alt[node.type]) {
+      this.alt[node.type].call(this, node, parent, opts);
+    } else {
+      throw new Error(`Cannot print node of type ${node.type}`);
+    }
     this._finishPrint(node, parent, opts);
   }
 

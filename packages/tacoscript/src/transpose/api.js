@@ -10,6 +10,7 @@ export default new Api({
   prefix: "tacoscript-transpose",
   loader: {
     pluginProp: "transpose",
+    generatorPluginProp: "tacotruck", // TODO: should be moved to read the generator's name
     rcFileName: ".tacorc",
     ignoreFileName: ".tacoignore",
     packageKey: "tacoscript",
@@ -33,7 +34,8 @@ export default new Api({
   generatorOpts: function(opts) {
     return {
       ...opts.generate,
-      filename: opts.filename
+      filename: opts.filename,
+      plugins: opts.generatorPlugins
     };
   }
   // other generators: alpastor, tacotruck, taqueria

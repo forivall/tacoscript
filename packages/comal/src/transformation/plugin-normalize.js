@@ -3,6 +3,8 @@ import resolve from "../helpers/resolve";
 
 import Plugin from "./plugin";
 
+import compact from "lodash/compact";
+
 const pluginCache = [];
 
 type PluginObject = {
@@ -62,22 +64,36 @@ export function normalisePlugin(plugin, loc, i, alias, context) {
   return plugin;
 }
 
-function normalisePluginModule(meta, plugin) {
-  const pluginProp = meta.loader.pluginProp;
-  if (plugin.__esModule) {
-    if (pluginProp) {
-      return plugin[pluginProp];
+function getModuleProp(prop, module) {
+  if (module.__esModule) {
+    if (prop) {
+      return module[prop];
     } else {
-      return plugin.default;
+      return module.default;
     }
-  } else if (pluginProp && isValidPlugin(plugin[pluginProp])) {
-    return plugin[pluginProp];
+  } else if (prop && isValidPlugin(module[prop])) {
+    return module[prop];
   } else {
-    return plugin;
+    return false;
   }
 }
 
-export function normalisePlugins(meta, loc, dirname, plugins, context, prefix: (string|false) = false) {
+function normalisePluginModule(prop, plugin) {
+  return getModuleProp(prop, plugin) || plugin;
+}
+
+// TODO: async, support System.import
+function loadPlugin(prefix, id, dirname, loc, i) {
+  let pluginLoc = prefix && resolve(`${prefix}-${id}`, dirname) || resolve(id, dirname);
+  if (pluginLoc) {
+    return require(pluginLoc);
+  } else {
+    throw new ReferenceError(msg("pluginUnknown", id, loc, i, dirname));
+  }
+}
+
+export function normalisePlugins(meta, loc, dirname, plugins, context) {
+  let prefix = meta.loader.pluginModulePrefix != null ? meta.loader.pluginModulePrefix : false;
   return plugins.map(function (val, i) {
     let plugin, options;
 
@@ -88,23 +104,43 @@ export function normalisePlugins(meta, loc, dirname, plugins, context, prefix: (
       plugin = val;
     }
 
-    let alias = typeof plugin === "string" ? plugin : `${loc}$${i}`;
-
     // allow plugins to be specified as strings
     if (typeof plugin === "string") {
-      let pluginLoc = prefix && resolve(`${prefix}-${plugin}`, dirname) || resolve(plugin, dirname);
-      if (pluginLoc) {
-        // TODO: load plugins with systemjs + async optionally instead
-        plugin = require(pluginLoc);
-      } else {
-        throw new ReferenceError(msg("pluginUnknown", plugin, loc, i, dirname));
-      }
+      plugin = loadPlugin(prefix, plugin, dirname, loc, i);
     }
+    plugin = normalisePluginModule(meta.loader.pluginProp, plugin);
 
-    plugin = normalisePluginModule(meta, plugin);
-
+    let alias = typeof plugin === "string" ? plugin : `${loc}$${i}`;
     plugin = normalisePlugin(plugin, loc, i, alias, context);
 
     return [plugin, options];
   });
+}
+
+export function normaliseGeneratorPlugins(meta, dirname, plugins, fromCorePlugins = false) {
+  let normalised = plugins.map(function (val, i) {
+    let plugin, options;
+
+    // destructure plugins
+    const destructured = Array.isArray(val);
+    if (destructured) {
+      [plugin, options] = val;
+    } else {
+      plugin = val;
+    }
+
+    // allow plugins to be specified as strings
+    if (typeof plugin === "string") {
+      plugin = loadPlugin(prefix, plugin, dirname, i);
+    }
+    if (fromCorePlugins) {
+      return getModuleProp(meta.loader.generatorPluginProp, plugin);
+    } else {
+      return normalisePluginModule(meta.loader.generatorPluginProp, plugin);
+    }
+  });
+  if (fromCorePlugins) {
+    return compact(normalised);
+  }
+  return normalised;
 }
