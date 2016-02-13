@@ -3,6 +3,10 @@
   "version": "0.4.0",
   "description": "CLI and API for tacoscript",
   "main": "lib/index.js",
+  "bin": {
+    "tacoscript": "./bin/tacoscript.js",
+    "taco": "./bin/tacoscript.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/forivall/tacoscript.git"
@@ -22,6 +26,8 @@
     "babylon": "^6.5.0",
     "comal": "^0.4.0",
     "horchata": "^0.4.0",
+    "minimist": "^1.2.0",
+    "subarg": "^1.0.0",
     "tacotruck": "^0.4.0"
   }
 }

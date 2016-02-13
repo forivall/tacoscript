@@ -1,0 +1,14 @@
+Usage: tacoscript [options] [SUBCOMMAND]
+
+When specified with no arguments, `node-repl` is loaded.
+
+Options:
+
+    --version, -V  Show the version of tacoscript
+
+       --versions  Show the versions of tacoscript and other related packages
+
+       --help, -h  Show this message
+
+
+Subcommands:
