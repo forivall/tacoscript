@@ -54,7 +54,8 @@ export default {
   ignore: {
     type: "list",
     description: "list of glob paths to **not** process",
-    default: []
+    default: [],
+    shorthand: "i"
   },
 
   only: {

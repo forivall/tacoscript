@@ -1,9 +1,9 @@
 
 import fs from "fs";
 
-export default function usage(subcommand) {
+export default function usage(subcommand, cb) {
   let helpFileName = __dirname + "/usage" + (subcommand ? "-" + subcommand : "") + ".txt";
   return fs.createReadStream(helpFileName)
     .pipe(process.stderr)
-    .on('close', () => process.exit(1))
+    .on('close', () => cb({code: 1}))
 }

@@ -3,32 +3,19 @@
 import minimist from "minimist";
 import usage from "./_usage";
 
-const argv = minimist(process.argv.slice(2), {
-  boolean: ["version", "versions"],
+import omit from "lodash/omit";
+
+const args = minimist(process.argv.slice(2), {
+  boolean: ["version", "versions", "verbose"],
   alias: {
     "help": "h",
     "version": "V",
-    "versions": "VV"
-  },
-  default: {
-    "help": false,
-    "version": false,
-    "versions": false
+    "versions": "VV",
+    "verbose": "v"
   },
   // The first non-option argument is the subcommand:
   stopEarly: true
 });
-
-if (argv._[0] === "help" || argv.help) {
-  let whichHelp = argv.help ? argv.help : argv._[1];
-  if (whichHelp === true) whichHelp = false;
-  return usage(whichHelp);
-}
-
-if (argv.version) {
-  console.log(require("../../package.json").version);
-  return;
-}
 
 const exit = function(e) {
   setImmediate(function() {
@@ -36,17 +23,29 @@ const exit = function(e) {
   });
 }
 
-if (argv.versions) {
-  return require("./versions")([], exit);
+if (args._[0] === "help" || args.help) {
+  let whichHelp = args.help ? args.help : args._[1];
+  if (whichHelp === true) whichHelp = false;
+  return usage(whichHelp, exit);
 }
 
-if (argv._.length === 0) argv._.push("node-repl");
+if (args.version) {
+  console.log(require("../../../package.json").version);
+  return;
+}
 
-const subcommand = argv._[0];
+if (args.versions) {
+  return require("./version")([], {}, exit);
+}
+
+// launch repl by default
+if (args._.length === 0) args._.push("node-repl");
+
+const subcommand = args._[0];
 
 if (subcommand === "index" || subcommand[0] === "_") {
   console.warn("Unknown command\n");
-  return usage();
+  return usage(false, exit);
 }
 
 let subcommandFn;
@@ -55,7 +54,7 @@ try {
   if (subcommandFn.__esModule) subcommandFn = subcommandFn.default;
 } catch (e) {
   console.warn("Unknown command\n");
-  return usage();
+  return usage(false, exit);
 }
 
-return subcommandFn(argv._, exit);
+return subcommandFn(args._.slice(1), omit(args, "_"), exit);

@@ -6,9 +6,15 @@ Options:
 
     --version, -V  Show the version of tacoscript
 
-       --versions  Show the versions of tacoscript and other related packages
+ --versions, --VV  Show the versions of tacoscript and other related packages
 
        --help, -h  Show this message
 
 
 Subcommands:
+
+          compose  transform tacoscript into javascript
+
+        transpose  transform javascript into tacoscript
+
+        node-repl  run an interactive tacoscript REPL (read-eval-print-loop)

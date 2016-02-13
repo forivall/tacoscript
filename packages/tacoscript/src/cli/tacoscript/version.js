@@ -1,10 +1,5 @@
 
-import readPackageJson from "read-package-json";
-import path from "path";
-
-const MODULES_ROOT = path.normalize(__dirname, "../../../node_modules")
-
-export default function(args, cb) {
+export default function(args, parentArgs, cb) {
   var v = {}
 
   for (let p of ['../../..', 'horchata', 'comal', 'tacotruck', 'babel-generator', 'babylon']) {

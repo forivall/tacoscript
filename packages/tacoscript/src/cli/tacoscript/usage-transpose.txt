@@ -1,0 +1,28 @@
+Usage: tacoscript transpose [options] <files,directories ...>
+
+Standard Options:
+
+    --outfile, -o  Write the compiled file(s) to this file / directory.
+                   If unspecified, prints to stdout.
+
+      --watch, -w  Watch files for changes and re-process when they change
+
+     --ignore, -i  Skip a file during processing. Files can be globs.
+
+ --extensions, -x  Specify what file extensions should be processed.
+                   (default: .taco, .tacos, .tacoscript)
+
+           --only  Limit processing to only files that match a glob.
+
+     --plugin, -p  Use a transform module on top-level files.
+
+  --generator, -g  Use an alternate generator when generating code.
+
+--source-maps, -s  Enable source maps that allow you to debug your files
+                   separately. [true, false, inline]
+
+      --quiet, -q  Avoid printing messages to the log
+
+    --no-dotfiles  Toggle usage of .tacorc and .tacoignore files
+
+       --help, -h  Show this message
