@@ -7,6 +7,7 @@ var size = require('gulp-size');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
 var gwatch = require('gulp-watch');
+var minimatch = require('minimatch');
 var rimraf = require('rimraf');
 var path = require('path');
 
@@ -39,7 +40,7 @@ function copyFn(options) { return function() {
   var s = gulp.src('packages/*/src/**/!(*.js)');
   s = s.pipe(plumber({errorHandler: function (err) { gutil.log(err.stack); }}));
   // TODO: gwatch passes this directly to chokidar, which doesn't use minimatch
-  if (watch) s = s.pipe(gwatch('packages/*/src/**/*.json'));
+  if (watch) s = s.pipe(gwatch('packages/*/src/**/!(*.js)'));
   if (!force) s = s.pipe(newer({dest: 'packages', map: srcToLibStr}));
   s = s.pipe(rename(srcToLib));
   s = s.pipe(size({showFiles: true}));

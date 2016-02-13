@@ -1,0 +1,10 @@
+--- a/index.js
++++ b/index.js
+@@ -430,6 +430,7 @@ exports.parse = function (code) {
+
+ exports.parseNoPatch = function (code) {
+   var opts = {
++    allowReturnOutsideFunction: true,
+     locations: true,
+     ranges: true
+   };

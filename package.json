@@ -44,6 +44,7 @@
     "watch": "npm run clean && ./scripts/build.sh --watch",
     "watch-dev": "npm run clean && gulp watch",
     "clean": "rm -rf packages/*/lib",
+    "prelint": "./scripts/patch-babel-eslint-parse.sh",
     "lint": "eslint packages/*/src",
     "tasks-pretest": "./scripts/test-task.sh pre",
     "tasks-posttest": "./scripts/test-task.sh post",
