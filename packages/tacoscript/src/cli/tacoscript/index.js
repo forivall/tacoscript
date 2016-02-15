@@ -6,8 +6,9 @@ import usage from "./_usage";
 import omit from "lodash/omit";
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ["version", "versions", "verbose"],
+  boolean: ["version", "versions", "verbose", "debug-internal"],
   alias: {
+    "debug-internal": "D",
     "help": "h",
     "version": "V",
     "versions": "VV",
@@ -16,6 +17,8 @@ const args = minimist(process.argv.slice(2), {
   // The first non-option argument is the subcommand:
   stopEarly: true
 });
+
+if (args["debug-internal"]) require("source-map-support").install();
 
 const exit = function(e) {
   if (e && e.message) {

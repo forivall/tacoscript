@@ -12,6 +12,9 @@ import omit from "lodash/omit";
 import map from "lodash/map";
 import flatten from "lodash/flatten";
 import camelize from "camelize";
+import isGlob from "is-glob";
+
+import walk from "./_walk";
 
 export default function(argv, parentArgs, cb) {
   if (includes(argv, "--help") || includes(argv, "-h")) {
@@ -48,7 +51,7 @@ export default function(argv, parentArgs, cb) {
     ["", "outfile", "dir", "watch", "extensions", "plugin", "generator", "quiet", "noDotfiles", "verbose"]
     .concat(flatten(map(argConf.alias))));
 
-  const outfiles = argv.outfile == null ? [] : [].concat(argv.outfile);
+  const outfiles = args.outfile == null ? [] : [].concat(args.outfile);
   const useStdout = outfiles.length === 0;
 
   if (args.verbose) console.warn("will convert", useStdin ? '<stdin>' : infiles, "to", useStdout ? '<stdout>' : outfiles);
@@ -68,7 +71,7 @@ export default function(argv, parentArgs, cb) {
     }
     console.log('todo')
   } else if (useStdout && !useStdin) {
-    if (infiles.length > 1) {
+    if (infiles.length > 1 || isGlob(infiles[0])) {
       return cb(new Error("Cannot use more than one input file with stdout"));
     }
     console.log('todo')
@@ -80,11 +83,12 @@ export default function(argv, parentArgs, cb) {
       } else return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
     }
 
-
+    return walk({src: infiles, dest: outfiles}, (src, dest) => {
+      // TODO: run conversion
+      console.log(src, "=>", dest);
+    }, cb)
   }
 
 
-  // TODO: run conversion
 
-  cb();
 }
