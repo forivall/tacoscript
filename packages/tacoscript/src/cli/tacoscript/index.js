@@ -18,8 +18,11 @@ const args = minimist(process.argv.slice(2), {
 });
 
 const exit = function(e) {
+  if (e && e.message) {
+    console.error(e.message);
+  }
   setImmediate(function() {
-    process.exit(e ? e.code || 1 : 0);
+    process.exit(e ? (typeof e.code === "number" ? e.code : 1) : 0);
   });
 }
 
@@ -53,8 +56,11 @@ try {
   subcommandFn = require("./" + subcommand);
   if (subcommandFn.__esModule) subcommandFn = subcommandFn.default;
 } catch (e) {
-  console.warn("Unknown command\n");
-  return usage(false, exit);
+  if (e.code === "MODULE_NOT_FOUND" && e.message === `Cannot find module './${subcommand}'`) {
+    console.warn(`Unknown command '${subcommand}'\n`);
+    return usage(false, exit);
+  }
+  else throw e;
 }
 
 return subcommandFn(args._.slice(1), omit(args, "_"), exit);

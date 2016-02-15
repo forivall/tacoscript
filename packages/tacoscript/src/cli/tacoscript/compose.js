@@ -53,7 +53,37 @@ export default function(argv, parentArgs, cb) {
 
   if (args.verbose) console.warn("will convert", useStdin ? '<stdin>' : infiles, "to", useStdout ? '<stdout>' : outfiles);
 
-  // TODO: match up inputs to outputs
+  // match up inputs to outputs
+
+  if ((useStdout || useStdin) && args.dir) {
+    return cb(new Error(`Cannot output to a directory with std${useStdin ? "in" : "out"}`));
+  }
+
+  if (useStdin && useStdout) {
+    // TODO
+    console.log('todo')
+  } else if (useStdin && !useStdout) {
+    if (infiles.length > 1) {
+      return cb(new Error("Cannot write to more than one output file with stdin"));
+    }
+    console.log('todo')
+  } else if (useStdout && !useStdin) {
+    if (infiles.length > 1) {
+      return cb(new Error("Cannot use more than one input file with stdout"));
+    }
+    console.log('todo')
+  } else {
+    if (outfiles.length !== infiles.length) {
+      if (outfiles.length === 1) {
+        // implicit dir output
+        args.dir = true;
+      } else return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
+    }
+
+
+  }
+
+
   // TODO: run conversion
 
   cb();
