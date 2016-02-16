@@ -206,7 +206,7 @@ export default class Transformation {
         err._comal = true;
       }
 
-      let message = err.message = `${this.opts.filename}: ${err.message}`;
+      let message = err.message = `${file.filename}: ${err.message}`;
 
       let loc = err.loc;
       if (loc) {

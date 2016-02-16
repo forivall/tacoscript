@@ -9,8 +9,6 @@ Standard Options:
     --outfile, -o  Write the processed file(s) to this file / directory.
                    If unspecified, prints to stdout.
 
-        --dir, -d  Forces the output file to behave as a directory.
-
       --watch, -w  Watch files for changes and re-process when they change
 
      --ignore, -i  Skip a file during processing. Files can be globs.

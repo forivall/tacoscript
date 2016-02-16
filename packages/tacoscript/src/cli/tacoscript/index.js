@@ -8,12 +8,12 @@ import omit from "lodash/omit";
 const args = minimist(process.argv.slice(2), {
   boolean: ["debug-internal", "version", "versions", "verbose", "quiet"],
   alias: {
-    "debug-internal": "D",
-    "help": "h",
-    "version": "V",
-    "versions": "VV",
-    "verbose": "v",
-    "quiet": "q",
+    "debug-internal": ["D"],
+    "help": ["h"],
+    "version": ["V"],
+    "versions": ["VV"],
+    "verbose": ["v"],
+    "quiet": ["q"],
   },
   // The first non-option argument is the subcommand:
   stopEarly: true

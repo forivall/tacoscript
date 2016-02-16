@@ -85,6 +85,7 @@ export class Walker {
         this.walkPathDirect(globPat, dest);
       }
     }
+    return this;
   }
 
   _globOpts(opts = {}) {

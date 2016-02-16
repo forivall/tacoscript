@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 
 import camelize from "camelize";
 import {coreOptions} from "comal";
@@ -7,6 +8,8 @@ import includes from "lodash/includes";
 import omit from "lodash/omit";
 import map from "lodash/map";
 import flatten from "lodash/flatten";
+import mkdirp from "mkdirp";
+import minimatch from "minimatch";
 import subarg from "subarg";
 
 import usage from "./_usage";
@@ -17,6 +20,23 @@ import stdin from "./_stdin";
 import stdout from "./_stdout";
 
 import compose from "../../compose/api";
+
+const nonComalArgs = [
+  "debugInternal",
+  "help",
+  "version",
+  "versions",
+  "verbose",
+  "quiet",
+
+  "outfile",
+  "watch",
+  "extensions",
+  "plugin",
+  "generator",
+
+  "dir", "noDotfiles"
+]
 
 export default function(argv, parentArgs, cb) {
   if (includes(argv, "--help") || includes(argv, "-h")) {
@@ -30,15 +50,20 @@ export default function(argv, parentArgs, cb) {
   let argConf = argsWithComalOpts(coreOptions, {
     boolean: ["watch", "quiet", "no-dotfiles"],
     string: ["outfile", "extensions"],
-    default: omit(parentArgs, "_"),
+    default: {extensions: ".taco,.tacos,.tacoscript", ...omit(parentArgs, "_")},
     alias: {
+      "debug-internal": ["D"],
+      "help": ["h"],
+      "version": ["V"],
+      "versions": ["VV"],
+      "verbose": ["v"],
+      "quiet": ["q"],
+
       "outfile": ["o"],
       "watch": ["w"],
       "extensions": ["x"],
       "plugin": ["p"],
       "generator": ["g"],
-      "quiet": ["q"],
-      "verbose": ["v"],
     }
   });
 
@@ -49,8 +74,12 @@ export default function(argv, parentArgs, cb) {
   const useStdin = infiles.length === 0;
 
   const comalArgs = omit(args,
-    ["", "outfile", "dir", "watch", "extensions", "plugin", "generator", "quiet", "noDotfiles", "verbose"]
-    .concat(flatten(map(argConf.alias))));
+    [""].concat(nonComalArgs, flatten(map(argConf.alias)))
+  );
+
+  if (args.extensions) {
+    comalArgs.only = (comalArgs.only ? comalArgs.only + "," : "") + map(args.extensions.split(","), (e) => "*" + e).join(",");
+  }
 
   const outfiles = args.outfile == null ? [] : [].concat(args.outfile);
   const useStdout = outfiles.length === 0;
@@ -76,8 +105,8 @@ export default function(argv, parentArgs, cb) {
     read((err, data) => {
       if (err) return cb(err)
 
-      write(compose.transform(data).code, cb);
-    })
+      write(compose.transform(data, comalArgs).code, cb);
+    });
 
   } else {
     let _pending = 0, _err;
@@ -91,16 +120,58 @@ export default function(argv, parentArgs, cb) {
       } else if (_pending < 0) {
         throw new Error("retain/release mismatch");
       }
-    }
+    };
 
     if (outfiles.length !== 1 && outfiles.length !== infiles.length) {
       return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
     }
 
     retain();
-    return walk({src: infiles, dest: outfiles}, (src, dest) => {
-      // TODO: run conversion
-      if (!args.quiet) console.log(src, "=>", dest);
+
+    const transformer = compose.createTransform(comalArgs);
+
+    let walker;
+    const cb2 = (err) => {
+      // TODO: keep watching if watch
+      if (_err) return;
+      if (walker) walker.abort();
+      return cb(_err = err);
+    };
+
+    const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
+
+    walker = walk({src: infiles, dest: outfiles}, (src, dest) => {
+      // TODO: only filter if we're not copying
+      if (onlyMatch && !onlyMatch.match(src)) return; // continue;
+
+      retain();
+
+      compose.execFile(transformer, src, /*TODO: sourcemap args*/ (err, data) => {
+        if (err) return cb2(err);
+        if (data.ignored) {
+          // TODO: copy if we should copy ignored files
+          release();
+          return;
+        }
+        // TODO: change extname of dest
+
+        mkdirp(path.dirname(dest), (err) => {
+          if (err) return cb2(err);
+
+          fs.writeFile(dest, data.code, 'utf8', (err) => {
+            if (err) return cb2(err);
+            // TODO: write sourcemaps if requested
+
+            if (!args.quiet) console.log(src, "=>", dest);
+
+            release();
+          });
+        })
+
+      });
+
+      // TODO: copy files
+
     }, (err) => {
       if (err) return cb(_err = err);
       release();
