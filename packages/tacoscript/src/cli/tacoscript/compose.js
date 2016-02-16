@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 
+import limit from "call-limit";
 import camelize from "camelize";
 import {coreOptions} from "comal";
 import isGlob from "is-glob";
@@ -129,7 +130,7 @@ export default function(argv, parentArgs, cb) {
     const transformer = compose.createTransform(comalArgs);
     const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
 
-    walker = walk({src: infiles, dest: outfiles}, (src, dest) => {
+    walker = walk({src: infiles, dest: outfiles}, limit((src, dest, done) => {
       // TODO: only filter if we're not copying
       if (onlyMatch && !onlyMatch.match(src)) return; // continue;
 
@@ -139,7 +140,7 @@ export default function(argv, parentArgs, cb) {
         if (err) return cb2(err);
         if (data.ignored) {
           // TODO: copy if we should copy ignored files
-          release();
+          done(), release();
           return;
         }
         // TODO: change extname of dest
@@ -153,16 +154,15 @@ export default function(argv, parentArgs, cb) {
 
             if (!args.quiet) console.log(src, "=>", dest);
 
-            release();
+            done(), release();
           });
-        })
-
+        });
       });
 
       // TODO: copy files
 
-    }, (err) => {
-      if (err) return cb(_err = err);
+    }, 128 /* limit to 128 parallel calls, = 1/2 osx default max */), (err) => {
+      if (err) return cb2(err);
       release();
     })
   }
