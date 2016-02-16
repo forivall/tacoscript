@@ -27,12 +27,14 @@ import forEach from "lodash/forEach";
 import map from "lodash/map";
 import isArray from "lodash/isArray";
 
+import asyncBlock from "./_async-block";
+
 function ownProp (obj, field) {
   return Object.prototype.hasOwnProperty.call(obj, field)
 }
 
 export default function walk(args: Object, eachCb, cb) {
-  return new Walker(eachCb, cb).walk(args);
+  return new Walker(args, eachCb, cb).walk(args);
 }
 
 // it's a zombie! run!
@@ -41,6 +43,16 @@ export class Walker {
     this.cb = args.pop();
     this.eachCb = args.pop();
     const opts = args[0] || {};
+
+    this._asyncBlock = asyncBlock((err) => {
+      if (err) {
+        if (!this.aborted) this.abort();
+        return (0, this.cb)(err);
+      }
+      return (0, this.cb)();
+    });
+    this.retain = this._asyncBlock.retain;
+    this.release = this._asyncBlock.release;
 
     // cwd & root logic borrowed from glob, used in makeAbs
     this.changedCwd = false;
@@ -105,10 +117,7 @@ export class Walker {
     this.retain();
     this.pendingGlobs[globberId] = new Glob(globPat, this._globOpts({stat: true}), (err, matches) => {
       if (this.aborted) return;
-      if (err) {
-        this.abort();
-        return (0, this.cb)(err);
-      }
+      if (err) return this.abort(err);
 
       this.pendingGlobs[globberId] = undefined;
       this.walkPaths(matches, dests, globPat.slice(-1) !== "*");
@@ -137,10 +146,7 @@ export class Walker {
     this.retain();
     this.pendingGlobs[globberId] = new Glob(src, this._globOpts({stat: true}), (err) => {
       if (this.aborted) return;
-      if (err) {
-        this.abort();
-        return (0, this.cb)(err);
-      }
+      if (err) return this.abort(err);
 
       this.pendingGlobs[globberId] = undefined;
       this.walkPath(src, dest, true);
@@ -161,10 +167,7 @@ export class Walker {
       this.retain();
       this.pendingGlobs[globberId] = new Glob(src + "/**", this._globOpts(), (err, matches) => {
         if (this.aborted) return;
-        if (err) {
-          this.abort();
-          return (0, this.cb)(err);
-        }
+        if (err) return this.abort(err);
 
         this.pendingGlobs[globberId] = undefined;
 
@@ -185,22 +188,10 @@ export class Walker {
     }
   }
 
-  abort() {
+  abort(err) {
     this.aborted = true;
     forEach(this.pendingGlobs, (globber) => { globber && globber.abort(); });
     this.pendingGlobs = Object.create(null);
-  }
-
-  retain() {
-    this._pending++;
-  }
-  release() {
-    if (this.aborted) return;
-    this._pending--;
-    if (this._pending === 0) {
-      (0, this.cb)();
-    } else if (this._pending < 0) {
-      throw new Error("retain/release mismatch");
-    }
+    this._asyncBlock.error(err);
   }
 }
