@@ -1,6 +1,6 @@
 {
   "name": "comal-traverse",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Extensible module for traversal and modification of ASTs",
   "author": "Jordan J Klassen <forivall@gmail.com>",
   "homepage": "http://tacoscript.github.io/",
@@ -17,7 +17,7 @@
     "babel-code-frame": "^6.3.13",
     "babel-runtime": "^5.0.0",
     "babylon": "^6.4.5",
-    "comal-types": "^0.4.0",
+    "comal-types": "^0.5.0",
     "debug": "^2.2.0",
     "errmsg": "^1.0.0",
     "globals": "^8.3.0",

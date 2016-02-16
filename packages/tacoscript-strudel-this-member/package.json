@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-strudel-this-member",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Tacoscript plugin for @ shorthand for this.",
   "main": "lib/index.js",
   "repository": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "devDependencies": {
-    "tacoscript": "^0.4.0",
-    "comal-types": "^0.4.0"
+    "tacoscript": "^0.5.0",
+    "comal-types": "^0.5.0"
   }
 }
