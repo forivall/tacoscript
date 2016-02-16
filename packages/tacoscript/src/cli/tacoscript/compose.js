@@ -75,11 +75,10 @@ export default function(argv, parentArgs, cb) {
   const infiles = args[""];
   const useStdin = infiles.length === 0;
 
-  const comalArgs = omit(args,
-    [""].concat(nonComalArgs, flatten(map(argConf.alias)))
-  );
+  // remove arguments that shouldn't be passed into comal
+  const comalArgs = omit(args, [""].concat(nonComalArgs, flatten(map(argConf.alias))));
 
-  if (args.extensions) {
+  if (args.extensions && !useStdin) {
     comalArgs.only = (comalArgs.only ? comalArgs.only + "," : "") + map(args.extensions.split(","), (e) => "*" + e).join(",");
   }
 
@@ -103,6 +102,10 @@ export default function(argv, parentArgs, cb) {
 
     const read = useStdin ? stdin : (cb) => { fs.readFile(infiles[0], 'utf8', cb) };
     const write = useStdout ? stdout : (data, cb) => { fs.writeFile(outfiles[0], data, 'utf8', cb); };
+
+    if (!useStdin && !comalArgs.filename) {
+      comalArgs.filename = infiles[0];
+    }
 
     read((err, data) => {
       if (err) return cb(err)
@@ -130,7 +133,7 @@ export default function(argv, parentArgs, cb) {
     const transformer = compose.createTransform(comalArgs);
     const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
 
-    walker = walk({src: infiles, dest: outfiles}, limit((src, dest, done) => {
+    walker = walk({src: infiles, dest: outfiles, destExt: ".js"}, limit((src, dest, done) => {
       // TODO: only filter if we're not copying
       if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
 
