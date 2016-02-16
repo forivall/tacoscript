@@ -12,6 +12,7 @@ import mkdirp from "mkdirp";
 import minimatch from "minimatch";
 import subarg from "subarg";
 
+import asyncBlock from "./_async-block";
 import usage from "./_usage";
 import usageAdvanced from "./_usageForComalOpts";
 import argsWithComalOpts from "./_convertComalOpts";
@@ -109,35 +110,23 @@ export default function(argv, parentArgs, cb) {
     });
 
   } else {
-    let _pending = 0, _err;
-    const retain = () => { _pending++; };
-    const release = () => {
-      if (_err) return;
-      _pending--;
-      if (_pending === 0) {
-        if (args.verbose) console.warn("Done.");
-        cb();
-      } else if (_pending < 0) {
-        throw new Error("retain/release mismatch");
-      }
-    };
-
     if (outfiles.length !== 1 && outfiles.length !== infiles.length) {
       return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
     }
 
+    let walker;
+    const {retain, release, error: cb2} = asyncBlock((err) => {
+      if (err) {
+        if (walker) walker.abort();
+        return cb(err);
+      }
+      if (args.verbose) console.warn("Done.");
+      cb();
+    });
+
     retain();
 
     const transformer = compose.createTransform(comalArgs);
-
-    let walker;
-    const cb2 = (err) => {
-      // TODO: keep watching if watch
-      if (_err) return;
-      if (walker) walker.abort();
-      return cb(_err = err);
-    };
-
     const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
 
     walker = walk({src: infiles, dest: outfiles}, (src, dest) => {

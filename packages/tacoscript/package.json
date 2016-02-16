@@ -24,6 +24,7 @@
   "dependencies": {
     "babel-generator": "^6.5.0",
     "babylon": "^6.5.0",
+    "call-limit": "^1.0.3",
     "camelize": "^1.0.0",
     "comal": "^0.4.0",
     "glob": "^7.0.0",
