@@ -178,3 +178,25 @@ export default function(argv, parentArgs, cb) {
     })
   }
 }
+
+/**
+"borrowed" from coffeescript's cli, converted to tacoscript
+
+baseFileName = (file, stripExt = no, useWinPathSep = no) ->
+  pathSep = if useWinPathSep then /\\|\// else /\//
+  parts = file.split(pathSep)
+  file = parts[parts.length - 1]
+  if not (stripExt and file.indexOf('.') >= 0) then return file
+  parts = file.split('.')
+  parts.pop()
+
+  if ['taco', 'tacos', 'tacoscript'].contains(parts[parts.length - 1]) and parts.length > 1
+    parts.pop()
+  parts.join('.')
+
+
+convert  = (dest, extension=".js") ->
+  basename  = baseFileName! source, yes, useWinPathSep
+  srcDir    = path.dirname! source
+  path.join path.dirname(dest), basename + extension
+*/
