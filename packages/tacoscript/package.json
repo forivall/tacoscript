@@ -29,6 +29,7 @@
     "babylon": "^6.5.0",
     "call-limit": "^1.0.3",
     "camelize": "^1.0.0",
+    "chokidar": "^1.4.2",
     "comal": "^0.5.0",
     "glob": "^7.0.0",
     "horchata": "^0.5.0",

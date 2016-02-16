@@ -16,14 +16,15 @@
     "pretest": "cd test && npm ls 2>/dev/null >/dev/null || npm install",
     "test": "mocha"
   },
+  "devDependencies": {
+    "babylon": "^6.4.5"
+  },
   "dependencies": {
     "babel-code-frame": "^6.3.13",
     "babel-generator": "^6.4.5",
     "babel-helpers": "^6.4.5",
-    "babel-messages": "^6.3.13",
     "babel-runtime": "^5.0.0",
     "babel-template": "^6.3.13",
-    "babylon": "^6.4.5",
     "comal-traverse": "^0.5.0",
     "comal-types": "^0.5.0",
     "convert-source-map": "^1.1.0",
@@ -32,9 +33,8 @@
     "json5": "^0.4.0",
     "lodash": "^4.2.0",
     "minimatch": "^2.0.3",
-    "path-exists": "^1.0.0",
+    "path-exists": "^2.0.0",
     "path-is-absolute": "^1.0.0",
-    "private": "^0.1.6",
     "shebang-regex": "^1.0.0",
     "slash": "^1.0.0",
     "source-map": "^0.5.0"

@@ -24,7 +24,6 @@
     "babel-runtime": "^5.8.34",
     "lodash": "^4.2.0",
     "repeating": "^2.0.0",
-    "to-fast-properties": "^1.0.1",
     "tacoscript-cst-utils": "^0.4.0"
   }
 }
