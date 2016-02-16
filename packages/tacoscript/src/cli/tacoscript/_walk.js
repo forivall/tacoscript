@@ -175,7 +175,7 @@ export class Walker {
         this.pendingGlobs[globberId] = undefined;
 
         if (direct) {
-          const dests = map(matches, (match) => path.join(dest, match));
+          const dests = map(matches, (match) => path.join(dest, this.removeLeadingParentDirs(match)));
 
           this.walkPaths(matches, dests);
         } else {
@@ -203,5 +203,11 @@ export class Walker {
     const p = path.parse(dest);
     p.base = path.basename(p.base, p.ext) + this.destExt;
     return path.format(p);
+  }
+
+  removeLeadingParentDirs(dest) {
+    const normDest = path.normalize(dest);
+    const i = normDest.lastIndexOf("../");
+    return i >= 0 ? normDest.slice(i + 3) : dest;
   }
 }
