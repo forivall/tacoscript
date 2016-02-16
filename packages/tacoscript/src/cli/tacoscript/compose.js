@@ -49,7 +49,7 @@ export default function(argv, parentArgs, cb) {
   }
 
   let argConf = argsWithComalOpts(coreOptions, {
-    boolean: ["watch", "quiet", "no-dotfiles"],
+    boolean: ["watch", "quiet", "no-dotfiles", "verbose"],
     string: ["outfile", "extensions"],
     default: {extensions: ".taco,.tacos,.tacoscript", ...omit(parentArgs, "_")},
     alias: {
