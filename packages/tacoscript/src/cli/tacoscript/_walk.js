@@ -3,7 +3,6 @@
 //       when i do, add option to not fully traverse into a directory,
 //       and option to not traverse into symlinks
 //
-// TODO: limit max parallellism
 // TODO: UNIT TESTS!!! ROBUST CONTRACTS W.R.T. INPUT AND OUTPUT
 
 // tries to match globs with a target destination, so things like
