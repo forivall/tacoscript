@@ -1,4 +1,8 @@
-function baseFileName(file, stripExt = no, useWinPathSep = no) ->
+function baseFileName(
+  file
+  stripExt = no
+  useWinPathSep = no
+) ->
   pathSep = if useWinPathSep then /\\|\// else /\//
   parts = file.split(pathSep)
   file = parts[parts.length - 1]
@@ -8,10 +12,10 @@ function baseFileName(file, stripExt = no, useWinPathSep = no) ->
 
   if ['taco', 'tacos', 'tacoscript'].contains(parts[parts.length - 1]) and parts.length > 1
     parts.pop()
-  parts.join('.')
+  return parts.join('.')
 
 
 function convert(dest, extension=".js") ->
   basename  = baseFileName! source, yes, useWinPathSep
   srcDir    = path.dirname! source
-  path.join! path.dirname(dest), basename + extension
+  return path.join! path.dirname(dest), basename + extension
