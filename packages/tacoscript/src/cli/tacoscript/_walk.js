@@ -19,6 +19,7 @@
 
 
 import path from "path";
+
 import glob from "glob";
 import globCommon from "glob/common";
 const {Glob} = glob;
@@ -43,6 +44,8 @@ export class Walker {
     this.cb = args.pop();
     this.eachCb = args.pop();
     const opts = args[0] || {};
+
+    this.destExt = opts.destExt;
 
     this._asyncBlock = asyncBlock((err) => {
       if (err) {
@@ -184,7 +187,7 @@ export class Walker {
         this.release();
       });
     } else {
-      (0, this.eachCb)(src, dest);
+      (0, this.eachCb)(src, this.replaceExt(dest));
     }
   }
 
@@ -193,5 +196,12 @@ export class Walker {
     forEach(this.pendingGlobs, (globber) => { globber && globber.abort(); });
     this.pendingGlobs = Object.create(null);
     this._asyncBlock.error(err);
+  }
+
+  replaceExt(dest) {
+    if (!this.destExt) return dest;
+    const p = path.parse(dest);
+    p.base = path.basename(p.base, p.ext) + this.destExt;
+    return path.format(p);
   }
 }
