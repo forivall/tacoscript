@@ -18,10 +18,10 @@ defineType("ThisMemberExpression", {
 });
 
 import * as t from "comal-types";
-export default function (api) {
+export default function () {
   return {
     visitor: {
-      ThisMemberExpression(path, state) {
+      ThisMemberExpression(path) {
         path.replaceWith(
           t.memberExpression(t.thisExpression(), path.node.property, false)
         );
@@ -36,10 +36,10 @@ export default function (api) {
   };
 }
 
-export function transpose(api) {
+export function transpose() {
   return {
     visitor: {
-      MemberExpression(path, state) {
+      MemberExpression(path) {
         if (!path.node.computed && t.isThisExpression(path.node.object)) {
           path.replaceWith(t.thisMemberExpression(path.node.property));
         }

@@ -5,7 +5,7 @@ import {tokTypes as tt} from "horchata";
 // export function parseParenExclAndDistinguishExpression(node, expressionContext) {
 // }
 
-export function parseInvokedFunctionExpression(node, expressionContext) {
+export function parseInvokedFunctionExpression(/*node, expressionContext*/) {
   this.abort("!-style IIFE Not Implemented");
 }
 

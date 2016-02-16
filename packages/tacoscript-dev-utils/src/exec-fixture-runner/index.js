@@ -1,7 +1,6 @@
 /* global test */
 /* global suite */
 
-import path from "path";
 import fixtures from "mocha-fixtures-generic";
 const getFixtures = fixtures.get;
 import sourceMap from "source-map";

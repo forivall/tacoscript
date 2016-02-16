@@ -1,4 +1,4 @@
-/*global suite,test*/
+/*global test*/
 var path = require("path")
 
 var _ = require("lodash")

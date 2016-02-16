@@ -24,5 +24,5 @@ export default function(cb) {
       _err = err;
       cb(err);
     }
-  }
+  };
 }

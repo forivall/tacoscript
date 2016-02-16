@@ -13,7 +13,6 @@ import msg from "../messages";
 import Store from "../store";
 import * as util from  "../util";
 import pick from "lodash/pick";
-import isArray from "lodash/isArray";
 import isFunction from "lodash/isFunction";
 import File from "../file";
 

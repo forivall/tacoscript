@@ -120,12 +120,12 @@ export function normalisePlugins(meta, loc, dirname, plugins, context) {
 export function normaliseGeneratorPlugins(meta, dirname, plugins, fromCorePlugins = false) {
   const prefix = meta.loader.pluginModulePrefix != null ? meta.loader.pluginModulePrefix : false;
   let normalised = plugins.map(function (val, i) {
-    let plugin, options;
+    let plugin;
 
     // destructure plugins
     const destructured = Array.isArray(val);
     if (destructured) {
-      [plugin, options] = val;
+      [plugin] = val;
     } else {
       plugin = val;
     }
