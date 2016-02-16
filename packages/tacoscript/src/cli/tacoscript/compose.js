@@ -132,7 +132,7 @@ export default function(argv, parentArgs, cb) {
 
     walker = walk({src: infiles, dest: outfiles}, limit((src, dest, done) => {
       // TODO: only filter if we're not copying
-      if (onlyMatch && !onlyMatch.match(src)) return; // continue;
+      if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
 
       retain();
 
