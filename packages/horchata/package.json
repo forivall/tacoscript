@@ -21,7 +21,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "babel-runtime": "^5.8.34",
+    "babel-runtime": "^5.8.35",
     "lodash": "^4.2.0",
     "repeating": "^2.0.0",
     "tacoscript-cst-utils": "^0.4.0"

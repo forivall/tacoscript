@@ -16,5 +16,8 @@
     "babylon"
   ],
   "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "babel-runtime": "^5.8.35"
+  }
 }

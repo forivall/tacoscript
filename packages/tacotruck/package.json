@@ -29,6 +29,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.35",
     "babel-types": "^6.2.0",
     "horchata": "^0.5.0",
     "lodash": "^4.2.0",
