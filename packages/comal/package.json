@@ -1,6 +1,6 @@
 {
   "name": "comal",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TacoScript transformation core",
   "author": "Jordan J Klassen <forivall@gmail.com>",
   "homepage": "http://tacoscript.github.io/",
@@ -25,8 +25,8 @@
     "babel-helpers": "^6.4.5",
     "babel-runtime": "^5.8.35",
     "babel-template": "^6.3.13",
-    "comal-traverse": "^0.5.0",
-    "comal-types": "^0.5.0",
+    "comal-traverse": "^0.5.1",
+    "comal-types": "^0.5.1",
     "convert-source-map": "^1.1.0",
     "debug": "^2.1.1",
     "errmsg": "^1.0.0",

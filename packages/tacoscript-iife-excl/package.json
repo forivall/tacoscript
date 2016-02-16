@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-iife-excl",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "plugin for tacoscript for tacoscript's !-style iife shorthand syntax",
   "repository": {
     "type": "git",
@@ -24,8 +24,8 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "horchata": "^0.5.0",
-    "tacoscript-cst-utils": "^0.4.0"
+    "horchata": "^0.5.1",
+    "tacoscript-cst-utils": "^0.5.1"
   },
   "dependencies": {
     "babel-runtime": "^5.8.35"
