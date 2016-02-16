@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+https://github.com/forivall/tacoscript.git"
   },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "author": "Jordan Klassen <forivall@gmail.com>",
   "license": "ISC",
   "bugs": {
