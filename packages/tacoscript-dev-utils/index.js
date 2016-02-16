@@ -87,11 +87,11 @@ function removeLocInfo(json) {
 }
 
 function saveAst(filepath, ast) {
-  delete ast.tokens
-  delete ast.source
-  removeLocInfo(ast)
-  fs.writeFileSync(filepath, JSON.stringify(ast, null, '  '), 'utf-8')
-  throw new Error("Unverified ast file: " + filepath)
+  delete ast.tokens;
+  delete ast.source;
+  removeLocInfo(ast);
+  fs.writeFileSync(filepath, JSON.stringify(ast, null, '  '), 'utf-8');
+  throw new Error("Unverified ast file: " + filepath);
 }
 
 function eachSuite(testSuites, body) {

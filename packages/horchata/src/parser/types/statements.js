@@ -208,7 +208,7 @@ export function parseDoStatement(node) {
   this.state.labels.pop();
   this.eat(tt._while) || this.unexpected();
   this.assign(node, "test", this.parseExpression());
-  this.eatLineTerminator() || this.unexpected();
+  this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   return this.finishNode(node, "DoWhileStatement");
 }
 
@@ -339,7 +339,7 @@ export function parseReturnStatement(node) {
     node.argument = null;
   } else {
     this.assign(node, "argument", this.parseExpression());
-    this.eatLineTerminator() || this.unexpected();
+    this.eatLineTerminator({allowPrev: true}) || this.unexpected();
   }
   return this.finishNode(node, "ReturnStatement")
 }

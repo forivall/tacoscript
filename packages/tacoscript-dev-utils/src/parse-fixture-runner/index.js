@@ -34,7 +34,7 @@ export default function (fixturePath, parser) {
             expect(ast).matches(task.ast)
             // expect(render(ast)).to.equal(source)
           } else {
-            saveAst(path.join(__dirname, task.filename, "ast.json"), ast)
+            saveAst(path.join(task.filename, "ast.json"), ast)
           }
         }
       })
