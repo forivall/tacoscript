@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 
+import asyncaphore from "asyncaphore";
 import limit from "call-limit";
 import camelize from "camelize";
 import {coreOptions} from "comal";
@@ -13,7 +14,6 @@ import mkdirp from "mkdirp";
 import minimatch from "minimatch";
 import subarg from "subarg";
 
-import asyncBlock from "./_async-block";
 import usage from "./_usage";
 import usageAdvanced from "./_usageForComalOpts";
 import argsWithComalOpts from "./_convertComalOpts";
@@ -119,7 +119,7 @@ export default function(argv, parentArgs, cb) {
     }
 
     let walker;
-    const {retain, release, error: cb2} = asyncBlock((err) => {
+    const {retain, release, error: cb2} = asyncaphore((err) => {
       if (err) {
         if (walker) walker.abort();
         return cb(err);

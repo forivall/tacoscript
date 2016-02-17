@@ -19,6 +19,7 @@
 
 import path from "path";
 
+import asyncaphore from "asyncaphore";
 import glob from "glob";
 import globCommon from "glob/common";
 const {Glob} = glob;
@@ -26,8 +27,6 @@ import isGlob from "is-glob";
 import forEach from "lodash/forEach";
 import map from "lodash/map";
 import isArray from "lodash/isArray";
-
-import asyncBlock from "./_async-block";
 
 function ownProp (obj, field) {
   return Object.prototype.hasOwnProperty.call(obj, field)
@@ -46,7 +45,7 @@ export class Walker {
 
     this.destExt = opts.destExt;
 
-    this._asyncBlock = asyncBlock((err) => {
+    this._asyncBlock = asyncaphore((err) => {
       if (err) {
         if (!this.aborted) this.abort();
         return (0, this.cb)(err);

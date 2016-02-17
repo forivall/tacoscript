@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "dependencies": {
+    "asyncaphore": "^1.0.0",
     "babel-generator": "^6.5.0",
     "babel-runtime": "^5.8.35",
     "babylon": "^6.5.0",
