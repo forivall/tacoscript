@@ -34,6 +34,7 @@
     "chokidar": "^1.4.2",
     "comal": "^0.5.1",
     "glob": "^7.0.0",
+    "glob-pair": "^1.0.1",
     "horchata": "^0.5.1",
     "is-glob": "^2.0.1",
     "kebab-case": "^1.0.0",

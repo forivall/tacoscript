@@ -5,6 +5,7 @@ import asyncaphore from "asyncaphore";
 import limit from "call-limit";
 import camelize from "camelize";
 import {coreOptions} from "comal";
+import globPair from "glob-pair";
 import isGlob from "is-glob";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
@@ -17,7 +18,6 @@ import subarg from "subarg";
 import usage from "./_usage";
 import usageAdvanced from "./_usageForComalOpts";
 import argsWithComalOpts from "./_convertComalOpts";
-import walk from "./_walk";
 import stdin from "./_stdin";
 import stdout from "./_stdout";
 
@@ -133,7 +133,7 @@ export default function(argv, parentArgs, cb) {
     const transformer = compose.createTransform(comalArgs);
     const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
 
-    walker = walk({src: infiles, dest: outfiles, destExt: ".js"}, limit((src, dest, done) => {
+    walker = globPair({src: infiles, dest: outfiles, destExt: ".js"}, limit((src, dest, done) => {
       // TODO: only filter if we're not copying
       if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
 
