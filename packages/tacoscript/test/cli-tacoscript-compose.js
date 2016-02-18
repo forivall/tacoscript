@@ -140,4 +140,40 @@ suite("cli", function () {
 
     ps.stdin.end();
   });
+
+  test("filein - fileout", function(done) {
+    process.chdir(__dirname);
+
+    var outfile = path.join(tempdir, "console-log-2.js");
+
+    var ps = spawn(process.execPath, [
+      path.resolve(__dirname, '../bin/tacoscript.js'),
+      "compose", "./fixtures/cli/console-log.taco", "-o", outfile
+    ]);
+
+    ps.stderr.pipe(process.stderr);
+
+    ps.on('exit', function (code) {
+      assert.equal(code, 0);
+
+      fs.readFile(outfile, function(err, body) {
+        if (err) throw err;
+
+        var ranCode = false;
+        var c = { console: {
+          log: function (msg) {
+            ranCode = true;
+            assert.equal(msg, 'hello');
+          }
+        } };
+        vm.runInNewContext(body, c);
+
+        assert.ok(ranCode);
+
+        done();
+      });
+    });
+
+    ps.stdin.end();
+  });
 });
