@@ -33,6 +33,7 @@
     "camelize": "^1.0.0",
     "chokidar": "^1.4.2",
     "comal": "^0.5.1",
+    "end-of-stream": "^1.1.0",
     "glob": "^7.0.0",
     "glob-pair": "^1.0.1",
     "horchata": "^0.5.1",

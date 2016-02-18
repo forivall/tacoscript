@@ -22,12 +22,14 @@ export default function(argv, processExit) {
 
   if (args["debug-internal"]) require("source-map-support").install();
 
+  let forcedError = false;
   const exit = function(e) {
     if (e && e.message) {
       console.error(e.message);
     }
-    setImmediate(function() {
-      processExit(e ? (typeof e.code === "number" ? e.code : 1) : 0);
+    if (forcedError) processExit(1);
+    else setImmediate(function() {
+      processExit(e ? (typeof e.code === "number" ? e.code : 1) : forcedError ? 1 : 0);
     });
   }
 
@@ -53,6 +55,7 @@ export default function(argv, processExit) {
 
   if (subcommand === "index" || subcommand[0] === "_") {
     console.warn("Unknown command\n");
+    forcedError = true;
     return usage(false, exit);
   }
 
@@ -63,6 +66,7 @@ export default function(argv, processExit) {
   } catch (e) {
     if (e.code === "MODULE_NOT_FOUND" && e.message === `Cannot find module './${subcommand}'`) {
       console.warn(`Unknown command '${subcommand}'\n`);
+      forcedError = true;
       return usage(false, exit);
     }
     else throw e;

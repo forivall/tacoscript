@@ -11,9 +11,9 @@ export default function(argConf, ...rest) {
   const cb = rest.pop();
   const extra = rest[0] || {};
 
-  console.warn("Advanced Options:\n");
+  console.log("Advanced Options:\n");
 
-  if (extra.before) console.warn(wrap(extra.before, {width: 80}) + "\n");
+  if (extra.before) console.log(wrap(extra.before, {width: 80}) + "\n");
 
   for (let optName in coreOptions) {
     let optConf = coreOptions[optName];
@@ -25,20 +25,20 @@ export default function(argConf, ...rest) {
 
     if (optConf.shorthand) opts.push("-" + optConf.shorthand);
 
-    console.warn(wrap(opts.join(', '), {indent: '  ', width: 78}));
+    console.log(wrap(opts.join(', '), {indent: '  ', width: 78}));
 
     if (extra.default && optConf.default && (!isArray(optConf.default) || optConf.default.length)) {
-      console.warn(wrap(`(default: ${optConf.default})`, {indent: '      ', width: 74}));
+      console.log(wrap(`(default: ${optConf.default})`, {indent: '      ', width: 74}));
     }
 
     if (optConf.description) {
-      console.warn(wrap(optConf.description, {indent: '    ', width: 76}));
+      console.log(wrap(optConf.description, {indent: '    ', width: 76}));
     }
 
-    console.warn();
+    console.log();
   }
 
-  if (extra.after) console.warn("\n" + wrap(extra.after, {width: 80}));
+  if (extra.after) console.log("\n" + wrap(extra.after, {width: 80}));
 
-  cb({code: 1});
+  cb({code: 0});
 }
