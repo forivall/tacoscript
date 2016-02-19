@@ -770,9 +770,7 @@ export default class Lexer {
       return this.readNextToken();
     }
 
-    if (next === 61) {
-      size = this.input.charCodeAt(this.state.pos + 2) === 61 ? 3 : 2;
-    }
+    if (next === 61) size = 2;
 
     this.state.pos += size;
     return this.finishToken(tt.relational, this.input.slice(start, this.state.pos));
