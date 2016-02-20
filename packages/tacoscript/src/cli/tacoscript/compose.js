@@ -34,6 +34,7 @@ const nonComalArgs = [
   "extensions",
   "plugin",
   "generator",
+  "serial",
 
   "dir", "noDotfiles"
 ]
@@ -48,7 +49,7 @@ export default function(argv, parentArgs, cb) {
   }
 
   let argConf = argsWithComalOpts(coreOptions, {
-    boolean: ["watch", "quiet", "no-dotfiles", "verbose"],
+    boolean: ["watch", "quiet", "no-dotfiles", "verbose", "serial"],
     string: ["outfile", "extensions"],
     default: {extensions: ".taco,.tacos,.tacoscript", ...omit(parentArgs, "_")},
     alias: {
@@ -106,7 +107,12 @@ export default function(argv, parentArgs, cb) {
     }
 
     read((err, data) => {
-      if (err) return cb(err)
+      if (err) {
+        if (err.code === "EISDIR") {
+          return cb(new Error("Cannot use a directory as input with stdout"));
+        }
+        return cb(err)
+      }
 
       write(compose.transform(data, comalArgs).code, cb);
     });

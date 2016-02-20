@@ -28,8 +28,17 @@ export default function (api, transformer, files, opts, cb) {
 
     retain();
 
-    api.execFile(transformer, src, /*TODO: sourcemap args*/ (err, data) => {
-      if (err) return cb2(err);
+    api.execFile(transformer, src, {
+      onFileOpen(file) {
+        if (opts.args.verbose) process.stdout.write(src);
+      }
+      /*TODO: sourcemap args*/
+    }, (err, data) => {
+      if (err) {
+        if (opts.args.verbose) console.log();
+        return cb2(err);
+      }
+      if (opts.args.verbose) console.log(" ✓")
       if (data.ignored) {
         // TODO: copy if we should copy ignored files
         done(), release();
@@ -53,7 +62,7 @@ export default function (api, transformer, files, opts, cb) {
 
     // TODO: copy files
 
-  }, 128 /* limit to 128 parallel calls, = 1/2 osx default max */), (err) => {
+  }, opts.args.serial ? 1 : 128), (err) => {
     if (err) return cb2(err);
     release();
   });
