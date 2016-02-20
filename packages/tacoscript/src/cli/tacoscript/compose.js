@@ -1,11 +1,7 @@
 import fs from "fs";
-import path from "path";
 
-import asyncaphore from "asyncaphore";
-import limit from "call-limit";
 import camelize from "camelize";
 import {coreOptions} from "comal";
-import globPair from "glob-pair";
 import isGlob from "is-glob";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
@@ -17,9 +13,11 @@ import subarg from "subarg";
 
 import usage from "./_usage";
 import usageAdvanced from "./_usageForComalOpts";
+
 import argsWithComalOpts from "./_convertComalOpts";
 import stdin from "./_stdin";
 import stdout from "./_stdout";
+import transformTree from "./_transformTree";
 
 import compose from "../../compose/api";
 
@@ -114,59 +112,18 @@ export default function(argv, parentArgs, cb) {
     });
 
   } else {
+    //////// TRANSFORM MANY ////////
+
     if (outfiles.length !== 1 && outfiles.length !== infiles.length) {
       return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
     }
 
-    let walker;
-    const {retain, release, error: cb2} = asyncaphore((err) => {
-      if (err) {
-        if (walker) walker.abort();
-        return cb(err);
-      }
-      if (args.verbose) console.warn("Done.");
-      cb();
-    });
-
-    retain();
-
     const transformer = compose.createTransform(comalArgs);
-    const onlyMatch = comalArgs.only && new minimatch.Minimatch(`{${comalArgs.only}}`, {matchBase: true});
 
-    walker = globPair({src: infiles, dest: outfiles, destExt: ".js"}, limit((src, dest, done) => {
-      // TODO: only filter if we're not copying
-      if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
+    if (args.watch) {
 
-      retain();
-
-      compose.execFile(transformer, src, /*TODO: sourcemap args*/ (err, data) => {
-        if (err) return cb2(err);
-        if (data.ignored) {
-          // TODO: copy if we should copy ignored files
-          done(), release();
-          return;
-        }
-        // TODO: change extname of dest
-
-        mkdirp(path.dirname(dest), (err) => {
-          if (err) return cb2(err);
-
-          fs.writeFile(dest, data.code, 'utf8', (err) => {
-            if (err) return cb2(err);
-            // TODO: write sourcemaps if requested
-
-            if (!args.quiet) console.log(src, "=>", dest);
-
-            done(), release();
-          });
-        });
-      });
-
-      // TODO: copy files
-
-    }, 128 /* limit to 128 parallel calls, = 1/2 osx default max */), (err) => {
-      if (err) return cb2(err);
-      release();
-    })
+    } else {
+      transformTree(compose, transformer, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
+    }
   }
 }

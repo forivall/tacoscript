@@ -35,7 +35,7 @@
     "comal": "^0.5.1",
     "end-of-stream": "^1.1.0",
     "glob": "^7.0.0",
-    "glob-pair": "^1.0.1",
+    "glob-pair": "^2.0.0",
     "horchata": "^0.5.1",
     "is-glob": "^2.0.1",
     "kebab-case": "^1.0.0",
