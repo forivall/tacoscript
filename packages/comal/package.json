@@ -1,6 +1,6 @@
 {
   "name": "comal",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "TacoScript transformation core",
   "author": "Jordan J Klassen <forivall@gmail.com>",
   "homepage": "http://tacoscript.github.io/",
