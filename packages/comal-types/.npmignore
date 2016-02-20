@@ -1,1 +1,17 @@
+.DS_Store
+Thumbs.db
+node_modules
+*.log
+*.cache
+*.map
+dist
+tags
+.settings
+.imdone
+/.package.json
+/coverage
+
 /src
+/test
+/scripts
+/*.md
