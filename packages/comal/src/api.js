@@ -47,7 +47,7 @@ export default class Api {
 
     opts.filename = filename;
 
-    return this._wrapReadFile(filename, callback, (code) => this.transform(code, opts));
+    return this._wrapReadFile(opts, callback, (code) => this.transform(code, opts));
   }
 
   transformFileSync(filename: string, opts?: Object = {}) {
@@ -61,7 +61,7 @@ export default class Api {
 
     opts.filename = filename;
 
-    return this._wrapReadFile(filename, callback, (code) => this.exec(transformer, code, opts));
+    return this._wrapReadFile(opts, callback, (code) => this.exec(transformer, code, opts));
   }
 
   execFileSync(transformer: Transformation, filename: string, opts?: Object = {}) {
@@ -69,12 +69,14 @@ export default class Api {
     return this.exec(transformer, fs.readFileSync(filename, "utf8"), opts);
   }
 
-  _wrapReadFile(filename: string, callback: Function, body: Function) {
+  _wrapReadFile(opts: Object, callback: Function, body: Function) {
+    const filename = opts.filename;
     fs.readFile(filename, "utf8", (err, code) => {
       let result;
 
       if (!err) {
         try {
+          if (opts.onFileOpen) (0, opts.onFileOpen)(filename);
           result = body.call(this, code);
         } catch (_err) {
           err = _err;
