@@ -2,6 +2,7 @@ import fs from "fs";
 
 import camelize from "camelize";
 import {coreOptions} from "comal";
+import {dest as globDest} from "glob-pair";
 import isGlob from "is-glob";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
@@ -18,6 +19,7 @@ import argsWithComalOpts from "./_convertComalOpts";
 import stdin from "./_stdin";
 import stdout from "./_stdout";
 import transformTree from "./_transformTree";
+import watchTree from "./_watchTree";
 
 import compose from "../../compose/api";
 
@@ -89,6 +91,10 @@ export default function(argv, parentArgs, cb) {
   // match up inputs to outputs
 
   if (useStdin || useStdout) {
+    //////// TRANSFORM ONE ////////
+
+    if (args.watch) return cb(new Error("Cannot use watch with stdin or stdout"));
+
     if (useStdin) {
       // TODO: error if sourcemaps is true, i.e. is requested as a separate file.
     }
@@ -127,7 +133,7 @@ export default function(argv, parentArgs, cb) {
     const transformer = compose.createTransform(comalArgs);
 
     if (args.watch) {
-
+      watchTree(compose, transformer, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
     } else {
       transformTree(compose, transformer, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
     }

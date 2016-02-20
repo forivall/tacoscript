@@ -1,36 +1,27 @@
 import fs from "fs";
 import path from "path";
 
-import asyncaphore from "asyncaphore";
+// TODO: use graceful-fs instead
 import limit from "call-limit";
-import {walk as globPair} from "glob-pair";
+import chokidar from "chokidar";
+import {dest as globDest} from "glob-pair";
 import minimatch from "minimatch";
 import mkdirp from "mkdirp";
+import cliUtil from "./_util"
 
 import {CONCURRENT_LIMIT} from "./_constants";
 
+// TODO: reduce duplicated code between watcher and one-shot
 export default function (api, transformer, files, opts, cb) {
   // TODO: only allow copy if src/dest are distinct
 
+  let watcher;
+
   const onlyMatch = opts.only && new minimatch.Minimatch(`{${opts.only}}`, {matchBase: true});
 
-  let walker;
-  const {retain, release, error: cb2} = asyncaphore((err) => {
-    if (err) {
-      if (walker) walker.abort();
-      return cb(err);
-    }
-    if (opts.args.verbose) console.warn("Done.");
-    cb();
-  });
-
-  retain();
-
-  walker = globPair(files, limit((src, dest, done) => {
+  const onAddOrChange = limit((src, stats, done) => {
     // TODO: only filter if we're not copying
     if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
-
-    retain();
 
     api.execFile(transformer, src, {
       onFileOpen(file) {
@@ -39,35 +30,48 @@ export default function (api, transformer, files, opts, cb) {
       /*TODO: sourcemap args*/
     }, (err, data) => {
       if (err) {
-        if (opts.args.verbose) console.log();
-        return cb2(err);
+        if (opts.args.verbose) console.log(" ✗");
+        console.error(cliUtil.toErrorStack(err));
+        done();
+        return;
       }
       if (opts.args.verbose) console.log(" ✓")
       if (data.ignored) {
         // TODO: copy if we should copy ignored files
-        done(), release();
+        done();
         return;
       }
-      // TODO: change extname of dest
+
+      const dest = globDest(src, files);
+      watcher.unwatch(dest);
 
       mkdirp(path.dirname(dest), (err) => {
-        if (err) return cb2(err);
+        if (err) {
+          cb(err);
+          return;
+        }
 
         fs.writeFile(dest, data.code, 'utf8', (err) => {
-          if (err) return cb2(err);
+          if (err) {
+            cb(err);
+            return;
+          }
           // TODO: write sourcemaps if requested
 
           if (!opts.args.quiet) console.log(src, "=>", dest);
 
-          done(), release();
+          done();
         });
+        // TODO: copy files
       });
     });
+  }, opts.args.serial ? 1 : CONCURRENT_LIMIT);
 
-    // TODO: copy files
-
-  }, opts.args.serial ? 1 : CONCURRENT_LIMIT), (err) => {
-    if (err) return cb2(err);
-    release();
-  });
+  watcher = chokidar.watch(files.src, {ignored: [/[\/\\]\./, "node_modules"]})
+  .on('add', onAddOrChange)
+  .on('change', onAddOrChange)
+  // TODO
+  // .on('unlink', (filepath) {
+  //
+  // })
 }
