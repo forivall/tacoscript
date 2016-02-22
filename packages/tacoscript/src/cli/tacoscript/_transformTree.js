@@ -5,11 +5,11 @@ import asyncaphore from "asyncaphore";
 import limit from "call-limit";
 import {walk as globPair} from "glob-pair";
 import minimatch from "minimatch";
-import mkdirp from "mkdirp";
 
 import {CONCURRENT_LIMIT} from "./_constants";
+import {toErrorStack, mkdirpWriteFile} from "./_util";
 
-export default function (api, transformer, files, opts, cb) {
+export default function (transform, files, opts, cb) {
   // TODO: only allow copy if src/dest are distinct
 
   const onlyMatch = opts.only && new minimatch.Minimatch(`{${opts.only}}`, {matchBase: true});
@@ -32,35 +32,32 @@ export default function (api, transformer, files, opts, cb) {
 
     retain();
 
-    api.execFile(transformer, src, {
+    transform(src, {
       onFileOpen(file) {
         if (opts.args.verbose) process.stdout.write(src);
       }
       /*TODO: sourcemap args*/
-    }, (err, data) => {
+    }, (err, results) => {
       if (err) {
-        if (opts.args.verbose) console.log();
-        return cb2(err);
+        if (opts.args.verbose) console.log(" ✗");
+        console.error(toErrorStack(err));
+        cb2(err);
+        return;
       }
       if (opts.args.verbose) console.log(" ✓")
-      if (data.ignored) {
+      if (results.ignored) {
         // TODO: copy if we should copy ignored files
         done(), release();
         return;
       }
-      // TODO: change extname of dest
 
-      mkdirp(path.dirname(dest), (err) => {
+      mkdirpWriteFile(dest, results.code, 'utf8', (err) => {
         if (err) return cb2(err);
+        // TODO: write sourcemaps if requested
 
-        fs.writeFile(dest, data.code, 'utf8', (err) => {
-          if (err) return cb2(err);
-          // TODO: write sourcemaps if requested
+        if (!opts.args.quiet) console.log(src, "=>", dest);
 
-          if (!opts.args.quiet) console.log(src, "=>", dest);
-
-          done(), release();
-        });
+        done(), release();
       });
     });
 

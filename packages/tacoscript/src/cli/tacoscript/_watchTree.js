@@ -7,12 +7,11 @@ import chokidar from "chokidar";
 import {dest as globDest} from "glob-pair";
 import minimatch from "minimatch";
 import mkdirp from "mkdirp";
-import cliUtil from "./_util"
+import {toErrorStack, mkdirpWriteFile} from "./_util"
 
 import {CONCURRENT_LIMIT} from "./_constants";
 
-// TODO: reduce duplicated code between watcher and one-shot
-export default function (api, transformer, files, opts, cb) {
+export default function (transform, files, opts, cb) {
   // TODO: only allow copy if src/dest are distinct
 
   let watcher;
@@ -23,20 +22,20 @@ export default function (api, transformer, files, opts, cb) {
     // TODO: only filter if we're not copying
     if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
 
-    api.execFile(transformer, src, {
+    transform(src, {
       onFileOpen(file) {
         if (opts.args.verbose) process.stdout.write(src);
       }
       /*TODO: sourcemap args*/
-    }, (err, data) => {
+    }, (err, results) => {
       if (err) {
         if (opts.args.verbose) console.log(" ✗");
-        console.error(cliUtil.toErrorStack(err));
+        console.error(toErrorStack(err));
         done();
         return;
       }
       if (opts.args.verbose) console.log(" ✓")
-      if (data.ignored) {
+      if (results.ignored) {
         // TODO: copy if we should copy ignored files
         done();
         return;
@@ -45,24 +44,12 @@ export default function (api, transformer, files, opts, cb) {
       const dest = globDest(src, files);
       watcher.unwatch(dest);
 
-      mkdirp(path.dirname(dest), (err) => {
-        if (err) {
-          cb(err);
-          return;
-        }
+      mkdirpWriteFile(dest, results.code, (err) => {
+        // TODO: write sourcemaps if requested
 
-        fs.writeFile(dest, data.code, 'utf8', (err) => {
-          if (err) {
-            cb(err);
-            return;
-          }
-          // TODO: write sourcemaps if requested
+        if (!opts.args.quiet) console.log(src, "=>", dest);
 
-          if (!opts.args.quiet) console.log(src, "=>", dest);
-
-          done();
-        });
-        // TODO: copy files
+        done();
       });
     });
   }, opts.args.serial ? 1 : CONCURRENT_LIMIT);

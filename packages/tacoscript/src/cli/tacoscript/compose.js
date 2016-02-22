@@ -132,10 +132,14 @@ export default function(argv, parentArgs, cb) {
 
     const transformer = compose.createTransform(comalArgs);
 
+    function transform(file, opts, cb) {
+      compose.execFile(transformer, file, opts, cb);
+    }
+
     if (args.watch) {
-      watchTree(compose, transformer, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
+      watchTree(transform, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
     } else {
-      transformTree(compose, transformer, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
+      transformTree(transform, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
     }
   }
 }
