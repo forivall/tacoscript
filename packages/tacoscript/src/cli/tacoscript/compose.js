@@ -2,14 +2,11 @@ import fs from "fs";
 
 import camelize from "camelize";
 import {coreOptions} from "comal";
-import {dest as globDest} from "glob-pair";
 import isGlob from "is-glob";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
 import map from "lodash/map";
 import flatten from "lodash/flatten";
-import mkdirp from "mkdirp";
-import minimatch from "minimatch";
 import subarg from "subarg";
 
 import usage from "./_usage";

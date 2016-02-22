@@ -1,17 +1,12 @@
-import fs from "fs";
-import path from "path";
-
-// TODO: use graceful-fs instead
 import limit from "call-limit";
 import chokidar from "chokidar";
 import {dest as globDest} from "glob-pair";
 import minimatch from "minimatch";
-import mkdirp from "mkdirp";
 import {toErrorStack, mkdirpWriteFile} from "./_util"
 
 import {CONCURRENT_LIMIT} from "./_constants";
 
-export default function (transform, files, opts, cb) {
+export default function (transform, files, opts/*, cb*/) {
   // TODO: only allow copy if src/dest are distinct
 
   let watcher;
@@ -23,7 +18,7 @@ export default function (transform, files, opts, cb) {
     if (onlyMatch && !onlyMatch.match(src)) return done(); // continue;
 
     transform(src, {
-      onFileOpen(file) {
+      onFileOpen() {
         if (opts.args.verbose) process.stdout.write(src);
       }
       /*TODO: sourcemap args*/
@@ -45,6 +40,11 @@ export default function (transform, files, opts, cb) {
       watcher.unwatch(dest);
 
       mkdirpWriteFile(dest, results.code, (err) => {
+        if (err) {
+          console.error(err);
+          done();
+          return;
+        }
         // TODO: write sourcemaps if requested
 
         if (!opts.args.quiet) console.log(src, "=>", dest);

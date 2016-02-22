@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 
 import asyncaphore from "asyncaphore";
 import limit from "call-limit";
@@ -33,7 +31,7 @@ export default function (transform, files, opts, cb) {
     retain();
 
     transform(src, {
-      onFileOpen(file) {
+      onFileOpen() {
         if (opts.args.verbose) process.stdout.write(src);
       }
       /*TODO: sourcemap args*/
