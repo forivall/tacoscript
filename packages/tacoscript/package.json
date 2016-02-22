@@ -24,6 +24,9 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "scripts": {
+    "pretest": "pplink ../tacoscript-strudel-this-member ./test/fixtures/cli/plugins"
+  },
   "dependencies": {
     "asyncaphore": "^1.0.0",
     "babel-generator": "^6.5.0",

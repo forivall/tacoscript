@@ -9,7 +9,7 @@ var assert = require("chai").assert;
 
 var cli = require("../lib/cli/tacoscript");
 
-function testRun(args, exitCode) {
+function testRun(args, exitCode, err) {
   if (exitCode == null) exitCode = 0;
   return function(done) {
     process.chdir(__dirname);
@@ -22,11 +22,17 @@ function testRun(args, exitCode) {
     ps.stdout.pipe(concat(function (body) {
       if (body) hasOutput = true;
     }));
-    ps.stderr.pipe(process.stderr);
+
+    var stderr;
+    if (!err) ps.stderr.pipe(process.stderr);
+    else ps.stderr.pipe(concat(function (body) {
+      stderr = body;
+    }))
 
     ps.on('exit', function (code) {
       assert.ok(hasOutput);
       assert.equal(code, exitCode);
+      if (err) assert.match(stderr, err);
       done();
     });
 
@@ -51,7 +57,7 @@ suite("cli", function () {
   test("version", testRun(['-V']));
   test("versions", testRun(['--VV']));
   test("versions 2", testRun(['version']));
-  test("unknown command", testRun(['_blah'], 1));
-  test("unknown command 2", testRun(['blah'], 1));
-  test("unknown command 3", testRun(['index'], 1));
+  test("unknown command", testRun(['_blah'], 1, /Unknown command/));
+  test("unknown command 2", testRun(['blah'], 1, /Unknown command/));
+  test("unknown command 3", testRun(['index'], 1, /Unknown command/));
 });

@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "tacoscript": {
+    "plugins": [
+      "strudel-this-member"
+    ]
+  }
+}

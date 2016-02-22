@@ -21,6 +21,10 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
+  "scripts": {
+    "pretest": "pplink . test/fixtures/e2e",
+    "test": "mocha"
+  },
   "devDependencies": {
     "tacoscript": "^0.5.1",
     "comal-types": "^0.5.1"

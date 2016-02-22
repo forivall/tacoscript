@@ -79,6 +79,19 @@ export default function(argv, parentArgs, cb) {
   // remove arguments that shouldn't be passed into comal
   const comalArgs = omit(args, [""].concat(nonComalArgs, flatten(map(argConf.alias))));
 
+  if (args.plugin) {
+    args.plugin = [].concat(args.plugin); // ensure wrapped in array
+    try {
+      comalArgs.plugins = map(args.plugin, (pluginArg) => {
+        if (typeof pluginArg === 'string') {
+          return pluginArg;
+        }
+        if (pluginArg[""].length !== 1) throw new Error("Invalid plugin configuration");
+        return [pluginArg[""][0], omit(pluginArg, "")];
+      });
+    } catch (e) { return cb(e); }
+  }
+
   if (args.extensions && !useStdin) {
     comalArgs.only = (comalArgs.only ? comalArgs.only + "," : "") + map(args.extensions.split(","), (e) => "*" + e).join(",");
   }

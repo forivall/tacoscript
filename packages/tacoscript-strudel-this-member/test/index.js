@@ -14,4 +14,7 @@ suite("strudel-this-member", function () {
     assert.equal(api.transpose.transform("this.foo;", {plugins: [require("../lib")]}).code, "@foo\n");
   });
 
+  test("compose-e2e")
+  test("transpose-e2e")
+
 });

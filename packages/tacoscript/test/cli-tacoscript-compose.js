@@ -176,4 +176,93 @@ suite("cli", function () {
 
     ps.stdin.end();
   });
+
+  test("filein - stdout: plugin", function(done) {
+    process.chdir(__dirname);
+
+    var ps = spawn(process.execPath, [
+      path.resolve(__dirname, '../bin/tacoscript.js'),
+      "compose", "./fixtures/cli/plugins/index.taco",
+      "--plugin", "strudel-this-member"
+    ]);
+
+    var hasOutput = false;
+    var ranCode = false;
+    ps.stdout.pipe(concat(function (body) {
+      hasOutput = true;
+      var c = { console: {
+        log: function (msg) {
+          ranCode = true;
+          assert.equal(msg, 'hello');
+        }
+      } };
+      vm.runInNewContext(body, c);
+    }));
+    ps.stderr.pipe(process.stderr);
+
+    ps.on('exit', function (code) {
+      assert.ok(hasOutput);
+      assert.ok(ranCode);
+      assert.equal(code, 0);
+      done();
+    });
+
+    ps.stdin.end();
+  });
+
+  test("filein - stdout: plugin with options", function(done) {
+    process.chdir(__dirname);
+
+    var ps = spawn(process.execPath, [
+      path.resolve(__dirname, '../bin/tacoscript.js'),
+      "compose", "./fixtures/cli/plugins/index.taco",
+      "--plugin", "[", "strudel-this-member", "]"
+    ]);
+
+    var hasOutput = false;
+    var ranCode = false;
+    ps.stdout.pipe(concat(function (body) {
+      hasOutput = true;
+      var c = { console: {
+        log: function (msg) {
+          ranCode = true;
+          assert.equal(msg, 'hello');
+        }
+      } };
+      vm.runInNewContext(body, c);
+    }));
+    ps.stderr.pipe(process.stderr);
+
+    ps.on('exit', function (code) {
+      assert.ok(hasOutput);
+      assert.ok(ranCode);
+      assert.equal(code, 0);
+      done();
+    });
+
+    ps.stdin.end();
+  });
+
+  test("filein - stdout: bad plugin options", function(done) {
+    process.chdir(__dirname);
+
+    var ps = spawn(process.execPath, [
+      path.resolve(__dirname, '../bin/tacoscript.js'),
+      "compose", "./fixtures/cli/plugins/index.taco",
+      "--plugin", "[", "foo", "bar", "]"
+    ]);
+
+    var stderr = "";
+    ps.stderr.pipe(concat(function (body) {
+      stderr = body;
+    }));
+
+    ps.on('exit', function (code) {
+      assert.match(stderr, /Invalid plugin configuration/);
+      assert.equal(code, 1);
+      done();
+    });
+
+    ps.stdin.end();
+  });
 });
