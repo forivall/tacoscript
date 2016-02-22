@@ -1,6 +1,6 @@
 {
   "name": "comal-types",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "Extensible module for building & analysing ASTs",
   "author": "Jordan J Klassen <forivall@gmail.com>",
   "homepage": "http://tacoscript.github.io/",
@@ -12,7 +12,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "babel-runtime": "^5.8.35",
-    "comal-traverse": "^0.5.1",
+    "comal-traverse": "^0.5.3",
     "esutils": "^2.0.2",
     "lodash": "^4.2.0",
     "to-fast-properties": "^1.0.1"

@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-iife-with",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "plugin for tacoscript for tacoscript's with-style iife shorthand syntax",
   "repository": {
     "type": "git",
@@ -27,8 +27,8 @@
     "horchata": ">=0.3.1 <1"
   },
   "devDependencies": {
-    "horchata": "^0.5.1",
-    "tacoscript-cst-utils": "^0.5.1"
+    "horchata": "^0.5.3",
+    "tacoscript-cst-utils": "^0.5.3"
   },
   "dependencies": {
     "babel-runtime": "^5.8.35"

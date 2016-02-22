@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-strudel-this-member",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "description": "Tacoscript plugin for @ shorthand for this.",
   "main": "lib/index.js",
   "repository": {
@@ -26,8 +26,8 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "tacoscript": "^0.5.1",
-    "comal-types": "^0.5.1"
+    "tacoscript": "^0.5.3",
+    "comal-types": "^0.5.3"
   },
   "dependencies": {
     "babel-runtime": "^5.8.35"

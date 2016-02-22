@@ -1,6 +1,6 @@
 {
   "name": "tacoscript",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "CLI and API for tacoscript",
   "main": "lib/index.js",
   "bin": {
@@ -35,18 +35,18 @@
     "call-limit": "^1.0.3",
     "camelize": "^1.0.0",
     "chokidar": "^1.4.2",
-    "comal": "^0.5.2",
+    "comal": "^0.5.3",
     "end-of-stream": "^1.1.0",
     "glob": "^7.0.0",
     "glob-pair": "^2.0.0",
-    "horchata": "^0.5.2",
+    "horchata": "^0.5.3",
     "is-glob": "^2.0.1",
     "kebab-case": "^1.0.0",
     "lodash": "^4.3.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "subarg": "^1.0.0",
-    "tacotruck": "^0.5.1",
+    "tacotruck": "^0.5.3",
     "word-wrap": "^1.1.0"
   }
 }
