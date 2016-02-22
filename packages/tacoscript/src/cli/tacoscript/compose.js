@@ -145,7 +145,7 @@ export default function(argv, parentArgs, cb) {
 
     const transformer = compose.createTransform(comalArgs);
 
-    function transform(file, opts, cb) {
+    const transform = function transform(file, opts, cb) {
       compose.execFile(transformer, file, opts, cb);
     }
 
