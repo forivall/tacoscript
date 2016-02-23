@@ -3,3 +3,11 @@ node_js:
   - "node"
 before_script:
   - "npm run bootstrap"
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/20b2aa5b87a098db2a5b
+    on_success: change
+    on_failure: always
+    on_start: never
