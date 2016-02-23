@@ -1,7 +1,7 @@
-<img alt="TacoScript Icon" src="https://rawgit.com/forivall/tacoscript/master/doc/icon.svg" width="42px" align="top"> [TacoScript][TacoScript] [![Build Status](https://travis-ci.org/forivall/tacoscript.svg?branch=master)](https://travis-ci.org/forivall/tacoscript) [![Waffle.io Stories](https://badge.waffle.io/forivall/tacoscript.png?label=ready&title=Waffles)](https://waffle.io/forivall/tacoscript)
+<img alt="TacoScript Icon" src="https://rawgit.com/forivall/tacoscript/master/doc/icon.svg" width="42px" align="top"> [TacoScript][TacoScript]
 ==========
 
-[![Join the chat at https://gitter.im/forivall/tacoscript](https://badges.gitter.im/forivall/tacoscript.svg)](https://gitter.im/forivall/tacoscript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/forivall/tacoscript.svg?branch=master)](https://travis-ci.org/forivall/tacoscript) [![Waffle.io Stories](https://badge.waffle.io/forivall/tacoscript.png?label=ready&title=Waffles)](https://waffle.io/forivall/tacoscript) [![Join the chat at https://gitter.im/forivall/tacoscript](https://badges.gitter.im/forivall/tacoscript.svg)](https://gitter.im/forivall/tacoscript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 An es2015+-isomorphic altjs language, with syntax inspired by CoffeeScript,
 Python, Ruby, and [frappe], and architecture inspired by [Babel].
