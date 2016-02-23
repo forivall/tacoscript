@@ -13,6 +13,7 @@ import usage from "./_usage";
 import usageAdvanced from "./_usageForComalOpts";
 
 import argsWithComalOpts from "./_convertComalOpts";
+import convertPluginOpts from "./_convertPluginOpts";
 import stdin from "./_stdin";
 import stdout from "./_stdout";
 import transformTree from "./_transformTree";
@@ -77,15 +78,8 @@ export default function(argv, parentArgs, cb) {
   const comalArgs = omit(args, [""].concat(nonComalArgs, flatten(map(argConf.alias))));
 
   if (args.plugin) {
-    args.plugin = [].concat(args.plugin); // ensure wrapped in array
     try {
-      comalArgs.plugins = map(args.plugin, (pluginArg) => {
-        if (typeof pluginArg === 'string') {
-          return pluginArg;
-        }
-        if (pluginArg[""].length !== 1) throw new Error("Invalid plugin configuration");
-        return [pluginArg[""][0], omit(pluginArg, "")];
-      });
+      comalArgs.plugins = convertPluginOpts(args.plugin);
     } catch (e) { return cb(e); }
   }
 
