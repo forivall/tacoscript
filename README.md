@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/forivall/tacoscript.png?label=ready&title=Ready)](https://waffle.io/forivall/tacoscript)
 <img alt="TacoScript Icon" src="https://rawgit.com/forivall/tacoscript/master/doc/icon.svg" width="42px" align="top"> [TacoScript][TacoScript] [![Build Status](https://travis-ci.org/forivall/tacoscript.svg?branch=master)](https://travis-ci.org/forivall/tacoscript)
 ==========
 
