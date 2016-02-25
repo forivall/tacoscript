@@ -3,23 +3,46 @@ import fs from "fs";
 import camelize from "camelize";
 import {coreOptions} from "comal";
 import isGlob from "is-glob";
+import cloneDeep from "lodash/cloneDeep";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
 import map from "lodash/map";
 import flatten from "lodash/flatten";
 import subarg from "subarg";
 
-import usage from "./_usage";
-import usageAdvanced from "./_usageForComalOpts";
+import usage from "./usage";
+import usageAdvanced from "./usage/comal";
 
-import argsWithComalOpts from "./_convertComalOpts";
-import convertPluginOpts from "./_convertPluginOpts";
-import stdin from "./_stdin";
-import stdout from "./_stdout";
-import transformTree from "./_transformTree";
-import watchTree from "./_watchTree";
+import commonArgs from "./common-args";
+import argsWithComalOpts from "./convertComalOpts";
+import convertPluginOpts from "./convertPluginOpts";
+import stdin from "./stdin";
+import stdout from "./stdout";
+import transformTree from "./transformTree";
+import watchTree from "./watchTree";
 
 import compose from "../../compose/api";
+
+export default class TransformCli {
+  constructor(defaults = {}) {
+    this.logger = console;
+    this.defaults = defaults;
+    this.opts = cloneDeep(commonArgs);
+    // TODO: collect unknown arguments in a separate object as args to pass to comal
+    // this.opts.unknown;
+  }
+
+  run(argv, cb) {
+
+  }
+
+  parseArgs(argv) {
+    return subarg(argv, {
+      ...this.opts,
+      default: {this.defaults, ...this.opts.default}
+    })
+  }
+}
 
 const nonComalArgs = [
   "debugInternal",

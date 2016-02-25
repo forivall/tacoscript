@@ -5,17 +5,11 @@ import usage from "./_usage";
 
 import omit from "lodash/omit";
 
+import baseArgs from "./base-args";
+
 export default function(argv, processExit) {
   const args = minimist(argv, {
-    boolean: ["debug-internal", "version", "versions", "verbose", "quiet"],
-    alias: {
-      "debug-internal": ["D"],
-      "help": ["h"],
-      "version": ["V"],
-      "versions": ["VV"],
-      "verbose": ["v"],
-      "quiet": ["q"],
-    },
+    ...baseArgs,
     // The first non-option argument is the subcommand:
     stopEarly: true
   });
@@ -40,12 +34,12 @@ export default function(argv, processExit) {
   }
 
   if (args.version) {
-    console.log(require("../../../package.json").version);
+    console.log(require("../../package.json").version);
     return;
   }
 
   if (args.versions) {
-    return require("./version")([], {}, exit);
+    return require("./commands/version")([], {}, exit);
   }
 
   // launch repl by default
@@ -61,10 +55,10 @@ export default function(argv, processExit) {
 
   let subcommandFn;
   try {
-    subcommandFn = require("./" + subcommand);
+    subcommandFn = require("./commands/" + subcommand);
     if (subcommandFn.__esModule) subcommandFn = subcommandFn.default;
   } catch (e) {
-    if (e.code === "MODULE_NOT_FOUND" && e.message === `Cannot find module './${subcommand}'`) {
+    if (e.code === "MODULE_NOT_FOUND" && e.message === `Cannot find module './commands/${subcommand}'`) {
       console.warn(`Unknown command '${subcommand}'\n`);
       forcedError = true;
       return usage(false, exit);
