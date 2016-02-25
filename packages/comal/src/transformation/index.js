@@ -56,13 +56,14 @@ export default class Transformation {
     this.log  = new Logger(opts);
     this.opts = this.initOptions(meta, opts, context);
 
+    // always create parser opts so that plugins don't have to special case
+    this.parserOpts = isFunction(meta.parserOpts)
+      ? meta.parserOpts(this.opts, this, context)
+      : meta.parserOpts != null ? {...meta.parserOpts}
+      : {};
+
     if (meta.parse) {
       this.parser = meta.parser;
-
-      this.parserOpts = isFunction(meta.parserOpts)
-        ? meta.parserOpts(this.opts, this, context)
-        : {...meta.parserOpts};
-
     } else this.parser = false;
 
     if (meta.generate) {

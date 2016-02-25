@@ -86,7 +86,7 @@ export default class Api {
       if (err) {
         callback(err);
       } else {
-        callback(null, result);
+        callback(null, result, code);
       }
     });
   }

@@ -49,5 +49,9 @@
     "subarg": "^1.0.0",
     "tacotruck": "^0.5.3",
     "word-wrap": "^1.1.0"
+  },
+  "optionalDependencies": {
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0"
   }
 }
