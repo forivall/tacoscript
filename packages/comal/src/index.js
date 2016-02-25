@@ -2,6 +2,10 @@
 export { default as File } from "./file";
 export { default as coreOptions } from "./options/core-config";
 export { default as fileOptions } from "./options/file-config";
+
+export { default as babylonOptions } from "./options/babylon-config";
+export { default as babelGeneratorOptions } from "./options/babel-generator-config";
+
 export { default as template } from "babel-template";
 export { version } from "../package.json";
 

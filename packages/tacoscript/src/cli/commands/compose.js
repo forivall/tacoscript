@@ -2,6 +2,10 @@ import TransformCli from "../transform";
 
 import compose from "../../compose/api";
 
+export default function(defaults, argv, cb) {
+  return new ComposeCli(defaults).run(argv, cb);
+}
+
 class ComposeCli extends TransformCli {
   constructor(defaults) {
     super(defaults);
@@ -22,8 +26,4 @@ class ComposeCli extends TransformCli {
   transformFile(file, opts, cb) {
     compose.execFile(this.transformer, file, opts, cb);
   }
-}
-
-export default function(defaults, argv, cb) {
-  return new ComposeCli(defaults).run(argv, cb);
 }
