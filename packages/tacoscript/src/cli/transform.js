@@ -14,7 +14,7 @@ import subarg from "subarg";
 import usage from "./usage";
 import usageAdvanced from "./usage/comal";
 
-import commonArgs from "./common-args";
+import baseArgs from "./base-args";
 import argsWithComalOpts from "./convertComalOpts";
 import convertPluginOpts from "./convertPluginOpts";
 import stdin from "./stdin";
@@ -27,7 +27,7 @@ export default class TransformCli {
     this.name = "unknown";
     this.logger = console;
     this.defaults = omit(defaults, "_");
-    this.opts = cloneDeep(commonArgs);
+    this.opts = cloneDeep(baseArgs);
     // TODO: collect unknown arguments in a separate object as args to pass to comal
     // this.opts.unknown;
 
@@ -69,7 +69,7 @@ export default class TransformCli {
       ...this.opts,
       default: {...this.defaults, ...this.opts.default},
       unknown: (arg) => {
-        const match = /^--([^=]+)=/.match(arg) || /^--(?:no-)(.+)/.match(arg);
+        const match = /^--([^=]+)=/.exec(arg) || /^--(?:no-)(.+)/.exec(arg);
         if (match) comalUnknownOptionNames.push(match[1]);
       }
     }));
@@ -166,9 +166,9 @@ export default class TransformCli {
 
     // TODO: move watch and transform into this class
     if (args.watch) {
-      watchTree(this.transform.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
+      watchTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
     } else {
-      transformTree(this.transform.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
+      transformTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
     }
   }
 }

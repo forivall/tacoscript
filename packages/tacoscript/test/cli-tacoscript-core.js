@@ -7,11 +7,11 @@ var sourceMap = require("source-map");
 
 var assert = require("chai").assert;
 
-var cli = require("../lib/cli/tacoscript");
-
 function testRun(args, exitCode, err) {
   if (exitCode == null) exitCode = 0;
   return function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [

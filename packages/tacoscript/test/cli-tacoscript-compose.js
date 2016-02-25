@@ -9,8 +9,6 @@ var sourceMap = require("source-map");
 
 var assert = require("chai").assert;
 
-var cli = require("../lib/cli/tacoscript");
-
 var temp = require("temp");
 temp.track();
 
@@ -38,6 +36,8 @@ suite("cli", function () {
   });
 
   test("stdin - stdout", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [
@@ -72,6 +72,8 @@ suite("cli", function () {
   });
 
   test("stdin - fileout", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var outfile = path.join(tempdir, "console-log.js");
@@ -110,6 +112,8 @@ suite("cli", function () {
   });
 
   test("filein - stdout", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [
@@ -142,6 +146,8 @@ suite("cli", function () {
   });
 
   test("filein - fileout", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var outfile = path.join(tempdir, "console-log-2.js");
@@ -178,6 +184,8 @@ suite("cli", function () {
   });
 
   test("filein - stdout: plugin", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [
@@ -211,6 +219,8 @@ suite("cli", function () {
   });
 
   test("filein - stdout: plugin with options", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [
@@ -244,6 +254,8 @@ suite("cli", function () {
   });
 
   test("filein - stdout: bad plugin options", function(done) {
+    this.timeout(5000);
+
     process.chdir(__dirname);
 
     var ps = spawn(process.execPath, [

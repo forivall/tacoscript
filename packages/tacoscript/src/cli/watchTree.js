@@ -2,9 +2,9 @@ import limit from "call-limit";
 import chokidar from "chokidar";
 import {dest as globDest} from "glob-pair";
 import minimatch from "minimatch";
-import {toErrorStack, mkdirpWriteFile} from "./_util"
+import {toErrorStack, mkdirpWriteFile} from "./util"
 
-import {CONCURRENT_LIMIT} from "./_constants";
+import {CONCURRENT_LIMIT} from "./constants";
 
 export default function (transform, files, opts/*, cb*/) {
   // TODO: only allow copy if src/dest are distinct

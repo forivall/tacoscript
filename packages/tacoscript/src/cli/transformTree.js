@@ -4,8 +4,8 @@ import limit from "call-limit";
 import {walk as globPair} from "glob-pair";
 import minimatch from "minimatch";
 
-import {CONCURRENT_LIMIT} from "./_constants";
-import {toErrorStack, mkdirpWriteFile} from "./_util";
+import {CONCURRENT_LIMIT} from "./constants";
+import {toErrorStack, mkdirpWriteFile} from "./util";
 
 export default function (transform, files, opts, cb) {
   // TODO: only allow copy if src/dest are distinct

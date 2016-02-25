@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import minimist from "minimist";
-import usage from "./_usage";
+import usage from "./usage";
 
 import omit from "lodash/omit";
 

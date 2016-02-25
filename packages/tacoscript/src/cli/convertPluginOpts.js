@@ -1,6 +1,7 @@
 
 import map from "lodash/map";
 import omit from "lodash/omit";
+import camelize from "camelize";
 
 export default function convertPluginOpts(opts) {
   opts = [].concat(opts); // ensure wrapped in array
@@ -8,7 +9,7 @@ export default function convertPluginOpts(opts) {
     if (typeof pluginArg === 'string') {
       return pluginArg;
     }
-    if (pluginArg[""].length !== 1) throw new Error("Invalid plugin configuration");
-    return [pluginArg[""][0], omit(pluginArg, "")];
+    if (pluginArg._.length !== 1) throw new Error("Invalid plugin configuration");
+    return [pluginArg._[0], camelize(omit(pluginArg, "_"))];
   });
 }
