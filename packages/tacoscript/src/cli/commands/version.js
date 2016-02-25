@@ -1,5 +1,5 @@
 
-export default function(args, parentArgs, cb) {
+export default function(defaults, args, cb) {
   var v = {}
 
   for (let p of ['../../..', 'horchata', 'comal', 'tacotruck', 'babel-generator', 'babylon']) {

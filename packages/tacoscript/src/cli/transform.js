@@ -1,13 +1,14 @@
 import fs from "fs";
 
 import camelize from "camelize";
-import {coreOptions} from "comal";
+import {coreOptions as comalCoreOptions} from "comal";
+const comalCoreOptionNames = Object.keys(comalCoreOptions);
 import isGlob from "is-glob";
 import cloneDeep from "lodash/cloneDeep";
 import includes from "lodash/includes";
 import omit from "lodash/omit";
 import map from "lodash/map";
-import flatten from "lodash/flatten";
+import pick from "lodash/pick";
 import subarg from "subarg";
 
 import usage from "./usage";
@@ -21,122 +22,125 @@ import stdout from "./stdout";
 import transformTree from "./transformTree";
 import watchTree from "./watchTree";
 
-import compose from "../../compose/api";
-
 export default class TransformCli {
   constructor(defaults = {}) {
+    this.name = "unknown";
     this.logger = console;
-    this.defaults = defaults;
+    this.defaults = omit(defaults, "_");
     this.opts = cloneDeep(commonArgs);
     // TODO: collect unknown arguments in a separate object as args to pass to comal
     // this.opts.unknown;
+
+    this.opts.boolean.push("watch", "quiet", "verbose", "serial");
+    this.opts.string.push("outfile", "extensions");
+    this.opts.alias["outfile"] = ["o"];
+    this.opts.alias["watch"] = ["w"];
+    this.opts.alias["extensions"] = ["x"];
+    this.opts.alias["plugin"] = ["p"];
+    this.opts.alias["generator"] = ["g"];
+    this.args = {}
   }
 
-  run(argv, cb) {
+  transformSync(code, opts) {
+    // This method should be overridden by a subclass or instance
+    return {code: code, opts: opts};
+  }
 
+  prepare() {
+    // This method should be overridden by a subclass or instance
+  }
+
+  transformFile(file, opts, cb) {
+    // This method should be overridden by a subclass or instance
+    fs.readFile(file, opts, cb);
+  }
+
+  debug(...args) {
+    if (this.args.verbose) this.logger.warn(...args);
+  }
+
+  log(...args) {
+    if (!this.args.quiet) this.logger.log(...args);
   }
 
   parseArgs(argv) {
-    return subarg(argv, {
+    const comalUnknownOptionNames = [];
+    const args = this.args = subarg(argv, argsWithComalOpts(comalCoreOptions, {
       ...this.opts,
-      default: {this.defaults, ...this.opts.default}
-    })
+      default: {...this.defaults, ...this.opts.default},
+      unknown: (arg) => {
+        const match = /^--([^=]+)=/.match(arg) || /^--(?:no-)(.+)/.match(arg);
+        if (match) comalUnknownOptionNames.push(match[1]);
+      }
+    }));
+    this.comalOpts = camelize(pick(args, comalCoreOptionNames, comalUnknownOptionNames));
   }
-}
 
-const nonComalArgs = [
-  "debugInternal",
-  "help",
-  "version",
-  "versions",
-  "verbose",
-  "quiet",
-
-  "outfile",
-  "watch",
-  "extensions",
-  "plugin",
-  "generator",
-  "serial",
-
-  "dir", "noDotfiles"
-]
-
-export default function(argv, parentArgs, cb) {
-  if (includes(argv, "--help") || includes(argv, "-h")) {
-    if (subarg(argv, {alias: {"help": ["h"]}}).help === "advanced") {
-      return usageAdvanced(coreOptions, cb);
-    } else {
-      return usage("compose", cb);
+  run(argv, cb) {
+    if (includes(argv, "--help") || includes(argv, "-h")) {
+      if (subarg(argv, {alias: {"help": ["h"]}}).help === "advanced") {
+        return usageAdvanced(comalCoreOptions, cb);
+      } else {
+        return usage(this.name, cb);
+      }
     }
-  }
 
-  let argConf = argsWithComalOpts(coreOptions, {
-    boolean: ["watch", "quiet", "no-dotfiles", "verbose", "serial"],
-    string: ["outfile", "extensions"],
-    default: {extensions: ".taco,.tacos,.tacoscript", ...omit(parentArgs, "_")},
-    alias: {
-      "debug-internal": ["D"],
-      "help": ["h"],
-      "version": ["V"],
-      "versions": ["VV"],
-      "verbose": ["v"],
-      "quiet": ["q"],
+    this.parseArgs(argv);
+    const args = this.args;
 
-      "outfile": ["o"],
-      "watch": ["w"],
-      "extensions": ["x"],
-      "plugin": ["p"],
-      "generator": ["g"],
+    // normalize input arguments
+    this.infiles = args._;
+    const useStdin = this.infiles.length === 0;
+
+    // normalize output arguments
+    this.outfiles = args.outfile == null ? [] : [].concat(args.outfile);
+    const useStdout = this.outfiles.length === 0;
+
+    // normalize arguments to pass to a comal api
+    const comalOpts = this.comalOpts;
+
+    if (args.plugin) {
+      try { comalOpts.plugins = convertPluginOpts(args.plugin) }
+      catch (e) { return cb(e); }
     }
-  });
 
-  const args = camelize(subarg(argv, argConf));
+    if (args.extensions && !useStdin) {
+      comalOpts.only = (comalOpts.only ? comalOpts.only + "," : "") +
+        map(args.extensions.split(","), (e) => "*" + e).join(",");
+    }
 
-  // camelize converts "_" to ""
-  const infiles = args[""];
-  const useStdin = infiles.length === 0;
+    this.debug("will convert", useStdin ? '<stdin>' : this.infiles, "to", useStdout ? '<stdout>' : this.outfiles);
 
-  // remove arguments that shouldn't be passed into comal
-  const comalArgs = omit(args, [""].concat(nonComalArgs, flatten(map(argConf.alias))));
-
-  if (args.plugin) {
-    try {
-      comalArgs.plugins = convertPluginOpts(args.plugin);
-    } catch (e) { return cb(e); }
+    if (useStdin || useStdout) {
+      return this.runStdio(cb);
+    }
+    return this.runFiles(cb);
   }
 
-  if (args.extensions && !useStdin) {
-    comalArgs.only = (comalArgs.only ? comalArgs.only + "," : "") + map(args.extensions.split(","), (e) => "*" + e).join(",");
-  }
+  runStdio(cb) {
+    const args = this.args;
 
-  const outfiles = args.outfile == null ? [] : [].concat(args.outfile);
-  const useStdout = outfiles.length === 0;
+    if (args.watch) return cb(new Error("Cannot use watch with stdio"));
 
-  if (args.verbose) console.warn("will convert", useStdin ? '<stdin>' : infiles, "to", useStdout ? '<stdout>' : outfiles);
-
-  // match up inputs to outputs
-
-  if (useStdin || useStdout) {
-    //////// TRANSFORM ONE ////////
-
-    if (args.watch) return cb(new Error("Cannot use watch with stdin or stdout"));
+    const useStdin = this.infiles.length === 0;
+    const useStdout = this.outfiles.length === 0;
 
     if (useStdin) {
       // TODO: error if sourcemaps is true, i.e. is requested as a separate file.
     }
-    if (useStdout && !useStdin && (infiles.length > 1 || isGlob(infiles[0]))) {
+    if (useStdout && !useStdin && (this.infiles.length > 1 || isGlob(this.infiles[0]))) {
       return cb(new Error("Cannot use more than one input file with stdout"));
     }
-    if (useStdin && !useStdout && infiles.length > 1) {
+    if (useStdin && !useStdout && this.infiles.length > 1) {
       return cb(new Error("Cannot write to more than one output file with stdin"));
     }
 
-    const read = useStdin ? stdin : (cb) => { fs.readFile(infiles[0], 'utf8', cb) };
-    const write = useStdout ? stdout : (data, cb) => { fs.writeFile(outfiles[0], data, 'utf8', cb); };
+    // do the work
+    const read = useStdin ? stdin : (cb) => { fs.readFile(this.infiles[0], 'utf8', cb) };
+    const write = useStdout ? stdout : (data, cb) => { fs.writeFile(this.outfiles[0], data, 'utf8', cb); };
 
-    if (!useStdin && !comalArgs.filename) {
-      comalArgs.filename = infiles[0];
+    if (!useStdin && !this.comalOpts.filename) {
+      this.comalOpts.filename = this.infiles[0];
     }
 
     read((err, data) => {
@@ -147,26 +151,24 @@ export default function(argv, parentArgs, cb) {
         return cb(err)
       }
 
-      write(compose.transform(data, comalArgs).code, cb);
+      write(this.transformSync(data, this.comalOpts).code, cb);
     });
+  }
 
-  } else {
-    //////// TRANSFORM MANY ////////
+  runFiles(cb) {
+    const args = this.args;
 
-    if (outfiles.length !== 1 && outfiles.length !== infiles.length) {
+    if (this.outfiles.length !== 1 && this.outfiles.length !== this.infiles.length) {
       return cb(new Error("Number of input files must equal number of output files, or output to a directory"));
     }
 
-    const transformer = compose.createTransform(comalArgs);
+    this.prepare();
 
-    const transformFile = function transformFile(file, opts, cb) {
-      compose.execFile(transformer, file, opts, cb);
-    }
-
+    // TODO: move watch and transform into this class
     if (args.watch) {
-      watchTree(transformFile, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
+      watchTree(this.transform.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
     } else {
-      transformTree(transformFile, {src: infiles, dest: outfiles, destExt: ".js"}, {args, only: comalArgs.only}, cb);
+      transformTree(this.transform.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
     }
   }
 }

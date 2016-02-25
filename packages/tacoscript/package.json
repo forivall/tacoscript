@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/forivall/tacoscript#readme",
   "scripts": {
-    "pretest": "pplink ../tacoscript-strudel-this-member ./test/fixtures/cli/plugins"
+    "pretest": "pplink ../tacoscript-strudel-this-member ./test/fixtures/cli/plugins",
+    "test": "mocha"
   },
   "dependencies": {
     "asyncaphore": "^1.0.0",

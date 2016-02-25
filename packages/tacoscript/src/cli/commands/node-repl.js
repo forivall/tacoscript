@@ -1,4 +1,4 @@
-export default function(args, parentArgs, cb) {
-  console.log("node-repl called with args", args, parentArgs);
+export default function(defaults, args, cb) {
+  console.log("node-repl called with args", args, defaults);
   cb();
 }

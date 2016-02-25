@@ -39,7 +39,7 @@ export default function(argv, processExit) {
   }
 
   if (args.versions) {
-    return require("./commands/version")([], {}, exit);
+    return require("./commands/version")({}, [], exit);
   }
 
   // launch repl by default
@@ -66,5 +66,5 @@ export default function(argv, processExit) {
     else throw e;
   }
 
-  return subcommandFn(args._.slice(1), omit(args, "_"), exit);
+  return subcommandFn(omit(args, "_"), args._.slice(1), exit);
 }

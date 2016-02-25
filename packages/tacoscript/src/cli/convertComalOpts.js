@@ -18,8 +18,10 @@ export default function(optConfig, argConf, extra = {}) {
         if (extra.default) argConf.default[optNameKebab] = false;
     }
 
-    if (extra.default && "default" in optConf) {
-      argConf.default[optNameKebab] = optConf.default;
+    if ("default" in optConf) {
+      if (extra.alwaysDefault || (optConf.type === "boolean" && optConf.default === true)) {
+        argConf.default[optNameKebab] = optConf.default;
+      }
     }
 
     if ("shorthand" in optConf) {
