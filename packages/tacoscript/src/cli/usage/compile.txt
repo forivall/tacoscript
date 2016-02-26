@@ -1,6 +1,7 @@
-Usage: tacoscript compose [options] <files and/or directories ...>
+Usage: tacoscript compile [options] <files and/or directories ...>
 
-Convert TacoScript into modern JavaScript (ES2015 / ES6)
+Convert TacoScript into ES5 JavaScript via Babel transformations.
+Formatting is not preserved
 
 Standard Options:
 
@@ -20,8 +21,6 @@ Standard Options:
 
      --plugin, -p  Use a transform module on top-level files.
 
-  --generate, -g  Use an alternate generator when generating code.
-
 --source-maps, -s  Enable source maps that allow you to debug your files
                    separately. [true, false, inline]
 
@@ -31,4 +30,4 @@ Standard Options:
 
        --help, -h  Show this message
 
-For advanced options, use `tacoscript compose --help advanced`
+For advanced options, use `tacoscript compile --help advanced`

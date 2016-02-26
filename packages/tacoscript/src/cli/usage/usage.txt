@@ -1,6 +1,6 @@
 Usage: tacoscript [options] [SUBCOMMAND]
 
-When specified with no arguments, `node-repl` is loaded.
+When specified with no arguments, `node` is run in interactive shell mode.
 
 Options:
 
@@ -13,8 +13,10 @@ Options:
 
 Subcommands:
 
-          compose  transform tacoscript into javascript
+          compose  Transform tacoscript into javascript
 
-        transpose  transform javascript into tacoscript
+        transpose  Transform javascript into tacoscript
 
-        node-repl  run an interactive tacoscript REPL (read-eval-print-loop)
+          compile  Transform tacoscript into es5 compatible javascript via babel transforms
+
+             node  Run tacoscript in node, from a file or in an interactive shell

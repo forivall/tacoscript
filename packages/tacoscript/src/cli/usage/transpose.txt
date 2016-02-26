@@ -1,5 +1,7 @@
 Usage: tacoscript transpose [options] <files,directories ...>
 
+Convert JavaScript into TacoScript
+
 Standard Options:
 
     --outfile, -o  Write the compiled file(s) to this file / directory.
@@ -10,7 +12,7 @@ Standard Options:
      --ignore, -i  Skip a file during processing. Files can be globs.
 
  --extensions, -x  Specify what file extensions should be processed.
-                   (default: .taco, .tacos, .tacoscript)
+                   (default: .js, .es, .es6)
 
            --only  Limit processing to only files that match a glob.
 
@@ -21,7 +23,7 @@ Standard Options:
 --source-maps, -s  Enable source maps that allow you to debug your files
                    separately. [true, false, inline]
 
-      --quiet, -q  Avoid printing messages to the log
+      --quiet, -q  Avoid printing messages
 
     --no-dotfiles  Toggle usage of .tacorc and .tacoignore files
 
