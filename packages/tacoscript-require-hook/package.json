@@ -2,18 +2,21 @@
   "name": "tacoscript-require-hook",
   "version": "0.5.3",
   "description": "TacoScript require hook. BEWARE: PIRATES",
-  "author": "Jordan J Klassen <forivall@gmail.com>",
-  "homepage": "http://tacoscript.github.io/",
-  "license": "MIT",
-  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-require-hook",
-  "main": "lib/index.js",
-  "browsers": "lib/browser.js",
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "tacoscript"
   ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-require-hook",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "license": "MIT",
+  "author": "Jordan J Klassen <forivall@gmail.com>",
+  "main": "lib/index.js",
+  "browser": "lib/browser.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "test": "mocha"
   },

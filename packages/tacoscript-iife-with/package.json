@@ -2,35 +2,33 @@
   "name": "tacoscript-iife-with",
   "version": "0.5.3",
   "description": "plugin for tacoscript for tacoscript's with-style iife shorthand syntax",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "tacoscript",
     "tacoscript-plugin",
     "horchata-plugin"
   ],
-  "author": "Jordan Klassen <forivall@gmail.com>",
-  "license": "ISC",
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-iife-with",
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "license": "ISC",
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "main": "lib/index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "test": "mocha"
   },
-  "peerDependencies": {
-    "horchata": ">=0.3.1 <1"
+  "dependencies": {
+    "babel-runtime": "^5.8.35"
   },
   "devDependencies": {
     "horchata": "^0.5.3",
     "tacoscript-cst-utils": "^0.5.3"
   },
-  "dependencies": {
-    "babel-runtime": "^5.8.35"
+  "peerDependencies": {
+    "horchata": ">=0.3.1 <1"
   }
 }

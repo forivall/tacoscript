@@ -2,34 +2,31 @@
   "name": "tacoscript-strudel-this-member",
   "version": "0.5.3",
   "description": "Tacoscript plugin for @ shorthand for this.",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "tacoscript",
     "tacoscript-plugin",
     "horchata-plugin"
   ],
-  "author": "Jordan Klassen <forivall@gmail.com>",
-  "license": "ISC",
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-strudel-this-member",
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "license": "ISC",
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "main": "lib/index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "pretest": "pplink . test/fixtures/e2e",
     "test": "mocha"
   },
+  "dependencies": {
+    "babel-runtime": "^5.8.35"
+  },
   "devDependencies": {
     "tacoscript": "^0.5.3",
     "comal-types": "^0.5.3"
-  },
-  "dependencies": {
-    "babel-runtime": "^5.8.35"
   }
 }

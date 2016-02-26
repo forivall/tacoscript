@@ -1,8 +1,21 @@
 {
   "name": "tacoscript-dev-utils",
-  "private": true,
+  "description": "tacoscript-dev-utils",
+  "keywords": [
+    "tacoscript"
+  ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-dev-utils",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "main": "index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "dependencies": {
     "babel-code-frame": "^6.5.0",
     "babel-runtime": "^5.8.35"
-  }
+  },
+  "private": true
 }

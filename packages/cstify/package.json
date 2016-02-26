@@ -2,25 +2,25 @@
   "name": "cstify",
   "version": "0.5.3",
   "description": "Adds cst elements to an ast",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
+  "keywords": [
+    "tacoscript"
+  ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/cstify",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
   },
+  "license": "ISC",
+  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
+  "contributors": [
+    "Richard Gibson (https://twitter.com/gibson042)"
+  ],
+  "main": "lib/index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
   "scripts": {
     "test": "mocha"
-  },
-  "keywords": [],
-  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
-  "contributors": [
-    "Richard Gibson (https://twitter.com/gibson042)"
-  ],
-  "license": "ISC",
-  "devDependencies": {
-    "babylon": "^6.3.26"
   },
   "dependencies": {
     "babel-runtime": "^5.8.35",
@@ -28,5 +28,8 @@
     "babel-types": "^6.3.24",
     "heapjs": "^1.0.4",
     "tacoscript-cst-utils": "^0.5.3"
+  },
+  "devDependencies": {
+    "babylon": "^6.3.26"
   }
 }

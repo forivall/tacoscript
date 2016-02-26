@@ -2,29 +2,26 @@
   "name": "tacotruck",
   "version": "0.5.3",
   "description": "Generator for tacoscript",
-  "main": "lib/index.js",
-  "bin": {
-    "tacoscript-generate": "bin/tacoscript-generate.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "tacoscript",
     "decompiler",
     "code-generator",
     "esgenerate"
   ],
-  "author": "Jordan Klassen <forivall@gmail.com>",
-  "license": "ISC",
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacotruck",
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "homepage": "https://github.com/forivall/tacoscript#readme",
+  "license": "ISC",
+  "author": "Jordan Klassen <forivall@gmail.com>",
+  "main": "lib/index.js",
+  "bin": {
+    "tacoscript-generate": "bin/tacoscript-generate.js"
+  },
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "test": "mocha"
   },

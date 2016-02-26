@@ -2,21 +2,25 @@
   "name": "tacoscript-cst-utils",
   "version": "0.5.3",
   "description": "Adds cst elements to an ast",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
   "keywords": [
     "cst",
     "tacoscript",
     "babylon"
   ],
-  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-cst-utils",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
   "license": "ISC",
+  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com/)",
+  "main": "lib/index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "babel-runtime": "^5.8.35"
   }

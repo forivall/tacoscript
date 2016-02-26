@@ -2,28 +2,25 @@
   "name": "tacoscript",
   "version": "0.5.3",
   "description": "CLI and API for tacoscript",
+  "keywords": [
+    "tacoscript",
+    "altjs"
+  ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "license": "ISC",
+  "author": "Jordan Klassen <forivall@gmail.com>",
   "main": "lib/index.js",
   "bin": {
     "tacoscript": "./bin/tacoscript.js",
     "taco": "./bin/tacoscript.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
+  "repository": "git://github.com/forivall/tacoscript.git",
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
-  "keywords": [
-    "tacoscript",
-    "altjs"
-  ],
-  "author": "Jordan Klassen <forivall@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/forivall/tacoscript/issues"
-  },
-  "homepage": "https://github.com/forivall/tacoscript#readme",
   "scripts": {
     "pretest": "pplink ../tacoscript-strudel-this-member ./test/fixtures/cli/plugins",
     "test": "mocha"

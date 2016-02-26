@@ -2,22 +2,23 @@
   "name": "comal",
   "version": "0.5.3",
   "description": "TacoScript transformation core",
-  "author": "Jordan J Klassen <forivall@gmail.com>",
-  "homepage": "http://tacoscript.github.io/",
-  "license": "MIT",
-  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/comal",
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "tacoscript"
   ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/comal",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "license": "MIT",
+  "author": "Jordan J Klassen <forivall@gmail.com>",
+  "main": "index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "pretest": "cd test && npm ls 2>/dev/null >/dev/null || npm install",
     "test": "mocha"
-  },
-  "devDependencies": {
-    "babylon": "^6.4.5"
   },
   "dependencies": {
     "babel-code-frame": "^6.3.13",
@@ -38,5 +39,8 @@
     "shebang-regex": "^2.0.0",
     "slash": "^1.0.0",
     "source-map": "^0.5.0"
+  },
+  "devDependencies": {
+    "babylon": "^6.4.5"
   }
 }

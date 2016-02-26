@@ -2,21 +2,23 @@
   "name": "horchata",
   "version": "0.5.3",
   "description": "horchata",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/forivall/tacoscript.git"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
-  "author": "Jordan Klassen <forivall@gmail.com>",
-  "license": "ISC",
+  "keywords": [
+    "tacoscript"
+  ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/horchata",
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "homepage": "https://github.com/forivall/tacoscript#readme",
-  "bin": "bin/horchata.js",
+  "license": "ISC",
+  "author": "Jordan Klassen <forivall@gmail.com>",
   "main": "lib/index.js",
+  "bin": {
+    "horchata": "bin/horchata.js"
+  },
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "scripts": {
     "test": "mocha"
   },
