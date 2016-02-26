@@ -1,11 +1,11 @@
 {
-  "name": "tacoscript-register",
+  "name": "tacoscript-require-hook",
   "version": "0.5.3",
   "description": "TacoScript require hook. BEWARE: PIRATES",
   "author": "Jordan J Klassen <forivall@gmail.com>",
   "homepage": "http://tacoscript.github.io/",
   "license": "MIT",
-  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-register",
+  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-require-hook",
   "main": "lib/index.js",
   "browsers": "lib/browser.js",
   "publishConfig": {

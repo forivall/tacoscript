@@ -9,7 +9,7 @@ import {compose, compile} from "tacoscript";
 let count = 0;
 let revert, transformer, compiler;
 
-export default function register() {
+export function enable() {
   count++;
   if (count > 1) return;
 
@@ -23,20 +23,20 @@ export default function register() {
     compact: true
   });
 
-  revert = pirates.addHook(compileHook, {
+  revert = pirates.addHook(hook, {
     exts: ['.taco', '.tacos', '.tacoscript']
     // TODO: matcher, filter on `only` and `ignore`
   });
 }
 
-export function unregister() {
+export function disable() {
   count--;
   if (count > 0) return;
   revert();
   compiler = transformer = null;
 }
 
-function compileHook(code, filename) {
+function hook(code, filename) {
   const results = compose.exec(transformer, code, {filename});
   return compile.execFromAst(compiler, results.ast, code, {filename}).code;
 }
