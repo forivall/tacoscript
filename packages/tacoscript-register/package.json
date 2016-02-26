@@ -1,0 +1,26 @@
+{
+  "name": "tacoscript-register",
+  "version": "0.5.3",
+  "description": "TacoScript require hook. BEWARE: PIRATES",
+  "author": "Jordan J Klassen <forivall@gmail.com>",
+  "homepage": "http://tacoscript.github.io/",
+  "license": "MIT",
+  "repository": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-register",
+  "main": "lib/index.js",
+  "browsers": "lib/browser.js",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "keywords": [
+    "tacoscript"
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "pirates": "^2.1.1",
+    "tacoscript": "^0.5.3"
+  }
+}

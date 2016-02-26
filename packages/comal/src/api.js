@@ -40,6 +40,7 @@ export default class Api {
 
     this.createTransform = pipeline.createTransform.bind(pipeline);
     this.exec = pipeline.exec.bind(pipeline);
+    this.execFromAst = pipeline.execFromAst.bind(pipeline);
   }
 
   transformFile(filename: string, opts?: Object, callback: Function) {

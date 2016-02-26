@@ -23,6 +23,7 @@ class CompileCli extends TransformCli {
     // TODO: preserve sourcemap, etc.
     let composeResults = compose.transform(code, opts)
     // TODO: retrieve options from cli
+    // TODO: only define this config if there's no .babelrc or babel section in package.json
     return compile.transformFromAst(composeResults.ast, code, {
       presets: [babelPresetEs2015, babelPresetStage0],
       compact: true
