@@ -3,9 +3,11 @@ var fs = require('fs');
 
 var pkg = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 
+var VERSION = fs.readFileSync(__dirname + "/../VERSION", 'utf8');
+
 var newpkg = {
   "name": pkg.name,
-  "version": pkg.version,
+  "version": pkg.version || VERSION,
   "description": pkg.description || pkg.name,
   "keywords": pkg.keywords && pkg.keywords.indexOf("tacoscript") >= 0 ? pkg.keywords : ["tacoscript"].concat(pkg.keywords || []),
   "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/" + pkg.name,

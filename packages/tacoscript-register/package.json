@@ -1,0 +1,22 @@
+{
+  "name": "tacoscript-register",
+  "version": "0.5.3",
+  "description": "Load tacoscript-require-hook. BEWARE: PIRATES",
+  "keywords": [
+    "tacoscript"
+  ],
+  "homepage": "https://github.com/forivall/tacoscript/tree/master/packages/tacoscript-register",
+  "bugs": {
+    "url": "https://github.com/forivall/tacoscript/issues"
+  },
+  "license": "MIT",
+  "author": "Jordan J Klassen <forivall@gmail.com> (http://forivall.com)",
+  "main": "lib/index.js",
+  "repository": "git://github.com/forivall/tacoscript.git",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "dependencies": {
+    "tacoscript-require-hook": "^0.5.3"
+  }
+}
