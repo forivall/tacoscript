@@ -23,6 +23,9 @@ export default function(argv, processExit) {
     }
     if (forcedError) processExit(1);
     else setImmediate(function() {
+      if (typeof e === "number") {
+        return processExit(e !== 0 ? e : forcedError ? 1 : 0);
+      }
       processExit(e ? (typeof e.code === "number" ? e.code : 1) : forcedError ? 1 : 0);
     });
   }
