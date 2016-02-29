@@ -50,12 +50,6 @@ export default function(argv, processExit) {
 
   const subcommand = args._[0];
 
-  if (subcommand === "index" || subcommand[0] === "_") {
-    console.warn("Unknown command\n");
-    forcedError = true;
-    return usage(false, exit);
-  }
-
   let subcommandFn;
   try {
     subcommandFn = require("./commands/" + subcommand);
