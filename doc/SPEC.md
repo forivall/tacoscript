@@ -176,18 +176,18 @@ optionally turned off/on. Features with links to github issues are generally in
 progress.
 
 #### Phase 1 (March 2016) - Proof of Concept / Core features
-* [ ] `@` ↔ `this.` ([frappe]) #13
-* [ ] extended assign - `or=`, `and=` #14
-* [ ] "sharp" non-double arrows, multiline sharp arrow functions #15
-* [ ] Function calls without parentheses, with the `!` operator #16
+* [ ] `@` ↔ `this.` ([frappe]) [#13]
+* [ ] extended assign - `or=`, `and=` [#14]
+* [ ] "sharp" non-double arrows, multiline sharp arrow functions [#15]
+* [ ] Function calls without parentheses, with the `!` operator [#16]
   * `fs.readFile! "package.json", (err, data) ->`
-* [ ] Function calls without parentheses, without `!` operator, only when in statement position #17
+* [ ] Function calls without parentheses, without `!` operator, only when in statement position [#17]
 
 #### Phase 1.5 -
-* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md) #18
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md) [#18]
 
 #### Phase 2 - A "Useful" language
-* [ ] IIFE syntax #19
+* [ ] IIFE syntax [#19]
   `(function(a, b, c){})(d, e, c)` ↔ `with {a: d, b: e, c}`  
   `(function*(a, b, c){})(d, e, c)` ↔ `with* {a: d, b: e, c}`  
   `(async function(a, b, c){})(d, e, c)` ↔ `with+ {a: d, b: e, c}`  
@@ -420,3 +420,11 @@ TODO: determine an encoding for unexpected spacing around tokens that are redund
 [wycats' private state proposal]: https://github.com/wycats/javascript-private-state
 [the decorators propsal]: https://github.com/wycats/javascript-decorators
 [ruby proof of concept of decorators]: https://github.com/michaelfairley/method_decorators
+
+[#13]: https://github.com/forivall/tacoscript/issues/13
+[#14]: https://github.com/forivall/tacoscript/issues/14
+[#15]: https://github.com/forivall/tacoscript/issues/15
+[#16]: https://github.com/forivall/tacoscript/issues/16
+[#17]: https://github.com/forivall/tacoscript/issues/17
+[#18]: https://github.com/forivall/tacoscript/issues/18
+[#19]: https://github.com/forivall/tacoscript/issues/19
