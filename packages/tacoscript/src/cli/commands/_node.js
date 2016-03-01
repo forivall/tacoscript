@@ -85,7 +85,12 @@ export default function(defaults, argv, cb) {
       results = compile.execFromAst(compiler, results.ast, code, {filename});
     }
 
-    return vm.runInContext(results.code, ctx, {filename});
+    let js = results.code;
+
+    if (!compiler) js = "'use strict';" + js;
+
+    // TODO: add option for the auto-strict
+    return vm.runInContext(js, ctx, {filename});
   }
 
   if (args.eval || args.print) {
@@ -112,7 +117,7 @@ export default function(defaults, argv, cb) {
       process.stdout.write(output + "\n");
     }
 
-    return;
+    return cb(0);
   }
 
   if (args._.length) {
@@ -127,7 +132,7 @@ export default function(defaults, argv, cb) {
     process.execArgv.unshift(__filename);
 
     Module.runMain();
-    return;
+    return cb(0);
   }
 
   repl.start({
@@ -147,5 +152,6 @@ export default function(defaults, argv, cb) {
 
       callback(err, result);
     }
-  })
+  });
+  return cb(0);
 }

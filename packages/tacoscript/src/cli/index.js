@@ -18,15 +18,17 @@ export default function(argv, processExit) {
 
   let forcedError = false;
   const exit = function(e) {
-    if (e && e.message) {
-      console.error(e.message);
-    }
+    // Just let the process exit normally if the exit code is zero
+    if (!forcedError && e === 0) return;
+
+    if (e && e.message) console.error(e.message);
+
     if (forcedError) processExit(1);
     else setImmediate(function() {
       if (typeof e === "number") {
-        return processExit(e !== 0 ? e : forcedError ? 1 : 0);
+        return processExit(e);
       }
-      processExit(e ? (typeof e.code === "number" ? e.code : 1) : forcedError ? 1 : 0);
+      processExit(e ? (typeof e.code === "number" ? e.code : 1) : 0);
     });
   }
 

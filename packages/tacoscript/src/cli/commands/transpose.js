@@ -1,5 +1,5 @@
-import TransformCli from "../transform";
 
+import TransformCli from "../transform";
 import transpose from "../../transpose/api";
 
 export default function(defaults, argv, cb) {

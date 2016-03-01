@@ -1,10 +1,10 @@
-import TransformCli from "../transform";
-
-import compose from "../../compose/api";
-import compile from "../../compile/api";
 
 import babelPresetEs2015 from "babel-preset-es2015";
 import babelPresetStage0 from "babel-preset-stage-0";
+
+import TransformCli from "../transform";
+import compose from "../../compose/api";
+import compile from "../../compile/api";
 
 export default function(defaults, argv, cb) {
   return new CompileCli(defaults).run(argv, cb);
