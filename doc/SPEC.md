@@ -170,45 +170,30 @@ appear within parens.
 13. `with` will be reused for iife. The vanilla, (deprecated in strict mode anyways) `with` must be declared as `with!`
 
 ## Extended syntax
-All of the following syntax is optional, but is default, and is part of the core tacoscript "experience". Each will be implemented as a plugin that can be optionally turned off/on
+All of the following syntax is optional, but is default, and is part of the core
+tacoscript "experience". Each will be implemented as a plugin that can be
+optionally turned off/on. Features with links to github issues are generally in
+progress.
 
-#### Phase 1 (Jan 2016) - Proof of Concept
-* [ ] `@` ↔ `this.` ([frappe])
-  * [x] parse
-  * [ ] transform
-  * [ ] generate
-* [ ] extended assign - `or=`, `and=`
-  * [x] parse
-  * [ ] transform
-  * [ ] generate
-* [ ] "sharp" non-double arrows, multiline sharp arrow functions
-  * [x] parse
-  * [ ] transform
-  * [ ] generate
-* [ ] Function calls without parentheses, with the `!` operator
+#### Phase 1 (March 2016) - Proof of Concept / Core features
+* [ ] `@` ↔ `this.` ([frappe]) #13
+* [ ] extended assign - `or=`, `and=` #14
+* [ ] "sharp" non-double arrows, multiline sharp arrow functions #15
+* [ ] Function calls without parentheses, with the `!` operator #16
   * `fs.readFile! "package.json", (err, data) ->`
-  * [x] parse
-    * [x] store metadata that this was a paren-less call
-  * [ ] generate (requires inference)
-* [ ] Function calls without parentheses, without `!` operator, only when in statement position
-  * [x] parse
-  * [ ] generate
+* [ ] Function calls without parentheses, without `!` operator, only when in statement position #17
 
 #### Phase 1.5 -
-* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md)
+* [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md) #18
 
 #### Phase 2 - A "Useful" language
-* [ ] IIFE syntax  
+* [ ] IIFE syntax #19
   `(function(a, b, c){})(d, e, c)` ↔ `with {a: d, b: e, c}`  
   `(function*(a, b, c){})(d, e, c)` ↔ `with* {a: d, b: e, c}`  
   `(async function(a, b, c){})(d, e, c)` ↔ `with+ {a: d, b: e, c}`  
   `((a, b, c) => {})(d, e, c)` ↔ `with= {a: d, b: e, c}`  
   `((a, b, c) => (a + b + c))(d, e, c)` ↔ `with= {a: d, b: e, c} > a + b + c`  
 
-  * [x] parse
-    * [ ] change ast node to be closer to a `CallExpression`
-  * [ ] transform
-  * [ ] generate
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])
