@@ -10,6 +10,7 @@ import babelPresetStage0 from "babel-preset-stage-0";
 import camelize from "camelize";
 import {coreOptions as comalCoreOptions} from "comal";
 const comalCoreOptionNames = Object.keys(comalCoreOptions);
+import hasUnicode from "has-unicode";
 import cloneDeep from "lodash/cloneDeep";
 import map from "lodash/map";
 import omit from "lodash/omit";
@@ -136,7 +137,7 @@ export default function(defaults, argv, cb) {
   }
 
   repl.start({
-    prompt: "> ",
+    prompt: hasUnicode() ? "\u{1F32E} > " : "> ",
     input: process.stdin,
     output: process.stdout,
     eval: (code, ctx, filename, callback) => {
