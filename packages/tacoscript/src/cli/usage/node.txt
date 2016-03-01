@@ -9,7 +9,7 @@ Standard Options:
 
 --eval, --exec, -e code  Read source from the "code" argument, and execute it.
 
-                --print  Print the result of `-e`
+            --print, -o  Print the result of `-e`
 
        --extensions, -x  Specify what file extensions should be processed.
                          (default: .taco, .tacos, .tacoscript)

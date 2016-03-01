@@ -45,6 +45,7 @@
     "mkdirp": "^0.5.1",
     "subarg": "^1.0.0",
     "tacotruck": "^0.5.3",
+    "tacoscript-require-hook": "^0.5.3",
     "word-wrap": "^1.1.0"
   },
   "optionalDependencies": {

@@ -1,11 +1,14 @@
 
-import vm from "vm";
+import Module from "module";
 import util from "util";
+import vm from "vm";
 
+import camelize from "camelize";
 import {coreOptions as comalCoreOptions} from "comal";
 const comalCoreOptionNames = Object.keys(comalCoreOptions);
 import cloneDeep from "lodash/cloneDeep";
 import omit from "lodash/omit";
+import pick from "lodash/pick";
 import trimEnd from "lodash/trimEnd";
 import subarg from "subarg";
 import * as requireHook from "tacoscript-require-hook";
@@ -17,8 +20,6 @@ import convertPluginOpts from "../convertPluginOpts";
 import compose from "../../compose/api";
 
 export default function(defaults, argv, cb) {
-  console.log("_node called with args", argv, defaults);
-
   /// PARSE ARGUMENTS
 
   const comalUnknownOptionNames = [];
@@ -28,6 +29,8 @@ export default function(defaults, argv, cb) {
   opts.string.push("extensions");
   opts.alias["extensions"] = ["x"];
   opts.alias["plugin"] = ["p"];
+  opts.alias["eval"] = ["e", "exec"];
+  opts.alias["print"] = ["o"];
   opts.default = omit(defaults, "_");
   opts.unknown = (arg) => {
     const match = /^--([^=]+)=/.exec(arg) || /^--(?:no-)(.+)/.exec(arg);
@@ -70,7 +73,7 @@ export default function(defaults, argv, cb) {
     ctx.__filename = "[eval]";
     ctx.__dirname = process.cwd();
 
-    let module = new Module(ctx.__filename);
+    const module = new Module(ctx.__filename);
     module.filename = ctx.__filename;
     module.paths = Module._nodeModulePaths(ctx.__dirname);
 
