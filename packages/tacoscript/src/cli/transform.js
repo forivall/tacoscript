@@ -31,7 +31,7 @@ export default class TransformCli {
     // TODO: collect unknown arguments in a separate object as args to pass to comal
     // this.opts.unknown;
 
-    this.opts.boolean.push("watch", "quiet", "verbose", "serial");
+    this.opts.boolean.push("watch", "serial");
     this.opts.string.push("outfile", "extensions");
     this.opts.alias["outfile"] = ["o"];
     this.opts.alias["watch"] = ["w"];

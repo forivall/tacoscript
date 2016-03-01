@@ -1,20 +1,36 @@
 // TODO: abstract this out into an external module
 
 import path from "path";
-
+import includes from "lodash/includes";
+import subarg from "subarg";
 import getV8Flags from "v8flags";
+
+import usage from "../usage";
+import usageAdvanced from "../usage/comal";
 
 const scriptPath = path.join(__dirname, "../../../bin/_tacoscript-node.js");
 
 // adapted from babel-node
-export default function(defaults, args, cb) {
-  // TODO: convert defaults into appropriate arguments
+export default function(defaults, argv, cb) {
+  if (includes(argv, "--help") || includes(argv, "-h")) {
+    if (subarg(argv, {alias: {"help": ["h"]}}).help === "advanced") {
+      return usageAdvanced(comalCoreOptions, cb);
+    } else {
+      return usage("node", cb);
+    }
+  }
 
   const cmd = [scriptPath];
+
+  // convert defaults into appropriate arguments
+  if (defaults["debug-internal"]) cmd.push("--debug-internal");
+  if (defaults["verbose"]) cmd.push("--verbose");
+  if (defaults["quiet"]) cmd.push("--quiet");
+
   const nodeFlags = [];
-  const argSeparator = args.indexOf("--");
-  const combinedArgs = argSeparator > -1 ? args.slice(argSeparator) : args;
-  const explicitArgs = argSeparator > -1 ? args.slice(0, argSeparator) : [];
+  const argSeparator = argv.indexOf("--");
+  const combinedArgs = argSeparator > -1 ? argv.slice(argSeparator) : argv;
+  const explicitArgs = argSeparator > -1 ? argv.slice(0, argSeparator) : [];
 
   let forceChild = false;
 
@@ -40,7 +56,7 @@ export default function(defaults, args, cb) {
         //   forceChild = true;
 
         default:
-          if (v8Flags.indexOf(arg) >= 0 || arg.indexOf("--trace") === 0) {
+          if (includes(v8Flags, arg) || arg.indexOf("--trace") === 0) {
             nodeFlags.push(arg);
           } else {
             cmd.push(arg);

@@ -73,7 +73,6 @@ export default class Transformation {
         ? meta.generatorOpts(this.opts, this, context)
         : {...meta.generatorOpts};
 
-
     } else this.generator = false;
 
     this.pluginVisitors = [];

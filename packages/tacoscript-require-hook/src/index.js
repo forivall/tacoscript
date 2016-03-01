@@ -9,11 +9,14 @@ import {compose, compile} from "tacoscript";
 let count = 0;
 let revert, transformer, compiler;
 
-export function enable() {
+export function enable(opts = {}) {
   count++;
-  if (count > 1) return;
+  if (count > 1) {
+    // TODO: update opts of existing transform / compile
+    return;
+  }
 
-  transformer = compose.createTransform();
+  transformer = compose.createTransform(opts);
 
   // TODO: only define this config if there's no .babelrc or babel section in package.json
   // TODO: use babel-features to only transpile the es6 features that aren't natively

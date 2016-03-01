@@ -1,0 +1,25 @@
+Usage: tacoscript node [options] [ -e code | script.taco ] [arguments]
+
+Read TacoScript from a file or in an interactive shell, and executes it in a
+node.js environment (see https://nodejs.org/docs/latest/api/).
+
+Standard Options:
+
+          <script.taco>  Read the source code from this file, and execute it.
+
+--eval, --exec, -e code  Read source from the "code" argument, and execute it.
+
+                --print  Print the result of `-e`
+
+       --extensions, -x  Specify what file extensions should be processed.
+                         (default: .taco, .tacos, .tacoscript)
+
+           --plugin, -p  Use a transform module on top-level files.
+
+            --quiet, -q  Avoid printing messages
+
+          --no-dotfiles  Toggle usage of .tacorc and .tacoignore files
+
+             --help, -h  Show this message
+
+For advanced options, use `tacoscript compile --help advanced`

@@ -35,7 +35,9 @@ export default {
   plugins: {
     type: "list",
     default: [],
-    description: ""
+    description: "",
+    hidden: true, // in comal, this is hidden, since plugins are defined
+                  // differently in the CLI
   },
 
   generatorPlugins: {
