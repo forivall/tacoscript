@@ -114,8 +114,9 @@ export default function(defaults, argv, cb) {
   }
 
   if (args._.length) {
-    // make the filename absolute
     const childArgv = args._.slice();
+
+    // make the filename absolute
     childArgv[0] = path.resolve(childArgv[0]);
 
     // replace our args with the child context
