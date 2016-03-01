@@ -1,8 +1,12 @@
 
 import Module from "module";
+import path from "path";
+import repl from "repl";
 import util from "util";
 import vm from "vm";
 
+import babelPresetEs2015 from "babel-preset-es2015";
+import babelPresetStage0 from "babel-preset-stage-0";
 import camelize from "camelize";
 import {coreOptions as comalCoreOptions} from "comal";
 const comalCoreOptionNames = Object.keys(comalCoreOptions);
@@ -30,6 +34,7 @@ export default function(defaults, argv, cb) {
   opts.alias["extensions"] = ["x"];
   opts.alias["plugin"] = ["p"];
   opts.alias["eval"] = ["e", "exec"];
+  opts.alias["compile"] = ["c"];
   opts.alias["print"] = ["o"];
   opts.default = omit(defaults, "_");
   opts.unknown = (arg) => {
@@ -52,22 +57,39 @@ export default function(defaults, argv, cb) {
       map(args.extensions.split(","), (e) => "*" + e).join(",");
   }
 
+  comalOpts.compile = args.compile;
+
   /// RUN
+
+  // TODO: share / use the same transformer / compiler as the require hook
+
+  requireHook.enable(comalOpts);
 
   const transformer = compose.createTransform(comalOpts);
 
-  // TODO: see if this needs to be createContext(Object.create(global))
-  const ctx = vm.createContext(global);
-  function evalInContext(code, filename) {
+  // TODO: as with tacoscript-require-hook, use options from .babelrc etc.
+  const compiler = args.compile && compile.createTransform({
+    presets: [babelPresetEs2015, babelPresetStage0],
+    compact: true
+  });
+
+  function evalInContext(code, filename, ctx) {
     code = trimEnd(code);
     if (!code) return undefined;
 
-    const js = compose.exec(transformer, code, {filename}).code;
+    let results = compose.exec(transformer, code, {filename});
 
-    return vm.runInContext(js, ctx, {filename});
+    if (compiler) {
+      results = compile.execFromAst(compiler, results.ast, code, {filename});
+    }
+
+    return vm.runInContext(results.code, ctx, {filename});
   }
 
   if (args.eval || args.print) {
+    // TODO: see if this needs to be createContext(Object.create(global))
+    const ctx = vm.createContext(global);
+
     const code = args.eval ? (args.eval === true ? args.print : args.eval) : args.print;
 
     ctx.__filename = "[eval]";
@@ -81,15 +103,46 @@ export default function(defaults, argv, cb) {
     ctx.module = module;
     ctx.require = module.require.bind(module);
 
-    const result = evalInContext(code, ctx.__filename);
+    const result = evalInContext(code, ctx.__filename, ctx);
 
     if (args.print) {
       const output = util.inspect(result);
       process.stdout.write(output + "\n");
     }
 
-    return cb();
+    return;
   }
 
-  cb();
+  if (args._.length) {
+    // make the filename absolute
+    const childArgv = args._.slice();
+    childArgv[0] = path.resolve(childArgv[0]);
+
+    // replace our args with the child context
+    // TODO: see how coffeescript does this, instead of babel-node
+    process.argv = ["node"].concat(childArgv);
+    process.execArgv.unshift(__filename);
+
+    Module.runMain();
+    return;
+  }
+
+  repl.start({
+    prompt: "> ",
+    input: process.stdin,
+    output: process.stdout,
+    eval: (code, ctx, filename, callback) => {
+      let err;
+      let result;
+
+      try {
+        // TODO: see coffeescript repl for line continuation logic
+        result = evalInContext(code, filename, ctx);
+      } catch (e) {
+        err = e;
+      }
+
+      callback(err, result);
+    }
+  })
 }

@@ -28,3 +28,5 @@ Standard Options:
     --no-dotfiles  Toggle usage of .tacorc and .tacoignore files
 
        --help, -h  Show this message
+
+For advanced options, use `tacoscript compile --help advanced`

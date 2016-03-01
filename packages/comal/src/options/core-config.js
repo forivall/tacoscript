@@ -9,6 +9,13 @@ export default {
     default: {}
   },
 
+  // used in require hook and "node" command, not within comal (for now)
+  compile: {
+    hidden: true,
+    type: "boolean",
+    default: false
+  },
+
   // babel-code-frame
   highlightCode: {
     description: "enable/disable ANSI syntax highlighting of code frames (on by default)",

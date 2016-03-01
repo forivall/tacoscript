@@ -11,15 +11,17 @@ Standard Options:
 
             --print, -o  Print the result of `-e`
 
-       --extensions, -x  Specify what file extensions should be processed.
-                         (default: .taco, .tacos, .tacoscript)
+          --compile, -c  Also compile the code to es5 with babel
 
            --plugin, -p  Use a transform module on top-level files.
 
-            --quiet, -q  Avoid printing messages
+       --extensions, -x  Specify what file extensions should be processed.
+                         (default: .taco, .tacos, .tacoscript)
 
           --no-dotfiles  Toggle usage of .tacorc and .tacoignore files
 
+            --quiet, -q  Avoid printing messages
+
              --help, -h  Show this message
 
-For advanced options, use `tacoscript compile --help advanced`
+For advanced options, use `tacoscript node --help advanced`

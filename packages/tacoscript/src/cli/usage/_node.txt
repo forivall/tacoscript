@@ -1,0 +1,4 @@
+Usage: tacoscript _node ...
+
+This is internally run by the `node` command,
+and takes the same arguments.
