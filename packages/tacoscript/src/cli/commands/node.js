@@ -1,6 +1,8 @@
 // TODO: abstract this out into an external module
 
 import path from "path";
+
+import {coreOptions as comalCoreOptions} from "comal";
 import includes from "lodash/includes";
 import subarg from "subarg";
 import getV8Flags from "v8flags";

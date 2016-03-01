@@ -11,6 +11,7 @@ import camelize from "camelize";
 import {coreOptions as comalCoreOptions} from "comal";
 const comalCoreOptionNames = Object.keys(comalCoreOptions);
 import cloneDeep from "lodash/cloneDeep";
+import map from "lodash/map";
 import omit from "lodash/omit";
 import pick from "lodash/pick";
 import trimEnd from "lodash/trimEnd";
@@ -22,6 +23,7 @@ import argsWithComalOpts from "../convertComalOpts";
 import convertPluginOpts from "../convertPluginOpts";
 
 import compose from "../../compose/api";
+import compile from "../../compile/api";
 
 export default function(defaults, argv, cb) {
   /// PARSE ARGUMENTS
