@@ -1,0 +1,148 @@
+# Originally converted from coffeescript's repl
+
+import fs from 'fs'
+import path from 'path'
+import nodeREPL from 'repl'
+# import vm from 'vm'
+
+import hasUnicode from 'has-unicode'
+
+# function runInContext(js, context, filename) ->
+#   if context is global
+#     return vm.runInThisContext! js, filename
+#   return vm.runInContext! js, context, filename
+
+function addMultilineHandler(repl) ->
+  const {rli, inputStream} = repl
+  # Node 0.11.12 changed API, prompt is now _prompt.
+  const origPrompt = if repl._prompt unlike null then repl._prompt else repl.prompt
+
+  const multiline = {
+    enabled: false
+    initialPrompt: origPrompt.replace(/^[^> ]*/, (x) =>> x.replace(/./g, '-'))
+    prompt: origPrompt.replace(/^[^> ]*>?/, (x) =>> x.replace(/./g, '.'))
+    buffer: ''
+  }
+
+  # Proxy node's line listener
+  const nodeLineListener = rli.listeners('line')[0]
+  rli.removeListener! 'line', nodeLineListener
+  rli.on! 'line', (cmd) ->
+    if multiline.enabled
+      multiline.buffer += `${cmd}\n`
+      rli.setPrompt! multiline.prompt
+      rli.prompt! true
+    else
+      rli.setPrompt! origPrompt
+      nodeLineListener! cmd
+
+  # Handle Ctrl-v
+  inputStream.on! 'keypress', (char, key) ->
+    if not (key and key.ctrl and not key.meta and not key.shift and key.name is 'v')
+      return
+    if multiline.enabled
+      # allow arbitrarily switching between modes any time before multiple lines are entered
+      if not multiline.buffer.match(/\n/)
+        multiline.enabled = not multiline.enabled
+        rli.setPrompt! origPrompt
+        rli.prompt! true
+        return
+      # no-op unless the current line is empty
+      if rli.line like null and not rli.line.match(/^\s*$/) then return
+      # eval, print, loop
+      multiline.enabled = not multiline.enabled
+      rli.line = ''
+      rli.cursor = 0
+      rli.output.cursorTo! 0
+      rli.output.clearLine! 1
+      # XXX: multiline hack
+      multiline.buffer = multiline.buffer.replace! /\n/g, '\uFF00'
+      rli.emit! 'line', multiline.buffer
+      multiline.buffer = ''
+    else
+      multiline.enabled = not multiline.enabled
+      rli.setPrompt! multiline.initialPrompt
+      rli.prompt! true
+
+# Store and load command history from a file
+function addHistory(repl, filename, maxSize) ->
+  let lastLine
+  try
+    # Get file info and at most maxSize of command history
+    const stat = fs.statSync! filename
+    const size = Math.min! maxSize, stat.size
+
+    # Read last `size` bytes from the file
+    const readFd = fs.openSync! filename, 'r'
+    const buffer = new Buffer(size)
+    fs.readSync! readFd, buffer, 0, size, stat.size - size
+    fs.close! readFd
+
+    # Set the history on the interpreter
+    repl.rli.history = buffer.toString().split('\n').reverse()
+
+    # If the history file was truncated we should pop off a potential partial line
+    if stat.size > maxSize
+      repl.rli.history.pop()
+
+    # Shift off the final blank newline
+    if repl.rli.history[0] is ''
+      repl.rli.history.shift()
+
+    repl.rli.historyIndex = -1
+    lastLine = repl.rli.history[0]
+  catch e
+
+  const fd = fs.openSync! filename, 'a'
+
+  repl.rli.addListener! 'line', (code) ->
+    if code and code.length and code isnt '.history' and lastLine isnt code
+      # Save the latest command in the file
+      fs.write! fd, `${code}\n`
+      lastLine = code
+
+  repl.on! 'exit', () -> fs.close! fd
+
+  # Add a command to show the history stack
+  repl.commands[getCommandId(repl, 'history')] = {
+    help: 'Show command history'
+    action() ->
+      repl.outputStream.write `${repl.rli.history.slice().reverse().join! '\n'}\n`
+      repl.displayPrompt()
+  }
+
+function getCommandId(repl, commandName) ->
+  # Node 0.11 changed API, a command such as '.help' is now stored as 'help'
+  const commandsHaveLeadingDot = repl.commands['.help'] unlike null
+  return if commandsHaveLeadingDot then `.${commandName}` else commandName
+
+export function start(opts = {}) ->
+  const [major, minor] = process.versions.node.split('.').map! (n) =>> parseInt(n)
+
+  if major is 0 and minor < 8
+    console.warn! "Node 0.8.0+ required for CoffeeScript REPL"
+    # TODO: callback instead
+    process.exit! 1
+
+  if opts.historyFile like null and process.env.HOME
+    opts.historyFile = path.join! process.env.HOME, '.taco_history'
+  if opts.historyMaxInputSize like null
+    opts.historyMaxInputSize = 10240
+
+  const repl = nodeREPL.start! {
+    prompt: if hasUnicode() then "\u{1F32E}  > " else "> "
+    ...opts
+  }
+
+  # if opts.prelude then runInContext! opts.prelude, repl.context, 'prelude'
+  repl.on! 'exit', () ->
+    if not repl.rli.closed then repl.outputStream.write! '\n'
+
+  addMultilineHandler! repl
+
+  if opts.historyFile
+    addHistory! repl, opts.historyFile, opts.historyMaxInputSize
+
+  # Adapt help inherited from the node REPL
+  repl.commands[getCommandId(repl, 'load')].help = 'Load code from a file into this REPL session'
+  return repl

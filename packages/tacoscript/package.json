@@ -22,6 +22,7 @@
     "registry": "http://registry.npmjs.org"
   },
   "scripts": {
+    "build": "./bin/tacoscript.js compose './src/repl/*' -o ./src/repl --generate \\[ --retain-lines \\]",
     "pretest": "pplink ../tacoscript-strudel-this-member ./test/fixtures/cli/plugins",
     "test": "mocha"
   },
