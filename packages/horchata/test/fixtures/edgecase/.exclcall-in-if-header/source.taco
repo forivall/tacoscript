@@ -1,0 +1,4 @@
+if isRaining!
+    "drip"
+    "drop"
+  openUmbrella()
