@@ -1,0 +1,59 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "StringLiteral",
+              "value": "beep",
+              "extra": {
+                "raw": "\"beep\""
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "replace",
+              "extra": {
+                "raw": "replace"
+              }
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "RegExpLiteral",
+              "extra": {
+                "raw": "/ee/"
+              },
+              "pattern": "ee",
+              "flags": ""
+            },
+            {
+              "type": "StringLiteral",
+              "value": "oo",
+              "extra": {
+                "raw": "\"oo\""
+              }
+            }
+          ],
+          "extra": {
+            "exclCall": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}

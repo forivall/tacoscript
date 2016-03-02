@@ -110,10 +110,8 @@ tt._while.updateContext = function(type) {
 tt.excl.updateContext = function(type, prevType) {
   if (prevType === tt._if) {
     this.state.context.pop();
-    this.state.exprAllowed = true;
-  } else if (prevType === tt._switch || prevType === tt._with) {
-    this.state.exprAllowed = true;
   }
+  this.state.exprAllowed = true;
 }
 
 // TODO: do we need to detect if this is a list of parameters
