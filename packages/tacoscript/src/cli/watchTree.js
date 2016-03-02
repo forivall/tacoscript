@@ -54,7 +54,12 @@ export default function (transform, files, opts/*, cb*/) {
     });
   }, opts.args.serial ? 1 : CONCURRENT_LIMIT);
 
-  watcher = chokidar.watch(files.src, {ignored: [/[\/\\]\./, "node_modules"]})
+  watcher = chokidar.watch(files.src, {
+    ignored: [/[\/\\]\./, "node_modules"],
+    awaitWriteFinish: {
+      stabilityThreshold: 300
+    }
+  })
   .on('add', onAddOrChange)
   .on('change', onAddOrChange)
   // TODO
