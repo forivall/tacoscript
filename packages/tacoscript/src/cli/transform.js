@@ -65,14 +65,16 @@ export default class TransformCli {
 
   parseArgs(argv) {
     const comalUnknownOptionNames = [];
-    const args = this.args = subarg(argv, argsWithComalOpts(comalCoreOptions, {
+    const minimistOpts = argsWithComalOpts(comalCoreOptions, {
       ...this.opts,
       default: {...this.defaults, ...this.opts.default},
-      unknown: (arg) => {
-        const match = /^--([^=]+)=/.exec(arg) || /^--(?:no-)(.+)/.exec(arg);
+      unknown(arg) {
+        const match = /^--([^=]+)=/.exec(arg) || /^--(?:no-)?(.+)/.exec(arg);
         if (match) comalUnknownOptionNames.push(match[1]);
       }
-    }));
+    });
+    const args = this.args = subarg(argv, minimistOpts);
+
     this.comalOpts = camelize(pick(args, comalCoreOptionNames, comalUnknownOptionNames));
   }
 

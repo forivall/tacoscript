@@ -48,7 +48,7 @@ export default function(argv, processExit) {
   }
 
   // launch repl by default
-  if (args._.length === 0) args._.push("node-repl");
+  if (args._.length === 0) args._.push("node");
 
   const subcommand = args._[0];
 

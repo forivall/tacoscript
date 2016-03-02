@@ -66,6 +66,7 @@ export default function(defaults, argv, cb) {
 
   // TODO: share / use the same transformer / compiler as the require hook
 
+  // TODO: only hook and create transform once we _know_ if we're eval'ing, running, or repl'ing
   requireHook.enable(comalOpts);
 
   const transformer = compose.createTransform(comalOpts);
