@@ -291,7 +291,7 @@ export function parseObject(isPattern, expressionContext) {
     let start;
     if (this.match(tt.ellipsis)) {
       if (decorators.length > 0) this.raise(this.state.cur.start, "Decorators cannot be attached to an ellipsis")
-      prop = isPattern ? this.parseRest() : this.parseSpread();
+      prop = isPattern ? this.parseRest() : this.parseSpread(expressionContext);
     } else {
       prop = this.startNode();
 
