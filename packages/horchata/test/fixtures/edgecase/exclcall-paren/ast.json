@@ -1,0 +1,51 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "AssignmentExpression",
+          "left": {
+            "type": "Identifier",
+            "name": "foo",
+            "extra": {
+              "raw": "foo"
+            }
+          },
+          "operator": "=",
+          "right": {
+            "type": "CallExpression",
+            "callee": {
+              "type": "Identifier",
+              "name": "bar",
+              "extra": {
+                "raw": "bar"
+              }
+            },
+            "arguments": [
+              {
+                "type": "Identifier",
+                "name": "baz",
+                "extra": {
+                  "raw": "baz"
+                }
+              }
+            ],
+            "extra": {
+              "exclCall": true
+            }
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": null
+  },
+  "comments": []
+}
