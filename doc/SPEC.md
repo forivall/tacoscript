@@ -219,6 +219,7 @@ progress.
 #### Phase 3 - A "Complete" language
 * [ ] loose string parsing, unify string interpolation behaviour ([frappe])
   * tagged template strings will still require `\`\``
+  * update parser to not create tagged template literals when there is whitespace between the tag and the template
 * [ ] `@@` in class methods to `ClassName.`
 * [ ] non-fallthrough `switch` [(spec)][safe switch]
 * [ ] boolean switch statements (a la Coffeescript)
