@@ -200,6 +200,7 @@ progress.
 * [ ] `%%` ([frappe])
 * [ ] `unless` ([frappe])
 * [ ] `until` ([frappe])
+* [ ] xor `a <> b` (coffeescript)
 * [ ] autobinding (`=>`) of named function expressions (nfe), function declarations, methods, and generator functions
 * [ ] allow omitting `!` for parenthises-less function calls when used as statements ([frappe])
   * tagged template literals will have higher precedence though
@@ -259,9 +260,11 @@ progress.
   * decorators can be used on any function declaration. [See also](#notes-on-the-decorators-proposal-)
 
 #### Phase 4 - A "Modern" language
-* [ ] loop enhancements
+* [ ] loop enhancements (coffeescript)
   * [ ] `for key, value in object`
   * [ ] `for value, index of iterable`
+  * [ ] `for own key in object`
+  * [ ] `for own key, value in object`
 * [ ] array and object comprehensions
 * [ ] multiline regex (coffeescript / [frappe])
 * [ ] Python style keyword arguments
