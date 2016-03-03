@@ -1,7 +1,6 @@
 
 import Module from "module";
 import path from "path";
-import repl from "repl";
 import util from "util";
 import vm from "vm";
 
@@ -10,7 +9,6 @@ import babelPresetStage0 from "babel-preset-stage-0";
 import camelize from "camelize";
 import {coreOptions as comalCoreOptions} from "comal";
 const comalCoreOptionNames = Object.keys(comalCoreOptions);
-import hasUnicode from "has-unicode";
 import cloneDeep from "lodash/cloneDeep";
 import map from "lodash/map";
 import omit from "lodash/omit";
@@ -25,6 +23,7 @@ import convertPluginOpts from "../convertPluginOpts";
 
 import compose from "../../compose/api";
 import compile from "../../compile/api";
+import * as repl from "../../repl";
 
 export default function(defaults, argv, cb) {
   /// PARSE ARGUMENTS
@@ -138,7 +137,6 @@ export default function(defaults, argv, cb) {
   }
 
   repl.start({
-    prompt: hasUnicode() ? "\u{1F32E} > " : "> ",
     input: process.stdin,
     output: process.stdout,
     eval: (code, ctx, filename, callback) => {

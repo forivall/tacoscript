@@ -19,8 +19,8 @@ function addMultilineHandler(repl) {
 
   const multiline = { 
     enabled: false, 
-    initialPrompt: origPrompt.replace(/^[^> ]*/, x => x.replace(/./g, '-')), 
-    prompt: origPrompt.replace(/^[^> ]*>?/, x => x.replace(/./g, '.')), 
+    initialPrompt: origPrompt.replace(/^[^>]*/, x => x.replace(/./gu, '-')), 
+    prompt: origPrompt.replace(/^[^>]*>?/, x => x.replace(/./gu, '.')), 
     buffer: '' };
 
 
@@ -55,8 +55,10 @@ function addMultilineHandler(repl) {
       rli.cursor = 0;
       rli.output.cursorTo(0);
       rli.output.clearLine(1);
+
       // XXX: multiline hack
       multiline.buffer = multiline.buffer.replace(/\n/g, '＀');
+
       rli.emit('line', multiline.buffer);
       multiline.buffer = '';} else 
     {
@@ -107,7 +109,7 @@ function addHistory(repl, filename, maxSize) {
   repl.commands[getCommandId(repl, 'history')] = { 
     help: 'Show command history', 
     action() {
-      repl.outputStream.write`${ repl.rli.history.slice().reverse().join('\n') }\n`;
+      repl.outputStream.write(`${ repl.rli.history.slice().reverse().join('\n') }\n`);
       repl.displayPrompt();} };}
 
 
@@ -130,8 +132,12 @@ export function start(opts = {}) {
     opts.historyMaxInputSize = 10240;}
 
   const repl = nodeREPL.start({ 
-    prompt: hasUnicode() ? '🌮  > ' : '> ', 
-    ...opts });
+    prompt: hasUnicode() ? '🌮  > ' : 'taco> ', 
+    ...opts, 
+    eval(input, context, filename, cb) {
+      // XXX: multiline hack.
+      input = input.replace(/\uFF00/g, '\n');
+      return opts.eval(input, context, filename, cb);} });
 
 
   // if opts.prelude then runInContext! opts.prelude, repl.context, 'prelude'
