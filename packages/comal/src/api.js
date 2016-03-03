@@ -77,7 +77,7 @@ export default class Api {
 
       if (!err) {
         try {
-          if (opts.onFileOpen) (0, opts.onFileOpen)(filename);
+          if (opts.onFileOpen) (0, opts.onFileOpen)(filename, code);
           result = body.call(this, code);
         } catch (_err) {
           err = _err;
