@@ -3,14 +3,8 @@
 import fs from 'fs'
 import path from 'path'
 import nodeREPL from 'repl'
-# import vm from 'vm'
 
 import hasUnicode from 'has-unicode'
-
-# function runInContext(js, context, filename) ->
-#   if context is global
-#     return vm.runInThisContext! js, filename
-#   return vm.runInContext! js, context, filename
 
 function addMultilineHandler(repl) ->
   const {rli, inputStream} = repl
@@ -140,7 +134,6 @@ export function start(opts = {}) ->
       return opts.eval(input, context, filename, cb)
   }
 
-  # if opts.prelude then runInContext! opts.prelude, repl.context, 'prelude'
   repl.on! 'exit', () ->
     if not repl.rli.closed then repl.outputStream.write! '\n'
 
