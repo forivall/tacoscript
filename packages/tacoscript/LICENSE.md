@@ -1,5 +1,7 @@
 Copyright (c) 2015-2016 Jordan Klassen <forivall@gmail.com>
 
+Copyright (c) 2009-2015 Jeremy Ashkenas (repl)
+
 MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining

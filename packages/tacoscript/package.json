@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/forivall/tacoscript/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Jordan Klassen <forivall@gmail.com>",
   "main": "lib/index.js",
   "bin": {
