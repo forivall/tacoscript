@@ -224,6 +224,7 @@ progress.
 * [ ] expression version of boolean switch statements
 * [ ] `rescue` a la Ruby or Go's `recover`
 * [ ] `for var i = 0 upto 5`, `downto` + `by 2` -- or a different simple for loop incremental shorthand. _Feedback requested_
+  * [ ] `upto=`, `downto=` for inclusive
 * [ ] "kinda lispy" `or` and `and` blocks -- can also be done with other operators? do they need `!` to avoid ambiguous productions?
 
   ```
@@ -258,6 +259,9 @@ progress.
   * decorators can be used on any function declaration. [See also](#notes-on-the-decorators-proposal-)
 
 #### Phase 4 - A "Modern" language
+* [ ] loop enhancements
+  * [ ] `for key, value in object`
+  * [ ] `for value, index of iterable`
 * [ ] array and object comprehensions
 * [ ] multiline regex (coffeescript / [frappe])
 * [ ] Python style keyword arguments
