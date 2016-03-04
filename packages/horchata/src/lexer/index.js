@@ -340,7 +340,6 @@ export default class Lexer {
       start, this.state.pos, startLoc, endLoc = this.state.curPosition(), this.state
     ));
     this.state.comments.push(this._finishCommentNode(node, "CommentLine", endLoc));
-    this.state.endingLineComment = true;
   }
 
   skipBlockComment(startLength = 2) {
