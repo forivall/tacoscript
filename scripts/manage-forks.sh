@@ -14,7 +14,6 @@ fi
   git pull
   git subtree split -P packages/babel-traverse master -b subtree_babel-traverse
   git subtree split -P packages/babel-types master -b subtree_babel-types
-  git subtree split -P packages/babel-helper-transform-fixture-test-runner master -b subtree_babel-helper-transform-fixture-test-runner
 )
 
 if [ "$1" = "--init" ] ; then

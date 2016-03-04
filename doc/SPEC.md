@@ -21,6 +21,7 @@ A cleaner, indentation-based alternative syntax for ES2015+. Inspired by Coffees
   * can also just turn tacoscript into simple tacoscript ("masascript")
   * could also be used for turning experimental javascript into plain javascript
 * Transpose - like "decompile" or "detranspile", turns javascript into tacoscript
+* Compile - take the output of "compose" (es6 js) and then use babel to transpile it into es5 js
 
 ## Core Syntax
 
