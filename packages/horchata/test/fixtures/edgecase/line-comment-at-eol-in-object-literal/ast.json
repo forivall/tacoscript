@@ -1,0 +1,86 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "ObjectProperty",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "a",
+                "extra": {
+                  "raw": "a"
+                }
+              },
+              "kind": "init",
+              "value": {
+                "type": "NumericLiteral",
+                "value": 1,
+                "extra": {
+                  "raw": "1"
+                }
+              }
+            },
+            {
+              "type": "ObjectProperty",
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "name": "b",
+                "extra": {
+                  "raw": "b"
+                }
+              },
+              "kind": "init",
+              "value": {
+                "type": "NumericLiteral",
+                "value": 2,
+                "extra": {
+                  "raw": "2"
+                }
+              },
+              "leadingComments": [
+                {
+                  "type": "CommentLine",
+                  "index": 0,
+                  "value": " comment"
+                }
+              ]
+            }
+          ],
+          "extra": {
+            "parenthesized": true,
+            "fakeParens": true
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": [
+    {
+      "type": "CommentLine",
+      "index": 0,
+      "value": " comment"
+    }
+  ]
+}
