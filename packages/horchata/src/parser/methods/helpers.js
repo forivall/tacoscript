@@ -34,7 +34,7 @@ export function parseIndentableList(close, context, inner) {
       if (this.eat(separator)) {
         if (firstConcreteSeparatorStart === undefined) firstConcreteSeparatorStart = this.state.prev.start;
         indented && this.eat(tt.newline); // TODO: allow a strict mode where commas + newlines aren't allowed
-      } else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline))) {}
+      } else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline))) { /* do nothing */ }
       else if (close === null && (noTerminator || this.matchLineTerminator() || this.matchPrev(tt.newline))) {
         break;
       } else this.unexpected();

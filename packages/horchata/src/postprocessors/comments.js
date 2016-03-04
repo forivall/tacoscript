@@ -57,17 +57,29 @@ export class Postprocessor {
   }
 
   assignComments(node, unclaimedComments) {
-    let leadingSplit;
-    for (leadingSplit = 0; leadingSplit < unclaimedComments.length; leadingSplit++) {
-      if (unclaimedComments[leadingSplit].start >= node.start) {
-        break;
+    let i = 0;
+    const nodeStart = node.start;
+    for (; i < unclaimedComments.length; i++) {
+      if (unclaimedComments[i].start >= nodeStart) break;
+    }
+    if (i > 0) {
+      node.leadingComments = (node.leadingComments || []).concat(unclaimedComments.slice(0, i));
+    }
+    if (i < unclaimedComments.length) {
+      const firstInnerIndex = i;
+      const nodeEndLine = node.loc.end.line - 1;
+      if (node.type === "Program") {
+        i = unclaimedComments.length;
+      } else for (; i < unclaimedComments.length; i++) {
+        const c = unclaimedComments[i];
+        if (c.type === "CommentLine" && c.loc.start.line >= nodeEndLine) break;
       }
-    }
-    if (leadingSplit > 0) {
-      node.leadingComments = (node.leadingComments || []).concat(unclaimedComments.slice(0, leadingSplit));
-    }
-    if (leadingSplit < unclaimedComments.length) {
-      node.innerComments = (node.innerComments || []).concat(unclaimedComments.slice(leadingSplit));
+      if (i > firstInnerIndex) {
+        node.innerComments = (node.innerComments || []).concat(unclaimedComments.slice(firstInnerIndex, i));
+      }
+      if (i < unclaimedComments.length) {
+        node.trailingComments = (node.trailingComments || []).concat(unclaimedComments.slice(i));
+      }
     }
   }
 }

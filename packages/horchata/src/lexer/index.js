@@ -257,13 +257,7 @@ export default class Lexer {
 
       // newline characters:  10, 8232, 8233, 13 (when followed by 10)
       let nextCh, chIsNewline;
-      if (this.state.endingLineComment) {
-        this.state.endingLineComment = false;
-        if (isNewline(ch)) {
-          this.state.pos += ch === 13 && this.input.charCodeAt(this.state.pos + 1) === 10 ? 2 : 1;
-          this.state.curLine++; this.state.lineStart = this.state.pos;
-        }
-      } else if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
+      if (ch === 92 && isNewline(nextCh = this.input.charCodeAt(this.state.pos + 1))) {
         // skip escaped newlines
         this.state.pos += nextCh === 13 && this.input.charCodeAt(this.state.pos + 2) === 10 ? 3 : 2;
         this.state.curLine++; this.state.lineStart = this.state.pos;

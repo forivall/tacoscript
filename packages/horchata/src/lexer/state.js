@@ -42,8 +42,6 @@ export default class State {
     this.indentStart = -1;
     this.indentEnd = -1;
 
-    this.endingLineComment = false;
-
     //////// Context ////////
 
     // Used to signal that we have already checked for indentation changes after
