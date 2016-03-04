@@ -13,8 +13,8 @@ function addMultilineHandler(repl) ->
 
   const multiline = {
     enabled: false
-    initialPrompt: origPrompt.replace(/^[^>]*/, (x) =>> x.replace(/./gu, '-'))
-    prompt: origPrompt.replace(/^[^>]*>?/, (x) =>> x.replace(/./gu, '.'))
+    initialPrompt: origPrompt.replace(/^[^>]*/, (x) =>> x.replace(/./gu, '-')) # eslint-disable-line no-empty-character-class
+    prompt: origPrompt.replace(/^[^>]*>?/, (x) =>> x.replace(/./gu, '.')) # eslint-disable-line no-empty-character-class
     buffer: ''
   }
 
