@@ -253,15 +253,28 @@ export default class TacoBuffer {
 
   // TODO: reduce duplication between force space and formatting space.
 
-  _insertForceSpace(state) {
-    let force = state.type.forceSpaceWhenAfter;
-    if (!force) { return false; }
-    let last = this._last();
-    if (last == null) { return false; }
-    let isForced = force[last.type.key] || last.type.keyword && force.keyword;
-    if (!isForced) { return false; }
+  _testInsertSpace(left, right, test) {
+    if (left == null) return false;
 
-    if (isForced === true || isForced(last, state)) {
+    const testAfter = left.type[test + "After"]; // e.g. forceSpaceAfter
+    if (testAfter) {
+      if (testAfter === true || testAfter(left, right)) return true;
+    }
+
+    const whenAfterTests = right.type[test + "WhenAfter"];
+    if (whenAfterTests) {
+      const testWhenAfter = whenAfterTests[left.type.key] ||
+        left.type.keyword && whenAfterTests.keyword;
+      if (testWhenAfter) {
+        if (testWhenAfter === true || testWhenAfter(left, right)) return true;
+      }
+    }
+
+    return false;
+  }
+
+  _insertForceSpace(state) {
+    if (this._testInsertSpace(this._last(), state, "forceSpace")) {
       this.tokens.push(new Token(tt.whitespace, {code: ' '}));
       return true;
     }
@@ -270,19 +283,8 @@ export default class TacoBuffer {
 
   _insertFormattingSpace(state) {
     if (this.format.compact) return false;
-    let last = this._last();
 
-    let insertFormatting = last && last.type.formattingSpaceAfter;
-    if (insertFormatting === true && state.type === tt.newline) insertFormatting = false;
-    if (!insertFormatting) {
-      let formatting = state.type.formattingSpaceWhenAfter;
-      if (!formatting) { return false; }
-      if (last == null) { return false; }
-      insertFormatting = formatting[last.type.key] || last.type.keyword && formatting.keyword;
-    }
-    if (!insertFormatting) { return false; }
-
-    if (insertFormatting === true || insertFormatting(last, state)) {
+    if (this._testInsertSpace(this._last(), state, "formattingSpace")) {
       this.tokens.push(new Token(tt.whitespace, {code: ' '}));
       return true;
     }
