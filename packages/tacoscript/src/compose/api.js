@@ -16,10 +16,12 @@ export default new Api({
   },
   parser: horchata,
   parserOpts: function(opts) {
+    // TODO: use horchata/options
     return {
       sourceType:    opts.sourceType,
       filename:      opts.filename,
-      features:      {}
+      features:      {},
+      plugins: {},
     };
   },
   // TODO: allow multiple generators, with a default

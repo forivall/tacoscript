@@ -1,4 +1,4 @@
-import horchata from "horchata";
+import * as horchata from "horchata";
 import * as parserPlugin from "./horchata/parser";
 import * as lexerPlugin from "./horchata/lexer";
 
