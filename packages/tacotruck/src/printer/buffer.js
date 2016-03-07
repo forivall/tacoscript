@@ -72,10 +72,11 @@ export default class TacoBuffer {
   }
 
   _last() {
-    return this.tokens[this.tokens.length - this._lastOffset()];
+    return this.__last || (this.__last = this.tokens[this.tokens.length - this._lastOffset()]);
   }
 
   _pop() {
+    this.__last = undefined;
     var i, len, token;
     for (i = 1, len = this.tokens.length;
         i <= len && (token = this.tokens[len - i]).type === tt.mappingMark;
@@ -232,6 +233,7 @@ export default class TacoBuffer {
     this._insertForceSpace(state) || this._insertFormattingSpace(state);
 
     this.tokens.push(Token.fromState(state));
+    this.__last = undefined;
   }
 
   _insertIndentTokens() {
