@@ -20,7 +20,7 @@ function normalizeOptions(input) {
   opts.format = input.format || {};
 
   // initialize plugins
-  opts.plugins = (opts.plugins || []).map(function(plugin) {
+  opts.plugins = (input.plugins || []).map(function(plugin) {
     if (typeof plugin === "function") return plugin(tt);
     return plugin;
   });
