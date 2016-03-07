@@ -132,10 +132,16 @@ export const types = {
   colon:        punctuator(":",   {beforeExpr: true, continuesExpr: true}),
   doubleColon:  punctuator("::",  {beforeExpr: true, continuesExpr: true}),
   dot:          punctuator(".", continuesPreviousLine),
-  // TODO: eventually use ? as a null coalescing operator, like c#
+
+  // TODO: ? is a null coalescing operator, like c#. Also used by flow
   question:     punctuator("?",   {beforeExpr: true, continuesExpr: true}), // only used by flow
+  // TODO: ?., ?[ are soak coalescing prop access operators, like coffeescript
   soak:         punctuator("?.", continuesPreviousLine),
   soakBracketL: punctuator("?[", continuesPreviousLine),
+  // TODO: ?(, ?! is the soak coalescing call operators, like coffeescript
+  soakParenL:   punctuator("?(",   {beforeExpr: true, startsExpr: true}),
+  interrobang:  punctuator("?!",   {beforeExpr: true, startsExpr: true}),
+
   // also includes =>>, ->, ->>, +>, +>>, +=>, +=>>
   arrow:        punctuator("=>", {beforeExpr: true, startsExpr: true}),
   ellipsis:     punctuator("...", beforeExpr),
@@ -144,7 +150,7 @@ export const types = {
   backQuote:    punctuator("`",   startsExpr),
   dollarBraceL: punctuator("${", {beforeExpr: true, startsExpr: true, continuesExpr: true}),
   at:           punctuator("@"),
-  excl:         punctuator("!",  {startsArguments: true}),
+  excl:         punctuator("!",  {beforeExpr: true, startsExpr: true, startsArguments: true}),
 
   // Operators. These carry several kinds of properties to help the
   // parser use them properly (the presence of these properties is

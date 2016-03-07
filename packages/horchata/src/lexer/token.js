@@ -47,7 +47,6 @@ export default class Token {
       case "/=": case "*=": case "**=": case "%=":
       case "|=": case "&=": case "^=":
       case "<<=": case ">>=": case ">>>=":
-      case "or=": case "and=": case "?=":
         return (Token._fromCodeCache[code] = { type: tt.assign, value: code });
       case "++": case "--":
         return (Token._fromCodeCache[code] = { type: tt.incDec, value: code });
