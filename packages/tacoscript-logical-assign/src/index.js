@@ -9,7 +9,8 @@ export default function () {
   return {
     visitor: {
       AssignmentExpression(path) {
-        if (path.node.type === "&&=" || path.node.type === "||=") {
+        const op = path.node.operator;
+        if (op === "&&=" || op === "||=") {
           // TODO
           // replace with logicalExpression(left, path.node.type.slice(0, -1), assignmentExpression(left, right))
           // TODO: also cache accessor, e.g.
