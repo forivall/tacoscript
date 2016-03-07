@@ -105,6 +105,7 @@ Subject line contains succinct description of the change.
 * docs (documentation)
 * style (formatting, missing semi colons, …)
 * refactor
+* perf (performance fix / refactor)
 * test (when adding missing tests)
 * chore (maintain)
 * wip (work in progress) _before 1.0.0 only_
