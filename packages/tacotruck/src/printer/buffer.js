@@ -14,12 +14,17 @@ import "./special-tokens";
 function normalizeOptions(input) {
   if (input == null) throw new Error("Unexpected null or undefined options");
   let inputDialect = input.dialect || {};
-  // TODO: console.warn about unknown opts
   let opts = {};
   opts.dialect = {};
   opts.dialect["equality-symbols"] = !!inputDialect["equality-symbols"];
   opts.format = input.format || {};
-  // TODO: plugins
+
+  // initialize plugins
+  opts.plugins = (opts.plugins || []).map(function(plugin) {
+    if (typeof plugin === "function") return plugin(tt);
+    return plugin;
+  });
+
   return opts;
 }
 
@@ -270,6 +275,26 @@ export default class TacoBuffer {
       }
     }
 
+    // FIXME: optimise me
+    for (const plugin in (this.opts.plugins: Array)) {
+      const tokType = plugin.tokType;
+      const leftTypeKeyRef = tokType == null ? tokType : tokType[left.type.key];
+      const testAfter = leftTypeKeyRef == null ? leftTypeKeyRef : leftTypeKeyRef[test + "After"];
+      if (testAfter) {
+        if (testAfter === true || testAfter(left, right)) return true;
+      }
+
+      const rightTypeKeyRef = tokType == null ? tokType : tokType[right.type.key];
+      const whenAfterTests = rightTypeKeyRef == null ? rightTypeKeyRef : rightTypeKeyRef[test + "WhenAfter"];
+      if (whenAfterTests != null) {
+        const testWhenAfter = whenAfterTests[left.type.key] ||
+          left.type.keyword && whenAfterTests.keyword;
+        if (testWhenAfter) {
+          if (testWhenAfter === true || testWhenAfter(left, right)) return true;
+        }
+      }
+    }
+
     return false;
   }
 
@@ -318,14 +343,28 @@ export default class TacoBuffer {
     return this.tokens.join('');
   }
 
+  _toCode(token) {
+    // FIXME: optimise me
+    for (const plugin in (this.opts.plugins: Array)) {
+      // code = plugin.tokType?[token.type.key]?.toCode?(token, this)
+      const tokType = plugin.tokType;
+      const tokenTypeKeyRef = tokType == null ? tokType : tokType[token.type.key];
+      const toCode = tokenTypeKeyRef == null ? tokenTypeKeyRef : tokenTypeKeyRef.toCode;
+      const code = typeof toCode !== "function" ? undefined : toCode(token, this);
+
+      if (code !== undefined) return code;
+    }
+
+    return token.type.toCode(token, this);
+  }
+
   _serialize(token) {
-    let code, origLoc;
     if (token.type === tt.mappingMark) {
       this.mark(token.value.loc);
       return;
     }
-    code = token.type.toCode(token, this);
-    origLoc = token.origLoc || token.loc;
+    const code = this._toCode(token);
+    const origLoc = token.origLoc || token.loc;
     if (origLoc) this.mark(origLoc.start);
     this.output += code;
     this.position.push(code);

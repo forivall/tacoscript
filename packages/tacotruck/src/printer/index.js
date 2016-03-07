@@ -2,7 +2,7 @@
 // prints an ast, as tacoscript, preserves newlines if the option is set
 
 import isArray from "lodash/isArray";
-import assign from "lodash/assign";
+import omit from "lodash/omit";
 import * as t from "babel-types";
 import repeating from "repeating";
 
@@ -27,12 +27,11 @@ function canOmitParens(node, parent) {
 }
 
 function mergedPlugins(plugins: Array) {
+  if (plugins == null) return {};
   let merged = {};
-  for (let plugin of plugins) {
-    if (typeof plugin === "function") {
-      plugin = plugin(tt);
-    }
-    merged = assign(merged, plugin);
+  for (const plugin of plugins) {
+    merged = Object.assign(merged, omit(plugin, "tokType"));
+    // TODO: allow "extend[NodeType]"
   }
   return merged;
 }
@@ -42,7 +41,7 @@ export default class Printer extends TokenBuffer {
     super(opts, code);
     this.ast = ast;
     this.code = code;
-    this.alt = opts.plugins != null ? mergedPlugins(opts.plugins) : {};
+    this.alt = mergedPlugins(this.opts.plugins);
     this._printedCommentStarts = {};
   }
 
