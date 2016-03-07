@@ -424,10 +424,10 @@ function _inheritComments(key, child, parent) {
 }
 
 
-// Can't use import because of cyclic dependency between babel-traverse
-// and this module (babel-types). This require needs to appear after
+// Can't use import because of cyclic dependency between comal-traverse
+// and this module (comal-types). This require needs to appear after
 // we export the TYPES constant.
-const traverse = require("babel-traverse").default;
+const traverse = require("comal-traverse").default;
 
 /**
  * Inherit all contextual properties from `parent` node to `child` node.
