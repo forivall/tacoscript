@@ -1,5 +1,3 @@
-/* @noflow */
-
 import toFastProperties from "to-fast-properties";
 import compact from "lodash/compact";
 import loClone from "lodash/clone";
@@ -165,7 +163,10 @@ export function isType(nodeType: string, targetType: string): boolean {
 function createBuilder (keys, type) {
   function builder() {
     if (arguments.length > keys.length) {
-      throw new Error(`t.${type}: Too many arguments passed. Received ${arguments.length} but can receive no more than ${keys.length}`);
+      throw new Error(
+        `t.${type}: Too many arguments passed. Received ${arguments.length} but can receive ` +
+        `no more than ${keys.length}`
+      );
     }
 
     let node = {};
@@ -422,6 +423,12 @@ function _inheritComments(key, child, parent) {
   }
 }
 
+
+// Can't use import because of cyclic dependency between babel-traverse
+// and this module (babel-types). This require needs to appear after
+// we export the TYPES constant.
+const traverse = require("babel-traverse").default;
+
 /**
  * Inherit all contextual properties from `parent` node to `child` node.
  */
@@ -447,6 +454,7 @@ export function inherits(child: Object, parent: Object): Object {
   }
 
   t.inheritsComments(child, parent);
+  traverse.copyCache(parent, child);
 
   return child;
 }
@@ -457,6 +465,7 @@ export function inherits(child: Object, parent: Object): Object {
 
 export function assertNode(node?) {
   if (!isNode(node)) {
+    // $FlowFixMe
     throw new TypeError("Not a valid node " + (node && node.type));
   }
 }
