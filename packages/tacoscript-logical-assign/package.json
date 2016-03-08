@@ -22,7 +22,6 @@
     "test": "mocha"
   },
   "dependencies": {
-    "comal-types": "^0.5.3",
     "babel-runtime": "^5.8.35"
   },
   "devDependencies": {
