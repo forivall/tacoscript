@@ -345,7 +345,7 @@ export default class TacoBuffer {
 
   _toCode(token) {
     // FIXME: optimise me
-    for (const plugin in (this.opts.plugins: Array)) {
+    for (const plugin of (this.opts.plugins: Array)) {
       // code = plugin.tokType?[token.type.key]?.toCode?(token, this)
       const tokType = plugin.tokType;
       const tokenTypeKeyRef = tokType == null ? tokType : tokType[token.type.key];

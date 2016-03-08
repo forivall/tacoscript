@@ -48,11 +48,24 @@ export default function ({types: t}) {
   };
 }
 
-export function transpose() {
+export function transpose({types: t}) {
   return {
     visitor: {
       LogicalExpression(path) {
-        // check that the contents that
+        const {node} = path;
+        if (node.operator !== "&&" && node.operator !== "||") return;
+        // TODO: create a "node equals" for comal-types
+        if (t.isAssignmentExpression(node.right)) {
+          const outerLeft = node.left;
+          const innerLeft = node.right.left;
+          // TODO: generic case, not just identifier
+          if (
+            t.isIdentifier(outerLeft) && t.isIdentifier(innerLeft) &&
+            outerLeft.name === innerLeft.name
+          ) {
+            path.replaceWith(t.assignmentExpression(node.operator + "=", node.left, node.right.right));
+          }
+        }
       }
     },
   };
