@@ -25,7 +25,7 @@ export default class Token {
 
   static _fromCodeCache = {};
   // should not be used on regex, etc.
-  static stateFromCode(code) {
+  static stateFromCode(code, defaultType) {
     // TODO: just use the tokenizer to do this
     // make sure to design the tokenizer to make this easy
     let cacheState = Token._fromCodeCache[code];
@@ -60,6 +60,9 @@ export default class Token {
         return (Token._fromCodeCache[code] = { type: tt.plusMin, value: code });
       case ";": return (Token._fromCodeCache[code] = { type: tt.semi });
       case ";;": return (Token._fromCodeCache[code] = { type: tt.doublesemi });
+    }
+    if (defaultType) {
+      return {type: defaultType, value: code};
     }
     throw new Error(`Cannot construct token from code "${code}"`);
   }

@@ -3,7 +3,7 @@ import isInteger from "is-integer";
 import isNumber from "lodash/isNumber";
 import clone from "lodash/clone";
 import * as t from "babel-types";
-import {Token, tokTypes as tt} from "horchata";
+import {Token} from "horchata";
 
 const SCIENTIFIC_NOTATION = /e/i;
 
@@ -120,7 +120,7 @@ export function AssignmentPattern(node) {
 export function AssignmentExpression(node) {
   this.print(node, "left");
   // can be any token that has {isAssign: true}
-  this.push({type: tt.assign, value: node.operator});
+  this.push(Token.stateFromCode(node.operator, "assign"));
   this.print(node, "right");
 }
 
