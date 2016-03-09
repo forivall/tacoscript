@@ -20,15 +20,15 @@
     "test": "mocha"
   },
   "dependencies": {
-    "babel-code-frame": "^6.3.13",
+    "babel-code-frame": "^6.6.5",
     "babel-runtime": "^5.8.35",
-    "babylon": "^6.4.5",
+    "babylon": "^6.7.0",
     "comal-types": "^0.5.3",
     "debug": "^2.2.0",
     "errmsg": "^1.0.0",
     "globals": "^9.0.0",
     "invariant": "^2.2.0",
-    "lodash": "^4.2.0",
+    "lodash": "^4.6.1",
     "repeating": "^2.0.0"
   }
 }

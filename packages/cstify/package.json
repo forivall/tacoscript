@@ -24,12 +24,12 @@
   },
   "dependencies": {
     "babel-runtime": "^5.8.35",
-    "babel-traverse": "^6.3.26",
-    "babel-types": "^6.3.24",
+    "babel-traverse": "^6.7.0",
+    "babel-types": "^6.7.0",
     "heapjs": "^1.0.4",
     "tacoscript-cst-utils": "^0.5.3"
   },
   "devDependencies": {
-    "babylon": "^6.3.26"
+    "babylon": "^6.7.0"
   }
 }

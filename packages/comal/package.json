@@ -21,18 +21,18 @@
     "test": "mocha"
   },
   "dependencies": {
-    "babel-code-frame": "^6.3.13",
-    "babel-generator": "^6.4.5",
-    "babel-helpers": "^6.4.5",
+    "babel-code-frame": "^6.6.5",
+    "babel-generator": "^6.7.0",
+    "babel-helpers": "^6.6.0",
     "babel-runtime": "^5.8.35",
-    "babel-template": "^6.3.13",
+    "babel-template": "^6.7.0",
     "comal-traverse": "^0.5.3",
     "comal-types": "^0.5.3",
-    "convert-source-map": "^1.1.0",
+    "convert-source-map": "^1.2.0",
     "debug": "^2.1.1",
     "errmsg": "^1.0.0",
     "json5": "^0.4.0",
-    "lodash": "^4.2.0",
+    "lodash": "^4.6.1",
     "minimatch": "^3.0.0",
     "path-exists": "^2.0.0",
     "path-is-absolute": "^1.0.0",
@@ -41,6 +41,6 @@
     "source-map": "^0.5.0"
   },
   "devDependencies": {
-    "babylon": "^6.4.5"
+    "babylon": "^6.7.0"
   }
 }

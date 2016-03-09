@@ -25,8 +25,7 @@
     "babel-runtime": "^5.8.35"
   },
   "devDependencies": {
-    "horchata": "^0.5.3",
-    "tacoscript-cst-utils": "^0.5.3"
+    "horchata": "^0.5.3"
   },
   "peerDependencies": {
     "horchata": ">=0.3.1 <1"

@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "horchata": "^0.5.3",
-    "tacoscript": "^0.5.3",
-    "tacoscript-cst-utils": "^0.5.3"
+    "tacoscript": "^0.5.3"
   }
 }

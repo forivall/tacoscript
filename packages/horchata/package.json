@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "babel-runtime": "^5.8.35",
-    "lodash": "^4.2.0",
+    "lodash": "^4.6.1",
     "repeating": "^2.0.0",
     "tacoscript-cst-utils": "^0.5.3"
   }
