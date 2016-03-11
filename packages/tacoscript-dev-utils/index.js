@@ -1,4 +1,4 @@
-// borrowed from babel/packages/babylon/test.js
+// borrowed from babylon/test/index.js
 // TODO: move to external library
 
 var fs = require('fs')

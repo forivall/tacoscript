@@ -276,7 +276,7 @@ contribute to JavaScript projects by coding in TacoScript, and vice-versa.
 [TacoScript]: http://tacoscript.github.io/
 [frappe]: https://github.com/lydell/frappe
 [Babel]: https://github.com/babel/babel
-[Babylon]: https://github.com/babel/babel/tree/master/packages/babylon
+[Babylon]: https://github.com/babel/babylon
 [estree]: https://github.com/estree/estree
 [ECMAScript]: https://github.com/tc39/ecma262
 [CST]: https://github.com/estree/estree/pull/107

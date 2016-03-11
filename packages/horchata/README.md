@@ -8,4 +8,4 @@ deviating where necessary.
     ast = horchata.parse(code, options)
 
 
-[Babylon]: https://github.com/babel/babel/tree/master/packages/babylon
+[Babylon]: https://github.com/babel/babylon
