@@ -13,24 +13,18 @@ horchata.registerPluginModule("logical-assign", parserPlugin, lexerPlugin);
 export default function ({types: t}) {
   return {
     visitor: {
-      ExpressionStatement(path) {
-        const node = path.node.expression;
-        if (t.isAssignmentExpression(node)) {
-          const {left, right, operator: op, extra} = node;
-          if (op === "&&=" || op === "||=") {
-            if (extra == null || !extra.parenthesized) {
-              let test = op === "&&=" ? left : t.unaryExpression("!", left, true);
-              path.replaceWith(t.ifStatement(test, t.expressionStatement(t.assignmentExpression('=', left, right))));
-            }
-          }
-        }
-      },
       AssignmentExpression(path) {
         const node = path.node;
         const op = node.operator;
         if (op === "&&=" || op === "||=") {
-          const {left, right} = path.node;
-          path.replaceWith(t.logicalExpression(op.slice(0, -1), left, t.assignmentExpression('=', left, right)));
+          const {left, right, extra = {}} = path.node;
+          if (!extra.parenthesized && t.isExpressionStatement(path.parentPath.node)) {
+            const test = op === "&&=" ? left : t.unaryExpression("!", left, true);
+            path.parentPath.replaceWith(t.ifStatement(test, t.expressionStatement(t.assignmentExpression('=', left, right))));
+          } else {
+            path.replaceWith(t.logicalExpression(op.slice(0, -1), left, t.assignmentExpression('=', left, right)));
+          }
+          // path.insertBefore(t.constDecl)
           // TODO: also cache accessor, e.g.
           // a.b.c ||= d
           // =>
