@@ -27,5 +27,8 @@
     "lodash": "^4.6.1",
     "repeating": "^2.0.0",
     "tacoscript-cst-utils": "^0.5.3"
+  },
+  "devDependencies": {
+    "unicode-8.0.0": "^0.1.5"
   }
 }

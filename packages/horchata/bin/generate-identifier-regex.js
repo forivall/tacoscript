@@ -5,10 +5,8 @@
  * See LICENSE for full license text
  */
 
-// Note: run `npm install unicode-7.0.0` first.
-
 // Which Unicode version should be used?
-var version = '7.0.0';
+var version = '8.0.0';
 
 function pad(str, width) {
   while (str.length < width) str = "0" + str;
