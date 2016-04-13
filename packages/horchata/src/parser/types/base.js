@@ -104,7 +104,7 @@ export function parseBlockBody(node, blockContext = {}) {
     this.eat(tt.newline);
   }
   if (!isTopLevel) {
-    this.eatLineTerminator() || this.unexpected();
+    this.eatLineTerminator();
   }
   this.state.strict = oldStrict;
   return node;

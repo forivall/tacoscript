@@ -1,0 +1,119 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "CallExpression",
+              "callee": {
+                "type": "MemberExpression",
+                "object": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "Identifier",
+                    "name": "getToken",
+                    "extra": {
+                      "raw": "getToken"
+                    }
+                  },
+                  "arguments": []
+                },
+                "property": {
+                  "type": "Identifier",
+                  "name": "then",
+                  "extra": {
+                    "raw": "then"
+                  }
+                },
+                "computed": false
+              },
+              "arguments": [
+                {
+                  "type": "FunctionExpression",
+                  "params": [],
+                  "id": null,
+                  "generator": false,
+                  "expression": false,
+                  "async": false,
+                  "body": {
+                    "type": "BlockStatement",
+                    "body": [
+                      {
+                        "type": "ReturnStatement",
+                        "argument": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "Identifier",
+                            "name": "getData",
+                            "extra": {
+                              "raw": "getData"
+                            }
+                          },
+                          "arguments": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "then",
+              "extra": {
+                "raw": "then"
+              }
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "FunctionExpression",
+              "params": [],
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "Identifier",
+                        "name": "processData",
+                        "extra": {
+                          "raw": "processData"
+                        }
+                      },
+                      "arguments": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

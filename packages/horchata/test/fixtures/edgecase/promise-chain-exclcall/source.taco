@@ -1,0 +1,5 @@
+getToken()
+.then! () ->
+  return getData()
+.then! () ->
+  return processData()
