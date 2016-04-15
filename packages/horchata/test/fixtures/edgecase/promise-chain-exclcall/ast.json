@@ -16,15 +16,11 @@
               "callee": {
                 "type": "MemberExpression",
                 "object": {
-                  "type": "CallExpression",
-                  "callee": {
-                    "type": "Identifier",
-                    "name": "getToken",
-                    "extra": {
-                      "raw": "getToken"
-                    }
-                  },
-                  "arguments": []
+                  "type": "Identifier",
+                  "name": "getToken",
+                  "extra": {
+                    "raw": "getToken"
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -88,21 +84,20 @@
                   {
                     "type": "ReturnStatement",
                     "argument": {
-                      "type": "CallExpression",
-                      "callee": {
-                        "type": "Identifier",
-                        "name": "processData",
-                        "extra": {
-                          "raw": "processData"
-                        }
-                      },
-                      "arguments": []
+                      "type": "NumericLiteral",
+                      "value": 2,
+                      "extra": {
+                        "raw": "2"
+                      }
                     }
                   }
                 ]
               }
             }
-          ]
+          ],
+          "extra": {
+            "exclCall": true
+          }
         }
       }
     ],

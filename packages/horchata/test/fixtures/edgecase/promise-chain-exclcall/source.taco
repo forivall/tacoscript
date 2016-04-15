@@ -1,5 +1,5 @@
-getToken()
+getToken
 .then! () ->
-  return getData()
+  return 1
 .then! () ->
-  return processData()
+  return 2
