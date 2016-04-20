@@ -82,7 +82,7 @@ export function parseStatement(declaration = true, topLevel = false) {
     case tt._new: if (this.hasFeature("statementNoParenCall") && !this.matchNext(tt.dot)) {
       const expr = this.startNode();
       this.next();
-      node = this.parseExpressionStatement(node, this.parseNewCall(expr, start, {statementNoParenCall: true}));
+      node = this.parseExpressionStatement(node, this.parseNewCall(expr, start, {statementNoParenCall: true}, {}));
       break;
     } // else fallthrough
     default:

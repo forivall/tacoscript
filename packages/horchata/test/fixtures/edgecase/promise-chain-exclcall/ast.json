@@ -45,21 +45,20 @@
                       {
                         "type": "ReturnStatement",
                         "argument": {
-                          "type": "CallExpression",
-                          "callee": {
-                            "type": "Identifier",
-                            "name": "getData",
-                            "extra": {
-                              "raw": "getData"
-                            }
-                          },
-                          "arguments": []
+                          "type": "NumericLiteral",
+                          "value": 1,
+                          "extra": {
+                            "raw": "1"
+                          }
                         }
                       }
                     ]
                   }
                 }
-              ]
+              ],
+              "extra": {
+                "exclCall": true
+              }
             },
             "property": {
               "type": "Identifier",

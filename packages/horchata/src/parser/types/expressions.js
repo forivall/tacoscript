@@ -164,12 +164,13 @@ export function parseOtherKeywordExpression() {
 
 // Start the precedence parser
 export function parseExpressionOperators(expressionContext) {
+  const {exclCall, isFor} = expressionContext;
   let start = this.state.cur;
   let node = this.parseExpressionMaybeUnary(expressionContext);
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
   }
-  return this.parseExpressionOperator(node, start, -1, {isFor: expressionContext.isFor});
+  return this.parseExpressionOperator(node, start, -1, {exclCall, isFor});
 }
 
 // Parse binary operators with the operator precedence parsing
@@ -219,6 +220,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
 }
 
 export function parseExpressionPrefix(expressionContext) {
+  const {exclCall} = expressionContext;
   let isUpdate = this.match(tt.incDec);
   let node = this.startNode();
   this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, {token: this.state.cur});
@@ -227,7 +229,7 @@ export function parseExpressionPrefix(expressionContext) {
 
   // should be able to infer from child
   // this.addExtra(node, "parenthesizedArgument", type === tt.parenL);
-  this.assign(node, "argument", this.parseExpressionMaybeUnary());
+  this.assign(node, "argument", this.parseExpressionMaybeUnary({exclCall}));
   // this.addExtra(node, "parenthesizedArgument", node.argument.extra != null && node.argument.extra.parenthesized);
 
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
@@ -258,6 +260,7 @@ export function isArrowExpression(node) {
 
 // Parse call, dot, and `[]`-subscript expressions.
 export function parseExpressionSubscripts(expressionContext) {
+  const {exclCall} = expressionContext;
   let start = this.state.cur;
   let potentialLambdaOn = this.state.potentialLambdaOn;
   let node = this.parseExpressionAtomic(expressionContext);
@@ -269,20 +272,21 @@ export function parseExpressionSubscripts(expressionContext) {
     return node;
   }
 
-  return this.parseSubscripts(node, start);
+  return this.parseSubscripts(node, start, {noDotContinuation: exclCall}, expressionContext);
 }
 
-export function parseSubscripts(base, start, subscriptContext = {}) {
-  let noCall = subscriptContext.noCall;
+export function parseSubscripts(base, start, subscriptContext = {}, expressionContext) {
+  const {noCall, noDotContinuation} = subscriptContext;
   let node = base;
   for (;;) {
     if (!noCall && this.eat(tt.doubleColon)) {
       node = this.startNode(start);
       this.assign(node, "object", base);
-      this.assign(node, "callee", this.parseNoCallExpression());
-      node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext);
+      this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
+      node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext, expressionContext);
       break;
-    } else if (this.eat(tt.dot)) {
+    } else if (!noDotContinuation && this.eat(tt.dot)) {
+      // TODO: limit nodotcontinuation to after newlines
       node = this.startNode(start);
       this.assign(node, "object", base);
       this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
@@ -347,7 +351,7 @@ export function parseCallExpressionArguments(node, close, expressionContext = {}
 // This is either a single token that is an expression, an
 // expression started by a keyword like `function` or `new`, or an
 // expression wrapped in punctuation like `()`, `[]`, or `{}`.
-export function parseExpressionAtomic(expressionContext) {
+export function parseExpressionAtomic(expressionContext = {}) {
   let node;
   let canBeArrow = this.state.potentialLambdaOn.start === this.state.cur.start;
   switch (this.state.cur.type) {
@@ -437,7 +441,7 @@ export function parseExpressionAtomic(expressionContext) {
       break;
 
     case tt._new:
-      node = this.parseNew();
+      node = this.parseNew(expressionContext);
       break;
 
     case tt.backQuote:
@@ -448,7 +452,7 @@ export function parseExpressionAtomic(expressionContext) {
     // case tt._do:
 
     case tt.doubleColon:
-      node = this.parseBindExpression();
+      node = this.parseBindExpression(expressionContext);
       break;
 
     default:
@@ -457,18 +461,19 @@ export function parseExpressionAtomic(expressionContext) {
   return node;
 }
 
-export function parseNoCallExpression() {
+export function parseNoCallExpression(expressionContext) {
+  const {exclCall} = expressionContext;
   let start = this.state.cur;
-  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true});
+  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true, noDotContinuation: exclCall}, expressionContext);
 }
 
 // The remaining functions here are for parsing atomic expressions, alphabetized
 
-export function parseBindExpression() {
+export function parseBindExpression(expressionContext) {
   let node = this.startNode();
   this.next();
   node.object = null;
-  let callee = this.assign(node, "callee", this.parseNoCallExpression());
+  let callee = this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
   if (callee.type !== "MemberExpression") {
     this.raise(callee.start, "Binding should be performed on object property.");
   }
@@ -481,7 +486,7 @@ export function parseBindExpression() {
 // `noCall` option of `parseSubscripts` to prevent the parser from
 // consuming the arugment list.
 
-export function parseNew() {
+export function parseNew(expressionContext) {
   let node = this.startNode();
   let meta = this.parseIdentifier({allowKeywords: true, convertKeywordToken: false}); // also eats the `new`
   if (this.eat(tt.dot)) {
@@ -494,7 +499,7 @@ export function parseNew() {
     this.checkMetaProperty(node);
     node = this.finishNode(node, "MetaProperty");
   } else {
-    node = this.parseNewCall(node);
+    node = this.parseNewCall(node, undefined, {}, expressionContext);
   }
   return node;
 }
@@ -511,9 +516,9 @@ export function parseNew() {
 // In the latter case, this actually will return a "CallExpression", with
 // the "NewExpression" as the callee.
 
-export function parseNewCall(node, start, newContext = {}) {
+export function parseNewCall(node, start, newContext = {}, expressionContext) {
   const {statementNoParenCall} = newContext;
-  this.assign(node, "callee", this.parseNoCallExpression());
+  this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
   if (this.eat(tt.parenL)) {
     node = this.parseCallExpressionArguments(node, tt.parenR);
     node = this.finishNode(node, "NewExpression");
@@ -617,11 +622,13 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
 
 // overridden by iife and generator expression plugins
 export function finishParseParenAndDistinguishExpression(node, expressionContext) {
-  const {canBeArrow} = expressionContext;
+  const {canBeArrow, exclCall} = expressionContext;
   let maybeFunction = node;
   maybeFunction.params = [];
 
-  expressionContext.shorthandDefaultPos = {start: 0};
+  const childExpressionContext = {
+    shorthandDefaultPos: {start: 0}
+  };
   let spreadStart;
 
   let {firstConcreteSeparatorStart} =
@@ -632,20 +639,20 @@ export function finishParseParenAndDistinguishExpression(node, expressionContext
       this.add(maybeFunction, "params", this.parseRest());
       return "break";
     } else {
-      element = this.parseExpression(expressionContext); // , {afterLeftParse: this.parseParenItem}
+      element = this.parseExpression(childExpressionContext); // , {afterLeftParse: this.parseParenItem}
     }
     this.add(maybeFunction, "params", element);
   });
 
   let maybeGenerator = this.match(tt.star);
   if (canBeArrow && (this.match(tt.arrow) || maybeGenerator && this.matchNext(tt.arrow))) {
-    node = this.parseArrowExpression(maybeFunction, {}, expressionContext);
+    node = this.parseArrowExpression(maybeFunction, {}, childExpressionContext);
   } else if (maybeFunction.params.length === 0) {
     this.unexpected(this.state.prev.start);
   } else if (spreadStart) {
     this.unexpected(spreadStart);
-  } else if (expressionContext.shorthandDefaultPos.start) {
-    this.unexpected(expressionContext.shorthandDefaultPos.start);
+  } else if (childExpressionContext.shorthandDefaultPos.start) {
+    this.unexpected(childExpressionContext.shorthandDefaultPos.start);
   } else if (firstConcreteSeparatorStart) {
     this.unexpected(firstConcreteSeparatorStart);
   } else if (maybeFunction.params.length > 1) {
