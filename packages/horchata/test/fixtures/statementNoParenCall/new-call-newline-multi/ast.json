@@ -59,7 +59,7 @@
             }
           ],
           "extra": {
-            "statementNoParenCall": true
+            "callType": "stmt"
           }
         }
       }

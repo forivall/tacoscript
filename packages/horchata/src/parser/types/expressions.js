@@ -164,13 +164,13 @@ export function parseOtherKeywordExpression() {
 
 // Start the precedence parser
 export function parseExpressionOperators(expressionContext) {
-  const {exclCall, isFor} = expressionContext;
+  const {callType, isFor} = expressionContext;
   let start = this.state.cur;
   let node = this.parseExpressionMaybeUnary(expressionContext);
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
     return node;
   }
-  return this.parseExpressionOperator(node, start, -1, {exclCall, isFor});
+  return this.parseExpressionOperator(node, start, -1, {callType, isFor});
 }
 
 // Parse binary operators with the operator precedence parsing
@@ -220,7 +220,7 @@ export function parseExpressionMaybeUnary(expressionContext = {}) {
 }
 
 export function parseExpressionPrefix(expressionContext) {
-  const {exclCall} = expressionContext;
+  const {callType} = expressionContext;
   let isUpdate = this.match(tt.incDec);
   let node = this.startNode();
   this.assign(node, "operator", this.state.cur.type.estreeValue || this.state.cur.value, {token: this.state.cur});
@@ -229,7 +229,7 @@ export function parseExpressionPrefix(expressionContext) {
 
   // should be able to infer from child
   // this.addExtra(node, "parenthesizedArgument", type === tt.parenL);
-  this.assign(node, "argument", this.parseExpressionMaybeUnary({exclCall}));
+  this.assign(node, "argument", this.parseExpressionMaybeUnary({callType}));
   // this.addExtra(node, "parenthesizedArgument", node.argument.extra != null && node.argument.extra.parenthesized);
 
   if (expressionContext.shorthandDefaultPos && expressionContext.shorthandDefaultPos.start) {
@@ -258,9 +258,13 @@ export function isArrowExpression(node) {
   return node.type === "ArrowFunctionExpression" || node.type === "FunctionExpression" && node.id;
 }
 
+export function isNoContinuationCallType(callType) {
+  return callType === "excl" || callType === "stmt"; // the other callType is "paren"
+}
+
 // Parse call, dot, and `[]`-subscript expressions.
 export function parseExpressionSubscripts(expressionContext) {
-  const {exclCall} = expressionContext;
+  const {callType} = expressionContext;
   let start = this.state.cur;
   let potentialLambdaOn = this.state.potentialLambdaOn;
   let node = this.parseExpressionAtomic(expressionContext);
@@ -272,7 +276,7 @@ export function parseExpressionSubscripts(expressionContext) {
     return node;
   }
 
-  return this.parseSubscripts(node, start, {noContinuation: exclCall}, expressionContext);
+  return this.parseSubscripts(node, start, {noContinuation: this.isNoContinuationCallType(callType)}, expressionContext);
 }
 
 export function parseSubscripts(base, start, subscriptContext = {}, expressionContext) {
@@ -309,7 +313,7 @@ export function parseSubscripts(base, start, subscriptContext = {}, expressionCo
     } else if (!noCall && this.hasFeature("exclCall") && this.eat(tt.excl)) {
       node = this.startNode(start);
       this.assign(node, "callee", base);
-      node = this.parseCallExpressionArguments(node, null, {exclCall: true});
+      node = this.parseCallExpressionArguments(node, null, {callType: "excl"});
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (this.match(tt.backQuote)) {
@@ -338,11 +342,8 @@ export function parseCallExpressionArguments(node, close, expressionContext = {}
     this.add(node, "arguments", argument);
   });
 
-  if (expressionContext.exclCall) {
-    this.addExtra(node, "exclCall", true);
-  }
-  if (expressionContext.statementNoParenCall) {
-    this.addExtra(node, "statementNoParenCall", true);
+  if (expressionContext.callType) {
+    this.addExtra(node, "callType", expressionContext.callType);
   }
 
   return node;
@@ -463,9 +464,9 @@ export function parseExpressionAtomic(expressionContext = {}) {
 }
 
 export function parseNoCallExpression(expressionContext) {
-  const {exclCall} = expressionContext;
+  const {callType} = expressionContext;
   let start = this.state.cur;
-  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true, noContinuation: exclCall}, expressionContext);
+  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true, noContinuation: this.isNoContinuationCallType(callType)}, expressionContext);
 }
 
 // The remaining functions here are for parsing atomic expressions, alphabetized
@@ -518,22 +519,22 @@ export function parseNew(expressionContext) {
 // the "NewExpression" as the callee.
 
 export function parseNewCall(node, start, newContext = {}, expressionContext) {
-  const {statementNoParenCall} = newContext;
+  const {callType} = newContext;
   this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
   if (this.eat(tt.parenL)) {
     node = this.parseCallExpressionArguments(node, tt.parenR);
     node = this.finishNode(node, "NewExpression");
 
-    if (statementNoParenCall) {
+    if (callType === 'stmt') {
       // new Function("foo", "console.log(foo)") "bar"
       node = this.parseMaybeNoParenCall(node, start);
     }
   } else if (this.hasFeature("exclCall") && this.eat(tt.excl)) {
-    node = this.parseCallExpressionArguments(node, null, {exclCall: true});
+    node = this.parseCallExpressionArguments(node, null, {callType: "excl"});
     node = this.finishNode(node, "NewExpression");
-  } else if (statementNoParenCall) {
+  } else if (callType === 'stmt') {
     if (this.match(tt.indent) || !this.matchLineTerminator()) {
-      node = this.parseCallExpressionArguments(node, null, {statementNoParenCall: true});
+      node = this.parseCallExpressionArguments(node, null, {callType});
     } else {
       node.arguments = [];
       this.addExtra(node, "noParens", true);
@@ -553,7 +554,7 @@ export function parseMaybeNoParenCall(expr, start) {
   if (this.match(tt.indent) || !this.matchLineTerminator()) {
     node = this.startNode(start);
     this.assign(node, "callee", expr);
-    node = this.parseCallExpressionArguments(node, null, {statementNoParenCall: true});
+    node = this.parseCallExpressionArguments(node, null, {callType: "stmt"});
     node = this.finishNode(node, "CallExpression");
   }
   return node;
@@ -623,7 +624,7 @@ export function parseParenAndDistinguishExpression(start, expressionContext = {}
 
 // overridden by iife and generator expression plugins
 export function finishParseParenAndDistinguishExpression(node, expressionContext) {
-  const {canBeArrow, exclCall} = expressionContext;
+  const {canBeArrow} = expressionContext;
   let maybeFunction = node;
   maybeFunction.params = [];
 

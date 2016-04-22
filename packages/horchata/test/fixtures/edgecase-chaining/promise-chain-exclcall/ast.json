@@ -57,7 +57,7 @@
                 }
               ],
               "extra": {
-                "exclCall": true
+                "callType": "excl"
               }
             },
             "property": {
@@ -95,7 +95,7 @@
             }
           ],
           "extra": {
-            "exclCall": true
+            "callType": "excl"
           }
         }
       }

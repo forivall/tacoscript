@@ -36,7 +36,12 @@
               }
             ],
             "extra": {
-              "exclCall": true
+              "callType": "excl",
+              "parenthesized": true,
+              "parenEnd": 0,
+              "parens": [
+                {}
+              ]
             }
           }
         }

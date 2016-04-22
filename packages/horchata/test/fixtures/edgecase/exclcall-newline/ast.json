@@ -26,7 +26,7 @@
             }
           ],
           "extra": {
-            "exclCall": true
+            "callType": "excl"
           }
         }
       }
