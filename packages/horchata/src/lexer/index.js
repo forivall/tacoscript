@@ -194,6 +194,7 @@ export default class Lexer {
         this.assert(this.state.tokens.pop() === token);
         this.state.tokens.push(nextToken);
         token = nextToken;
+        token.meta.continuedPreviousLine = true;
       }
     }
 

@@ -272,21 +272,22 @@ export function parseExpressionSubscripts(expressionContext) {
     return node;
   }
 
-  return this.parseSubscripts(node, start, {noDotContinuation: exclCall}, expressionContext);
+  return this.parseSubscripts(node, start, {noContinuation: exclCall}, expressionContext);
 }
 
 export function parseSubscripts(base, start, subscriptContext = {}, expressionContext) {
-  const {noCall, noDotContinuation} = subscriptContext;
+  const {noCall, noContinuation} = subscriptContext;
   let node = base;
   for (;;) {
+    if (noContinuation && this.state.cur.meta.continuedPreviousLine) break;
+
     if (!noCall && this.eat(tt.doubleColon)) {
       node = this.startNode(start);
       this.assign(node, "object", base);
       this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
       node = this.parseSubscripts(this.finishNode(node, "BindExpression"), start, subscriptContext, expressionContext);
       break;
-    } else if (!noDotContinuation && this.eat(tt.dot)) {
-      // TODO: limit nodotcontinuation to after newlines
+    } else if (this.eat(tt.dot)) {
       node = this.startNode(start);
       this.assign(node, "object", base);
       this.assign(node, "property", this.parseIdentifier({allowKeywords: true}));
@@ -464,7 +465,7 @@ export function parseExpressionAtomic(expressionContext = {}) {
 export function parseNoCallExpression(expressionContext) {
   const {exclCall} = expressionContext;
   let start = this.state.cur;
-  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true, noDotContinuation: exclCall}, expressionContext);
+  return this.parseSubscripts(this.parseExpressionAtomic(), start, {noCall: true, noContinuation: exclCall}, expressionContext);
 }
 
 // The remaining functions here are for parsing atomic expressions, alphabetized
