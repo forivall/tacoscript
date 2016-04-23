@@ -29,6 +29,13 @@
           },
           "arguments": [
             {
+              "type": "StringLiteral",
+              "value": "/a/b",
+              "extra": {
+                "raw": "'/a/b'"
+              }
+            },
+            {
               "type": "Identifier",
               "name": "verify",
               "extra": {

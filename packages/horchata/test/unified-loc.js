@@ -32,7 +32,7 @@ _.forOwn(specs, function(suites, setName) {
       _.each(testSuite.tests, function(task) {
         test(task.title, !(task.disabled || localDisabled(task, groupName)) && function () {
           var ast = horchata.parse(task.source.code, task.options);
-          if (task.ast.code === "") {
+          if (task.ast.code == null) {
             delete ast.tokens;
             if (GENERATE) fs.writeFileSync(task.ast.loc, JSON.stringify(ast, null, '  '));
             throw new Error("Test has no AST");

@@ -1,4 +1,4 @@
-app.get
+app.get '/a/b'
   verify
   validate
   (req, res) ->

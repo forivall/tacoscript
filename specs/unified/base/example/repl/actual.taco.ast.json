@@ -2253,13 +2253,13 @@
                         }
                       ],
                       "extra": {
-                        "exclCall": true
+                        "callType": "excl"
                       }
                     }
                   }
                 ],
                 "extra": {
-                  "exclCall": true
+                  "callType": "excl"
                 }
               }
             }
