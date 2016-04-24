@@ -47,9 +47,15 @@ export function parseIndentableList(close, context, inner) {
         this.match(close) || this.unexpected();
       }
       break;
-    } else if (allowTrailingComma && (close === null ? this.matchLineTerminator() : this.match(close))) {
-      break;
+    } else if (allowTrailingComma) {
+      if (allowTrailingComma !== "indent" || indented) {
+        if (close === null ? this.matchLineTerminator() : this.match(close)) {
+          break;
+        }
+      }
     }
+    this.eat(tt.newline);
+
     switch (inner.call(this, {})) {
       case "break": break loop;
     }

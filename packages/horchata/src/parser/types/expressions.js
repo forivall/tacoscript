@@ -307,7 +307,7 @@ export function parseSubscripts(base, start, subscriptContext = {}, expressionCo
     } else if (!noCall && this.eat(tt.parenL)) {
       node = this.startNode(start);
       this.assign(node, "callee", base);
-      node = this.parseCallExpressionArguments(node, tt.parenR);
+      node = this.parseCallExpressionArguments(node, tt.parenR, {callType: "paren"});
       base = node = this.finishNode(node, "CallExpression");
       this.checkReferencedList(node.arguments);
     } else if (!noCall && this.hasFeature("exclCall") && this.eat(tt.excl)) {
@@ -328,11 +328,14 @@ export function parseSubscripts(base, start, subscriptContext = {}, expressionCo
   return node;
 }
 
-// TODO: allow expr (!) auto closing call expressions.
 export function parseCallExpressionArguments(node, close, expressionContext = {}) {
+  const {callType} = expressionContext;
   node.arguments = [];
 
-  this.parseIndentableList(close, {...expressionContext, allowTrailingComma: true, noTerminator: true}, () => {
+  this.parseIndentableList(close, {...expressionContext,
+    allowTrailingComma: (this.isNoContinuationCallType(callType) ? 'indent' : true),
+    noTerminator: true
+  }, () => {
     let argument;
     if (this.match(tt.ellipsis)) {
       argument = this.parseSpread(expressionContext);
@@ -342,7 +345,7 @@ export function parseCallExpressionArguments(node, close, expressionContext = {}
     this.add(node, "arguments", argument);
   });
 
-  if (expressionContext.callType) {
+  if (callType && callType !== "paren") {
     this.addExtra(node, "callType", expressionContext.callType);
   }
 
@@ -522,7 +525,7 @@ export function parseNewCall(node, start, newContext = {}, expressionContext) {
   const {callType} = newContext;
   this.assign(node, "callee", this.parseNoCallExpression(expressionContext));
   if (this.eat(tt.parenL)) {
-    node = this.parseCallExpressionArguments(node, tt.parenR);
+    node = this.parseCallExpressionArguments(node, tt.parenR, {callType: "paren"});
     node = this.finishNode(node, "NewExpression");
 
     if (callType === 'stmt') {

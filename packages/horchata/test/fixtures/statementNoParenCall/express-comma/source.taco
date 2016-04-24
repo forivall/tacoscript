@@ -1,0 +1,5 @@
+app.get '/a/b',
+verify,
+validate,
+(req, res) ->
+  res.send(200)

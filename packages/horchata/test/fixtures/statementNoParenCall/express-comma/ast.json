@@ -1,0 +1,130 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "Identifier",
+              "name": "app",
+              "extra": {
+                "raw": "app"
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "get",
+              "extra": {
+                "raw": "get"
+              }
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "StringLiteral",
+              "value": "/a/b",
+              "extra": {
+                "raw": "'/a/b'"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "verify",
+              "extra": {
+                "raw": "verify"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "validate",
+              "extra": {
+                "raw": "validate"
+              }
+            },
+            {
+              "type": "FunctionExpression",
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "req",
+                  "extra": {
+                    "raw": "req"
+                  }
+                },
+                {
+                  "type": "Identifier",
+                  "name": "res",
+                  "extra": {
+                    "raw": "res"
+                  }
+                }
+              ],
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "MemberExpression",
+                        "object": {
+                          "type": "Identifier",
+                          "name": "res",
+                          "extra": {
+                            "raw": "res"
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "send",
+                          "extra": {
+                            "raw": "send"
+                          }
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "type": "NumericLiteral",
+                          "value": 200,
+                          "extra": {
+                            "raw": "200"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "extra": {
+            "callType": "stmt"
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
