@@ -1,0 +1,55 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "foo",
+            "extra": {
+              "raw": "foo"
+            }
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "a",
+              "extra": {
+                "raw": "a"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "b",
+              "extra": {
+                "raw": "b"
+              }
+            },
+            {
+              "type": "Identifier",
+              "name": "c",
+              "extra": {
+                "raw": "c"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}
