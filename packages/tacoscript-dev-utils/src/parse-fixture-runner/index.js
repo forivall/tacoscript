@@ -26,10 +26,11 @@ export default function (fixturePath, parser) {
   devUtils.eachSuite(fixtures, function(testSuite) {
     _.forEach(testSuite.tests, function(task) {
       test(task.title, !isDisabled(task) && function () {
+        const options = _.merge({}, testSuite.options, task.options);
         if (task.err) {
-          expect(parser.parse.bind(parser, task.source.code, testSuite.options)).to.throw(task.err.message)
+          expect(parser.parse.bind(parser, task.source.code, options)).to.throw(task.err.message)
         } else {
-          var ast = parser.parse(task.source.code, testSuite.options)
+          var ast = parser.parse(task.source.code, options)
           if (task.ast) {
             expect(ast).matches(task.ast)
             // expect(render(ast)).to.equal(source)
