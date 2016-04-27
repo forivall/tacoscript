@@ -18,6 +18,8 @@ export function parseIndentableList(close, context, inner) {
     return {};
   }
 
+  if (close === null && this.state.cur.meta.continuedPreviousLine) return {};
+
   loop: while (close === null || !this.match(close)) {
     if (!indented) {
       indented = this.eat(tt.indent);
@@ -35,7 +37,7 @@ export function parseIndentableList(close, context, inner) {
         if (firstConcreteSeparatorStart === undefined) firstConcreteSeparatorStart = this.state.prev.start;
         indented && this.eat(tt.newline); // TODO: allow a strict mode where commas + newlines aren't allowed
       } else if (indented && (this.eat(tt.newline) || this.matchPrev(tt.newline))) { /* do nothing */ }
-      else if (close === null && (noTerminator || this.matchLineTerminator() || this.matchPrev(tt.newline))) {
+      else if (close === null && (noTerminator || this.matchLineTerminator({ignoredNewline: true}) || this.matchPrev(tt.newline))) {
         break;
       } else this.unexpected();
     }
@@ -49,7 +51,7 @@ export function parseIndentableList(close, context, inner) {
       break;
     } else if (allowTrailingComma) {
       if (allowTrailingComma !== "indent" || indented) {
-        if (close === null ? this.matchLineTerminator() : this.match(close)) {
+        if (close === null ? this.matchLineTerminator({ignoredNewline: true}) : this.match(close)) {
           break;
         }
       }
@@ -73,7 +75,7 @@ export function parseIndentableList(close, context, inner) {
     if (indented) {
       this.eat(tt.dedent) || this.unexpected();
     } else {
-      noTerminator || this.eatLineTerminator() || this.matchPrev(tt.newline) || this.unexpected();
+      noTerminator || this.eatLineTerminator({ignoredNewline: true}) || this.matchPrev(tt.newline) || this.unexpected();
     }
   }
   return {firstSeparatorStart, firstConcreteSeparatorStart};

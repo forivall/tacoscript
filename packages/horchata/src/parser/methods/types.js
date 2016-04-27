@@ -17,14 +17,22 @@ export function matchForKeyword() {
 
 export function isLineTerminator(type) {
   return (
-    type === tt.newline ||
-    type === tt.doublesemi ||
+    this.isConcreteLineTerminator(type) ||
     this.state.indentation === 0 && type === tt.eof ||
   false);
 }
 
-export function matchLineTerminator() {
-  return this.isLineTerminator(this.state.cur.type);
+export function isConcreteLineTerminator(type) {
+  return (
+    type === tt.newline ||
+    type === tt.doublesemi ||
+  false);
+}
+
+export function matchLineTerminator(options = {}) {
+  const token = this.state.cur;
+  return this.isLineTerminator(token.type) ||
+    options.ignoredNewline && token.meta.continuedPreviousLine;
 }
 
 export function matchPrevTerminator() {
@@ -37,8 +45,8 @@ export function matchNextTerminator() {
 }
 
 export function eatLineTerminator(options = {}) {
-  if (this.matchLineTerminator()) {
-    if (!this.match(tt.eof)) {
+  if (this.matchLineTerminator(options)) {
+    if (this.isConcreteLineTerminator(this.state.cur.type)) {
       this.next();
     }
     return true;
