@@ -28,7 +28,7 @@ export function parseStatement(declaration = true, topLevel = false) {
   // start with. Many are trivial to parse, some require a bit of
   // complexity.
 
-  let start = this.state.cur;
+  const start = this.state.cur;
   let node = this.startNode();
 
   switch(start.type) {
@@ -104,7 +104,8 @@ export function parseStatement(declaration = true, topLevel = false) {
         node = this.parseLabeledStatement(node, maybeName, expr);
       } else {
         if (this.hasFeature("statementNoParenCall")) {
-          node = this.parseExpressionStatement(node, this.parseMaybeNoParenCall(expr, start));
+          const maybeNoParenCall = this.parseMaybeNoParenCall(expr, start);
+          node = this.parseExpressionStatement(node, this.parseSubscripts(maybeNoParenCall, start, {}, {}));
         } else {
           node = this.parseExpressionStatement(node, expr);
         }

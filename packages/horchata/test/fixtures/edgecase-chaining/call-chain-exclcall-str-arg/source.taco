@@ -1,2 +1,2 @@
-foo! beep
+foo! "beep"
 .bar

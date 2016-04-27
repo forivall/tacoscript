@@ -21,11 +21,14 @@
             "arguments": [
               {
                 "type": "StringLiteral",
-                "value": "beep"
+                "value": "beep",
+                "extra": {
+                  "raw": "\"beep\""
+                }
               }
             ],
             "extra": {
-              "callType": "excl"
+              "callType": "stmt"
             }
           },
           "property": {

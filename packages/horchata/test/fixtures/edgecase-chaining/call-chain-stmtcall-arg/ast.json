@@ -20,13 +20,13 @@
             },
             "arguments": [
               {
-                "type": "StringLiteral",
-                "value": "beep"
+                "type": "Identifier",
+                "name": "beep",
+                "extra": {
+                  "raw": "beep"
+                }
               }
-            ],
-            "extra": {
-              "callType": "excl"
-            }
+            ]
           },
           "property": {
             "type": "Identifier",
