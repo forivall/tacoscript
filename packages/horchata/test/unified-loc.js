@@ -6,7 +6,6 @@ var _ = require("lodash");
 var specOptions = require("../../../specs/options");
 var devUtils = require("../../tacoscript-dev-utils");
 var misMatch = devUtils.misMatch;
-var saveAst = devUtils.saveAst;
 
 var GENERATE = !!(typeof process !== 'undefined' && process.env.GENERATE);
 
