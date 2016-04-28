@@ -1,6 +1,6 @@
 {
   "name": "taqueria",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Whitespace preserving generator for tacoscript",
   "keywords": [
     "tacoscript",

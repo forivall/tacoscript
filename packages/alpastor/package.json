@@ -1,6 +1,6 @@
 {
   "name": "alpastor",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Whitespace preserving generator for Tacoscript CST -> JavaScript",
   "keywords": [
     "tacoscript",

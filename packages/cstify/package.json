@@ -1,6 +1,6 @@
 {
   "name": "cstify",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Adds cst elements to an ast",
   "keywords": [
     "tacoscript"

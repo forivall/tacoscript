@@ -1,6 +1,6 @@
 {
   "name": "comal-traverse",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Extensible module for traversal and modification of ASTs",
   "keywords": [
     "tacoscript"
