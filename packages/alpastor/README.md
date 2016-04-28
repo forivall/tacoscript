@@ -10,4 +10,4 @@ import generate from "alpastor"
 jscode = generate(cst, options)
 ```
 
-[TacoScript](http://tacoscript.github.io)
+[TacoScript]: http://tacoscript.github.io
