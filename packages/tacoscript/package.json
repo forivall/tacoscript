@@ -42,6 +42,7 @@
     "is-glob": "^2.0.1",
     "kebab-case": "^1.0.0",
     "lodash": "^4.6.1",
+    "minimatch": "^2.0.10",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "subarg": "^1.0.0",
