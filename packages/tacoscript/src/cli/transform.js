@@ -28,6 +28,7 @@ export default class TransformCli {
     this.logger = console;
     this.defaults = omit(defaults, "_");
     this.opts = cloneDeep(baseArgs);
+    this.destExt = ".js";
     // TODO: collect unknown arguments in a separate object as args to pass to comal
     // this.opts.unknown;
 
@@ -168,9 +169,9 @@ export default class TransformCli {
 
     // TODO: move watch and transform into this class
     if (args.watch) {
-      watchTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
+      watchTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: this.destExt}, {args, only: this.comalOpts.only}, cb);
     } else {
-      transformTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: ".js"}, {args, only: this.comalOpts.only}, cb);
+      transformTree(this.transformFile.bind(this), {src: this.infiles, dest: this.outfiles, destExt: this.destExt}, {args, only: this.comalOpts.only}, cb);
     }
   }
 }

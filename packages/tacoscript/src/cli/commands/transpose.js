@@ -13,6 +13,8 @@ class TransposeCli extends TransformCli {
     this.name = "transpose";
 
     this.opts.default.extensions = ".js,.es6,.es"; // TODO: jsx
+    // TODO: move to an option
+    this.destExt = ".taco";
   }
 
   transformSync(code, opts) {
