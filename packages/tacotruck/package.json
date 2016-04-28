@@ -30,6 +30,7 @@
     "babel-types": "^6.7.0",
     "horchata": "^0.5.3",
     "lodash": "^4.6.1",
+    "repeating": "^2.0.1",
     "tacoscript-cst-utils": "^0.5.3"
   },
   "devDependencies": {
