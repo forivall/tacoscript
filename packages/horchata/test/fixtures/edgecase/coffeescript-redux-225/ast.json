@@ -1,0 +1,131 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "sourceLanguage": "tacoscript",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "CallExpression",
+              "callee": {
+                "type": "MemberExpression",
+                "object": {
+                  "type": "Identifier",
+                  "name": "angular",
+                  "extra": {
+                    "raw": "angular"
+                  }
+                },
+                "property": {
+                  "type": "Identifier",
+                  "name": "module",
+                  "extra": {
+                    "raw": "module"
+                  }
+                },
+                "computed": false
+              },
+              "arguments": [
+                {
+                  "type": "StringLiteral",
+                  "value": "MyApp",
+                  "extra": {
+                    "raw": "\"MyApp\""
+                  }
+                }
+              ],
+              "extra": {
+                "callType": "stmt"
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "config",
+              "extra": {
+                "raw": "config"
+              }
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "FunctionExpression",
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "$routeProvider",
+                  "extra": {
+                    "raw": "$routeProvider"
+                  }
+                }
+              ],
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "MemberExpression",
+                        "object": {
+                          "type": "Identifier",
+                          "name": "$locationProvider",
+                          "extra": {
+                            "raw": "$locationProvider"
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "html5Mode",
+                          "extra": {
+                            "raw": "html5Mode"
+                          }
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "type": "BooleanLiteral",
+                          "value": true,
+                          "extra": {
+                            "raw": "true"
+                          }
+                        }
+                      ],
+                      "extra": {
+                        "callType": "stmt"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "extra": {
+            "callType": "excl"
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "format": {
+    "indent": {
+      "amount": 2,
+      "type": "space",
+      "indent": "  "
+    }
+  },
+  "comments": []
+}

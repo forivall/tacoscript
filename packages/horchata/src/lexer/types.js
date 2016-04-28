@@ -34,7 +34,13 @@
 // `continuesPreviousLine` marks a token that, if it is the first token in a
 // new line, preceding newlines and indents are ignored (indents still must
 // be consistent)
-// TODO: add consistent lookahead for continuesPreviousLine.
+//
+// `indentNextLine` marks a token that, when on the same line as a
+// `continuesPreviousLine` token, will cause the next indent lookup to start
+// from the leading whitespace of this line, rather than the currently marked
+// indentation. This is false, "eol" or a function that takes an array of tokens
+// in the current line. Function checks are done left-to-right, and if any are
+// true, then this condition is true. "eol" is checked before function checks.
 
 export class TokenType {
   constructor(label, alias, conf = {}) {
@@ -53,6 +59,7 @@ export class TokenType {
     this.startsStmt = !!conf.startsStmt;
     this.startsArguments = !!conf.startsArguments;
     this.continuesPreviousLine = !!conf.continuesPreviousLine;
+    this.indentNextLine = conf.indentNextLine || false;
     // operator precedence parsing
     this.rightAssociative = !!conf.rightAssociative;
     this.isLoop = !!conf.isLoop;
