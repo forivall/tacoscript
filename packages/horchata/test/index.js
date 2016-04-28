@@ -48,6 +48,12 @@ suite("horchata", function () {
 
     if (mismatchMessage) throw new Error(mismatchMessage);
   });
+
+  test("altSourceElements", function () {
+    var code = "this\n";
+    var ast = horchata.parse(code, {sourceElementsKey: 'tacoSourceElements'});
+    expect(ast).contains.keys('tacoSourceElements')
+  });
 });
 
 function removeLocInfo(json, context) {

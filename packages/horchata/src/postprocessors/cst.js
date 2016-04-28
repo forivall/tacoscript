@@ -5,9 +5,13 @@
 
 import {dereference, startOf, tokenStartOf} from "tacoscript-cst-utils";
 
-export default function(ast, tokens) { new Postprocessor().process(ast, tokens); return ast; }
+export default function(ast, tokens, options) { new Postprocessor(options).process(ast, tokens); return ast; }
 
 export class Postprocessor {
+  constructor(options = {}) {
+    this.sourceElementsKey = options.sourceElementsKey || 'sourceElements';
+  }
+
   process(ast, tokens) {
     this.ast = ast;
     this.tokens = tokens;
@@ -32,6 +36,8 @@ export class Postprocessor {
     let nextChild = children[i];
     let nextNode = dereference(node, nextChild, state);
 
+    const sourceElements = node[this.sourceElementsKey];
+
     // TODO: simplify control flow
     while (this.index < this.tokens.length) {
       let token = this.tokens[this.index];
@@ -54,13 +60,13 @@ export class Postprocessor {
           extra: {tokenValue: token.value, tokenType: token.type.key},
         };
         if (token.index >= 0) tokenJson.extra.tokenIndex = token.index;
-        node.sourceElements.push(tokenJson);
+        sourceElements.push(tokenJson);
 
         this.index++;
         token = this.tokens[this.index];
       }
       if (nextChild) {
-        node.sourceElements.push(nextChild);
+        sourceElements.push(nextChild);
         if (!nextChild.element && nextNode != null) {
           this.traverse(nextNode);
         } else {

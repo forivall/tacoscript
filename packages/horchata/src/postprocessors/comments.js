@@ -2,9 +2,13 @@
  * Performs comment attachment from the cst.
  */
 
-export default function(ast) { new Postprocessor().process(ast); return ast; }
+export default function(ast, options) { new Postprocessor(options).process(ast); return ast; }
 
 export class Postprocessor {
+  constructor(options = {}) {
+    this.sourceElementsKey = options.sourceElementsKey || 'sourceElements';
+  }
+
   process(ast) {
     this.ast = ast;
     this.traverse(ast);
@@ -30,8 +34,9 @@ export class Postprocessor {
     let state = {list: {}};
     let unclaimedComments = node.innerComments || [];
     delete node.innerComments;
-    for (let len = node.sourceElements.length, i = 0; i < len; i++) {
-      let el = node.sourceElements[i];
+    const sourceElements = node[this.sourceElementsKey];
+    for (let len = sourceElements.length, i = 0; i < len; i++) {
+      let el = sourceElements[i];
       if (el.element === "CommentBody") {
         unclaimedComments.push(this.ast.comments[el.extra.tokenValue.index]);
       }

@@ -26,7 +26,7 @@ export const defaultOptions = {
   // Construct a CST with the sourceElements, according to the estree CST proposal spec
   // https://github.com/gibson042/estree/blob/gh-41/spec.md
   sourceElements: true,
-
+  sourceElementsKey: 'sourceElements',
 
   // When `locations` is on, `loc` properties holding objects with
   // `start` and `end` properties in `{line, column}` form (with

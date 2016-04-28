@@ -88,7 +88,9 @@ export default class State {
     // currently processed token. allows re-use of lookahead
     this.index = 0;
     // All tokens and non-tokens parsed
-    this.sourceElementTokens = [];
+    this.sourceElementsTokens = [];
+    // Where the sourceElements go
+    this.sourceElementsKey = options.sourceElementsKey || 'sourceElements';
 
     let curPosition = this.curPosition();
     // Properties of the token that the lexer is currently extracting
@@ -130,7 +132,7 @@ export default class State {
     let clone = new State();
     for (let k in this) {
       switch(k) {
-        case 'tokens': case 'sourceElementTokens': break;
+        case 'tokens': case 'sourceElementsTokens': break;
         case 'cur': case 'prev': clone[k] = {...this[k]}; break;
         case 'context': clone.context = [].concat(this.context); break;
         default: clone[k] = this[k];

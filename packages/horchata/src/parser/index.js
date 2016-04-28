@@ -60,8 +60,8 @@ export default class Parser extends Lexer {
     file = this.parseTopLevel(file, program);
     file.comments = this.state.comments;
     // TODO: add option
-    addCst(file, this.state.sourceElementTokens);
-    attachComments(file);
+    addCst(file, this.state.sourceElementsTokens, this.options);
+    attachComments(file, this.options);
     this.close();
     // TODO: strip _childReferences
     return file;

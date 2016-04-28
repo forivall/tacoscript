@@ -6,7 +6,7 @@ export default function render(node, sourceElementsKey = "sourceElements", path 
   let lists = {};
   return node[sourceElementsKey].map((el) => {
     if (el.reference) {
-      let [key, list] =  el.reference.split('#');
+      let [key, list] = el.reference.split('#');
       if (list === "next") {
         let i = lists[key] || 0;
         lists[key] = i + 1;

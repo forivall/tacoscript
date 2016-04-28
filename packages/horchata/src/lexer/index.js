@@ -184,7 +184,7 @@ export default class Lexer {
       let nextToken = this.readNextToken();
 
       if (nextToken.type.continuesPreviousLine) {
-        // convert newline token to whitespace, for sourceElementTokens
+        // convert newline token to whitespace, for sourceElementsTokens
         token.type = tt.whitespace;
         token.value = {code: this.input.slice(token.start, token.end)};
         // TODO: coalesce sequential whitespace sourceElements
@@ -301,7 +301,7 @@ export default class Lexer {
       type: "",
       start: this.state.pos,
       end: 0,
-      tokenStart: this.state.sourceElementTokens.length,
+      tokenStart: this.state.sourceElementsTokens.length,
       tokenEnd: 0,
       index: this.state.comments.length,
       loc: new SourceLocation(this.state, loc),
@@ -311,7 +311,7 @@ export default class Lexer {
   _finishCommentNode(node, type, loc) {
     node.type = type;
     node.end = this.state.pos;
-    node.tokenEnd = this.state.sourceElementTokens.length;
+    node.tokenEnd = this.state.sourceElementsTokens.length;
     node.loc.end = loc;
     return node;
   }
@@ -1020,6 +1020,6 @@ export default class Lexer {
   }
 
   endSourceElementToken(token) {
-    this.state.sourceElementTokens.push(token);
+    this.state.sourceElementsTokens.push(token);
   }
 }

@@ -24,7 +24,8 @@ export default class Node {
       this.range = [token.start, 0];
     }
     if (state.options.sourceElements) {
-      this.sourceElements = [];
+      this._sourceElementsKey = state.options.sourceElementsKey || 'sourceElements';
+      this[this._sourceElementsKey] = [];
     }
   }
 
