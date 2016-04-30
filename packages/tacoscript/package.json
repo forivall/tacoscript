@@ -48,6 +48,7 @@
     "subarg": "^1.0.0",
     "tacoscript-require-hook": "^0.5.3",
     "tacotruck": "^0.5.3",
+    "v8flags": "^2.0.11",
     "word-wrap": "^1.1.0"
   },
   "optionalDependencies": {
