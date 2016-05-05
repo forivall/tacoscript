@@ -247,7 +247,7 @@ export default class OptionsLoader {
         this.options,
         presetLoc,
         presetLoc,
-        path.dirname(presetLoc)
+        typeof presetLoc === 'string' ? path.dirname(presetLoc) : presetLoc
       );
     });
   }
