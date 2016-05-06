@@ -175,6 +175,8 @@ export default class Printer extends TokenBuffer {
   printArguments(parent, prop = "arguments", opts = {}) {
     let node = parent[prop];
 
+    const startIndent = this._lastIndent;
+
     // a transform will be used, so don't worry about exec (!) style arguments here.
     // reminder: exec style arguments are an arguments list that instead of being surrounded
     // by parens, starts with a !
@@ -214,6 +216,9 @@ export default class Printer extends TokenBuffer {
     }
 
     if (opts.indent) this.dedent();
+
+    if (this._lastIndent > startIndent) this.newline();
+
     this.push(")");
   }
 
