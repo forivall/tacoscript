@@ -86,7 +86,7 @@ export default class Transformation {
     if (this.opts.passPerPreset) {
       // All the "per preset" options are inherited from the main options.
       this.perPresetOpts = [];
-      this.opts.presets.forEach(presetOpts => {
+      this.opts.presets.forEach((presetOpts) => {
         let perPresetOpts = Object.assign(Object.create(this.opts), presetOpts);
         this.perPresetOpts.push(perPresetOpts);
         this.buildPluginsForOptions(perPresetOpts);
@@ -169,23 +169,24 @@ export default class Transformation {
   transform(file: File): FileResult {
     // In the "pass per preset" mode, we have grouped passes.
     // Otherwise, there is only one plain pluginPasses array.
-    this.pluginPasses.forEach((pluginPasses, index) => {
+    for (let l = this.pluginPasses.length, i = 0; i < l; i++) {
+      const pluginPasses = this.pluginPasses[i];
       for (let pass of (pluginPasses: Array<PluginPass>)) {
         pass.open(file);
       }
 
       this.call("pre", file, pluginPasses);
-      this.log.debug(`Start transform traverse`);
+      this.log.debug("Start transform traverse");
 
-      traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[index], pluginPasses), file.scope);
+      traverse(file.ast, traverse.visitors.merge(this.pluginVisitors[i], pluginPasses), file.scope);
 
-      this.log.debug(`End transform traverse`);
+      this.log.debug("End transform traverse");
       this.call("post", file, pluginPasses);
 
       for (let pass of (pluginPasses: Array<PluginPass>)) {
         pass.close();
       }
-    });
+    }
     return this.generate(file);
   }
 

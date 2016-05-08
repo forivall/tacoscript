@@ -229,7 +229,7 @@ export default class File {
           mergedGenerator.addMapping({
             source: mapping.source,
 
-            original: {
+            original: mapping.source == null ? null : {
               line: mapping.originalLine,
               column: mapping.originalColumn
             },
@@ -366,6 +366,6 @@ export default class File {
       err.message += ")";
     }
 
-    return err
+    return err;
   }
 }

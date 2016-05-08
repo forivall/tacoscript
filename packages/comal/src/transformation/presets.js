@@ -6,7 +6,7 @@ import resolve from "../helpers/resolve";
  * or a module name to require.
  */
 export function resolvePresets(presets: Array<string | Object>, dirname: string, prefix?: string, onResolve?) {
-  return presets.map(val => {
+  return presets.map((val) => {
     if (typeof val === "string") {
       let presetLoc = prefix && resolve(`${prefix}-${val}`, dirname) || resolve(val, dirname);
       if (presetLoc) {

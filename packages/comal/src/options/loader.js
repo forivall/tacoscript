@@ -112,7 +112,11 @@ export default class OptionsLoader {
       throw err;
     }
 
-    this.mergeOptions(opts, this.options, loc, null, path.dirname(loc));
+    this.mergeOptions({
+      options: opts,
+      alias: loc,
+      dirname: path.dirname(loc)
+    });
     this.resolvedConfigs.push(loc);
 
     return !!opts;
@@ -128,13 +132,14 @@ export default class OptionsLoader {
    *  - `dirname` is used to resolve plugins relative to it.
    */
 
-  mergeOptions(
-    rawOpts?: Object,
-    extendingOpts?: Object,
-    alias: string = "foreign",
-    loc?: string,
-    dirname?: string
-  ) {
+  mergeOptions({
+    options: rawOpts,
+    extending: extendingOpts,
+    alias,
+    loc,
+    dirname
+  }) {
+    alias = alias || "foreign";
     if (!rawOpts) return;
 
     //
@@ -206,7 +211,13 @@ export default class OptionsLoader {
       // and keep them for further execution to calculate the options.
       if (opts.passPerPreset) {
         opts.presets = resolvePresets(opts.presets, dirname, this.meta.loader.presetModulePrefix, (preset, presetLoc) => {
-          this.mergeOptions(preset, preset, presetLoc, presetLoc, dirname);
+          this.mergeOptions({
+            options: preset,
+            extending: preset,
+            alias: presetLoc,
+            loc: presetLoc,
+            dirname: dirname
+          });
         });
       } else {
         // Otherwise, just merge presets options into the main options.
@@ -226,14 +237,19 @@ export default class OptionsLoader {
     // Merge them into current extending options in case of top-level
     // options. In case of presets, just re-assign options which are got
     // normalised during the `mergeOptions`.
-    if (rawOpts !== extendingOpts) {
-      merge(extendingOpts, opts);
-    } else {
+    if (rawOpts === extendingOpts) {
       Object.assign(extendingOpts, opts);
+    } else {
+      merge(extendingOpts || this.options, opts);
     }
 
     // merge in env options
-    this.mergeOptions(envOpts, extendingOpts, `${alias}.env.${envKey}`, null, dirname);
+    this.mergeOptions({
+      options: envOpts,
+      extending: extendingOpts,
+      alias: `${alias}.env.${envKey}`,
+      dirname: dirname
+    });
   }
 
   /**
@@ -260,7 +276,10 @@ export default class OptionsLoader {
       .map((line) => line.replace(/#(.*?)$/, "").trim())
       .filter((line) => !!line);
 
-    this.mergeOptions({ ignore: lines }, this.options, loc);
+    this.mergeOptions({
+      options: { ignore: lines },
+      loc
+    });
   }
 
   loadConfigs(loc) {
@@ -355,13 +374,17 @@ export default class OptionsLoader {
 
     let filename = opts.filename;
 
-    // merge in base options
-    this.mergeOptions(opts, this.options, "base", null, filename && path.dirname(filename));
-
     // resolve all .*rc files
-    if (this.options.dotfiles !== false) {
+    if (opts.dotfiles !== false) {
       this.loadConfigs(filename);
     }
+
+    // merge in base options
+    this.mergeOptions({
+      options: opts,
+      alias: "base",
+      dirname: filename && path.dirname(filename)
+    });
 
     // normalise
     this.normaliseOptions(opts);
