@@ -67,7 +67,6 @@ can be output as JavaScript code that preserves the whitespace present in the
 TacoScript code. Inverse of `taqueria`
 
 ### [comal](./packages/comal)
-_(Not Implemented)_
 
 AST translator (transpiler / detranspiler) core.
 
