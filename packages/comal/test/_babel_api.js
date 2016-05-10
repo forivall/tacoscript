@@ -2,7 +2,7 @@
 var assign = require("lodash/assign");
 var pick = require("lodash/pick");
 
-var Api = require("../lib/api");
+var Api = require("../lib/api").default;
 
 module.exports = new Api({
   config: assign({}, require("../lib/options/babylon-config"), require("../lib/options/babel-generator-config")),

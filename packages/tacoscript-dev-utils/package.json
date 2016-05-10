@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "babel-code-frame": "^6.6.5",
-    "babel-runtime": "^5.8.35"
+    "babel-runtime": "^6.0.0"
   },
   "private": true
 }

@@ -110,5 +110,5 @@ exports.removeLocInfo = removeLocInfo;
 exports.saveAst = saveAst;
 exports.eachSuite = eachSuite;
 
-exports.execFixtureRunner = require('./lib/exec-fixture-runner');
-exports.parseFixtureRunner = require('./lib/parse-fixture-runner');
+exports.execFixtureRunner = require('./lib/exec-fixture-runner').default;
+exports.parseFixtureRunner = require('./lib/parse-fixture-runner').default;

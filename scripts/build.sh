@@ -6,7 +6,7 @@ PARALLEL=false
 [ "$1" = "--watch" ] && PARALLEL=true
 
 run() {
-  node node_modules/babel/bin/babel "$f/src" --out-dir "$f/lib" --copy-files "$@"
+  node node_modules/babel-cli/bin/babel "$f/src" --out-dir "$f/lib" --copy-files "$@"
 }
 
 for f in packages/*; do
