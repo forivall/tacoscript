@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-iife-excl",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "plugin for tacoscript for tacoscript's !-style iife shorthand syntax",
   "keywords": [
     "tacoscript",

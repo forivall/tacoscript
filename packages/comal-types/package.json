@@ -1,6 +1,6 @@
 {
   "name": "comal-types",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Extensible module for building & analysing ASTs",
   "keywords": [
     "tacoscript"

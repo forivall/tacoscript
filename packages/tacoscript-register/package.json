@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-register",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Load tacoscript-require-hook. BEWARE: PIRATES",
   "keywords": [
     "tacoscript"
