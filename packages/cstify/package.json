@@ -23,7 +23,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "babel-runtime": "^5.8.35",
+    "babel-runtime": "^6.0.0",
     "babel-traverse": "^6.7.0",
     "babel-types": "^6.7.0",
     "heapjs": "^1.0.4",

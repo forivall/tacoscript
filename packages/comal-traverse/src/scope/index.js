@@ -55,7 +55,7 @@ let collectorVisitor = {
     if (path.isExportDeclaration() && path.get("declaration").isDeclaration()) return;
 
     // TODO(amasad): remove support for flow as bindings (See warning below).
-    //if (path.isFlow()) return;
+    if (path.isFlow()) return;
 
     // we've ran into a declaration!
     path.scope.getFunctionParent().registerDeclaration(path);
@@ -493,10 +493,8 @@ export default class Scope {
           this.checkBlockScopedCollisions(local, kind, name, id);
         }
 
-        // It's erroneous that we currently consider flow a binding, however, we can't
-        // remove it because people might be depending on it. See warning section
-        // in `warnOnFlowBinding`.
-        if (local && local.path.isFlow()) local = null;
+        // It's erroneous to consider flow a binding
+        if (local && local.path.isFlow()) continue;
 
         parent.references[name] = true;
 
@@ -856,10 +854,9 @@ export default class Scope {
 
   warnOnFlowBinding(binding) {
     if (_crawlCallsCount === 0 && binding && binding.path.isFlow()) {
-      console.warn(`
+      console.trace(`
         You or one of the Babel plugins you are using are using Flow declarations as bindings.
-        Support for this will be removed in version 6.8. To find out the caller, grep for this
-        message and change it to a \`console.trace()\`.
+        Support for this will be removed in version 6.8.
       `);
     }
     return binding;

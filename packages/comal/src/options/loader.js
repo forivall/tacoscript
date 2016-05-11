@@ -258,13 +258,12 @@ export default class OptionsLoader {
    */
   mergePresetOptions(presets: Array<string | Object>, dirname: string) {
     resolvePresets(presets, dirname, this.meta.prefix, (presetOpts, presetLoc) => {
-      this.mergeOptions(
-        presetOpts,
-        this.options,
-        presetLoc,
-        presetLoc,
-        typeof presetLoc === 'string' ? path.dirname(presetLoc) : presetLoc
-      );
+      this.mergeOptions({
+        options: presetOpts,
+        alias: presetLoc,
+        loc: presetLoc,
+        dirname: typeof presetLoc === 'string' ? path.dirname(presetLoc) : presetLoc
+      });
     });
   }
 

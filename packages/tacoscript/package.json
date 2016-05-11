@@ -29,7 +29,7 @@
   "dependencies": {
     "asyncaphore": "^1.0.0",
     "babel-generator": "^6.7.0",
-    "babel-runtime": "^5.8.35",
+    "babel-runtime": "^6.0.0",
     "babylon": "^6.7.0",
     "call-limit": "^1.0.3",
     "camelize": "^1.0.0",

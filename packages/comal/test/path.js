@@ -1,6 +1,6 @@
 var transform = require("./_babel_api").transform;
 // var transform = require("../lib/index").transform;
-var Plugin    = require("../lib/transformation/plugin");
+var Plugin    = require("../lib/transformation/plugin").default;
 var chai      = require("chai");
 
 suite("traversal path", function () {

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require("../lib/cli")(process.argv.slice(2), process.exit);
+require("../lib/cli").default(process.argv.slice(2), process.exit);

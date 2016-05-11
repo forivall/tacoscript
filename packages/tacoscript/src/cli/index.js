@@ -44,7 +44,7 @@ export default function(argv, processExit) {
   }
 
   if (args.versions) {
-    return require("./commands/version")({}, [], exit);
+    return require("./commands/version").default({}, [], exit);
   }
 
   // launch repl by default
@@ -54,7 +54,7 @@ export default function(argv, processExit) {
 
   let subcommandFn;
   try {
-    subcommandFn = require("./commands/" + subcommand);
+    subcommandFn = require("./commands/" + subcommand).default;
     if (subcommandFn.__esModule) subcommandFn = subcommandFn.default;
   } catch (e) {
     if (e.code === "MODULE_NOT_FOUND" && e.message === `Cannot find module './commands/${subcommand}'`) {

@@ -2,7 +2,7 @@ require('source-map-support').install();
 
 var sourceMap = require("source-map");
 var assert = require("chai").assert;
-var Plugin = require("../lib/transformation/plugin");
+var Plugin = require("../lib/transformation/plugin").default;
 
 var api = require("./_babel_api");
 
@@ -46,62 +46,59 @@ suite("api", function () {
     });
   });
 
-  test("pass per preset", function () {
+  function execPassPerPresetTest(passPerPreset) {
     var aliasBaseType = null;
+    var ast = api.transform('type Foo = number; let x = (y): Foo => y;', {
+      passPerPreset: passPerPreset,
+      presets: [
+        // First preset with our plugin, "before"
+        {
+          plugins: [
+            new Plugin({
+              visitor: {
+                Function: function(path) {
+                  var alias = path.scope.getProgramParent().path.get('body')[0].node;
+                  if (!api.types.isTypeAlias(alias)) return;
 
-    function execTest(passPerPreset) {
-      return api.transform('type Foo = number; let x = (y): Foo => y;', {
-        passPerPreset: passPerPreset,
-        presets: [
-          // First preset with our plugin, "before"
-          {
-            plugins: [
-              new Plugin({
-                visitor: {
-                  Function: function(path) {
-                    var node = path.node;
-                    var scope = path.scope;
-
-                    var alias = scope
-                      .getProgramParent()
-                      .getBinding(node.returnType.typeAnnotation.id.name)
-                      .path
-                      .node;
-
-                    // In case of `passPerPreset` being `false`, the
-                    // alias node is already removed by Flow plugin.
-                    if (!alias) {
-                      return;
-                    }
-
-                    // In case of `passPerPreset` being `true`, the
-                    // alias node should still exist.
-                    aliasBaseType = alias.right.type; // NumberTypeAnnotation
+                  // In case of `passPerPreset` being `false`, the
+                  // alias node is already removed by Flow plugin.
+                  if (!alias) {
+                    return;
                   }
+
+                  // In case of `passPerPreset` being `true`, the
+                  // alias node should still exist.
+                  aliasBaseType = alias.right.type; // NumberTypeAnnotation
                 }
-              })
-            ]
-          },
+              }
+            })
+          ]
+        },
 
-          // ES2015 preset
-          require(__dirname + "/node_modules/babel-preset-es2015"),
+        // ES2015 preset
+        require(__dirname + "/node_modules/babel-preset-es2015"),
 
-          // Third preset for Flow.
-          {
-            plugins: [
-              require(__dirname + "/node_modules/babel-plugin-syntax-flow"),
-              require(__dirname + "/node_modules/babel-plugin-transform-flow-strip-types"),
-            ]
-          }
-        ],
-      });
+        // Third preset for Flow.
+        {
+          plugins: [
+            require(__dirname + "/node_modules/babel-plugin-syntax-flow"),
+            require(__dirname + "/node_modules/babel-plugin-transform-flow-strip-types"),
+          ]
+        }
+      ],
+    });
+    return {
+      ast: ast,
+      aliasBaseType: aliasBaseType
     }
+  }
 
+  test("pass per preset on", function () {
     // 1. passPerPreset: true
 
-    var result = execTest(true);
+    var result = execPassPerPresetTest(true);
 
-    assert.equal(aliasBaseType, "NumberTypeAnnotation");
+    assert.equal(result.aliasBaseType, "NumberTypeAnnotation");
 
     assert.deepEqual([
       '"use strict";',
@@ -109,15 +106,15 @@ suite("api", function () {
       'var x = function x(y) {',
       '  return y;',
       '};'
-    ].join("\n"), result.code);
+    ].join("\n"), result.ast.code);
 
+  });
+
+  test("pass per preset off", function () {
     // 2. passPerPreset: false
+    var result = execPassPerPresetTest(false);
 
-    aliasBaseType = null;
-
-    var result = execTest(false);
-
-    assert.equal(aliasBaseType, null);
+    assert.equal(result.aliasBaseType, null);
 
     assert.deepEqual([
       '"use strict";',
@@ -125,7 +122,7 @@ suite("api", function () {
       'var x = function x(y) {',
       '  return y;',
       '};'
-    ].join("\n"), result.code);
+    ].join("\n"), result.ast.code);
 
   });
 
