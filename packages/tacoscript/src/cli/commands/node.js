@@ -53,9 +53,8 @@ export default function(defaults, argv, cb) {
         case "--nolazy":
           nodeFlags.push("--nolazy"); break;
 
-        // TODO
-        // case "-c": case "--child":
-        //   forceChild = true;
+        case "-c": case "--child":
+          forceChild = true; break;
 
         default:
           if (includes(v8Flags, arg) || arg.indexOf("--trace") === 0) {
