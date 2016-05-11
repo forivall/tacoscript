@@ -501,10 +501,6 @@ export function parseWithStatementMaybeAlt(node) {
   return node;
 }
 
-export function parseSafeSwitchStatement(/*node*/) {
-  this.abort("Raw switch statements require `!` after `switch`. Enable the 'safe switch statement' plugin");
-}
-
 export function parseWithStatement(node) {
   this.checkWithStatementAllowed();
   this.assign(node, "object", this.parseExpression());
