@@ -128,7 +128,6 @@ export default function(defaults, argv, cb) {
     childArgv[0] = path.resolve(childArgv[0]);
 
     // replace our args with the child context
-    // TODO: see how coffeescript does this, instead of babel-node
     process.argv = ["node"].concat(childArgv);
     process.execArgv.unshift(__filename);
 
@@ -144,7 +143,6 @@ export default function(defaults, argv, cb) {
       let result;
 
       try {
-        // TODO: see coffeescript repl for line continuation logic
         result = evalInContext(code, filename, ctx);
       } catch (e) {
         err = e;
