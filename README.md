@@ -203,6 +203,15 @@ _(Not Implemented)_
 
 Parser & Generator plugins and AST transformations for `@@` shorthand operator.
 
+### tacoscript-dynamic-super
+_(Not Implemented)_
+
+Allow super in any (i.e. non-class) function, and translate `super()` to
+`this.constructor._super.call(this)` and `super.foo()` to
+`this.constructor._super.prototype.foo.call(this)`
+
+The `_super` convention is codified in `util.inherits`.
+
 ### tacoscript-generic-template-string
 _(Not Implemented)_
 
