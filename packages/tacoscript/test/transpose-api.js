@@ -3,7 +3,7 @@ require('source-map-support').install();
 var sourceMap = require("source-map");
 var assert = require("chai").assert;
 
-var api = require("../lib/transpose/api");
+var api = require("../lib/transpose/api").default;
 
 suite("api", function () {
   test("transform", function () {
