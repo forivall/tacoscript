@@ -114,10 +114,12 @@ export default class TraversalContext {
       // this path no longer belongs to the tree
       if (path.key === null) continue;
 
+      // detect circular references === infinite loops
       if (testing && queue.length >= 1000) {
         this.trap = true;
       }
 
+      // NOTE: can the perf of this be improved by using a hash?
       // ensure we don't visit the same node twice
       if (visited.indexOf(path.node) >= 0) continue;
       visited.push(path.node);
