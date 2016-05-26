@@ -121,7 +121,7 @@ class VisitorContext {
     this.qVisitors = qVisitors;
   }
 
-  create({parent, container, key, listKey}): traverse.NodePath {
+  create({parent, container, key, listKey}): NodePath {
     return NodePath.get({
       parentPath: this.parentPath,
       parent,
