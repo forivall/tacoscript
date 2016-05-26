@@ -27,8 +27,6 @@ export class Visitor {
     if (this.file) throw new Error('not reentrant');
     const file = this.file = new File({filename: acst.filename || ''});
 
-    // TODO: make sure that acst is a file, or wrapped in one if it's a program
-
     const context = new VisitorContext(this);
     let out;
     if (Array.isArray(acst)) {
@@ -44,12 +42,72 @@ export class Visitor {
 
   visit(path) {
     const node = path.node;
-    this[node.type](path, node);
+    if (node) this[node.type](path, node);
   }
 
-  print(path, prop) {
-    let context = new VistorContext(this, path);
-    context.visit(path.node, key);
+  /**
+   * usage:
+    this.print(path, 'program', {
+      before(first) {
+        console.log('before', first)
+      },
+      between(left, right) {
+        console.log(left, right)
+      },
+      after(last) {
+        console.log('last', last);
+      }
+    })
+   */
+
+  print(path, prop, visitors) {
+    let context = new VisitorContext(this, path, visitors);
+    context.visit(path.node, prop);
+  }
+
+  before(path) {
+    return this.between(null, path);
+  }
+
+  // returns the original source elements between the two given paths
+  between(leftPath: NodePath, rightPath: NodePath) {
+    // feel free to refactor this function
+    if (leftPath == null && rightPath == null) throw new Error('Left or right path must be defined');
+    if (leftPath && leftPath.parent == null || rightPath && rightPath.parent == null) {
+      throw new Error('Both paths must have a parent');
+    }
+    if (leftPath != null && rightPath != null) {
+      if (leftPath.parent !== rightPath.parent) throw new Error('Both paths must share a parent');
+    }
+    const parent = leftPath == null ? rightPath.parent : leftPath.parent;
+    const sourceElements = parent[this.key];
+    let leftI = 0;
+    let rightI = sourceElements.length;
+
+    if (leftPath) {
+      const reference = leftPath.inList ? leftPath.key + '#next': leftPath.key;
+      let skip = leftPath.inList ? leftPath.listKey : 0;
+      for (const l = sourceElements.length; skip >= 0 && leftI < l; leftI++) {
+        const sourceElement = sourceElements[leftI];
+        if (sourceElement.reference === reference) skip--;
+      }
+    }
+
+    if (rightPath) {
+      rightI = 0;
+      const reference = rightPath.inList ? rightPath.key + '#next': rightPath.key;
+      let skip = rightPath.inList ? rightPath.listKey : 0;
+      for (const l = sourceElements.length; skip >= 0 && rightI < l; rightI++) {
+        const sourceElement = sourceElements[rightI];
+        if (sourceElement.reference === reference) skip--;
+      }
+      rightI--;
+    }
+    return sourceElements.slice(leftI, rightI); // TODO
+  }
+
+  after(path) {
+    return this.between(path, null);
   }
 }
 /**
@@ -57,9 +115,10 @@ export class Visitor {
  * maintains path and not scope or any rewriting stuff, or opts, or state.
  */
 class VisitorContext {
-  constructor(visitor, parentPath) {
+  constructor(visitor, parentPath, qVisitors) {
     this.visitor = visitor;
     this.parentPath = parentPath;
+    this.qVisitors = qVisitors;
   }
 
   create({parent, container, key, listKey}): traverse.NodePath {
@@ -102,12 +161,23 @@ class VisitorContext {
 
     let visited = [];
 
+    const qv = this.qVisitors;
+
+    if (qv && qv.before) qv.before(paths[0]);
+
+    let prevPath = null;
+
     for (const path of paths) {
       if (path.contexts.length === 0 || path.contexts[path.contexts.length - 1] !== this) {
         // The context might already have been pushed when this path was inserted and queued.
         // If we always re-pushed here, we could get duplicates and risk leaving contexts
         // on the stack after the traversal has completed, which could break things.
         path.pushContext(this);
+      }
+
+      if (qv) {
+        if (qv.between && prevPath) qv.between(prevPath, path);
+        if (qv.each) qv.each(path);
       }
 
       // TODO: see if this can be hashed to improve perf
@@ -119,7 +189,11 @@ class VisitorContext {
       // const visitResult =
       this.visitor.visit(path);
       // if visitResult is 'stop' then break
+      // return value is if visitation was stopped
+      prevPath = path;
     }
+
+    if (qv && qv.after) qv.after(prevPath);
 
     // clear queue
     for (const path of paths) {
