@@ -17,6 +17,6 @@
     "registry": "http://registry.npmjs.org"
   },
   "dependencies": {
-    "tacoscript-require-hook": "^0.5.3"
+    "tacoscript-require-hook": "^0.6.0"
   }
 }

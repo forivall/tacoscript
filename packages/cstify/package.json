@@ -27,7 +27,7 @@
     "babel-traverse": "^6.7.0",
     "babel-types": "^6.7.0",
     "heapjs": "^1.0.4",
-    "tacoscript-cst-utils": "^0.5.3"
+    "tacoscript-cst-utils": "^0.6.0"
   },
   "devDependencies": {
     "babylon": "^6.7.0"

@@ -29,14 +29,14 @@
     "babel-runtime": "^6.0.0",
     "babel-types": "^6.7.0",
     "detect-indent": "^4.0.0",
-    "horchata": "^0.5.3",
+    "horchata": "^0.6.0",
     "is-integer": "^1.0.6",
     "lodash": "^4.6.1",
     "repeating": "^2.0.1",
     "source-map": "^0.5.5",
-    "tacoscript-cst-utils": "^0.5.3"
+    "tacoscript-cst-utils": "^0.6.0"
   },
   "devDependencies": {
-    "cstify": "^0.5.3"
+    "cstify": "^0.6.0"
   }
 }
