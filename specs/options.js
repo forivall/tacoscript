@@ -11,6 +11,7 @@ var baseOptions = module.exports.base = {
     "taco": { loc: ["actual.taco"] },
     // expected should use autoformatting rules
     "auto": { loc: ["expected.taco"] },
+    "alpastortmp": { loc: ["expected.t.js"] }, // temporary until taqueria is solid
     "babel": { loc: ["expected.js"] },
     // estree ast
     "json": { loc: ["expected.json"] },

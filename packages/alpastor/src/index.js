@@ -9,6 +9,7 @@ import {NodePath} from 'comal-traverse';
 export function generate(acst, opts) {
   opts = opts || {};
   const sourceElementsKey = opts.sourceElements = opts.sourceElements || 'sourceElements';
+  if (!opts.tacoscriptSourceElements) opts.tacoscriptSourceElements = 'tacoscriptSourceElements';
   const visitor = new Visitor(opts);
   visitor.start(acst, opts);
   return {
@@ -20,6 +21,7 @@ export function generate(acst, opts) {
 export class Visitor {
   constructor(opts) {
     this.options = opts;
+    this.tKey = opts.tacoscriptSourceElements;
     this.key = opts.sourceElements;
   }
 
@@ -42,7 +44,12 @@ export class Visitor {
 
   visit(path) {
     const node = path.node;
-    if (node) this[node.type](path, node);
+    if (node) {
+      if (!this[node.type]) {
+        throw new Error('Cannot print node of type "' + node.type + '"')
+      }
+      this[node.type](path, node);
+    }
   }
 
   /**
@@ -60,17 +67,17 @@ export class Visitor {
     })
    */
 
-  print(path, prop, visitors) {
+  print(path, prop, visitors, key=this.tKey) {
     let context = new VisitorContext(this, path, visitors);
     context.visit(path.node, prop);
   }
 
-  before(path) {
+  before(path, key=this.tKey) {
     return this.between(null, path);
   }
 
   // returns the original source elements between the two given paths
-  between(leftPath: NodePath, rightPath: NodePath) {
+  between(leftPath: NodePath, rightPath: NodePath, key=this.tKey) {
     // feel free to refactor this function
     if (leftPath == null && rightPath == null) throw new Error('Left or right path must be defined');
     if (leftPath && leftPath.parent == null || rightPath && rightPath.parent == null) {
@@ -80,7 +87,7 @@ export class Visitor {
       if (leftPath.parent !== rightPath.parent) throw new Error('Both paths must share a parent');
     }
     const parent = leftPath == null ? rightPath.parent : leftPath.parent;
-    const sourceElements = parent[this.key];
+    const sourceElements = parent[key];
     let leftI = 0;
     let rightI = sourceElements.length;
 
