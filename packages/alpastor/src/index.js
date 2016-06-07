@@ -78,6 +78,8 @@ export class Visitor {
 
   // returns the original source elements between the two given paths
   between(leftPath: NodePath, rightPath: NodePath, key=this.tKey) {
+    // TODO: allow one of the paths to be a string
+
     // feel free to refactor this function
     if (leftPath == null && rightPath == null) throw new Error('Left or right path must be defined');
     if (leftPath && leftPath.parent == null || rightPath && rightPath.parent == null) {
@@ -101,6 +103,9 @@ export class Visitor {
     }
 
     if (rightPath) {
+      // TODO: start from leftI and the proper count
+      // We don't start from leftI since we want to make sure that the count is
+      // correct in case that the path is inList
       rightI = 0;
       const reference = rightPath.inList ? rightPath.key + '#next': rightPath.key;
       let skip = rightPath.inList ? rightPath.listKey : 0;
@@ -108,6 +113,7 @@ export class Visitor {
         const sourceElement = sourceElements[rightI];
         if (sourceElement.reference === reference) skip--;
       }
+      // we only want the elements before the found index, so offset by 1
       rightI--;
     }
     return sourceElements.slice(leftI, rightI); // TODO
@@ -115,6 +121,42 @@ export class Visitor {
 
   after(path) {
     return this.between(path, null);
+  }
+
+  beforeRef(parent: Node, ref: string, key=this.tKey) {
+    return this.betweenRef(parent, null, ref, key);
+  }
+
+  // returns the original source elements between the two given paths
+  betweenRef(parent: Node, leftRef: string, rightRef: string, key=this.tKey) {
+    // feel free to refactor this function
+    if (leftRef == null && rightRef == null) throw new Error('Left or right reference must be defined');
+    const sourceElements = parent[key];
+    let leftI = 0;
+    let rightI = sourceElements.length;
+
+    if (leftRef) {
+      if (leftRef.includes('#')) throw new Error('special paths are not supported');
+      for (const l = sourceElements.length; leftI < l; leftI++) {
+        const sourceElement = sourceElements[leftI];
+        if (sourceElement.reference === leftRef) break;
+      }
+    }
+
+    if (rightRef) {
+      if (rightRef.includes('#')) throw new Error('special paths are not supported');
+      rightI = leftI;
+      for (const l = sourceElements.length; rightI < l; rightI++) {
+        const sourceElement = sourceElements[rightI];
+        if (sourceElement.reference === rightRef) break;
+      }
+      rightI--;
+    }
+    return sourceElements.slice(leftI, rightI); // TODO
+  }
+
+  afterRef(parent: Node, ref: string, key = this.tKey) {
+    return this.betweenRef(parent, ref, null, key);
   }
 }
 /**
@@ -207,6 +249,8 @@ class VisitorContext {
       path.popContext();
     }
     this.queue = null;
+
+    return paths;
   }
 }
 
@@ -216,7 +260,7 @@ import * as baseGenerators from "./types/base";
 // import * as literalsGenerators from "./types/literals";
 // import * as methodsGenerators from "./types/methods";
 // import * as modulesGenerators from "./types/modules";
-// import * as statementsGenerators from "./types/statements";
+import * as statementsGenerators from "./types/statements";
 // import * as templateLiteralsGenerators from "./types/template-literals";
 for (let generator of [
       baseGenerators,
@@ -225,7 +269,7 @@ for (let generator of [
       // literalsGenerators,
       // methodsGenerators,
       // modulesGenerators,
-      // statementsGenerators,
+      statementsGenerators,
       // templateLiteralsGenerators,
     ]) {
   Object.assign(Visitor.prototype, generator);

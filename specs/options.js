@@ -1,5 +1,8 @@
 var _ = require("lodash");
 
+// actual === original
+// expected === naivly generated
+
 var baseOptions = module.exports.base = {
   optionsPath: "options",
   skip: function(test, testPath) {
