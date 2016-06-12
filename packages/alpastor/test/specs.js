@@ -24,7 +24,7 @@ var coreSpecs = mochaFixtures(require("path").resolve(__dirname + "/../../../spe
 
 _.forOwn(coreSpecs, function(suites, setName) {
   suites.forEach(function (testSuite) {
-    suite("horchata: core/" + setName + "/" + testSuite.title, function () {
+    suite("alpastor: core/" + setName + "/" + testSuite.title, function () {
       _.each(testSuite.tests, function(task) {
         testTask(task, task.alpastortmp, task.auto);
       });
@@ -41,7 +41,7 @@ _.forOwn(coreSpecs, function(suites, setName) {
             console.error('generation errored out ' + task.json.loc + ':\n' + e.stack);
             expect.fail();
           }
-          expect(result.code).equals(taco.code);
+          expect(result.code).equals(js.code);
         });
       }
     });
