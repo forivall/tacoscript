@@ -4,6 +4,7 @@
 export default function render(node, sourceElementsKey = "sourceElements", path = "") {
   if (node == null) throw new Error("Illegal reference at " + path);
   let lists = {};
+  if (node[sourceElementsKey] === undefined) throw new Error('"' + sourceElementsKey + '" missing at ' + path);
   return node[sourceElementsKey].map((el) => {
     if (el.reference) {
       let [key, list] = el.reference.split('#');

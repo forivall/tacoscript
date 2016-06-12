@@ -5,6 +5,8 @@ import {render} from 'tacoscript-cst-utils';
 // TODO: move a base file out of comal into comal-support
 import {File} from 'comal';
 import {NodePath} from 'comal-traverse';
+import includes from 'lodash/includes';
+import find from 'lodash/find';
 
 export function generate(acst, opts) {
   opts = opts || {};
@@ -67,19 +69,32 @@ export class Visitor {
     })
    */
 
-  print(path, prop, visitors, key=this.tKey) {
+  print(path, prop, visitors, key=this.tKey: string) {
     let context = new VisitorContext(this, path, visitors);
     context.visit(path.node, prop);
   }
 
-  before(path, key=this.tKey) {
+  get(path: NodePath, prop, key=this.tKey: string) {
+    return find(path.node[key], {reference: prop});
+  }
+
+  includes(sourceElements, value) {
+    return includes(sourceElements, {value});
+  }
+
+  before(path, key=this.tKey: string) {
     return this.between(null, path);
   }
 
   // returns the original source elements between the two given paths
-  between(leftPath: NodePath, rightPath: NodePath, key=this.tKey) {
-    // TODO: allow one of the paths to be a string
-
+  between(leftPath: NodePath|string, rightPath: NodePath|string, key=this.tKey: string) {
+    if (typeof leftPath === 'string') {
+      if (typeof rightPath === 'string') throw new Error('both paths cannot be strings. use *Ref instead')
+      leftPath = rightPath.parentPath.get(leftPath);
+    }
+    if (typeof rightPath === 'string') {
+      rightPath = leftPath.parentPath.get(rightPath);
+    }
     // feel free to refactor this function
     if (leftPath == null && rightPath == null) throw new Error('Left or right path must be defined');
     if (leftPath && leftPath.parent == null || rightPath && rightPath.parent == null) {
@@ -94,8 +109,8 @@ export class Visitor {
     let rightI = sourceElements.length;
 
     if (leftPath) {
-      const reference = leftPath.inList ? leftPath.key + '#next': leftPath.key;
-      let skip = leftPath.inList ? leftPath.listKey : 0;
+      const reference = leftPath.inList ? leftPath.listKey + '#next': leftPath.key;
+      let skip = leftPath.inList ? leftPath.key : 0;
       for (const l = sourceElements.length; skip >= 0 && leftI < l; leftI++) {
         const sourceElement = sourceElements[leftI];
         if (sourceElement.reference === reference) skip--;
@@ -107,8 +122,8 @@ export class Visitor {
       // We don't start from leftI since we want to make sure that the count is
       // correct in case that the path is inList
       rightI = 0;
-      const reference = rightPath.inList ? rightPath.key + '#next': rightPath.key;
-      let skip = rightPath.inList ? rightPath.listKey : 0;
+      const reference = rightPath.inList ? rightPath.listKey + '#next': rightPath.key;
+      let skip = rightPath.inList ? rightPath.key : 0;
       for (const l = sourceElements.length; skip >= 0 && rightI < l; rightI++) {
         const sourceElement = sourceElements[rightI];
         if (sourceElement.reference === reference) skip--;
@@ -257,7 +272,7 @@ class VisitorContext {
 import * as baseGenerators from "./types/base";
 // import * as classesGenerators from "./types/classes";
 // import * as expressionsGenerators from "./types/expressions";
-// import * as literalsGenerators from "./types/literals";
+import * as literalsGenerators from "./types/literals";
 // import * as methodsGenerators from "./types/methods";
 // import * as modulesGenerators from "./types/modules";
 import * as statementsGenerators from "./types/statements";
@@ -266,7 +281,7 @@ for (let generator of [
       baseGenerators,
       // classesGenerators,
       // expressionsGenerators,
-      // literalsGenerators,
+      literalsGenerators,
       // methodsGenerators,
       // modulesGenerators,
       statementsGenerators,
