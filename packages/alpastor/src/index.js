@@ -129,7 +129,7 @@ export class Visitor {
         if (sourceElement.reference === reference) skip--;
       }
       // we only want the elements before the found index, so offset by 1
-      rightI--;
+      if (rightI > 0) rightI--;
     }
     return sourceElements.slice(leftI, rightI); // TODO
   }
@@ -154,8 +154,12 @@ export class Visitor {
       if (leftRef.includes('#')) throw new Error('special paths are not supported');
       for (const l = sourceElements.length; leftI < l; leftI++) {
         const sourceElement = sourceElements[leftI];
-        if (sourceElement.reference === leftRef) break;
+        if (sourceElement.reference === leftRef) {
+          leftI++; // move past the element
+          break;
+        }
       }
+
     }
 
     if (rightRef) {
@@ -165,7 +169,6 @@ export class Visitor {
         const sourceElement = sourceElements[rightI];
         if (sourceElement.reference === rightRef) break;
       }
-      rightI--;
     }
     return sourceElements.slice(leftI, rightI); // TODO
   }
