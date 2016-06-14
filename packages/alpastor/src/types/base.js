@@ -13,7 +13,7 @@ export function Program(path, node) {
   // TODO: turn assignment on to t into a method,
   // automatically do reference assignment instead of relying on visitors
   const t = [];
-  const bodyPaths = this.print(path, 'body', {
+  this.print(path, 'body', {
     before: (firstPath) => {
       t.push(...this.before(firstPath));
     },
@@ -35,10 +35,63 @@ export function Directive(path, node) {
   this.transformToLineTerminator(this.after('value'))
 }
 
-export function DirectiveLiteral(path) {
+// export function DirectiveLiteral(path) {
+//
+// }
 
-}
+export function BlockStatement(path, node) {
+  const t = [];
 
-export function BlockStatement(node) {
+  // TODO: read formatting markers and omit newlines where applicable
 
+  this.print(path, 'body', {
+    before: (firstPath) => {
+      const beforeElements = this.before(firstPath);
+      // console.log(beforeElements)
+      let beforeOpen = true;
+      for (const element of (beforeElements: Array)) {
+        if (beforeOpen) {
+          // console.log(element);
+          if (element.element === 'Punctuator' && element.value === '!') {
+            t.push({element: 'Punctuator', value: '{'});
+            beforeOpen = false;
+          } else {
+            t.push(element);
+          }
+        } else {
+          t.push(element);
+        }
+      }
+    },
+    each: (path) => {
+      t.push({reference: 'body#next'});
+    },
+    between: (leftPath, rightPath) => {
+      t.push(...this.between(leftPath, rightPath));
+    },
+    after: (lastPath) => {
+      const afterElements = this.after(lastPath);
+      t.push(...afterElements);
+      let beforeNewline = true;
+      for (const element of (afterElements: Array)) {
+        if (beforeNewline) {
+          // console.log(element);
+          if (element.element === 'LineTerminator' && element.value === '') {
+            t.push({element: 'LineTerminator', value: '\n'});
+            beforeNewline = false;
+          } else {
+            t.push(element);
+          }
+        } else {
+          t.push(element);
+        }
+      }
+      if (beforeNewline) {
+        t.push({element: 'LineTerminator', value: '\n'});
+      }
+      t.push({element: 'Punctuator', value: '}'});
+      t.push({element: 'LineTerminator', value: '\n'});
+    }
+  });
+  node[this.key] = t;
 }
