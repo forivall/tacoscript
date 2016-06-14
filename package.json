@@ -56,6 +56,8 @@
     "test": "mocha -- $(scripts/_get-test-directories.sh)",
     "posttest": "npm run tasks-posttest",
 
+    "test-ci": "TEST_SKIP=alpastor npm test",
+
     "pretest-cov": "npm run tasks-pretest",
     "test-cov": "nyc -r text -r lcov _mocha -- $(scripts/_get-test-directories.sh)",
     "posttest-cov": "npm run tasks-posttest && echo 'View results with `npm run test-cov-results`.'",

@@ -8,6 +8,10 @@ for f in packages/*; do
     continue
   fi
 
+  if [ -n "$TEST_SKIP" ] && [ `basename $f` == "$TEST_SKIP" ]; then
+    continue
+  fi
+
   if [ -d "$f/test" ]; then
     TEST_DIRS="$f/test $TEST_DIRS"
   fi

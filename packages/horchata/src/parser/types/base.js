@@ -45,15 +45,15 @@ export function parseDirective() {
   return this.finishNode(directive, "Directive");
 }
 
-export function parseBlockStatement(blockContext = {}) {
+export function parseBlockStatement(node, blockContext = {}) {
   this.next();
-  return this.parseBlock(blockContext);
+  return this.parseBlock(blockContext, node);
 }
 
 // this can be any kind of block, not just detached (`!`) blocks
-export function parseBlock(blockContext = {}) {
+export function parseBlock(blockContext = {}, node) {
   const {allowConcise, implicitReturn} = blockContext;
-  let node = this.startNode();
+  if (node === undefined) node = this.startNode();
   if (this.eatLineTerminator()) {
     node = this.initBlockBody(node, blockContext);
   } else if (this.eat(tt.indent)) {

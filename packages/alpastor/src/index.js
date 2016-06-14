@@ -5,6 +5,7 @@ import {render} from 'tacoscript-cst-utils';
 // TODO: move a base file out of comal into comal-support
 import {File} from 'comal';
 import {NodePath} from 'comal-traverse';
+import type {Node} from 'horchata/lib/parser/node';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
 
