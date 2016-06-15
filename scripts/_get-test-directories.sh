@@ -8,7 +8,7 @@ for f in packages/*; do
     continue
   fi
 
-  if [ -n "$TEST_SKIP" ] && [ `basename $f` == "$TEST_SKIP" ]; then
+  if [ -n "$TEST_SKIP" ] && [ `basename $f` = "$TEST_SKIP" ]; then
     continue
   fi
 
