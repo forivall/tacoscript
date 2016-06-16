@@ -71,14 +71,21 @@ export function BlockStatement(path, node) {
     },
     after: (lastPath) => {
       const afterElements = this.after(lastPath);
-      t.push(...afterElements);
       let beforeNewline = true;
+      let beforeCloseCurly = true;
       for (const element of (afterElements: Array)) {
         if (beforeNewline) {
-          // console.log(element);
-          if (element.element === 'LineTerminator' && element.value === '') {
-            t.push({element: 'LineTerminator', value: '\n'});
-            beforeNewline = false;
+          if (element.element === 'LineTerminator') {
+            if (element.value === '') {
+              t.push({element: 'LineTerminator', value: '\n'});
+              beforeNewline = false;
+            } else if (beforeCloseCurly && element.value === '\n') {
+              t.push(element);
+              t.push({element: 'Punctuator', value: '}'});
+              beforeCloseCurly = false;
+            } else {
+              t.push(element);
+            }
           } else {
             t.push(element);
           }
@@ -89,8 +96,10 @@ export function BlockStatement(path, node) {
       if (beforeNewline) {
         t.push({element: 'LineTerminator', value: '\n'});
       }
-      t.push({element: 'Punctuator', value: '}'});
-      t.push({element: 'LineTerminator', value: '\n'});
+      if (beforeCloseCurly) {
+        t.push({element: 'Punctuator', value: '}'});
+        t.push({element: 'LineTerminator', value: '\n'});
+      }
     }
   });
   node[this.key] = t;
