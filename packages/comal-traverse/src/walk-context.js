@@ -24,7 +24,7 @@ export default class WalkContext {
       container,
       key,
       listKey
-    });
+    }).setContext(this);
   }
 
   visit(node, key) {

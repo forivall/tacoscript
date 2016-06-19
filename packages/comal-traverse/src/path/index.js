@@ -164,6 +164,7 @@ assign(NodePath.prototype, require("./removal"));
 assign(NodePath.prototype, require("./modification"));
 assign(NodePath.prototype, require("./family"));
 assign(NodePath.prototype, require("./comments"));
+assign(NodePath.prototype, require("./source-elements"));
 
 for (let type of (t.TYPES: Array<string>)) {
   let typeKey = `is${type}`;

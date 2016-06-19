@@ -4,20 +4,22 @@ import type {NodePath} from 'comal-traverse';
 export function VariableDeclaration(path: NodePath, node: Node) {
   const t = [];
   // t.push(...this.beforeRef(node, 'kind'));
-  t.push(...this.before(path.get('kind')));
+  const kindPath = path.get('kind');
+  t.push(...kindPath.srcElBefore());
 
+  // TODO: allow this instead
   // this.print(path, 'kind');
-  t.push(this.get(path, 'kind'));
+  t.push(kindPath.srcEl());
 
   this.print(path, 'declarations', {
     before: (firstPath) => {
-      t.push(...this.between('kind', firstPath));
+      t.push(...firstPath.srcElSince('kind'));
     },
     each: (path) => {
       t.push({reference: 'declarations#next'});
     },
     between: (leftPath, rightPath) => {
-      const origSourceElements = this.between(leftPath, rightPath);
+      const origSourceElements = leftPath.srcElUntil(rightPath);
       if (!this.includes(origSourceElements, ',')) {
         t.push({element: 'Punctuator', value: ','});
       }
@@ -25,7 +27,7 @@ export function VariableDeclaration(path: NodePath, node: Node) {
     },
     after: (lastPath) => {
       t.push({element: 'Punctuator', value: ';'});
-      t.push(...this.after(lastPath));
+      t.push(...lastPath.srcElAfter());
     }
   });
   node[this.key] = t;
@@ -35,9 +37,9 @@ export function VariableDeclarator(path: NodePath, node: Node) {
   const t = [];
   this.print(path, 'id', {
     each: (idPath) => {
-      t.push(...this.before(idPath));
-      t.push({reference: 'id'});
-      t.push(...this.between(idPath, path.node.init && path.get('init')));
+      t.push(...idPath.srcElBefore());
+      t.push(idPath.srcEl());
+      t.push(...idPath.srcElUntil(path.node.init && 'init'));
     }
   });
   // this.print(node.id.typeAnnotation, node);
@@ -46,8 +48,8 @@ export function VariableDeclarator(path: NodePath, node: Node) {
     // this.push("=");
     this.print(path, 'init', {
       each: (initPath) => {
-        t.push({reference: 'init'});
-        t.push(...this.after(initPath));
+        t.push(initPath.srcEl());
+        t.push(initPath.srcElAfter());
       }
     });
   }

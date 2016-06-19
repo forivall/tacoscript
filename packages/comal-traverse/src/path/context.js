@@ -198,7 +198,11 @@ export function setup(parentPath, container, listKey, key) {
   this.parentKey = listKey || key;
   this.container = container;
 
-  this.parentPath = parentPath || this.parentPath;
+  this.parentPath = parentPath || (parentPath = this.parentPath);
+  if (parentPath) {
+    const context = parentPath.context;
+    if (context.isWalkContext) this.setContext(context);
+  }
   this.setKey(key);
 }
 

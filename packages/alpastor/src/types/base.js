@@ -2,11 +2,13 @@
 
 export function File(path, node) {
   this.print(path, 'program');
-  node[this.key] = [
-    ...this.beforeRef(node, 'program'),
-    {reference: 'program'},
-    ...this.afterRef(node, 'program')
-  ];
+  node[this.key] = [...node[this.tKey]];
+  // const programPath = path.get('program');
+  // node[this.key] = [
+  //   ...programPath.srcElBefore(),
+  //   ...programPath.srcEl(),
+  //   ...programPath.srcElAfter()
+  // ];
 }
 
 export function Program(path, node) {
@@ -15,16 +17,16 @@ export function Program(path, node) {
   const t = [];
   this.print(path, 'body', {
     before: (firstPath) => {
-      t.push(...this.before(firstPath));
+      t.push(...firstPath.srcElBefore());
     },
     each: (path) => {
-      t.push({reference: 'body#next'});
+      t.push(path.srcEl());
     },
     between: (leftPath, rightPath) => {
-      t.push(...this.between(leftPath, rightPath));
+      t.push(...leftPath.srcElUntil(rightPath));
     },
     after: (lastPath) => {
-      t.push(...this.after(lastPath));
+      t.push(...lastPath.srcElAfter());
     }
   });
   node[this.key] = t;
@@ -46,7 +48,7 @@ export function BlockStatement(path, node) {
 
   this.print(path, 'body', {
     before: (firstPath) => {
-      const beforeElements = this.before(firstPath);
+      const beforeElements = firstPath.srcElBefore();
       // console.log(beforeElements)
       let beforeOpen = true;
       for (const element of (beforeElements: Array)) {
@@ -64,13 +66,13 @@ export function BlockStatement(path, node) {
       }
     },
     each: (path) => {
-      t.push({reference: 'body#next'});
+      t.push(path.srcEl());
     },
     between: (leftPath, rightPath) => {
-      t.push(...this.between(leftPath, rightPath));
+      t.push(...leftPath.srcElUntil(rightPath));
     },
     after: (lastPath) => {
-      const afterElements = this.after(lastPath);
+      const afterElements = lastPath.srcElAfter(lastPath);
       let beforeNewline = true;
       let beforeCloseCurly = true;
       for (const element of (afterElements: Array)) {
