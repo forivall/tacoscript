@@ -87,18 +87,18 @@ export class Visitor {
 
 import * as baseGenerators from "./types/base";
 // import * as classesGenerators from "./types/classes";
-// import * as expressionsGenerators from "./types/expressions";
+import * as expressionsGenerators from "./types/expressions";
 import * as literalsGenerators from "./types/literals";
-// import * as methodsGenerators from "./types/methods";
+import * as methodsGenerators from "./types/methods";
 // import * as modulesGenerators from "./types/modules";
 import * as statementsGenerators from "./types/statements";
 // import * as templateLiteralsGenerators from "./types/template-literals";
-for (let generator of [
+for (const generator of [
       baseGenerators,
       // classesGenerators,
-      // expressionsGenerators,
+      expressionsGenerators,
       literalsGenerators,
-      // methodsGenerators,
+      methodsGenerators,
       // modulesGenerators,
       statementsGenerators,
       // templateLiteralsGenerators,
