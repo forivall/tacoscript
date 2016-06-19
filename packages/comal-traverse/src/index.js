@@ -8,6 +8,7 @@ import * as t from "comal-types";
 import * as cache from "./cache";
 
 export { default as NodePath } from "./path";
+export { default as WalkContext } from "./walk-context";
 export { default as Scope } from "./scope";
 export { default as Hub } from "./hub";
 export { visitors };

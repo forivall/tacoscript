@@ -4,7 +4,8 @@
 import {render} from 'tacoscript-cst-utils';
 // TODO: move a base file out of comal into comal-support
 import {File} from 'comal';
-import {NodePath} from 'comal-traverse';
+import {WalkContext} from 'comal-traverse';
+import type {NodePath} from 'comal-traverse';
 import type {Node} from 'horchata/lib/parser/node';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
@@ -23,7 +24,7 @@ export function generate(acst, opts) {
 
 export class Visitor {
   constructor(opts) {
-    this.options = opts;
+    this.opts = opts;
     this.tKey = opts.tacoscriptSourceElements;
     this.key = opts.sourceElements;
   }
@@ -32,7 +33,7 @@ export class Visitor {
     if (this.file) throw new Error('not reentrant');
     const file = this.file = new File({filename: acst.filename || ''});
 
-    const context = new VisitorContext(this);
+    const context = new WalkContext(this);
     let out;
     if (Array.isArray(acst)) {
       const pseudoRoot = {type: '<root>', cst: acst};
@@ -58,20 +59,20 @@ export class Visitor {
   /**
    * usage:
     this.print(path, 'program', {
-      before(first) {
+      before: (first) => {
         console.log('before', first)
       },
-      between(left, right) {
+      between: (left, right) => {
         console.log(left, right)
       },
-      after(last) {
+      after: (last) => {
         console.log('last', last);
       }
     })
    */
 
   print(path, prop, visitors, key=this.tKey: string) {
-    let context = new VisitorContext(this, path, visitors);
+    let context = new WalkContext(this, path, visitors);
     context.visit(path.node, prop);
   }
 
@@ -177,99 +178,14 @@ export class Visitor {
   afterRef(parent: Node, ref: string, key = this.tKey) {
     return this.betweenRef(parent, ref, null, key);
   }
-}
-/**
- * this class duplicates comal-traverse TraversalContext, but just
- * maintains path and not scope or any rewriting stuff, or opts, or state.
- */
-class VisitorContext {
-  constructor(visitor, parentPath, qVisitors) {
-    this.visitor = visitor;
-    this.parentPath = parentPath;
-    this.qVisitors = qVisitors;
-  }
 
-  create({parent, container, key, listKey}): NodePath {
-    return NodePath.get({
-      parentPath: this.parentPath,
-      parent,
-      container,
-      key,
-      listKey
-    });
-  }
-
-  visit(node, key) {
-    let nodes = node[key];
-
-    return (Array.isArray(nodes)
-      ? this.visitMultiple(node, nodes, key)
-      : this.visitSingle(node, key)
-    )
-  }
-
-  visitSingle(parent, key): boolean {
-    return this.visitQueue([this.create({parent, container: parent, key})])
-  }
-
-  visitMultiple(parent, container, listKey) {
-    if (container.length === 0) return false;
-    return this.visitQueue(
-      container.map((node, index) => this.create({
-        parent,
-        container,
-        key: index,
-        listKey
-      }))
-    )
-  }
-
-  visitQueue(paths: Array<NodePath>) {
-    this.queue = paths;
-
-    let visited = [];
-
-    const qv = this.qVisitors;
-
-    if (qv && qv.before) qv.before(paths[0]);
-
-    let prevPath = null;
-
-    for (const path of paths) {
-      if (path.contexts.length === 0 || path.contexts[path.contexts.length - 1] !== this) {
-        // The context might already have been pushed when this path was inserted and queued.
-        // If we always re-pushed here, we could get duplicates and risk leaving contexts
-        // on the stack after the traversal has completed, which could break things.
-        path.pushContext(this);
+  ref(parent: Node, ref: string, key = this.tKey) {
+    if (ref.includes('#')) throw new Error('special paths are not supported');
+    for (const sourceElement of parent[key]) {
+      if (sourceElement.reference === ref) {
+        return sourceElement;
       }
-
-      if (qv) {
-        if (qv.between && prevPath) qv.between(prevPath, path);
-        if (qv.each) qv.each(path);
-      }
-
-      // TODO: see if this can be hashed to improve perf
-      // ensure we don't visit the same node twice
-      if (visited.indexOf(path.node) >= 0) continue;
-      visited.push(path.node);
-
-      // here, instead of using path.visit, we directly invoke our visitor
-      // const visitResult =
-      this.visitor.visit(path);
-      // if visitResult is 'stop' then break
-      // return value is if visitation was stopped
-      prevPath = path;
     }
-
-    if (qv && qv.after) qv.after(prevPath);
-
-    // clear queue
-    for (const path of paths) {
-      path.popContext();
-    }
-    this.queue = null;
-
-    return paths;
   }
 }
 
