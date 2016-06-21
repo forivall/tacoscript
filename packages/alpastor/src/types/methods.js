@@ -1,6 +1,11 @@
 import type Node from 'horchata/lib/parser/node';
 import type {NodePath} from 'comal-traverse';
 
+import some from 'lodash/some';
+import matches from 'lodash/matches';
+
+const commaSrcEl = matches({element: 'Punctuator', value: ','});
+
 export function FunctionDeclaration(path: NodePath, node: Node) {
   const t = [];
   if (node.async) {
@@ -58,7 +63,7 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
     },
     between: (leftPath, rightPath) => {
       const origSourceElements = leftPath.srcElUntil(rightPath);
-      if (!this.includes(origSourceElements, ',')) {
+      if (!some(origSourceElements, commaSrcEl)) {
         t.push({element: 'Punctuator', value: ','});
       }
       t.push(...origSourceElements);
