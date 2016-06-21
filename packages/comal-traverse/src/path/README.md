@@ -57,6 +57,7 @@ Find parent that is a node inside of a list
 #### `NodePath#getSource()`
 #### `NodePath#has(key): boolean`
 _alias: is_
+
 #### `NodePath#isCompletionRecord(allowInsideFunction?)`
 #### `NodePath#isNodeType(type: string): boolean`
 #### `NodePath#isnt(key): boolean`

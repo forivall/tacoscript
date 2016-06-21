@@ -50,19 +50,20 @@ export function BlockStatement(path, node) {
     before: (firstPath) => {
       const beforeElements = firstPath.srcElBefore();
       // console.log(beforeElements)
+      let beforeExcl = true;
       let beforeOpen = true;
       for (const element of (beforeElements: Array)) {
-        if (beforeOpen) {
-          // console.log(element);
-          if (element.element === 'Punctuator' && element.value === '!') {
-            t.push({element: 'Punctuator', value: '{'});
-            beforeOpen = false;
-          } else {
-            t.push(element);
-          }
+        if (element.element === 'Punctuator' && element.value === '!') {
+          beforeExcl = false;
+        } else if (element.element === 'Indent') {
+          beforeOpen = false;
+          t.push({element: 'Punctuator', value: '{'});
         } else {
           t.push(element);
         }
+      }
+      if (beforeExcl && beforeOpen) {
+        t.push({element: 'Punctuator', value: '{'});
       }
     },
     each: (path) => {
@@ -72,6 +73,7 @@ export function BlockStatement(path, node) {
       t.push(...leftPath.srcElUntil(rightPath));
     },
     after: (lastPath) => {
+      // TODO: put close curly where dedent is instead
       const afterElements = lastPath.srcElAfter(lastPath);
       let beforeNewline = true;
       let beforeCloseCurly = true;

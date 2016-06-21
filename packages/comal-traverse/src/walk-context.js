@@ -41,7 +41,11 @@ export default class WalkContext {
   }
 
   visitMultiple(parent, container, listKey) {
-    if (container.length === 0) return false;
+    if (container.length === 0) {
+      if (this.queueVisitors.empty) this.queueVisitors.empty.call(this.visitor);
+      return false;
+    }
+
     return this.visitQueue(
       container.map((node, index) => this.create({
         parent,

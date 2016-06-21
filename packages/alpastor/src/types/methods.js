@@ -28,6 +28,7 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
     let before = true;
     const idPath = path.get('id');
     const beforeIdElements = idPath.srcElBefore();
+    // TODO: do this when there's no id too.
     for (const sourceElement of beforeIdElements) {
       if (before) {
         if (sourceElement.element === 'Keyword' && sourceElement.value === 'function') {
@@ -42,6 +43,8 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
   } else {
     // whatever the code standard is, since this whitespace isn't rep'd in taco
   }
+
+  const bodyPath = path.get('body');
 
   // TODO: typeParameters and
   // TODO: fix when length is zero
@@ -61,7 +64,7 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
       t.push(...origSourceElements);
     },
     after: (lastPath) => {
-      const afterParams = lastPath.srcElAfter();
+      const afterParams = lastPath.srcElUntil(bodyPath);
       for (const sourceElement of afterParams) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
@@ -72,10 +75,23 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
       }
       // TODO: returnType
       // TODO: check if there's whitespace after the arrow.
+    },
+    empty: () => {
+      const idPath = path.get('id');// TODO: if
+      const afterId = idPath.srcElUntil(bodyPath);
+      for (const sourceElement of afterId) {
+        if (sourceElement.element === 'Punctuator' && (
+          sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
+        )) {
+          break;
+        }
+        t.push(sourceElement);
+      }
+
+      // TODO: check if there's whitespace after the arrow.
+      // TODO: dedupe code
     }
   });
-
-  const bodyPath = path.get('body');
 
   this.print(path, 'body');
   t.push(bodyPath.srcEl());

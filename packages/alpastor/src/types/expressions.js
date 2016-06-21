@@ -6,7 +6,7 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   const expressionPath = path.get('expression');
   this.print(path, 'expression');
   t.push(...expressionPath.srcElBefore());
-  t.push(expressionPath.srcEl);
+  t.push(expressionPath.srcEl());
   t.push({element: 'Punctuator', value: ';'});
   t.push(expressionPath.srcElAfter());
   node[this.key] = t;
@@ -22,7 +22,7 @@ export function CallExpression(path: NodePath, node: Node) {
 
   this.print(path, 'arguments', {
     before(firstPath) {
-      if (node.extra.callType === 'excl') {
+      if (node.extra != null && node.extra.callType === 'excl') {
         // TODO
       } else {
         t.push(...calleePath.srcElUntil(firstPath));
@@ -40,6 +40,13 @@ export function CallExpression(path: NodePath, node: Node) {
     },
     after(lastPath) {
       t.push(lastPath.srcElAfter());
+    },
+    empty() {
+      if (node.extra != null && node.extra.callType === 'excl') {
+        // TODO
+      } else {
+        t.push(...calleePath.srcElAfter());
+      }
     }
   });
 
