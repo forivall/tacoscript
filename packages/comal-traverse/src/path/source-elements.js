@@ -1,6 +1,8 @@
 
 import util from 'util';
 
+import type NodePath from "./index";
+
 export function srcEl() {
   return this.parent[this.opts.sourceElementsSource][this._getSrcElIndexPath(this)];
 }
@@ -39,7 +41,7 @@ export function srcElSince(left: (NodePath | string | Function)): NodePath {
 
   if (typeof left !== 'function') {
     const leftI = this._getSrcElIndexSibling(left);
-    if (leftI === undefined) throw new Error('could not find source element for ' + util.inspect(right));
+    if (leftI === undefined) throw new Error('could not find source element for ' + util.inspect(left));
     return this.parent[this.opts.sourceElementsSource].slice(leftI + 1, rightI);
   }
   throw new Error('Not Implemented');

@@ -104,7 +104,17 @@ export function BlockStatement(path, node) {
         t.push({element: 'Punctuator', value: '}'});
         t.push({element: 'LineTerminator', value: '\n'});
       }
+    },
+    empty: () => {
+      t.push(
+        {element: 'Punctuator', value: '{'},
+        // TODO: inner comments
+        {element: 'Punctuator', value: '}'},
+        // ... // TODO: strip out indent/dedents
+        ...node[this.tKey]
+      );
     }
   });
+
   node[this.key] = t;
 }

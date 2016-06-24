@@ -32,7 +32,7 @@ export function CallExpression(path: NodePath, node: Node) {
       t.push(path.srcEl());
     },
     between: (leftPath, rightPath) => {
-      const origSourceElements = left.srcElUntil(rightPath);
+      const origSourceElements = leftPath.srcElUntil(rightPath);
       if (!this.includes(origSourceElements, ',')) {
         t.push({element: 'Punctuator', value: ','});
       }
