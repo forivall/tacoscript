@@ -84,7 +84,7 @@ function printBlockLeading(leadingElements) {
   return t;
 }
 
-function printBlockTrailing(trailingElements) {
+function printBlockTrailing(path, trailingElements) {
   const t = [];
   let beforeNewline = true;
   let beforeCloseCurly = true;
@@ -112,6 +112,7 @@ function printBlockTrailing(trailingElements) {
     t.push({element: 'LineTerminator', value: '\n'});
   }
   if (beforeCloseCurly) {
+    // if (baseIndent) t.push({element: 'WhiteSpace', value: baseIndent});
     t.push({element: 'Punctuator', value: '}'});
     t.push({element: 'LineTerminator', value: '\n'});
   }
@@ -157,7 +158,7 @@ export function BlockStatement(path, node) {
     after: (lastPath) => {
       // TODO: put close curly where dedent is instead
       const trailingElements = lastPath.srcElAfter(lastPath);
-      t.push(...printBlockTrailing(trailingElements));
+      t.push(...printBlockTrailing(path, trailingElements));
     },
     empty: () => {
       if (!lastDirectivePath) {
@@ -165,7 +166,7 @@ export function BlockStatement(path, node) {
       }
       // ... // TODO: strip out indent/dedents
       if (lastDirectivePath) {
-        t.push(...printBlockTrailing(lastDirectivePath.srcElAfter()));
+        t.push(...printBlockTrailing(path, lastDirectivePath.srcElAfter()));
       } else {
         t.push({element: 'Punctuator', value: '}'});
         t.push(...node[this.tKey]);
