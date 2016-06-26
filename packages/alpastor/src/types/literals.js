@@ -16,6 +16,34 @@ export function Identifier(path: NodePath, node: Node) {
   ];
 }
 
+export function ArrayExpression(path: NodePath, node: Node) {
+  const t = [];
+  this.print(path, 'elements', {
+    before(firstPath) {
+      t.push(...firstPath.srcElBefore());
+    },
+    each(path) {
+      t.push(path.srcEl());
+    },
+    between: (leftPath, rightPath) => {
+      const orig = leftPath.srcElUntil(rightPath);
+      if (!this.includes(orig, ',')) {
+        t.push({element: 'Punctuator', value: ','});
+      }
+      t.push(...orig);
+    },
+    after(lastPath) {
+      t.push(...lastPath.srcElAfter());
+    },
+    empty: () => {
+      t.push(...node[this.tKey])
+    }
+  });
+
+  node[this.key] = t;
+}
+export {ArrayExpression as ArrayPattern};
+
 export function NumericLiteral(path: NodePath, node: Node) {
   // TODO: transform non-standard numeric literals, if we have any
   node[this.key] = [...node[this.tKey]];
