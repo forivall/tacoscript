@@ -29,9 +29,9 @@ proposal. (so [Babel] won't support them).
 ## Packages
 
 ### [tacoscript](./packages/tacoscript)
-_(Not Implemented)_
+_(In Progress)_
 
-Command line tools.
+Command line tools. Currently includes `repl`, `compose`, `transpose`, `compile`, and `node` commands.
 
 ### [horchata](./packages/horchata)
 
