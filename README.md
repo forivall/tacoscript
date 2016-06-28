@@ -60,7 +60,7 @@ Converts a JavaScript AST with CST elements to a TacoScript CST, which preserves
 whitespace. Inverse of `alpastor`.
 
 ### [alpastor](./packages/alpastor)
-_(Not Implemented)_
+_(In progress)_
 
 Converts a TacoScript AST's CST elements to JavaScript CST elements, which then
 can be output as JavaScript code that preserves the whitespace present in the
