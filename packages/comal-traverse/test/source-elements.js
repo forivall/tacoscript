@@ -5,6 +5,7 @@ const expect = require('chai').expect
 const NodePath = require('../lib/index').NodePath;
 
 const memberExpressionAst = require('./fixtures/source-elements/member-expression.ast.json')
+const nestedAst = require('./fixtures/source-elements/nested-block.ast.json')
 
 suite('comal-traverse/source-elements', function () {
   test('NodePath#srcElUntil', function () {
@@ -32,5 +33,10 @@ suite('comal-traverse/source-elements', function () {
     expect(left.srcElAfter()).deep.equals([child.sourceElements[1]])
   })
 
-  test('NodePath#leadingWhitespace')
+  test('NodePath#indent', function () {
+    const root = NodePath.get({parent: nestedBlock, container: nestedBlock, key: 'program'}).setContext({opts: {noScope: true}});
+    const target = root.get('body.0.body.body.0.consequent.body.0', true);
+    expect(target.type).equals('NumericLiteral');
+
+  })
 })

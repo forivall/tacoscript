@@ -1,6 +1,8 @@
 
 import util from 'util';
 
+import reversed from 'reversed';
+
 import type NodePath from "./index";
 
 export function srcEl() {
@@ -9,7 +11,7 @@ export function srcEl() {
 
 export function srcElBefore() {
   const i = this._getSrcElIndexPath(this);
-  if (i === undefined) throw new Error('could not find source element for ' + this.key, this.listKey);
+  if (i === undefined) throw new Error('could not find source element for ' + this.getPathLocation());
   return this.parent[this.opts.sourceElementsSource].slice(0, i);
 }
 
@@ -37,7 +39,7 @@ export function srcElSince(left: (NodePath | string | Function)): NodePath {
   if (left == null) return this.srcElBefore();
 
   const rightI = this._getSrcElIndexPath(this);
-  if (rightI === undefined) throw new Error('could not find source element for ' + this.key, this.listKey);
+  if (rightI === undefined) throw new Error('could not find source element for ' + this.getPathLocation());
 
   if (typeof left !== 'function') {
     const leftI = this._getSrcElIndexSibling(left);
@@ -102,4 +104,45 @@ export function _srcElIndexMap() {
   this.setData(`sourceElementsIndexMap:${key}`, index);
 
   return index;
+}
+
+export function indent() {
+  return this._leadingWhitespace()[0];
+}
+
+// traverses up down our children and up our parents until we find out what our leading whitespace is
+// TODO: cache the results
+export function _leadingWhitespace(whitespace = []) {
+  let broken = false;
+  let end = false;
+  for (const srcEl of reversed(this.srcElBefore())) {
+    const typeName = srcEl.element;
+    if (typeName === 'WhiteSpace') {
+      whitespace.unshift(srcEl);
+    }
+    else if (srcEl.reference && !srcEl.value) {
+      const [childWhitespace, childBroken] = this.parentPath.get(srcEl.reference, true)._leadingWhitespace();
+      if (childBroken) {
+        whitespace = childWhitespace;
+      } else {
+        whitespace = childWhitespace.concat(whitespace);
+      }
+    } else if (
+      typeName === 'CommentHead' ||
+      typeName === 'CommentBody' ||
+      typeName === 'CommentTail' ||
+    false) {
+      // do nothing
+    } else if (typeName === 'LineTerminator') {
+      end = true;
+      break;
+    } else {
+      whitespace = [];
+      broken = true;
+    }
+  }
+  if (!end && this.parentPath) {
+    return this.parentPath._leadingWhitespace(whitespace);
+  }
+  return [whitespace, broken];
 }

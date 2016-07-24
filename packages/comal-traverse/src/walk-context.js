@@ -12,7 +12,10 @@ export default class WalkContext {
 
   constructor(visitor, parentPath, queueVisitors) {
     this.visitor = visitor;
-    this.opts = this.visitor.opts;
+    this.opts = {
+      noScope: true, // airhorn
+      ...this.visitor.opts
+    };
     this.parentPath = parentPath;
     this.queueVisitors = queueVisitors;
   }
