@@ -112,6 +112,7 @@ function printBlockTrailing(path, trailingElements) {
     t.push({element: 'LineTerminator', value: '\n'});
   }
   if (beforeCloseCurly) {
+    t.push(...path.indent())
     // if (baseIndent) t.push({element: 'WhiteSpace', value: baseIndent});
     t.push({element: 'Punctuator', value: '}'});
     t.push({element: 'LineTerminator', value: '\n'});

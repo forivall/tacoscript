@@ -5,7 +5,7 @@ const expect = require('chai').expect
 const NodePath = require('../lib/index').NodePath;
 
 const memberExpressionAst = require('./fixtures/source-elements/member-expression.ast.json')
-const nestedAst = require('./fixtures/source-elements/nested-block.ast.json')
+const nestedBlock = require('./fixtures/source-elements/nested-block.ast.json')
 
 suite('comal-traverse/source-elements', function () {
   test('NodePath#srcElUntil', function () {

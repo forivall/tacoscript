@@ -115,13 +115,17 @@ export function indent() {
 export function _leadingWhitespace(whitespace = []) {
   let broken = false;
   let end = false;
+  if (this.parentPath == null) {
+    return [whitespace, false];
+  }
   for (const srcEl of reversed(this.srcElBefore())) {
     const typeName = srcEl.element;
-    if (typeName === 'WhiteSpace') {
+    if (typeName === 'WhiteSpace' || typeName === 'WhiteSpaceLeading') {
       whitespace.unshift(srcEl);
     }
     else if (srcEl.reference && !srcEl.value) {
-      const [childWhitespace, childBroken] = this.parentPath.get(srcEl.reference, true)._leadingWhitespace();
+      const childPath = this.parentPath.get(srcEl.reference, true);
+      const [childWhitespace, childBroken] = childPath._leadingWhitespace();
       if (childBroken) {
         whitespace = childWhitespace;
       } else {
@@ -141,7 +145,7 @@ export function _leadingWhitespace(whitespace = []) {
       broken = true;
     }
   }
-  if (!end && this.parentPath) {
+  if (!end) {
     return this.parentPath._leadingWhitespace(whitespace);
   }
   return [whitespace, broken];
