@@ -34,9 +34,12 @@ suite('comal-traverse/source-elements', function () {
   })
 
   test('NodePath#indent', function () {
-    const root = NodePath.get({parent: nestedBlock, container: nestedBlock, key: 'program'}).setContext({opts: {noScope: true}});
+    const root = NodePath.get({parent: nestedBlock, container: nestedBlock, key: 'program'})
+    .setContext({opts: {noScope: true, sourceElementsSource: 'sourceElements'}});
     const target = root.get('body.0.body.body.0.consequent.body.0', true);
-    expect(target.type).equals('NumericLiteral');
-
+    expect(target.type).equals('ReturnStatement');
+    const indent = target.indent();
+    expect(indent.length).equals(1);
+    expect(indent[0].value).equals('    ');
   })
 })
