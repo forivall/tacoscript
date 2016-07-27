@@ -57,7 +57,15 @@ export class Visitor {
         throw new Error('Cannot print node of type "' + node.type + '"')
       }
       this[node.type](path, node);
+      const t = node[this.key];
+      const lastElement = t[t.length - 1];
+      if (lastElement && lastElement.element) this._lastElement = lastElement;
     }
+  }
+
+  lastElement(t) {
+    const lastElement = t[t.length - 1];
+    return lastElement && lastElement.element ? lastElement : this._lastElement;
   }
 
   /**

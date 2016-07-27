@@ -26,9 +26,18 @@ export function Program(path, node) {
       t.push(...leftPath.srcElUntil(rightPath));
     },
     after: (lastPath) => {
+
+      const lastElement = this.lastElement(t);
+      if (lastElement.value !== '\n') {
+        t.push({element: 'LineTerminator', value: '\n'});
+      }
       t.push(...lastPath.srcElAfter());
+    },
+    empty: () => {
+      t.push(...node[this.tKey]);
     }
   });
+
   node[this.key] = t;
 }
 
@@ -64,7 +73,7 @@ export function DirectiveLiteral(path, node) {
   node[this.key] = [...node[this.tKey]];
 }
 
-function printBlockLeading(leadingElements) {
+export function _printBlockLeading(leadingElements) {
   const t = [];
   let beforeExcl = true;
   let beforeOpen = true;
@@ -83,39 +92,28 @@ function printBlockLeading(leadingElements) {
   }
   return t;
 }
-
-function printBlockTrailing(path, trailingElements) {
+// TODO: convert all / most empty LineTermainators into '\n'
+export function _printBlockTrailing(path, trailingElements) {
   const t = [];
   let beforeNewline = true;
   let beforeCloseCurly = true;
   for (const element of (trailingElements: Array)) {
-    if (beforeNewline) {
-      if (element.element === 'LineTerminator') {
-        if (element.value === '') {
-          t.push({element: 'LineTerminator', value: '\n'});
-          beforeNewline = false;
-        } else if (beforeCloseCurly && element.value === '\n') {
-          t.push(element);
-          t.push({element: 'Punctuator', value: '}'});
-          beforeCloseCurly = false;
-        } else {
-          t.push(element);
-        }
+    if (element.element === 'LineTerminator') {
+      if (element.value === '') {
+        t.push({element: 'LineTerminator', value: '\n'});
       } else {
         t.push(element);
       }
+    } else if (element.element === 'Dedent') {
+      const lastElement = t[t.length - 1] || this._lastElement;
+      if (lastElement.value !== '\n') {
+        t.push({element: 'LineTerminator', value: '\n'});
+      }
+      t.push(...path.indent());
+      t.push({element: 'Punctuator', value: '}'});
     } else {
       t.push(element);
     }
-  }
-  if (beforeNewline) {
-    t.push({element: 'LineTerminator', value: '\n'});
-  }
-  if (beforeCloseCurly) {
-    t.push(...path.indent())
-    // if (baseIndent) t.push({element: 'WhiteSpace', value: baseIndent});
-    t.push({element: 'Punctuator', value: '}'});
-    t.push({element: 'LineTerminator', value: '\n'});
   }
   return t;
 }
@@ -127,9 +125,9 @@ export function BlockStatement(path, node) {
   let lastDirectivePath;
   if (node.directives && node.directives.length) {
     this.print(path, 'directives', {
-      before(firstPath) {
+      before: (firstPath) => {
         const leadingElements = firstPath.srcElBefore();
-        t.push(...printBlockLeading(leadingElements));
+        t.push(...this._printBlockLeading(leadingElements));
       },
       each(path) { t.push(path.srcEl()); },
       between(leftPath, rightPath) {
@@ -147,7 +145,7 @@ export function BlockStatement(path, node) {
       if (node.directives && node.directives.length) {
         t.push(...leadingElements);
       } else {
-        t.push(...printBlockLeading(leadingElements));
+        t.push(...this._printBlockLeading(leadingElements));
       }
     },
     each: (path) => {
@@ -159,7 +157,7 @@ export function BlockStatement(path, node) {
     after: (lastPath) => {
       // TODO: put close curly where dedent is instead
       const trailingElements = lastPath.srcElAfter(lastPath);
-      t.push(...printBlockTrailing(path, trailingElements));
+      t.push(...this._printBlockTrailing(path, trailingElements));
     },
     empty: () => {
       if (!lastDirectivePath) {
@@ -167,7 +165,7 @@ export function BlockStatement(path, node) {
       }
       // ... // TODO: strip out indent/dedents
       if (lastDirectivePath) {
-        t.push(...printBlockTrailing(path, lastDirectivePath.srcElAfter()));
+        t.push(...this._printBlockTrailing(path, lastDirectivePath.srcElAfter()));
       } else {
         t.push({element: 'Punctuator', value: '}'});
         t.push(...node[this.tKey]);
