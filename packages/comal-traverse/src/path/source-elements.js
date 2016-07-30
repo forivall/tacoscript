@@ -78,7 +78,7 @@ export function _srcElIndexMap() {
     const el = sourceElements[i];
 
     if (el.reference) {
-      if (/#next$/.test(el.reference) > 0) {
+      if (/#next$/.test(el.reference)) {
         const name = el.reference.split('#')[0];
         (index[name] || (index[name] = [])).push(i);
       } else {
@@ -124,7 +124,7 @@ export function _leadingWhitespace(whitespace = []) {
       whitespace.unshift(srcEl);
     }
     else if (srcEl.reference && !srcEl.value) {
-      const childPath = this.parentPath.get(srcEl.reference, true);
+      const childPath = this.parentPath.getRef(srcEl, true);
       const [childWhitespace, childBroken] = childPath._leadingWhitespace();
       if (childBroken) {
         whitespace = childWhitespace;

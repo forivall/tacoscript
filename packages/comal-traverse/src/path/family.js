@@ -77,6 +77,20 @@ export function get(key: string, context?: boolean | TraversalContext): NodePath
   }
 }
 
+export function getRef(srcEl: Object, context?: boolean | TraversalContext): NodePath {
+  if (context === true) context = this.context;
+  const reference = srcEl.reference;
+  const parts = reference.split('#');
+  if (parts.length === 1) {
+    return this._getKey(reference, context);
+  }
+  const sourceElements = this.node[this.opts.sourceElementsSource];
+  const i = sourceElements.indexOf(srcEl);
+  const name = parts[0];
+  const index = this._srcElIndexMap();
+  return this._getPattern([name, index[name].indexOf(i)], context)
+}
+
 export function _getKey(key, context?) {
   let node      = this.node;
   let container = node[key];
