@@ -26,6 +26,14 @@ export function generate(acst, opts) {
   };
 }
 
+function lastNonEof(t) {
+  let offset = 1;
+  for (let l = t.length, offset = 1; offset <= l; offset++) {
+    const element = t[t.length - offset];
+    if (element.element !== 'EOF') return element;
+  }
+}
+
 export class Visitor {
   constructor(opts) {
     this.opts = opts;
@@ -60,6 +68,11 @@ export class Visitor {
       const t = node[this.key];
       const lastElement = t[t.length - 1];
       if (lastElement && lastElement.element) this._lastElement = lastElement;
+
+      const sourceLastElement = lastNonEof(node[this.tKey]);
+      if (sourceLastElement && sourceLastElement.element) {
+        this._sourceLastElement = sourceLastElement;
+      }
     }
   }
 
