@@ -1,6 +1,8 @@
 import type Node from 'horchata/lib/parser/node';
 import type {NodePath} from 'comal-traverse';
 
+import some from 'lodash/some';
+
 export function VariableDeclaration(path: NodePath, node: Node) {
   const t = [];
   // t.push(...this.beforeRef(node, 'kind'));
@@ -20,7 +22,7 @@ export function VariableDeclaration(path: NodePath, node: Node) {
     },
     between: (leftPath, rightPath) => {
       const origSourceElements = leftPath.srcElUntil(rightPath);
-      if (!this.includes(origSourceElements, ',')) {
+      if (!some(origSourceElements, {value: ','})) {
         t.push({element: 'Punctuator', value: ','});
       }
       t.push(...origSourceElements);

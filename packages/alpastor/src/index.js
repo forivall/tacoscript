@@ -7,7 +7,6 @@ import {File} from 'comal';
 import {WalkContext} from 'comal-traverse';
 import type {NodePath} from 'comal-traverse';
 import type {Node} from 'horchata/lib/parser/node';
-import includes from 'lodash/includes';
 import find from 'lodash/find';
 
 export function generate(acst, opts) {
@@ -99,10 +98,6 @@ export class Visitor {
   print(path, prop, visitors, key=this.tKey: string) {
     let context = new WalkContext(this, path, visitors);
     context.visit(path.node, prop);
-  }
-
-  includes(sourceElements, value) {
-    return includes(sourceElements, {value});
   }
 }
 
