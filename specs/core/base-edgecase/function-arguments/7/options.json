@@ -1,0 +1,6 @@
+{
+  "//": "TODO: read this from eslint or jscs config",
+  "alpastor": {
+    "unnamed-function-expression-spacing": " "
+  }
+}
