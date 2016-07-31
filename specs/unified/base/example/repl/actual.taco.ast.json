@@ -546,17 +546,17 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 356,
-                  "end": 356,
+                  "end": 357,
                   "loc": {
                     "start": {
                       "line": 13,
                       "column": 57
                     },
                     "end": {
-                      "line": 13,
-                      "column": 57
+                      "line": 14,
+                      "column": 0
                     }
                   },
                   "extra": {
@@ -568,16 +568,16 @@
                 {
                   "element": "Dedent",
                   "value": "",
-                  "start": 356,
-                  "end": 356,
+                  "start": 357,
+                  "end": 357,
                   "loc": {
                     "start": {
-                      "line": 13,
-                      "column": 57
+                      "line": 14,
+                      "column": 0
                     },
                     "end": {
-                      "line": 13,
-                      "column": 57
+                      "line": 14,
+                      "column": 0
                     }
                   },
                   "extra": {
@@ -588,13 +588,13 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "\n",
-                  "start": 356,
+                  "value": "",
+                  "start": 357,
                   "end": 357,
                   "loc": {
                     "start": {
-                      "line": 13,
-                      "column": 57
+                      "line": 14,
+                      "column": 0
                     },
                     "end": {
                       "line": 14,
@@ -1072,16 +1072,16 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 443,
-              "end": 443,
+              "start": 444,
+              "end": 444,
               "loc": {
                 "start": {
-                  "line": 17,
-                  "column": 59
+                  "line": 18,
+                  "column": 0
                 },
                 "end": {
-                  "line": 17,
-                  "column": 59
+                  "line": 18,
+                  "column": 0
                 }
               },
               "extra": {
@@ -1092,13 +1092,13 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 443,
+              "value": "",
+              "start": 444,
               "end": 444,
               "loc": {
                 "start": {
-                  "line": 17,
-                  "column": 59
+                  "line": 18,
+                  "column": 0
                 },
                 "end": {
                   "line": 18,
@@ -1116,7 +1116,7 @@
             {
               "type": "ExpressionStatement",
               "start": 386,
-              "end": 443,
+              "end": 444,
               "tokenStart": 24,
               "tokenEnd": 47,
               "loc": {
@@ -1125,8 +1125,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 17,
-                  "column": 59
+                  "line": 18,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -1135,17 +1135,17 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 443,
-                  "end": 443,
+                  "end": 444,
                   "loc": {
                     "start": {
                       "line": 17,
                       "column": 59
                     },
                     "end": {
-                      "line": 17,
-                      "column": 59
+                      "line": 18,
+                      "column": 0
                     }
                   },
                   "extra": {

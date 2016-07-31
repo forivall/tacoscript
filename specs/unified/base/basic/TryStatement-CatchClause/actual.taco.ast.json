@@ -25,7 +25,16 @@
         "value": "\n",
         "start": 14,
         "end": 15,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": {
             "code": "\n"
@@ -41,7 +50,16 @@
         "value": "\n",
         "start": 35,
         "end": 36,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 0
+          },
+          "end": {
+            "line": 8,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": {
             "code": "\n"
@@ -57,7 +75,16 @@
         "value": "\n",
         "start": 64,
         "end": 65,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 12,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": {
             "code": "\n"
@@ -73,7 +100,16 @@
         "value": "\n",
         "start": 109,
         "end": 110,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 19,
+            "column": 0
+          },
+          "end": {
+            "line": 20,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": {
             "code": "\n"
@@ -89,7 +125,16 @@
         "value": "",
         "start": 146,
         "end": 146,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 25,
+            "column": 0
+          },
+          "end": {
+            "line": 25,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -98,6 +143,7 @@
       }
     ],
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "TryStatement",
@@ -121,7 +167,16 @@
             "value": "try",
             "start": 0,
             "end": 3,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 3
+              }
+            },
             "extra": {
               "tokenValue": "try",
               "tokenType": "_try",
@@ -157,7 +212,16 @@
               "value": "\n",
               "start": 3,
               "end": 4,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 3
+                },
+                "end": {
+                  "line": 2,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -189,7 +253,16 @@
               "value": "catch",
               "start": 4,
               "end": 9,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 0
+                },
+                "end": {
+                  "line": 2,
+                  "column": 5
+                }
+              },
               "extra": {
                 "tokenValue": "catch",
                 "tokenType": "_catch",
@@ -201,7 +274,16 @@
               "value": " ",
               "start": 9,
               "end": 10,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 5
+                },
+                "end": {
+                  "line": 2,
+                  "column": 6
+                }
+              },
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -286,7 +368,16 @@
                 "value": "\n",
                 "start": 13,
                 "end": 14,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -322,7 +413,16 @@
             "value": "try",
             "start": 15,
             "end": 18,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 3
+              }
+            },
             "extra": {
               "tokenValue": "try",
               "tokenType": "_try",
@@ -358,7 +458,16 @@
               "value": "",
               "start": 18,
               "end": 18,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 4,
+                  "column": 3
+                },
+                "end": {
+                  "line": 4,
+                  "column": 3
+                }
+              },
               "extra": {
                 "tokenValue": "indent",
                 "tokenType": "indent",
@@ -370,7 +479,16 @@
               "value": "\n",
               "start": 18,
               "end": 19,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 4,
+                  "column": 3
+                },
+                "end": {
+                  "line": 5,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -394,9 +512,18 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 24,
-              "end": 24,
-              "loc": {},
+              "start": 25,
+              "end": 25,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 0
+                },
+                "end": {
+                  "line": 6,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
@@ -405,10 +532,19 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 24,
+              "value": "",
+              "start": 25,
               "end": 25,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 0
+                },
+                "end": {
+                  "line": 6,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -420,7 +556,7 @@
             {
               "type": "ExpressionStatement",
               "start": 21,
-              "end": 24,
+              "end": 25,
               "tokenStart": 8,
               "tokenEnd": 9,
               "loc": {
@@ -429,8 +565,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 5,
-                  "column": 5
+                  "line": 6,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -439,10 +575,19 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 24,
-                  "end": 24,
-                  "loc": {},
+                  "end": 25,
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 6,
+                      "column": 0
+                    }
+                  },
                   "extra": {
                     "tokenValue": "newline",
                     "tokenType": "newline",
@@ -523,7 +668,16 @@
               "value": "catch",
               "start": 25,
               "end": 30,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 0
+                },
+                "end": {
+                  "line": 6,
+                  "column": 5
+                }
+              },
               "extra": {
                 "tokenValue": "catch",
                 "tokenType": "_catch",
@@ -535,7 +689,16 @@
               "value": " ",
               "start": 30,
               "end": 31,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 5
+                },
+                "end": {
+                  "line": 6,
+                  "column": 6
+                }
+              },
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -620,7 +783,16 @@
                 "value": "\n",
                 "start": 34,
                 "end": 35,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 6,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -656,7 +828,16 @@
             "value": "try",
             "start": 36,
             "end": 39,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 3
+              }
+            },
             "extra": {
               "tokenValue": "try",
               "tokenType": "_try",
@@ -692,7 +873,16 @@
               "value": "",
               "start": 39,
               "end": 39,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 3
+                },
+                "end": {
+                  "line": 8,
+                  "column": 3
+                }
+              },
               "extra": {
                 "tokenValue": "indent",
                 "tokenType": "indent",
@@ -704,7 +894,16 @@
               "value": "\n",
               "start": 39,
               "end": 40,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 3
+                },
+                "end": {
+                  "line": 9,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -728,9 +927,18 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 45,
-              "end": 45,
-              "loc": {},
+              "start": 46,
+              "end": 46,
+              "loc": {
+                "start": {
+                  "line": 10,
+                  "column": 0
+                },
+                "end": {
+                  "line": 10,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
@@ -739,10 +947,19 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 45,
+              "value": "",
+              "start": 46,
               "end": 46,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 10,
+                  "column": 0
+                },
+                "end": {
+                  "line": 10,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -754,7 +971,7 @@
             {
               "type": "ExpressionStatement",
               "start": 42,
-              "end": 45,
+              "end": 46,
               "tokenStart": 18,
               "tokenEnd": 19,
               "loc": {
@@ -763,8 +980,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 9,
-                  "column": 5
+                  "line": 10,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -773,10 +990,19 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 45,
-                  "end": 45,
-                  "loc": {},
+                  "end": 46,
+                  "loc": {
+                    "start": {
+                      "line": 9,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 0
+                    }
+                  },
                   "extra": {
                     "tokenValue": "newline",
                     "tokenType": "newline",
@@ -857,7 +1083,16 @@
               "value": "catch",
               "start": 46,
               "end": 51,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 10,
+                  "column": 0
+                },
+                "end": {
+                  "line": 10,
+                  "column": 5
+                }
+              },
               "extra": {
                 "tokenValue": "catch",
                 "tokenType": "_catch",
@@ -869,7 +1104,16 @@
               "value": " ",
               "start": 51,
               "end": 52,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 10,
+                  "column": 5
+                },
+                "end": {
+                  "line": 10,
+                  "column": 6
+                }
+              },
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -954,7 +1198,16 @@
                 "value": "",
                 "start": 55,
                 "end": 55,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 10,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 9
+                  }
+                },
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -966,7 +1219,16 @@
                 "value": "\n",
                 "start": 55,
                 "end": 56,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 10,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -990,9 +1252,18 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 63,
-                "end": 63,
-                "loc": {},
+                "start": 64,
+                "end": 64,
+                "loc": {
+                  "start": {
+                    "line": 12,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -1001,10 +1272,19 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "\n",
-                "start": 63,
+                "value": "",
+                "start": 64,
                 "end": 64,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 12,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -1016,7 +1296,7 @@
               {
                 "type": "ExpressionStatement",
                 "start": 58,
-                "end": 63,
+                "end": 64,
                 "tokenStart": 26,
                 "tokenEnd": 29,
                 "loc": {
@@ -1025,8 +1305,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 11,
-                    "column": 7
+                    "line": 12,
+                    "column": 0
                   }
                 },
                 "sourceElements": [
@@ -1035,10 +1315,19 @@
                   },
                   {
                     "element": "LineTerminator",
-                    "value": "",
+                    "value": "\n",
                     "start": 63,
-                    "end": 63,
-                    "loc": {},
+                    "end": 64,
+                    "loc": {
+                      "start": {
+                        "line": 11,
+                        "column": 7
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 0
+                      }
+                    },
                     "extra": {
                       "tokenValue": "newline",
                       "tokenType": "newline",
@@ -1071,7 +1360,16 @@
                       "value": "(",
                       "start": 61,
                       "end": 62,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 11,
+                          "column": 5
+                        },
+                        "end": {
+                          "line": 11,
+                          "column": 6
+                        }
+                      },
                       "extra": {
                         "tokenValue": "(",
                         "tokenType": "parenL",
@@ -1083,7 +1381,16 @@
                       "value": ")",
                       "start": 62,
                       "end": 63,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 11,
+                          "column": 6
+                        },
+                        "end": {
+                          "line": 11,
+                          "column": 7
+                        }
+                      },
                       "extra": {
                         "tokenValue": ")",
                         "tokenType": "parenR",
@@ -1170,7 +1477,16 @@
             "value": "try",
             "start": 65,
             "end": 68,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 13,
+                "column": 0
+              },
+              "end": {
+                "line": 13,
+                "column": 3
+              }
+            },
             "extra": {
               "tokenValue": "try",
               "tokenType": "_try",
@@ -1188,7 +1504,16 @@
             "value": "finally",
             "start": 93,
             "end": 100,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 17,
+                "column": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 7
+              }
+            },
             "extra": {
               "tokenValue": "finally",
               "tokenType": "_finally",
@@ -1221,7 +1546,16 @@
               "value": "",
               "start": 68,
               "end": 68,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 13,
+                  "column": 3
+                },
+                "end": {
+                  "line": 13,
+                  "column": 3
+                }
+              },
               "extra": {
                 "tokenValue": "indent",
                 "tokenType": "indent",
@@ -1233,7 +1567,16 @@
               "value": "\n",
               "start": 68,
               "end": 69,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 13,
+                  "column": 3
+                },
+                "end": {
+                  "line": 14,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -1257,9 +1600,18 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 74,
-              "end": 74,
-              "loc": {},
+              "start": 75,
+              "end": 75,
+              "loc": {
+                "start": {
+                  "line": 15,
+                  "column": 0
+                },
+                "end": {
+                  "line": 15,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
@@ -1268,10 +1620,19 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 74,
+              "value": "",
+              "start": 75,
               "end": 75,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 15,
+                  "column": 0
+                },
+                "end": {
+                  "line": 15,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -1283,7 +1644,7 @@
             {
               "type": "ExpressionStatement",
               "start": 71,
-              "end": 74,
+              "end": 75,
               "tokenStart": 35,
               "tokenEnd": 36,
               "loc": {
@@ -1292,8 +1653,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 14,
-                  "column": 5
+                  "line": 15,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -1302,10 +1663,19 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 74,
-                  "end": 74,
-                  "loc": {},
+                  "end": 75,
+                  "loc": {
+                    "start": {
+                      "line": 14,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 15,
+                      "column": 0
+                    }
+                  },
                   "extra": {
                     "tokenValue": "newline",
                     "tokenType": "newline",
@@ -1386,7 +1756,16 @@
               "value": "catch",
               "start": 75,
               "end": 80,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 15,
+                  "column": 0
+                },
+                "end": {
+                  "line": 15,
+                  "column": 5
+                }
+              },
               "extra": {
                 "tokenValue": "catch",
                 "tokenType": "_catch",
@@ -1398,7 +1777,16 @@
               "value": " ",
               "start": 80,
               "end": 81,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 15,
+                  "column": 5
+                },
+                "end": {
+                  "line": 15,
+                  "column": 6
+                }
+              },
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -1483,7 +1871,16 @@
                 "value": "",
                 "start": 84,
                 "end": 84,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 15,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 15,
+                    "column": 9
+                  }
+                },
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -1495,7 +1892,16 @@
                 "value": "\n",
                 "start": 84,
                 "end": 85,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 15,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -1519,9 +1925,18 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 92,
-                "end": 92,
-                "loc": {},
+                "start": 93,
+                "end": 93,
+                "loc": {
+                  "start": {
+                    "line": 17,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -1530,10 +1945,19 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "\n",
-                "start": 92,
+                "value": "",
+                "start": 93,
                 "end": 93,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 17,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -1545,7 +1969,7 @@
               {
                 "type": "ExpressionStatement",
                 "start": 87,
-                "end": 92,
+                "end": 93,
                 "tokenStart": 43,
                 "tokenEnd": 46,
                 "loc": {
@@ -1554,8 +1978,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 16,
-                    "column": 7
+                    "line": 17,
+                    "column": 0
                   }
                 },
                 "sourceElements": [
@@ -1564,10 +1988,19 @@
                   },
                   {
                     "element": "LineTerminator",
-                    "value": "",
+                    "value": "\n",
                     "start": 92,
-                    "end": 92,
-                    "loc": {},
+                    "end": 93,
+                    "loc": {
+                      "start": {
+                        "line": 16,
+                        "column": 7
+                      },
+                      "end": {
+                        "line": 17,
+                        "column": 0
+                      }
+                    },
                     "extra": {
                       "tokenValue": "newline",
                       "tokenType": "newline",
@@ -1600,7 +2033,16 @@
                       "value": "(",
                       "start": 90,
                       "end": 91,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 16,
+                          "column": 5
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 6
+                        }
+                      },
                       "extra": {
                         "tokenValue": "(",
                         "tokenType": "parenL",
@@ -1612,7 +2054,16 @@
                       "value": ")",
                       "start": 91,
                       "end": 92,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 16,
+                          "column": 6
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 7
+                        }
+                      },
                       "extra": {
                         "tokenValue": ")",
                         "tokenType": "parenR",
@@ -1697,7 +2148,16 @@
               "value": "",
               "start": 100,
               "end": 100,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 17,
+                  "column": 7
+                },
+                "end": {
+                  "line": 17,
+                  "column": 7
+                }
+              },
               "extra": {
                 "tokenValue": "indent",
                 "tokenType": "indent",
@@ -1709,7 +2169,16 @@
               "value": "\n",
               "start": 100,
               "end": 101,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 17,
+                  "column": 7
+                },
+                "end": {
+                  "line": 18,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -1733,9 +2202,18 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 108,
-              "end": 108,
-              "loc": {},
+              "start": 109,
+              "end": 109,
+              "loc": {
+                "start": {
+                  "line": 19,
+                  "column": 0
+                },
+                "end": {
+                  "line": 19,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
@@ -1744,10 +2222,19 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 108,
+              "value": "",
+              "start": 109,
               "end": 109,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 19,
+                  "column": 0
+                },
+                "end": {
+                  "line": 19,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -1759,7 +2246,7 @@
             {
               "type": "ExpressionStatement",
               "start": 103,
-              "end": 108,
+              "end": 109,
               "tokenStart": 52,
               "tokenEnd": 55,
               "loc": {
@@ -1768,8 +2255,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 18,
-                  "column": 7
+                  "line": 19,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -1778,10 +2265,19 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 108,
-                  "end": 108,
-                  "loc": {},
+                  "end": 109,
+                  "loc": {
+                    "start": {
+                      "line": 18,
+                      "column": 7
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 0
+                    }
+                  },
                   "extra": {
                     "tokenValue": "newline",
                     "tokenType": "newline",
@@ -1814,7 +2310,16 @@
                     "value": "(",
                     "start": 106,
                     "end": 107,
-                    "loc": {},
+                    "loc": {
+                      "start": {
+                        "line": 18,
+                        "column": 5
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 6
+                      }
+                    },
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -1826,7 +2331,16 @@
                     "value": ")",
                     "start": 107,
                     "end": 108,
-                    "loc": {},
+                    "loc": {
+                      "start": {
+                        "line": 18,
+                        "column": 6
+                      },
+                      "end": {
+                        "line": 18,
+                        "column": 7
+                      }
+                    },
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -1910,7 +2424,16 @@
             "value": "try",
             "start": 110,
             "end": 113,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 20,
+                "column": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 3
+              }
+            },
             "extra": {
               "tokenValue": "try",
               "tokenType": "_try",
@@ -1928,7 +2451,16 @@
             "value": "finally",
             "start": 138,
             "end": 145,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 24,
+                "column": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 7
+              }
+            },
             "extra": {
               "tokenValue": "finally",
               "tokenType": "_finally",
@@ -1961,7 +2493,16 @@
               "value": "",
               "start": 113,
               "end": 113,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 20,
+                  "column": 3
+                },
+                "end": {
+                  "line": 20,
+                  "column": 3
+                }
+              },
               "extra": {
                 "tokenValue": "indent",
                 "tokenType": "indent",
@@ -1973,7 +2514,16 @@
               "value": "\n",
               "start": 113,
               "end": 114,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 20,
+                  "column": 3
+                },
+                "end": {
+                  "line": 21,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -1997,9 +2547,18 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 119,
-              "end": 119,
-              "loc": {},
+              "start": 120,
+              "end": 120,
+              "loc": {
+                "start": {
+                  "line": 22,
+                  "column": 0
+                },
+                "end": {
+                  "line": 22,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "dedent",
                 "tokenType": "dedent",
@@ -2008,10 +2567,19 @@
             },
             {
               "element": "LineTerminator",
-              "value": "\n",
-              "start": 119,
+              "value": "",
+              "start": 120,
               "end": 120,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 22,
+                  "column": 0
+                },
+                "end": {
+                  "line": 22,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",
@@ -2023,7 +2591,7 @@
             {
               "type": "ExpressionStatement",
               "start": 116,
-              "end": 119,
+              "end": 120,
               "tokenStart": 61,
               "tokenEnd": 62,
               "loc": {
@@ -2032,8 +2600,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 21,
-                  "column": 5
+                  "line": 22,
+                  "column": 0
                 }
               },
               "sourceElements": [
@@ -2042,10 +2610,19 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
+                  "value": "\n",
                   "start": 119,
-                  "end": 119,
-                  "loc": {},
+                  "end": 120,
+                  "loc": {
+                    "start": {
+                      "line": 21,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 0
+                    }
+                  },
                   "extra": {
                     "tokenValue": "newline",
                     "tokenType": "newline",
@@ -2126,7 +2703,16 @@
               "value": "catch",
               "start": 120,
               "end": 125,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 22,
+                  "column": 0
+                },
+                "end": {
+                  "line": 22,
+                  "column": 5
+                }
+              },
               "extra": {
                 "tokenValue": "catch",
                 "tokenType": "_catch",
@@ -2138,7 +2724,16 @@
               "value": " ",
               "start": 125,
               "end": 126,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 22,
+                  "column": 5
+                },
+                "end": {
+                  "line": 22,
+                  "column": 6
+                }
+              },
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -2223,7 +2818,16 @@
                 "value": "",
                 "start": 129,
                 "end": 129,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 22,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 9
+                  }
+                },
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -2235,7 +2839,16 @@
                 "value": "\n",
                 "start": 129,
                 "end": 130,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 22,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -2259,9 +2872,18 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 137,
-                "end": 137,
-                "loc": {},
+                "start": 138,
+                "end": 138,
+                "loc": {
+                  "start": {
+                    "line": 24,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -2270,10 +2892,19 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "\n",
-                "start": 137,
+                "value": "",
+                "start": 138,
                 "end": 138,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 24,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 0
+                  }
+                },
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -2285,7 +2916,7 @@
               {
                 "type": "ExpressionStatement",
                 "start": 132,
-                "end": 137,
+                "end": 138,
                 "tokenStart": 69,
                 "tokenEnd": 72,
                 "loc": {
@@ -2294,8 +2925,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 23,
-                    "column": 7
+                    "line": 24,
+                    "column": 0
                   }
                 },
                 "sourceElements": [
@@ -2304,10 +2935,19 @@
                   },
                   {
                     "element": "LineTerminator",
-                    "value": "",
+                    "value": "\n",
                     "start": 137,
-                    "end": 137,
-                    "loc": {},
+                    "end": 138,
+                    "loc": {
+                      "start": {
+                        "line": 23,
+                        "column": 7
+                      },
+                      "end": {
+                        "line": 24,
+                        "column": 0
+                      }
+                    },
                     "extra": {
                       "tokenValue": "newline",
                       "tokenType": "newline",
@@ -2340,7 +2980,16 @@
                       "value": "(",
                       "start": 135,
                       "end": 136,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 23,
+                          "column": 5
+                        },
+                        "end": {
+                          "line": 23,
+                          "column": 6
+                        }
+                      },
                       "extra": {
                         "tokenValue": "(",
                         "tokenType": "parenL",
@@ -2352,7 +3001,16 @@
                       "value": ")",
                       "start": 136,
                       "end": 137,
-                      "loc": {},
+                      "loc": {
+                        "start": {
+                          "line": 23,
+                          "column": 6
+                        },
+                        "end": {
+                          "line": 23,
+                          "column": 7
+                        }
+                      },
                       "extra": {
                         "tokenValue": ")",
                         "tokenType": "parenR",
@@ -2437,7 +3095,16 @@
               "value": "\n",
               "start": 145,
               "end": 146,
-              "loc": {},
+              "loc": {
+                "start": {
+                  "line": 24,
+                  "column": 7
+                },
+                "end": {
+                  "line": 25,
+                  "column": 0
+                }
+              },
               "extra": {
                 "tokenValue": "newline",
                 "tokenType": "newline",

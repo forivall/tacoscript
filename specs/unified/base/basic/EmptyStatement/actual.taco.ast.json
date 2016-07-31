@@ -25,7 +25,16 @@
         "value": "",
         "start": 5,
         "end": 5,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -34,6 +43,7 @@
       }
     ],
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "EmptyStatement",
@@ -57,7 +67,16 @@
             "value": "pass",
             "start": 0,
             "end": 4,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 4
+              }
+            },
             "extra": {
               "tokenValue": "pass",
               "tokenType": "_pass",
@@ -69,7 +88,16 @@
             "value": "\n",
             "start": 4,
             "end": 5,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 0
+              }
+            },
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",

@@ -28,7 +28,16 @@
         "value": "",
         "start": 52,
         "end": 52,
-        "loc": {},
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 0
+          }
+        },
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -37,6 +46,7 @@
       }
     ],
     "sourceType": "module",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "VariableDeclaration",
@@ -81,7 +91,16 @@
             "value": " ",
             "start": 3,
             "end": 4,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 3
+              },
+              "end": {
+                "line": 1,
+                "column": 4
+              }
+            },
             "extra": {
               "tokenValue": {
                 "code": " "
@@ -97,7 +116,16 @@
             "value": "\n",
             "start": 19,
             "end": 20,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 19
+              },
+              "end": {
+                "line": 2,
+                "column": 0
+              }
+            },
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -131,7 +159,16 @@
                 "value": " ",
                 "start": 7,
                 "end": 8,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 7
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8
+                  }
+                },
                 "extra": {
                   "tokenValue": {
                     "code": " "
@@ -144,7 +181,16 @@
                 "value": "=",
                 "start": 8,
                 "end": 9,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 9
+                  }
+                },
                 "extra": {
                   "tokenValue": "=",
                   "tokenType": "eq",
@@ -156,7 +202,16 @@
                 "value": " ",
                 "start": 9,
                 "end": 10,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 10
+                  }
+                },
                 "extra": {
                   "tokenValue": {
                     "code": " "
@@ -238,7 +293,16 @@
                   "value": "class",
                   "start": 10,
                   "end": 15,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 10
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 15
+                    }
+                  },
                   "extra": {
                     "tokenValue": "class",
                     "tokenType": "_class",
@@ -250,7 +314,16 @@
                   "value": " ",
                   "start": 15,
                   "end": 16,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 16
+                    }
+                  },
                   "extra": {
                     "tokenValue": {
                       "code": " "
@@ -381,7 +454,16 @@
             "value": " ",
             "start": 23,
             "end": 24,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 4
+              }
+            },
             "extra": {
               "tokenValue": {
                 "code": " "
@@ -397,7 +479,16 @@
             "value": "\n",
             "start": 51,
             "end": 52,
-            "loc": {},
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 31
+              },
+              "end": {
+                "line": 3,
+                "column": 0
+              }
+            },
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -431,7 +522,16 @@
                 "value": " ",
                 "start": 27,
                 "end": 28,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 7
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8
+                  }
+                },
                 "extra": {
                   "tokenValue": {
                     "code": " "
@@ -444,7 +544,16 @@
                 "value": "=",
                 "start": 28,
                 "end": 29,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 9
+                  }
+                },
                 "extra": {
                   "tokenValue": "=",
                   "tokenType": "eq",
@@ -456,7 +565,16 @@
                 "value": " ",
                 "start": 29,
                 "end": 30,
-                "loc": {},
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 10
+                  }
+                },
                 "extra": {
                   "tokenValue": {
                     "code": " "
@@ -538,7 +656,16 @@
                   "value": "class",
                   "start": 30,
                   "end": 35,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 10
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 15
+                    }
+                  },
                   "extra": {
                     "tokenValue": "class",
                     "tokenType": "_class",
@@ -550,7 +677,16 @@
                   "value": " ",
                   "start": 35,
                   "end": 36,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 16
+                    }
+                  },
                   "extra": {
                     "tokenValue": {
                       "code": " "
@@ -566,7 +702,16 @@
                   "value": " ",
                   "start": 39,
                   "end": 40,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 19
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 20
+                    }
+                  },
                   "extra": {
                     "tokenValue": {
                       "code": " "
@@ -579,7 +724,16 @@
                   "value": "extends",
                   "start": 40,
                   "end": 47,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 20
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 27
+                    }
+                  },
                   "extra": {
                     "tokenValue": "extends",
                     "tokenType": "_extends",
@@ -591,7 +745,16 @@
                   "value": " ",
                   "start": 47,
                   "end": 48,
-                  "loc": {},
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 27
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 28
+                    }
+                  },
                   "extra": {
                     "tokenValue": {
                       "code": " "
