@@ -7,6 +7,12 @@ const NodePath = require('../lib/index').NodePath;
 const memberExpressionAst = require('./fixtures/source-elements/member-expression.ast.json')
 const nestedBlock = require('./fixtures/source-elements/nested-block.ast.json')
 
+const incrementFixture = require('fs').readFileSync(require('path').join(
+  __dirname, '../../../specs/core/base-edgecase/misc/increment/expected.taco'
+), 'utf8');
+
+const horchata = require('../../horchata');
+
 suite('comal-traverse/source-elements', function () {
   test('NodePath#srcElUntil', function () {
     const child = memberExpressionAst.expression;
@@ -41,5 +47,13 @@ suite('comal-traverse/source-elements', function () {
     const indent = target.indent();
     expect(indent.length).equals(1);
     expect(indent[0].value).equals('    ');
+  })
+
+  test('indent regression', function () {
+    const ast = horchata.parse(incrementFixture);
+    const root = NodePath.get({parent: ast, container: ast, key: 'program'})
+    .setContext({opts: {noScope: true, sourceElementsSource: 'sourceElements'}});
+    const target = root.get('body.0.declarations.0.init.body', true);
+    expect(target.indent().length).equals(0);
   })
 })

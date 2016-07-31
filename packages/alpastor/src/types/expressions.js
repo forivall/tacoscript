@@ -64,7 +64,9 @@ export function BinaryExpression(path: NodePath, node: Node) {
   this.print(path, 'left');
   t.push(left.srcEl());
 
-  t.push(...left.srcElUntil('operator'), path.get('operator').srcEl());
+  t.push(...left.srcElUntil('operator'));
+  // TODO: translate binary expression keywords into symbols
+  t.push(path.get('operator').srcEl());
   // TODO: unescape escaped newlines
   t.push(...right.srcElSince('operator'));
 
@@ -74,4 +76,9 @@ export function BinaryExpression(path: NodePath, node: Node) {
   t.push(...right.srcElAfter());
 
   node[this.key] = t;
+}
+
+export function UpdateExpression(path: NodePath, node: Node) {
+  node[this.key] = [...node[this.tKey]];
+  this.print(path, 'argument');
 }

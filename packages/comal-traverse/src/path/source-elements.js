@@ -116,7 +116,7 @@ export function _leadingWhitespace(whitespace = []) {
   let broken = false;
   let end = false;
   if (this.parentPath == null) {
-    return [whitespace, false];
+    return [[], false];
   }
   for (const srcEl of reversed(this.srcElBefore())) {
     const typeName = srcEl.element;

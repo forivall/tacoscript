@@ -94,8 +94,6 @@ export function _printBlockLeading(leadingElements) {
 // TODO: convert all / most empty LineTermainators into '\n'
 export function _printBlockTrailing(path, trailingElements) {
   const t = [];
-  let beforeNewline = true;
-  let beforeCloseCurly = true;
   for (const element of (trailingElements: Array)) {
     if (element.element === 'LineTerminator') {
       if (element.value === '') {
