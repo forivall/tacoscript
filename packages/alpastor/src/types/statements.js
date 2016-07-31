@@ -57,3 +57,16 @@ export function VariableDeclarator(path: NodePath, node: Node) {
   }
   node[this.key] = t;
 }
+
+export function ReturnStatement(path: NodePath, node: Node) {
+  const t = [];
+  const arg = path.get('argument');
+  t.push(...arg.srcElBefore());
+
+  t.push(arg.srcEl());
+  this.print(path, 'argument');
+
+  t.push({element: 'Punctuator', value: ';'});
+  t.push(arg.srcElAfter());
+  node[this.key] = t;
+}

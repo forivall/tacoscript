@@ -88,7 +88,7 @@ export function _srcElIndexMap() {
         index[el.reference] = i;
       }
     } else if (el.element === 'Keyword') {
-      const key = `keyword#${el.value}`;
+      const key = `keyword!${el.value}`;
       if (index[key] !== undefined) {
         if (Array.isArray(index[key])) {
           index[key].push(i);

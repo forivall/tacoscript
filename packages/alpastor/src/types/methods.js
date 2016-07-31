@@ -43,7 +43,7 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
         t.push(sourceElement);
       }
     }
-    t.push(idPath.srcEl())
+    t.push(idPath.srcEl());
     this.print(path, 'id');
   } else {
     // whatever the code standard is, since this whitespace isn't rep'd in taco
