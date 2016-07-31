@@ -1,5 +1,8 @@
 /*global suite,test*/
 require('source-map-support').install();
+
+var fs = require('fs');
+
 var _ = require("lodash");
 var expect = require("chai").expect;
 var specOptions = require("../../../specs/options");
@@ -40,6 +43,10 @@ _.forOwn(coreSpecs, function(suites, setName) {
           } catch(e) {
             console.error('generation errored out ' + task.json.loc + ':\n' + e.stack);
             expect.fail();
+          }
+          if (js.code === null) {
+            fs.writeFileSync(js.loc, result.code, 'utf8');
+            js.code = result.code;
           }
           expect(result.code).equals(js.code);
         });

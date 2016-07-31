@@ -30,8 +30,7 @@ export function BinaryExpression(path: NodePath, node: Node) {
   t.push(left.srcEl());
 
   t.push(...left.srcElUntil('operator'));
-  // TODO: translate binary expression keywords into symbols
-  t.push(path.get('operator').srcEl());
+  t.push({reference: 'operator', element: 'Punctuator', value: node.operator});
   // TODO: unescape escaped newlines
   t.push(...right.srcElSince('operator'));
 
@@ -83,6 +82,8 @@ export function CallExpression(path: NodePath, node: Node) {
 
   node[this.key] = t;
 }
+
+export {BinaryExpression as LogicalExpression};
 
 export function MemberExpression(path: NodePath, node: Node) {
   this.print(path, 'object');
