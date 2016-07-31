@@ -78,6 +78,12 @@ export function CallExpression(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
+export function MemberExpression(path: NodePath, node: Node) {
+  this.print(path, 'object');
+  this.print(path, 'property');
+  node[this.key] = [...node[this.tKey]];
+}
+
 export function UpdateExpression(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
   this.print(path, 'argument');

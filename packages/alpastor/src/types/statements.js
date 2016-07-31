@@ -16,6 +16,8 @@ export function IfStatement(path: NodePath, node: Node) {
   this.print(path, 'test');
 
   t.push({element: 'Punctuator', value: ')'});
+  // TODO: preserve spacing after close paren
+  //       if nothing to preserve, use the spacing seen `()_here_->`
   t.push(...test.srcElUntil(conq));
 
   t.push(conq.srcEl());
