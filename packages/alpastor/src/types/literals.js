@@ -52,3 +52,4 @@ export function NumericLiteral(path: NodePath, node: Node) {
 
 // TODO: transform differences in string literals
 export {NumericLiteral as StringLiteral};
+export {NumericLiteral as BooleanLiteral};
