@@ -14,6 +14,29 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
+export function BinaryExpression(path: NodePath, node: Node) {
+  const t = [];
+  const left = path.get('left');
+  const right = path.get('right');
+  t.push(...left.srcElBefore());
+
+  this.print(path, 'left');
+  t.push(left.srcEl());
+
+  t.push(...left.srcElUntil('operator'));
+  // TODO: translate binary expression keywords into symbols
+  t.push(path.get('operator').srcEl());
+  // TODO: unescape escaped newlines
+  t.push(...right.srcElSince('operator'));
+
+  this.print(path, 'right');
+  t.push(right.srcEl());
+
+  t.push(...right.srcElAfter());
+
+  node[this.key] = t;
+}
+
 export function CallExpression(path: NodePath, node: Node) {
   const t = [];
 
@@ -51,29 +74,6 @@ export function CallExpression(path: NodePath, node: Node) {
       }
     }
   });
-
-  node[this.key] = t;
-}
-
-export function BinaryExpression(path: NodePath, node: Node) {
-  const t = [];
-  const left = path.get('left');
-  const right = path.get('right');
-  t.push(...left.srcElBefore());
-
-  this.print(path, 'left');
-  t.push(left.srcEl());
-
-  t.push(...left.srcElUntil('operator'));
-  // TODO: translate binary expression keywords into symbols
-  t.push(path.get('operator').srcEl());
-  // TODO: unescape escaped newlines
-  t.push(...right.srcElSince('operator'));
-
-  this.print(path, 'right');
-  t.push(right.srcEl());
-
-  t.push(...right.srcElAfter());
 
   node[this.key] = t;
 }
