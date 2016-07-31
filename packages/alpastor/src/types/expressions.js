@@ -14,6 +14,12 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
+export function AssignmentExpression(path: NodePath, node: Node) {
+  this.print(path, 'left');
+  this.print(path, 'right');
+  node[this.key] = [...node[this.tKey]];
+}
+
 export function BinaryExpression(path: NodePath, node: Node) {
   const t = [];
   const left = path.get('left');
