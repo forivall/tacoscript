@@ -82,9 +82,8 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
       // TODO: check if there's whitespace after the arrow.
     },
     empty: () => {
-      const idPath = path.get('id');// TODO: if
-      const afterId = idPath.srcElUntil(bodyPath);
-      for (const sourceElement of afterId) {
+      const beforeBody = bodyPath.srcElSince(node.id ? path.get('id') : null);
+      for (const sourceElement of beforeBody) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
         )) {
@@ -104,3 +103,5 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
 
   node[this.key] = t;
 }
+
+export {FunctionDeclaration as FunctionExpression};

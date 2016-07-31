@@ -27,7 +27,7 @@ export function Program(path, node) {
     },
     after: (lastPath) => {
       const lastElement = this.lastElement(t);
-      if (lastElement.value !== '\n' && this._sourceLastElement === '\n') {
+      if (lastElement.value !== '\n' && this._sourceLastElement.value === '\n') {
         t.push({element: 'LineTerminator', value: '\n'});
       }
       t.push(...lastPath.srcElAfter());

@@ -41,7 +41,7 @@ export function CallExpression(path: NodePath, node: Node) {
       t.push(...origSourceElements);
     },
     after(lastPath) {
-      t.push(lastPath.srcElAfter());
+      t.push(...lastPath.srcElAfter());
     },
     empty() {
       if (node.extra != null && node.extra.callType === 'excl') {
