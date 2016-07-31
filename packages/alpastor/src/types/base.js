@@ -99,7 +99,7 @@ export function _printBlockTrailing(path, trailingElements) {
   for (const element of (trailingElements: Array)) {
     if (element.element === 'LineTerminator') {
       if (element.value === '') {
-        t.push({element: 'LineTerminator', value: '\n'});
+        // do nothing
       } else {
         t.push(element);
       }

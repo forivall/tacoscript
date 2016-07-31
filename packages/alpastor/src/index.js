@@ -25,11 +25,11 @@ export function generate(acst, opts) {
   };
 }
 
-function lastNonEof(t) {
+function lastRenderable(t) {
   let offset = 1;
   for (let l = t.length, offset = 1; offset <= l; offset++) {
     const element = t[t.length - offset];
-    if (element.element !== 'EOF') return element;
+    if (element.element !== 'EOF' && element.value !== '') return element;
   }
 }
 
@@ -64,11 +64,10 @@ export class Visitor {
         throw new Error('Cannot print node of type "' + node.type + '"')
       }
       this[node.type](path, node);
-      const t = node[this.key];
-      const lastElement = t[t.length - 1];
+      const lastElement = lastRenderable(node[this.key]);
       if (lastElement && lastElement.element) this._lastElement = lastElement;
 
-      const sourceLastElement = lastNonEof(node[this.tKey]);
+      const sourceLastElement = lastRenderable(node[this.tKey]);
       if (sourceLastElement && sourceLastElement.element) {
         this._sourceLastElement = sourceLastElement;
       }
