@@ -18,4 +18,6 @@ if (process.argv[3]) try {
 } catch (e) {}
 var ast = horchata.parse(file, options);
 
-console.log(JSON.stringify(ast, null, "  "));
+if (process.argv[4] !== '--null') {
+  console.log(JSON.stringify(ast, null, "  "));
+}
