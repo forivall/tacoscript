@@ -6,7 +6,7 @@ import matches from 'lodash/matches';
 
 const commaSrcEl = matches({element: 'Punctuator', value: ','});
 
-export function FunctionDeclaration(path: NodePath, node: Node) {
+export function _function(path: NodePath, node: Node) {
   const t = [];
   if (node.async) {
     t.push(
@@ -101,7 +101,15 @@ export function FunctionDeclaration(path: NodePath, node: Node) {
   t.push(bodyPath.srcEl());
   t.push(...bodyPath.srcElAfter());
 
+  return t;
+}
+
+export function FunctionDeclaration(path: NodePath, node: Node) {
+  const t = this._function(path, node);
+  if (node.body.body.length > 0) t.push({element: 'Newline', value: '\n'});
   node[this.key] = t;
 }
 
-export {FunctionDeclaration as FunctionExpression};
+export function FunctionExpression(path: NodePath, node: Node) {
+  node[this.key] = this._function(path, node);
+}

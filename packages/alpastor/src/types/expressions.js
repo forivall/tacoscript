@@ -9,8 +9,9 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   this.print(path, 'expression');
   t.push(...expressionPath.srcElBefore());
   t.push(expressionPath.srcEl());
+  // TODO: count / match parens and place semicolon after
   t.push({element: 'Punctuator', value: ';'});
-  t.push(expressionPath.srcElAfter());
+  t.push(...expressionPath.srcElAfter());
   node[this.key] = t;
 }
 
