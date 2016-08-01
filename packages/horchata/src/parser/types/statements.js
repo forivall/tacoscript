@@ -295,9 +295,10 @@ export function parseForIn(node, init) {
 // We overload the if keyword, so this intermediary parser is required until we
 // figure out what it is.
 export function parseIfStatementOrConditionalExpression(node) {
+  const start = this.state.cur;
   this.next();
   if (this.match(tt.excl)) {
-    node = this.parseExpressionStatement(node, this.parseConditionalExpression());
+    node = this.parseExpressionStatement(node, this.parseConditionalExpression(start));
   } else {
     node = this.parseIfStatement(node);
   }

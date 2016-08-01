@@ -83,6 +83,63 @@ export function CallExpression(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
+export function ConditionalExpression(path: NodePath, node: Node) {
+  const t = [];
+  const test = path.get('test');
+  const conq = path.get('consequent');
+  const alt = path.get('alternate');
+
+  let beforeIf = true;
+  let ignore = false;
+  for (const el of test.srcElBefore()) {
+    if (beforeIf) {
+      if (el.element === 'Keyword' && el.value === 'if') {
+        beforeIf = false;
+        ignore = true;
+        continue;
+      }
+    }
+    if (ignore) {
+      if (el.element === 'Punctuator' && el.value === '!') continue;
+      // TODO: if there's more than one whitespace after `if`, wrap in parens
+      // ignore whitespace before !. warn if there is.
+      if (el.element === 'WhiteSpace' && el.value !== '\n') {
+        ignore = false;
+        continue;
+      }
+    }
+    t.push(el);
+  }
+
+  t.push(test.srcEl());
+  this.print(path, 'test');
+
+  for (const el of test.srcElUntil(conq)) {
+    if (el.element === 'Keyword' && el.value === 'then') {
+      t.push({element: 'Punctuator', value: '?'});
+    } else {
+      t.push(el);
+    }
+  }
+
+  t.push(conq.srcEl());
+  this.print(path, 'consequent');
+
+  for (const el of conq.srcElUntil(alt)) {
+    if (el.element === 'Keyword' && el.value === 'else') {
+      t.push({element: 'Punctuator', value: ':'});
+    } else {
+      t.push(el);
+    }
+  }
+
+  t.push(alt.srcEl());
+  this.print(path, 'alternate');
+
+  t.push(...alt.srcElAfter());
+  node[this.key] = t;
+}
+
 export {BinaryExpression as LogicalExpression};
 
 export function MemberExpression(path: NodePath, node: Node) {

@@ -83,8 +83,9 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
     case tt._yield: node = this.parseYieldExpression(); break;
     case tt._with: node = this.parseWithExpression(); break;
     case tt._if:
+      const cstart = this.state.cur;
       this.next();
-      node = this.parseConditionalExpression();
+      node = this.parseConditionalExpression(cstart);
       break;
     default:
       let maybeOtherExpressionNode = this.parseOtherKeywordExpression();
@@ -139,8 +140,8 @@ export function parseExpressionMaybeKeywordOrAssignment(expressionContext, callb
 }
 
 // expects the `if` to already be on `cur`, and the `!` to maybe be next.
-export function parseConditionalExpression(expressionContext = {}) {
-  let node = this.startNode();
+export function parseConditionalExpression(start, expressionContext = {}) {
+  let node = this.startNode(start);
   this.eat(tt.excl);
   this.assign(node, "test", this.parseExpression());
 

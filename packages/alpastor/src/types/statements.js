@@ -23,6 +23,9 @@ export function IfStatement(path: NodePath, node: Node) {
   t.push(conq.srcEl());
   this.print(path, 'consequent');
 
+  if (node.alternate) {
+    throw new Error('TODO');
+  }
 
   node[this.key] = t;
 }
