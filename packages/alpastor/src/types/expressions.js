@@ -7,11 +7,27 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   const t = [];
   const expressionPath = path.get('expression');
   this.print(path, 'expression');
-  t.push(...expressionPath.srcElBefore());
+  let parens = 0;
+  const before = expressionPath.srcElBefore();
+  for (const el of before) if (el.element === 'Punctuator' && el.value === '(') parens++;
+  t.push(...before);
   t.push(expressionPath.srcEl());
   // TODO: count / match parens and place semicolon after
-  t.push({element: 'Punctuator', value: ';'});
-  t.push(...expressionPath.srcElAfter());
+  const after = expressionPath.srcElAfter();
+  if (parens > 0) {
+    for (const el of after) {
+      t.push(el);
+      if (el.element === 'Punctuator' && el.value === ')') {
+        parens--;
+        if (parens === 0) {
+          t.push({element: 'Punctuator', value: ';'});
+        }
+      }
+    }
+  } else {
+    t.push({element: 'Punctuator', value: ';'});
+    t.push(...after);
+  }
   node[this.key] = t;
 }
 
