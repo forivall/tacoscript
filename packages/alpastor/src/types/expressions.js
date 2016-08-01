@@ -165,6 +165,8 @@ export function MemberExpression(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
 }
 
+export {CallExpression as NewExpression};
+
 export function UpdateExpression(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
   this.print(path, 'argument');
