@@ -78,7 +78,12 @@ export default class NodePath {
 
     for (let i = 0; i < paths.length; i++) {
       let pathCheck = paths[i];
-      if (pathCheck.node === targetNode) {
+      if (targetNode === null && pathCheck.node === null) {
+        if (pathCheck.listKey === listKey && pathCheck.key === key) {
+          path = pathCheck;
+          break;
+        }
+      } else if (pathCheck.node === targetNode) {
         path = pathCheck;
         break;
       }

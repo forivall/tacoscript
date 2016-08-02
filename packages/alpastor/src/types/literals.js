@@ -24,7 +24,12 @@ export function ArrayExpression(path: NodePath, node: Node) {
       t.push(...firstPath.srcElBefore());
     },
     each(path) {
-      t.push(path.srcEl());
+      const el = path.srcEl();
+      if (el.element === 'Keyword' && el.value === 'pass') {
+        t.push({reference: el.reference, element: 'ArrayHole', value: ''});
+      } else {
+        t.push(el);
+      }
     },
     between: (leftPath, rightPath) => {
       const orig = leftPath.srcElUntil(rightPath);

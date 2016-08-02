@@ -85,8 +85,14 @@ export default class WalkContext {
 
       // TODO: see if this can be hashed to improve perf
       // ensure we don't visit the same node twice
-      if (visited.indexOf(path.node) >= 0) continue;
-      visited.push(path.node);
+      if (path.node === null) {
+        const pathId = (path.listKey || '') + '.' + path.key;
+        if (visited.indexOf(pathId) >= 0) continue;
+        visited.push(pathId);
+      } else {
+        if (visited.indexOf(path.node) >= 0) continue;
+        visited.push(path.node);
+      }
 
       // here, instead of using path.visit, we directly invoke our visitor
       // const visitResult =
