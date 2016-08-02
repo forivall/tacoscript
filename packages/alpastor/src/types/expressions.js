@@ -212,8 +212,24 @@ export function UnaryExpression(path: NodePath, node: Node) {
   const arg = path.get('argument');
   // TODO: remove one space of whitespace after `not`
   t.push(...op.srcElBefore());
-  t.push({element: 'Punctuator', reference: 'operator', value: node.operator});
-  t.push(...op.srcElAfter(arg));
+  const opEl = op.srcEl();
+  if (opEl.value === 'not') {
+    t.push({element: 'Punctuator', reference: 'operator', value: '!'});
+    let trimmed = false;
+    const els = op.srcElUntil(arg);
+    const el = els[0];
+    if (el.element === 'WhiteSpace' && el.value.charCodeAt(0) === 32) {
+      if (el.value.length > 1) {
+        arg.push({element: 'WhiteSpace', value: el.value.slice(1)});
+      }
+    } else {
+      arg.push(el);
+    }
+    t.push(arg.srcEl(), ...arg.srcElAfter());
+  } else {
+    t.push(opEl);
+    t.push(...op.srcElAfter());
+  }
   this.print(path, 'argument');
   // t.push(...op.srcElUntil(arg), arg.srcEl(), ...arg.srcElAfter());
   node[this.key] = t;
