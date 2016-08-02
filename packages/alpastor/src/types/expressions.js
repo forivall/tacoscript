@@ -167,6 +167,58 @@ export function MemberExpression(path: NodePath, node: Node) {
 
 export {CallExpression as NewExpression};
 
+export function SequenceExpression(path: NodePath, node: Node) {
+  const t = [];
+  this.print(path, 'expressions', {
+    before(first: NodePath) {
+      t.push(...first.srcElBefore());
+    },
+    each(expr: NodePath) {
+      t.push(expr.srcEl());
+    },
+    between(left: NodePath, right: NodePath) {
+      const u = [];
+      // TODO: see if wrapping parenthises are needed; add if they are.
+
+      // TODO: remove this, since sequence always needs delimiter
+      // but this logic is needed for function args, arrays, objects
+      let seenDelimiter = false;
+      for (const el of left.srcElUntil(right)) {
+        if (el.element === 'Punctuator' && el.value === ';') {
+          seenDelimiter = true;
+          u.push({element: 'Punctuator', value: ','});
+        } else {
+          u.push(el);
+        }
+      }
+      if (!seenDelimiter) {
+        t.push({element: 'Punctuator', value: ','});
+      }
+      t.push(...u);
+    },
+    after(last: NodePath) {
+      t.push(...last.srcElAfter());
+    },
+    empty() {
+      throw new Error('sequence expressions cant be empty');
+    }
+  });
+  node[this.key] = t;
+}
+
+export function UnaryExpression(path: NodePath, node: Node) {
+  const t = [];
+  const op = path.get('operator');
+  const arg = path.get('argument');
+  // TODO: remove one space of whitespace after `not`
+  t.push(...op.srcElBefore());
+  t.push({element: 'Punctuator', reference: 'operator', value: node.operator});
+  t.push(...op.srcElAfter(arg));
+  this.print(path, 'argument');
+  // t.push(...op.srcElUntil(arg), arg.srcEl(), ...arg.srcElAfter());
+  node[this.key] = t;
+}
+
 export function UpdateExpression(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
   this.print(path, 'argument');
