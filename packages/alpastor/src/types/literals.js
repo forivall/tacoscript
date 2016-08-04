@@ -50,6 +50,59 @@ export function ArrayExpression(path: NodePath, node: Node) {
 }
 export {ArrayExpression as ArrayPattern};
 
+export function ObjectExpression(path: NodePath, node: Node) {
+  const t = [];
+  this.print(path, 'properties', {
+    before(firstPath) {
+      t.push(...firstPath.srcElBefore());
+    },
+    each(path) {
+      t.push(path.srcEl());
+    },
+    between: (leftPath, rightPath) => {
+      const orig = leftPath.srcElUntil(rightPath);
+      if (!some(orig, {value: ','})) {
+        t.push({element: 'Punctuator', value: ','});
+      }
+      t.push(...orig);
+    },
+    after(lastPath) {
+      t.push(...lastPath.srcElAfter());
+    },
+    empty: () => {
+      t.push(...node[this.tKey])
+    }
+  });
+
+  node[this.key] = t;
+}
+
+export {ObjectExpression as ObjectPattern};
+
+export function ObjectMethod(path: NodePath, node: Object) {
+  const t = [];
+
+  // TODO: decorators
+  t.push(...this._method(path, node));
+
+  node[this.key] = t;
+}
+
+export function ObjectProperty(path: NodePath, node: Object) {
+  const t = [];
+  // TODO: decorators
+  const key = path.get('key');
+  const value = path.get('value');
+  t.push(...key.srcElBefore(), key.srcEl());
+  this.print(path, 'key');
+  t.push(...key.srcElUntil(value), value.srcEl())
+  this.print(path, 'value');
+  t.push(...value.srcElAfter());
+  // TODO: assignment pattern magic, shorthand magic:
+  // ensure we use the correct srcEl
+  node[this.key] = t;
+}
+
 export function NumericLiteral(path: NodePath, node: Node) {
   // TODO: transform non-standard numeric literals, if we have any
   node[this.key] = [...node[this.tKey]];

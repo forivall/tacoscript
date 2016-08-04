@@ -11,7 +11,7 @@ export function _function(path: NodePath, node: Node) {
   if (node.async) {
     t.push(
       {element: 'Keyword', value: 'async'},
-      {element: 'Whitespace', value: ' '}
+      {element: 'Whitespace', value: ' '} // TODO: preserve
     );
   }
 
@@ -51,6 +51,69 @@ export function _function(path: NodePath, node: Node) {
 
   const bodyPath = path.get('body');
 
+  t.push(...this._params(path, node));
+
+  this.print(path, 'body');
+  t.push(bodyPath.srcEl());
+  t.push(...bodyPath.srcElAfter());
+
+  return t;
+}
+
+export function _method(path: NodePath, node: Node) {
+  const t = [];
+  const kind = node.kind;
+  const key = path.get('key');
+  const body = path.get('body');
+
+  if (kind === 'method' || kind === 'init') {
+    if (node.generator) {
+      const genPath = path.get('generator');
+      const genSrcEl = genPath.srcEl();
+      if (genSrcEl) {
+        // TODO:
+        // genPath.srcElUntil((el) => el.kind === 'Punctuator' && el.value === '->')
+        for (const el of genPath.srcElAfter()) {
+          // TODO: shorthand for arrow, cover all arrow types
+          if (el.kind === 'Punctuator' && el.value === '->') break;
+          t.push(el);
+        }
+        t.push(genSrcEl);
+      }
+    }
+  }
+
+  // NOTE: this handles `get` and `set`
+  // TODO: verify that get or set is there
+  // TODO: stop at open square brace for computed
+  t.push(...key.srcElBefore());
+
+  t.push(key.srcEl());
+  this.print(path, 'key');
+
+  if (node.async) {
+    t.push({element: 'Keyword', value: 'async'});
+    t.push({element: 'WhiteSpace', value: ' '}); // TODO: preserve
+  }
+
+  // if (params.length > 0) {
+  //   const firstParam = path.get('params.0');
+  //
+  // } else {
+  //
+  // }
+  t.push(...this._params(path, node));
+
+  this.print(path, 'body');
+  t.push(body.srcEl());
+  t.push(...body.srcElAfter());
+
+  return t;
+}
+
+export function _params(path: NodePath, node: Node) {
+  const t = [];
+  const body = path.get('body');
   // TODO: typeParameters and
   // TODO: fix when length is zero
   this.print(path, 'params', {
@@ -69,7 +132,7 @@ export function _function(path: NodePath, node: Node) {
       t.push(...origSourceElements);
     },
     after: (lastPath) => {
-      const afterParams = lastPath.srcElUntil(bodyPath);
+      const afterParams = lastPath.srcElUntil(body);
       for (const sourceElement of afterParams) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
@@ -82,7 +145,8 @@ export function _function(path: NodePath, node: Node) {
       // TODO: check if there's whitespace after the arrow.
     },
     empty: () => {
-      const beforeBody = bodyPath.srcElSince(node.id ? path.get('id') : null);
+      // TODO: handle method stuff: computed key
+      const beforeBody = body.srcElSince(node.id ? path.get('id') : null);
       for (const sourceElement of beforeBody) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
@@ -96,11 +160,6 @@ export function _function(path: NodePath, node: Node) {
       // TODO: dedupe code
     }
   });
-
-  this.print(path, 'body');
-  t.push(bodyPath.srcEl());
-  t.push(...bodyPath.srcElAfter());
-
   return t;
 }
 
