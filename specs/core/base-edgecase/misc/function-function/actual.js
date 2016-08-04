@@ -1,0 +1,6 @@
+function f() {
+  'use strict';
+}
+function g() {
+  'use strict';
+}
