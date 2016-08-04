@@ -51,7 +51,7 @@ export function _function(path: NodePath, node: Node) {
 
   const bodyPath = path.get('body');
 
-  t.push(...this._params(path, node));
+  t.push(...this._params(path, node, 'id'));
 
   this.print(path, 'body');
   t.push(bodyPath.srcEl());
@@ -102,7 +102,7 @@ export function _method(path: NodePath, node: Node) {
   // } else {
   //
   // }
-  t.push(...this._params(path, node));
+  t.push(...this._params(path, node, 'key'));
 
   this.print(path, 'body');
   t.push(body.srcEl());
@@ -111,14 +111,14 @@ export function _method(path: NodePath, node: Node) {
   return t;
 }
 
-export function _params(path: NodePath, node: Node) {
+export function _params(path: NodePath, node: Node, id: string) {
   const t = [];
   const body = path.get('body');
   // TODO: typeParameters and
   // TODO: fix when length is zero
   this.print(path, 'params', {
     before: (firstPath) => {
-      t.push(...firstPath.srcElSince(node.id ? 'id' : null));
+      t.push(...firstPath.srcElSince(node[id] ? id : null));
     },
     each: (path) => {
       t.push(path.srcEl());
@@ -146,7 +146,7 @@ export function _params(path: NodePath, node: Node) {
     },
     empty: () => {
       // TODO: handle method stuff: computed key
-      const beforeBody = body.srcElSince(node.id ? path.get('id') : null);
+      const beforeBody = body.srcElSince(node[id] ? path.get(id) : null);
       for (const sourceElement of beforeBody) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
