@@ -30,6 +30,6 @@
     "invariant": "^2.2.0",
     "lodash": "^4.6.1",
     "repeating": "^2.0.0",
-    "reversed": "^1.0.0"
+    "reversed": "^1.1.1"
   }
 }

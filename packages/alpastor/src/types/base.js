@@ -11,6 +11,11 @@ export function File(path, node) {
   // ];
 }
 
+// TODO: dedupe
+function last(t) {
+  return t[t.length - 1];
+}
+
 export function Program(path, node) {
   // TODO: turn assignment on to t into a method,
   // automatically do reference assignment instead of relying on visitors
@@ -26,10 +31,6 @@ export function Program(path, node) {
       t.push(...leftPath.srcElUntil(rightPath));
     },
     after: (lastPath) => {
-      const lastElement = this.lastElement(t);
-      if (lastElement.value !== '\n' && this._sourceLastElement.value === '\n') {
-        t.push({element: 'LineTerminator', value: '\n'});
-      }
       t.push(...lastPath.srcElAfter());
     },
     empty: () => {
@@ -38,6 +39,20 @@ export function Program(path, node) {
   });
 
   node[this.key] = t;
+
+  if (this._sourceLastElement && this._sourceLastElement.value === '\n') {
+    const {
+      el,
+      index,
+      node: newlineNode
+    } = (path.lastSrcEl(
+      (el) => el.element !== 'EOF' && el.value !== '',
+      this.key
+    ) || {});
+    if (el != null && el.value !== '\n') {
+      newlineNode[this.key].push({element: 'WhiteSpace', value: '\n'});
+    }
+  }
 }
 
 export function Directive(path, node) {
@@ -169,6 +184,22 @@ export function BlockStatement(path, node) {
       }
     }
   });
+
+  if (path.parent.type === 'BlockStatement' || path.parent.type === 'Program') {
+    let prevEl;
+    const {
+      el: lastBeforeDedent
+    } = path.lastSrcEl((el) => {
+      if (el.element !== 'Dedent' && el.element !== 'Indent') {
+        if (el.value === '') return false;
+        if (prevEl && prevEl.element === 'Dedent') return true;
+      }
+      prevEl = el;
+      return false;
+    });
+
+    if (lastBeforeDedent.value === '\n') t.push({element: 'WhiteSpace', value: '\n'});
+  }
 
   node[this.key] = t;
 }

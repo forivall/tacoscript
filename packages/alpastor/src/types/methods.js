@@ -165,7 +165,10 @@ export function _params(path: NodePath, node: Node, id: string) {
 
 export function FunctionDeclaration(path: NodePath, node: Node) {
   const t = this._function(path, node);
-  if (node.body.body.length > 0) t.push({element: 'Newline', value: '\n'});
+  const body = node.body;
+  if (body.body.length > 0 || body.directives && body.directives.length > 0) {
+    t.push({element: 'Newline', value: '\n'});
+  }
   node[this.key] = t;
 }
 

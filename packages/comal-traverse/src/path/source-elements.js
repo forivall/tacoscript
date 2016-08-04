@@ -150,3 +150,27 @@ export function _leadingWhitespace(whitespace = []) {
   }
   return [whitespace, broken];
 }
+
+export function lastSrcEl(test = (() => true), key = this.opts.sourceElementsSource) {
+  if (this.parentPath == null) {
+    return null;
+  }
+  const els = this.node[key]
+  if (els == null) return null;
+  for (const [i, srcEl] of reversed(els).entries()) {
+    const typeName = srcEl.element;
+    if (srcEl.reference && !srcEl.value) {
+      const childPath = this.getRef(srcEl, true);
+      const childResult = childPath.lastSrcEl(test, key);
+      if (childResult !== null) return childResult;
+    } else if (test(srcEl)) {
+      return {
+        el: srcEl,
+        index: i,
+        path: this,
+        node: this.node
+      };
+    }
+  }
+  return null;
+}
