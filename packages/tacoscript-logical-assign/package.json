@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-logical-assign",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "plugin for tacoscript for and= and or= operators",
   "keywords": [
     "tacoscript",
@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "horchata": "^0.6.2",
-    "tacoscript": "^0.6.2"
+    "tacoscript": "^0.6.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-strudel-this-member",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Tacoscript plugin for @ shorthand for this.",
   "keywords": [
     "tacoscript",
@@ -26,7 +26,7 @@
     "babel-runtime": "^6.0.0"
   },
   "devDependencies": {
-    "comal-types": "^0.6.2",
-    "tacoscript": "^0.6.2"
+    "comal-types": "^0.6.3",
+    "tacoscript": "^0.6.3"
   }
 }

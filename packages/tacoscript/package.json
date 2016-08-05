@@ -1,6 +1,6 @@
 {
   "name": "tacoscript",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "CLI and API for tacoscript",
   "keywords": [
     "tacoscript",
@@ -34,7 +34,7 @@
     "call-limit": "^1.0.3",
     "camelize": "^1.0.0",
     "chokidar": "^1.4.3",
-    "comal": "^0.6.2",
+    "comal": "^0.6.3",
     "end-of-stream": "^1.1.0",
     "glob-pair": "^2.0.1",
     "has-unicode": "^2.0.0",
@@ -46,7 +46,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "subarg": "^1.0.0",
-    "tacoscript-require-hook": "^0.6.2",
+    "tacoscript-require-hook": "^0.6.3",
     "tacotruck": "^0.6.2",
     "v8flags": "^2.0.11",
     "word-wrap": "^1.1.0"
