@@ -104,7 +104,7 @@ export function toSequenceExpression(nodes: Array<Object>, scope: Scope): ?Objec
 let traverse;
 
 export function toKeyAlias(node: Object, key: Object = node.key): string {
-  if (!traverse) traverse = require("babel-traverse").default;
+  if (!traverse) traverse = require("comal-traverse").default;
 
   let alias;
 
