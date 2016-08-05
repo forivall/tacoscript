@@ -104,18 +104,15 @@ export default class Lexer {
     this.state.prevLexType = this.state.lex.type;
 
     if (this.state.nextIndentation !== this.state.indentation) {
-      this.startTokenLex();
       if (this.state.nextIndentation > this.state.indentation) {
         return this.finishToken(tt.indent);
       } else {
-        if (this.state.prevLexType === tt.dedent) {
+        if (this.state.prevLexType === tt.newline) {
+          return this.finishToken(tt.dedent);
+        } else {
           return this.finishToken(tt.newline);
         }
-        return this.finishToken(tt.dedent);
       }
-    }
-    if (this.state.prevLexType === tt.dedent) {
-      return this.finishToken(tt.newline);
     }
 
     let curContext = this.curContext();
@@ -222,8 +219,6 @@ export default class Lexer {
         if (this.state.nextIndentation > this.state.indentation) {
           return this.finishToken(tt.indent);
         } else {
-          const realNewline = this.getNewlineTokenFromCode(code);
-          if (realNewline) return realNewline;
           return this.finishToken(tt.newline);
         }
       }
@@ -459,9 +454,9 @@ export default class Lexer {
   // flexible than regex.
   //
 
-  // But because im doing some crazy stuff with newlines, newlines first
-
-  getNewlineTokenFromCode(code) {
+  // TODO: allow extension of each of these token endpoints to allow custom
+  // multichar tokens.
+  getTokenFromCode(code) {
     switch (code) {
       // newlines are significant!
       case 13:
@@ -473,15 +468,7 @@ export default class Lexer {
         ++this.state.curLine;
         this.state.lineStart = this.state.pos;
         return this.finishToken(tt.newline);
-    }
-  }
 
-  // TODO: allow extension of each of these token endpoints to allow custom
-  // multichar tokens.
-  getTokenFromCode(code) {
-    const hasNewline = this.getNewlineTokenFromCode(code);
-    if (hasNewline) return hasNewline;
-    switch (code) {
       // The interpretation of a dot depends on whether it is followed
       // by a digit or another two dots.
       case 46: // '.'
