@@ -71,7 +71,6 @@
       }
     ],
     "sourceType": "script",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "WithStatement",
@@ -726,16 +725,16 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 49,
-              "end": 49,
+              "start": 48,
+              "end": 48,
               "loc": {
                 "start": {
-                  "line": 6,
-                  "column": 0
+                  "line": 5,
+                  "column": 7
                 },
                 "end": {
-                  "line": 6,
-                  "column": 0
+                  "line": 5,
+                  "column": 7
                 }
               },
               "extra": {
@@ -746,13 +745,13 @@
             },
             {
               "element": "LineTerminator",
-              "value": "",
-              "start": 49,
+              "value": "\n",
+              "start": 48,
               "end": 49,
               "loc": {
                 "start": {
-                  "line": 6,
-                  "column": 0
+                  "line": 5,
+                  "column": 7
                 },
                 "end": {
                   "line": 6,
@@ -770,7 +769,7 @@
             {
               "type": "ExpressionStatement",
               "start": 43,
-              "end": 49,
+              "end": 48,
               "tokenStart": 15,
               "tokenEnd": 18,
               "loc": {
@@ -779,8 +778,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 6,
-                  "column": 0
+                  "line": 5,
+                  "column": 7
                 }
               },
               "sourceElements": [
@@ -789,17 +788,17 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "\n",
+                  "value": "",
                   "start": 48,
-                  "end": 49,
+                  "end": 48,
                   "loc": {
                     "start": {
                       "line": 5,
                       "column": 7
                     },
                     "end": {
-                      "line": 6,
-                      "column": 0
+                      "line": 5,
+                      "column": 7
                     }
                   },
                   "extra": {

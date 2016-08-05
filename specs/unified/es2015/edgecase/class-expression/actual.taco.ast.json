@@ -43,16 +43,7 @@
         "value": "",
         "start": 471,
         "end": 471,
-        "loc": {
-          "start": {
-            "line": 40,
-            "column": 0
-          },
-          "end": {
-            "line": 40,
-            "column": 0
-          }
-        },
+        "loc": {},
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -61,7 +52,6 @@
       }
     ],
     "sourceType": "module",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "ExpressionStatement",
@@ -85,16 +75,7 @@
             "value": "(",
             "start": 0,
             "end": 1,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -109,16 +90,7 @@
             "value": ")",
             "start": 11,
             "end": 12,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 11
-              },
-              "end": {
-                "line": 1,
-                "column": 12
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -130,16 +102,7 @@
             "value": "\n",
             "start": 12,
             "end": 13,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 12
-              },
-              "end": {
-                "line": 2,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -169,16 +132,7 @@
               "value": "class",
               "start": 1,
               "end": 6,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 1
-                },
-                "end": {
-                  "line": 1,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -190,16 +144,7 @@
               "value": " ",
               "start": 6,
               "end": 7,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 6
-                },
-                "end": {
-                  "line": 1,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -317,16 +262,7 @@
             "value": "(",
             "start": 13,
             "end": 14,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -341,16 +277,7 @@
             "value": ")",
             "start": 41,
             "end": 42,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 28
-              },
-              "end": {
-                "line": 2,
-                "column": 29
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -362,16 +289,7 @@
             "value": "\n",
             "start": 42,
             "end": 43,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 29
-              },
-              "end": {
-                "line": 3,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -401,16 +319,7 @@
               "value": "class",
               "start": 14,
               "end": 19,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 1
-                },
-                "end": {
-                  "line": 2,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -422,16 +331,7 @@
               "value": " ",
               "start": 19,
               "end": 20,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 6
-                },
-                "end": {
-                  "line": 2,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -447,16 +347,7 @@
               "value": " ",
               "start": 27,
               "end": 28,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 14
-                },
-                "end": {
-                  "line": 2,
-                  "column": 15
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -469,16 +360,7 @@
               "value": "extends",
               "start": 28,
               "end": 35,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 15
-                },
-                "end": {
-                  "line": 2,
-                  "column": 22
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "extends",
                 "tokenType": "_extends",
@@ -490,16 +372,7 @@
               "value": " ",
               "start": 35,
               "end": 36,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 22
-                },
-                "end": {
-                  "line": 2,
-                  "column": 23
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -664,16 +537,7 @@
             "value": "(",
             "start": 43,
             "end": 44,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -688,16 +552,7 @@
             "value": ")",
             "start": 155,
             "end": 156,
-            "loc": {
-              "start": {
-                "line": 11,
-                "column": 0
-              },
-              "end": {
-                "line": 11,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -709,16 +564,7 @@
             "value": "\n",
             "start": 156,
             "end": 157,
-            "loc": {
-              "start": {
-                "line": 11,
-                "column": 1
-              },
-              "end": {
-                "line": 12,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -748,16 +594,7 @@
               "value": "class",
               "start": 44,
               "end": 49,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 1
-                },
-                "end": {
-                  "line": 3,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -769,16 +606,7 @@
               "value": " ",
               "start": 49,
               "end": 50,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 6
-                },
-                "end": {
-                  "line": 3,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -864,16 +692,7 @@
                 "value": "",
                 "start": 63,
                 "end": 63,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 20
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 20
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -885,16 +704,7 @@
                 "value": "\n",
                 "start": 63,
                 "end": 64,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 20
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -920,16 +730,7 @@
                 "value": "\n",
                 "start": 81,
                 "end": 82,
-                "loc": {
-                  "start": {
-                    "line": 5,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -956,16 +757,7 @@
                 "value": "\n",
                 "start": 105,
                 "end": 106,
-                "loc": {
-                  "start": {
-                    "line": 7,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 8,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -992,16 +784,7 @@
                 "value": "\n",
                 "start": 134,
                 "end": 135,
-                "loc": {
-                  "start": {
-                    "line": 9,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 10,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -1026,18 +809,9 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 155,
-                "end": 155,
-                "loc": {
-                  "start": {
-                    "line": 11,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 11,
-                    "column": 0
-                  }
-                },
+                "start": 154,
+                "end": 154,
+                "loc": {},
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -1046,19 +820,10 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "",
-                "start": 155,
+                "value": "\n",
+                "start": 154,
                 "end": 155,
-                "loc": {
-                  "start": {
-                    "line": 11,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 11,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -1111,16 +876,7 @@
                     "value": " ",
                     "start": 72,
                     "end": 73,
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1136,16 +892,7 @@
                     "value": "(",
                     "start": 75,
                     "end": 76,
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 11
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 12
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -1157,16 +904,7 @@
                     "value": ")",
                     "start": 76,
                     "end": 77,
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -1178,16 +916,7 @@
                     "value": " ",
                     "start": 77,
                     "end": 78,
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1200,16 +929,7 @@
                     "value": "->",
                     "start": 78,
                     "end": 80,
-                    "loc": {
-                      "start": {
-                        "line": 4,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 4,
-                        "column": 16
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -1298,16 +1018,7 @@
                       "value": "\n",
                       "start": 80,
                       "end": 81,
-                      "loc": {
-                        "start": {
-                          "line": 4,
-                          "column": 16
-                        },
-                        "end": {
-                          "line": 5,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -1363,16 +1074,7 @@
                     "value": " ",
                     "start": 90,
                     "end": 91,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1406,16 +1108,7 @@
                     "value": " ",
                     "start": 94,
                     "end": 95,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1431,16 +1124,7 @@
                     "value": "(",
                     "start": 99,
                     "end": 100,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 17
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 18
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -1452,16 +1136,7 @@
                     "value": ")",
                     "start": 100,
                     "end": 101,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 18
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 19
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -1473,16 +1148,7 @@
                     "value": " ",
                     "start": 101,
                     "end": 102,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 20
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1495,16 +1161,7 @@
                     "value": "->",
                     "start": 102,
                     "end": 104,
-                    "loc": {
-                      "start": {
-                        "line": 6,
-                        "column": 20
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 22
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -1593,16 +1250,7 @@
                       "value": "\n",
                       "start": 104,
                       "end": 105,
-                      "loc": {
-                        "start": {
-                          "line": 6,
-                          "column": 22
-                        },
-                        "end": {
-                          "line": 7,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -1658,16 +1306,7 @@
                     "value": " ",
                     "start": 114,
                     "end": 115,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1701,16 +1340,7 @@
                     "value": " ",
                     "start": 118,
                     "end": 119,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1726,16 +1356,7 @@
                     "value": "(",
                     "start": 123,
                     "end": 124,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 17
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 18
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -1750,16 +1371,7 @@
                     "value": ")",
                     "start": 129,
                     "end": 130,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 23
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 24
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -1771,16 +1383,7 @@
                     "value": " ",
                     "start": 130,
                     "end": 131,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 24
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 25
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -1793,16 +1396,7 @@
                     "value": "->",
                     "start": 131,
                     "end": 133,
-                    "loc": {
-                      "start": {
-                        "line": 8,
-                        "column": 25
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 27
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -1940,16 +1534,7 @@
                       "value": "\n",
                       "start": 133,
                       "end": 134,
-                      "loc": {
-                        "start": {
-                          "line": 8,
-                          "column": 27
-                        },
-                        "end": {
-                          "line": 9,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -1964,7 +1549,7 @@
               {
                 "type": "ClassMethod",
                 "start": 137,
-                "end": 155,
+                "end": 154,
                 "tokenStart": 38,
                 "tokenEnd": 44,
                 "loc": {
@@ -1973,8 +1558,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 11,
-                    "column": 0
+                    "line": 10,
+                    "column": 19
                   }
                 },
                 "sourceElements": [
@@ -2005,16 +1590,7 @@
                     "value": " ",
                     "start": 143,
                     "end": 144,
-                    "loc": {
-                      "start": {
-                        "line": 10,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -2030,16 +1606,7 @@
                     "value": "(",
                     "start": 148,
                     "end": 149,
-                    "loc": {
-                      "start": {
-                        "line": 10,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -2051,16 +1618,7 @@
                     "value": ")",
                     "start": 149,
                     "end": 150,
-                    "loc": {
-                      "start": {
-                        "line": 10,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 15
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -2072,16 +1630,7 @@
                     "value": " ",
                     "start": 150,
                     "end": 151,
-                    "loc": {
-                      "start": {
-                        "line": 10,
-                        "column": 15
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 16
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -2116,16 +1665,7 @@
                     "value": "->",
                     "start": 152,
                     "end": 154,
-                    "loc": {
-                      "start": {
-                        "line": 10,
-                        "column": 17
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 19
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -2195,7 +1735,7 @@
                 "body": {
                   "type": "BlockStatement",
                   "start": 154,
-                  "end": 155,
+                  "end": 154,
                   "tokenStart": 44,
                   "tokenEnd": 44,
                   "loc": {
@@ -2204,26 +1744,17 @@
                       "column": 19
                     },
                     "end": {
-                      "line": 11,
-                      "column": 0
+                      "line": 10,
+                      "column": 19
                     }
                   },
                   "sourceElements": [
                     {
                       "element": "LineTerminator",
-                      "value": "\n",
+                      "value": "",
                       "start": 154,
-                      "end": 155,
-                      "loc": {
-                        "start": {
-                          "line": 10,
-                          "column": 19
-                        },
-                        "end": {
-                          "line": 11,
-                          "column": 0
-                        }
-                      },
+                      "end": 154,
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -2272,16 +1803,7 @@
             "value": "(",
             "start": 157,
             "end": 158,
-            "loc": {
-              "start": {
-                "line": 12,
-                "column": 0
-              },
-              "end": {
-                "line": 12,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -2296,16 +1818,7 @@
             "value": ")",
             "start": 235,
             "end": 236,
-            "loc": {
-              "start": {
-                "line": 20,
-                "column": 0
-              },
-              "end": {
-                "line": 20,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -2317,16 +1830,7 @@
             "value": "\n",
             "start": 236,
             "end": 237,
-            "loc": {
-              "start": {
-                "line": 20,
-                "column": 1
-              },
-              "end": {
-                "line": 21,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -2356,16 +1860,7 @@
               "value": "class",
               "start": 158,
               "end": 163,
-              "loc": {
-                "start": {
-                  "line": 12,
-                  "column": 1
-                },
-                "end": {
-                  "line": 12,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -2377,16 +1872,7 @@
               "value": " ",
               "start": 163,
               "end": 164,
-              "loc": {
-                "start": {
-                  "line": 12,
-                  "column": 6
-                },
-                "end": {
-                  "line": 12,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -2472,16 +1958,7 @@
                 "value": "",
                 "start": 171,
                 "end": 171,
-                "loc": {
-                  "start": {
-                    "line": 12,
-                    "column": 14
-                  },
-                  "end": {
-                    "line": 12,
-                    "column": 14
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -2493,16 +1970,7 @@
                 "value": "\n",
                 "start": 171,
                 "end": 172,
-                "loc": {
-                  "start": {
-                    "line": 12,
-                    "column": 14
-                  },
-                  "end": {
-                    "line": 13,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -2528,16 +1996,7 @@
                 "value": "\n",
                 "start": 182,
                 "end": 183,
-                "loc": {
-                  "start": {
-                    "line": 14,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 15,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -2564,16 +2023,7 @@
                 "value": "\n",
                 "start": 199,
                 "end": 200,
-                "loc": {
-                  "start": {
-                    "line": 16,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 17,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -2600,16 +2050,7 @@
                 "value": "\n",
                 "start": 221,
                 "end": 222,
-                "loc": {
-                  "start": {
-                    "line": 18,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 19,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -2634,18 +2075,9 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 235,
-                "end": 235,
-                "loc": {
-                  "start": {
-                    "line": 20,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 20,
-                    "column": 0
-                  }
-                },
+                "start": 234,
+                "end": 234,
+                "loc": {},
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -2654,19 +2086,10 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "",
-                "start": 235,
+                "value": "\n",
+                "start": 234,
                 "end": 235,
-                "loc": {
-                  "start": {
-                    "line": 20,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 20,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -2700,16 +2123,7 @@
                     "value": "(",
                     "start": 176,
                     "end": 177,
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 4
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 5
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -2721,16 +2135,7 @@
                     "value": ")",
                     "start": 177,
                     "end": 178,
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -2742,16 +2147,7 @@
                     "value": " ",
                     "start": 178,
                     "end": 179,
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 7
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -2764,16 +2160,7 @@
                     "value": "->",
                     "start": 179,
                     "end": 181,
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 7
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -2862,16 +2249,7 @@
                       "value": "\n",
                       "start": 181,
                       "end": 182,
-                      "loc": {
-                        "start": {
-                          "line": 13,
-                          "column": 9
-                        },
-                        "end": {
-                          "line": 14,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -2926,16 +2304,7 @@
                     "value": " ",
                     "start": 188,
                     "end": 189,
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -2951,16 +2320,7 @@
                     "value": "(",
                     "start": 193,
                     "end": 194,
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 10
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 11
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -2972,16 +2332,7 @@
                     "value": ")",
                     "start": 194,
                     "end": 195,
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 11
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 12
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -2993,16 +2344,7 @@
                     "value": " ",
                     "start": 195,
                     "end": 196,
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -3015,16 +2357,7 @@
                     "value": "->",
                     "start": 196,
                     "end": 198,
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 15
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -3113,16 +2446,7 @@
                       "value": "\n",
                       "start": 198,
                       "end": 199,
-                      "loc": {
-                        "start": {
-                          "line": 15,
-                          "column": 15
-                        },
-                        "end": {
-                          "line": 16,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -3177,16 +2501,7 @@
                     "value": " ",
                     "start": 205,
                     "end": 206,
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -3202,16 +2517,7 @@
                     "value": "(",
                     "start": 210,
                     "end": 211,
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 10
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 11
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -3226,16 +2532,7 @@
                     "value": ")",
                     "start": 216,
                     "end": 217,
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 16
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 17
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -3247,16 +2544,7 @@
                     "value": " ",
                     "start": 217,
                     "end": 218,
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 17
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 18
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -3269,16 +2557,7 @@
                     "value": "->",
                     "start": 218,
                     "end": 220,
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 18
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 20
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -3416,16 +2695,7 @@
                       "value": "\n",
                       "start": 220,
                       "end": 221,
-                      "loc": {
-                        "start": {
-                          "line": 17,
-                          "column": 20
-                        },
-                        "end": {
-                          "line": 18,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -3440,7 +2710,7 @@
               {
                 "type": "ClassMethod",
                 "start": 224,
-                "end": 235,
+                "end": 234,
                 "tokenStart": 72,
                 "tokenEnd": 77,
                 "loc": {
@@ -3449,8 +2719,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 20,
-                    "column": 0
+                    "line": 19,
+                    "column": 12
                   }
                 },
                 "sourceElements": [
@@ -3462,16 +2732,7 @@
                     "value": "(",
                     "start": 228,
                     "end": 229,
-                    "loc": {
-                      "start": {
-                        "line": 19,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 19,
-                        "column": 7
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -3483,16 +2744,7 @@
                     "value": ")",
                     "start": 229,
                     "end": 230,
-                    "loc": {
-                      "start": {
-                        "line": 19,
-                        "column": 7
-                      },
-                      "end": {
-                        "line": 19,
-                        "column": 8
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -3504,16 +2756,7 @@
                     "value": " ",
                     "start": 230,
                     "end": 231,
-                    "loc": {
-                      "start": {
-                        "line": 19,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 19,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -3548,16 +2791,7 @@
                     "value": "->",
                     "start": 232,
                     "end": 234,
-                    "loc": {
-                      "start": {
-                        "line": 19,
-                        "column": 10
-                      },
-                      "end": {
-                        "line": 19,
-                        "column": 12
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -3627,7 +2861,7 @@
                 "body": {
                   "type": "BlockStatement",
                   "start": 234,
-                  "end": 235,
+                  "end": 234,
                   "tokenStart": 77,
                   "tokenEnd": 77,
                   "loc": {
@@ -3636,26 +2870,17 @@
                       "column": 12
                     },
                     "end": {
-                      "line": 20,
-                      "column": 0
+                      "line": 19,
+                      "column": 12
                     }
                   },
                   "sourceElements": [
                     {
                       "element": "LineTerminator",
-                      "value": "\n",
+                      "value": "",
                       "start": 234,
-                      "end": 235,
-                      "loc": {
-                        "start": {
-                          "line": 19,
-                          "column": 12
-                        },
-                        "end": {
-                          "line": 20,
-                          "column": 0
-                        }
-                      },
+                      "end": 234,
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -3704,16 +2929,7 @@
             "value": "(",
             "start": 237,
             "end": 238,
-            "loc": {
-              "start": {
-                "line": 21,
-                "column": 0
-              },
-              "end": {
-                "line": 21,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -3728,16 +2944,7 @@
             "value": ")",
             "start": 365,
             "end": 366,
-            "loc": {
-              "start": {
-                "line": 29,
-                "column": 0
-              },
-              "end": {
-                "line": 29,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -3749,16 +2956,7 @@
             "value": "\n",
             "start": 366,
             "end": 367,
-            "loc": {
-              "start": {
-                "line": 29,
-                "column": 1
-              },
-              "end": {
-                "line": 30,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -3788,16 +2986,7 @@
               "value": "class",
               "start": 238,
               "end": 243,
-              "loc": {
-                "start": {
-                  "line": 21,
-                  "column": 1
-                },
-                "end": {
-                  "line": 21,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -3809,16 +2998,7 @@
               "value": " ",
               "start": 243,
               "end": 244,
-              "loc": {
-                "start": {
-                  "line": 21,
-                  "column": 6
-                },
-                "end": {
-                  "line": 21,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -3904,16 +3084,7 @@
                 "value": "",
                 "start": 265,
                 "end": 265,
-                "loc": {
-                  "start": {
-                    "line": 21,
-                    "column": 28
-                  },
-                  "end": {
-                    "line": 21,
-                    "column": 28
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -3925,16 +3096,7 @@
                 "value": "\n",
                 "start": 265,
                 "end": 266,
-                "loc": {
-                  "start": {
-                    "line": 21,
-                    "column": 28
-                  },
-                  "end": {
-                    "line": 22,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -3960,16 +3122,7 @@
                 "value": "\n",
                 "start": 285,
                 "end": 286,
-                "loc": {
-                  "start": {
-                    "line": 23,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 24,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -3996,16 +3149,7 @@
                 "value": "\n",
                 "start": 311,
                 "end": 312,
-                "loc": {
-                  "start": {
-                    "line": 25,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 26,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -4032,16 +3176,7 @@
                 "value": "\n",
                 "start": 342,
                 "end": 343,
-                "loc": {
-                  "start": {
-                    "line": 27,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 28,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -4066,18 +3201,9 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 365,
-                "end": 365,
-                "loc": {
-                  "start": {
-                    "line": 29,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 29,
-                    "column": 0
-                  }
-                },
+                "start": 364,
+                "end": 364,
+                "loc": {},
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -4086,19 +3212,10 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "",
-                "start": 365,
+                "value": "\n",
+                "start": 364,
                 "end": 365,
-                "loc": {
-                  "start": {
-                    "line": 29,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 29,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -4151,16 +3268,7 @@
                     "value": " ",
                     "start": 274,
                     "end": 275,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4173,16 +3281,7 @@
                     "value": "[",
                     "start": 275,
                     "end": 276,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 10
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -4197,16 +3296,7 @@
                     "value": "]",
                     "start": 278,
                     "end": 279,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -4218,16 +3308,7 @@
                     "value": "(",
                     "start": 279,
                     "end": 280,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -4239,16 +3320,7 @@
                     "value": ")",
                     "start": 280,
                     "end": 281,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 15
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -4260,16 +3332,7 @@
                     "value": " ",
                     "start": 281,
                     "end": 282,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 15
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 16
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4282,16 +3345,7 @@
                     "value": "->",
                     "start": 282,
                     "end": 284,
-                    "loc": {
-                      "start": {
-                        "line": 22,
-                        "column": 16
-                      },
-                      "end": {
-                        "line": 22,
-                        "column": 18
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -4380,16 +3434,7 @@
                       "value": "\n",
                       "start": 284,
                       "end": 285,
-                      "loc": {
-                        "start": {
-                          "line": 22,
-                          "column": 18
-                        },
-                        "end": {
-                          "line": 23,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -4445,16 +3490,7 @@
                     "value": " ",
                     "start": 294,
                     "end": 295,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4488,16 +3524,7 @@
                     "value": " ",
                     "start": 298,
                     "end": 299,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4510,16 +3537,7 @@
                     "value": "[",
                     "start": 299,
                     "end": 300,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -4534,16 +3552,7 @@
                     "value": "]",
                     "start": 304,
                     "end": 305,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 18
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 19
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -4555,16 +3564,7 @@
                     "value": "(",
                     "start": 305,
                     "end": 306,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 20
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -4576,16 +3576,7 @@
                     "value": ")",
                     "start": 306,
                     "end": 307,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 20
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 21
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -4597,16 +3588,7 @@
                     "value": " ",
                     "start": 307,
                     "end": 308,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 21
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 22
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4619,16 +3601,7 @@
                     "value": "->",
                     "start": 308,
                     "end": 310,
-                    "loc": {
-                      "start": {
-                        "line": 24,
-                        "column": 22
-                      },
-                      "end": {
-                        "line": 24,
-                        "column": 24
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -4717,16 +3690,7 @@
                       "value": "\n",
                       "start": 310,
                       "end": 311,
-                      "loc": {
-                        "start": {
-                          "line": 24,
-                          "column": 24
-                        },
-                        "end": {
-                          "line": 25,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -4782,16 +3746,7 @@
                     "value": " ",
                     "start": 320,
                     "end": 321,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4825,16 +3780,7 @@
                     "value": " ",
                     "start": 324,
                     "end": 325,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4847,16 +3793,7 @@
                     "value": "[",
                     "start": 325,
                     "end": 326,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -4871,16 +3808,7 @@
                     "value": "]",
                     "start": 330,
                     "end": 331,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 18
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 19
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -4892,16 +3820,7 @@
                     "value": "(",
                     "start": 331,
                     "end": 332,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 20
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -4916,16 +3835,7 @@
                     "value": ")",
                     "start": 337,
                     "end": 338,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 25
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 26
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -4937,16 +3847,7 @@
                     "value": " ",
                     "start": 338,
                     "end": 339,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 26
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 27
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -4959,16 +3860,7 @@
                     "value": "->",
                     "start": 339,
                     "end": 341,
-                    "loc": {
-                      "start": {
-                        "line": 26,
-                        "column": 27
-                      },
-                      "end": {
-                        "line": 26,
-                        "column": 29
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -5106,16 +3998,7 @@
                       "value": "\n",
                       "start": 341,
                       "end": 342,
-                      "loc": {
-                        "start": {
-                          "line": 26,
-                          "column": 29
-                        },
-                        "end": {
-                          "line": 27,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -5130,7 +4013,7 @@
               {
                 "type": "ClassMethod",
                 "start": 345,
-                "end": 365,
+                "end": 364,
                 "tokenStart": 114,
                 "tokenEnd": 122,
                 "loc": {
@@ -5139,8 +4022,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 29,
-                    "column": 0
+                    "line": 28,
+                    "column": 21
                   }
                 },
                 "sourceElements": [
@@ -5171,16 +4054,7 @@
                     "value": " ",
                     "start": 351,
                     "end": 352,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -5193,16 +4067,7 @@
                     "value": "[",
                     "start": 352,
                     "end": 353,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 10
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -5217,16 +4082,7 @@
                     "value": "]",
                     "start": 357,
                     "end": 358,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 15
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -5238,16 +4094,7 @@
                     "value": "(",
                     "start": 358,
                     "end": 359,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 15
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 16
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -5259,16 +4106,7 @@
                     "value": ")",
                     "start": 359,
                     "end": 360,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 16
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 17
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -5280,16 +4118,7 @@
                     "value": " ",
                     "start": 360,
                     "end": 361,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 17
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 18
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -5324,16 +4153,7 @@
                     "value": "->",
                     "start": 362,
                     "end": 364,
-                    "loc": {
-                      "start": {
-                        "line": 28,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 28,
-                        "column": 21
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -5403,7 +4223,7 @@
                 "body": {
                   "type": "BlockStatement",
                   "start": 364,
-                  "end": 365,
+                  "end": 364,
                   "tokenStart": 122,
                   "tokenEnd": 122,
                   "loc": {
@@ -5412,26 +4232,17 @@
                       "column": 21
                     },
                     "end": {
-                      "line": 29,
-                      "column": 0
+                      "line": 28,
+                      "column": 21
                     }
                   },
                   "sourceElements": [
                     {
                       "element": "LineTerminator",
-                      "value": "\n",
+                      "value": "",
                       "start": 364,
-                      "end": 365,
-                      "loc": {
-                        "start": {
-                          "line": 28,
-                          "column": 21
-                        },
-                        "end": {
-                          "line": 29,
-                          "column": 0
-                        }
-                      },
+                      "end": 364,
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -5480,16 +4291,7 @@
             "value": "(",
             "start": 367,
             "end": 368,
-            "loc": {
-              "start": {
-                "line": 30,
-                "column": 0
-              },
-              "end": {
-                "line": 30,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -5504,16 +4306,7 @@
             "value": ")",
             "start": 461,
             "end": 462,
-            "loc": {
-              "start": {
-                "line": 38,
-                "column": 0
-              },
-              "end": {
-                "line": 38,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -5525,16 +4318,7 @@
             "value": "\n",
             "start": 462,
             "end": 463,
-            "loc": {
-              "start": {
-                "line": 38,
-                "column": 1
-              },
-              "end": {
-                "line": 39,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -5564,16 +4348,7 @@
               "value": "class",
               "start": 368,
               "end": 373,
-              "loc": {
-                "start": {
-                  "line": 30,
-                  "column": 1
-                },
-                "end": {
-                  "line": 30,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",
@@ -5585,16 +4360,7 @@
               "value": " ",
               "start": 373,
               "end": 374,
-              "loc": {
-                "start": {
-                  "line": 30,
-                  "column": 6
-                },
-                "end": {
-                  "line": 30,
-                  "column": 7
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": {
                   "code": " "
@@ -5680,16 +4446,7 @@
                 "value": "",
                 "start": 389,
                 "end": 389,
-                "loc": {
-                  "start": {
-                    "line": 30,
-                    "column": 22
-                  },
-                  "end": {
-                    "line": 30,
-                    "column": 22
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "indent",
                   "tokenType": "indent",
@@ -5701,16 +4458,7 @@
                 "value": "\n",
                 "start": 389,
                 "end": 390,
-                "loc": {
-                  "start": {
-                    "line": 30,
-                    "column": 22
-                  },
-                  "end": {
-                    "line": 31,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -5736,16 +4484,7 @@
                 "value": "\n",
                 "start": 402,
                 "end": 403,
-                "loc": {
-                  "start": {
-                    "line": 32,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 33,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -5772,16 +4511,7 @@
                 "value": "\n",
                 "start": 421,
                 "end": 422,
-                "loc": {
-                  "start": {
-                    "line": 34,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 35,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -5808,16 +4538,7 @@
                 "value": "\n",
                 "start": 445,
                 "end": 446,
-                "loc": {
-                  "start": {
-                    "line": 36,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 37,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": {
                     "code": "\n"
@@ -5842,18 +4563,9 @@
               {
                 "element": "Dedent",
                 "value": "",
-                "start": 461,
-                "end": 461,
-                "loc": {
-                  "start": {
-                    "line": 38,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 38,
-                    "column": 0
-                  }
-                },
+                "start": 460,
+                "end": 460,
+                "loc": {},
                 "extra": {
                   "tokenValue": "dedent",
                   "tokenType": "dedent",
@@ -5862,19 +4574,10 @@
               },
               {
                 "element": "LineTerminator",
-                "value": "",
-                "start": 461,
+                "value": "\n",
+                "start": 460,
                 "end": 461,
-                "loc": {
-                  "start": {
-                    "line": 38,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 38,
-                    "column": 0
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "newline",
                   "tokenType": "newline",
@@ -5905,16 +4608,7 @@
                     "value": "[",
                     "start": 392,
                     "end": 393,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 2
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 3
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -5929,16 +4623,7 @@
                     "value": "]",
                     "start": 395,
                     "end": 396,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -5950,16 +4635,7 @@
                     "value": "(",
                     "start": 396,
                     "end": 397,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 7
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -5971,16 +4647,7 @@
                     "value": ")",
                     "start": 397,
                     "end": 398,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 7
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 8
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -5992,16 +4659,7 @@
                     "value": " ",
                     "start": 398,
                     "end": 399,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6014,16 +4672,7 @@
                     "value": "->",
                     "start": 399,
                     "end": 401,
-                    "loc": {
-                      "start": {
-                        "line": 31,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 31,
-                        "column": 11
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -6112,16 +4761,7 @@
                       "value": "\n",
                       "start": 401,
                       "end": 402,
-                      "loc": {
-                        "start": {
-                          "line": 31,
-                          "column": 11
-                        },
-                        "end": {
-                          "line": 32,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -6176,16 +4816,7 @@
                     "value": " ",
                     "start": 408,
                     "end": 409,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6198,16 +4829,7 @@
                     "value": "[",
                     "start": 409,
                     "end": 410,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 7
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -6222,16 +4844,7 @@
                     "value": "]",
                     "start": 414,
                     "end": 415,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 11
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 12
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -6243,16 +4856,7 @@
                     "value": "(",
                     "start": 415,
                     "end": 416,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -6264,16 +4868,7 @@
                     "value": ")",
                     "start": 416,
                     "end": 417,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -6285,16 +4880,7 @@
                     "value": " ",
                     "start": 417,
                     "end": 418,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 15
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6307,16 +4893,7 @@
                     "value": "->",
                     "start": 418,
                     "end": 420,
-                    "loc": {
-                      "start": {
-                        "line": 33,
-                        "column": 15
-                      },
-                      "end": {
-                        "line": 33,
-                        "column": 17
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -6405,16 +4982,7 @@
                       "value": "\n",
                       "start": 420,
                       "end": 421,
-                      "loc": {
-                        "start": {
-                          "line": 33,
-                          "column": 17
-                        },
-                        "end": {
-                          "line": 34,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -6469,16 +5037,7 @@
                     "value": " ",
                     "start": 427,
                     "end": 428,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 5
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 6
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6491,16 +5050,7 @@
                     "value": "[",
                     "start": 428,
                     "end": 429,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 7
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -6515,16 +5065,7 @@
                     "value": "]",
                     "start": 433,
                     "end": 434,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 11
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 12
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -6536,16 +5077,7 @@
                     "value": "(",
                     "start": 434,
                     "end": 435,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 13
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -6560,16 +5092,7 @@
                     "value": ")",
                     "start": 440,
                     "end": 441,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 18
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 19
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -6581,16 +5104,7 @@
                     "value": " ",
                     "start": 441,
                     "end": 442,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 20
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6603,16 +5117,7 @@
                     "value": "->",
                     "start": 442,
                     "end": 444,
-                    "loc": {
-                      "start": {
-                        "line": 35,
-                        "column": 20
-                      },
-                      "end": {
-                        "line": 35,
-                        "column": 22
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -6750,16 +5255,7 @@
                       "value": "\n",
                       "start": 444,
                       "end": 445,
-                      "loc": {
-                        "start": {
-                          "line": 35,
-                          "column": 22
-                        },
-                        "end": {
-                          "line": 36,
-                          "column": 0
-                        }
-                      },
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -6774,7 +5270,7 @@
               {
                 "type": "ClassMethod",
                 "start": 448,
-                "end": 461,
+                "end": 460,
                 "tokenStart": 156,
                 "tokenEnd": 163,
                 "loc": {
@@ -6783,8 +5279,8 @@
                     "column": 2
                   },
                   "end": {
-                    "line": 38,
-                    "column": 0
+                    "line": 37,
+                    "column": 14
                   }
                 },
                 "sourceElements": [
@@ -6793,16 +5289,7 @@
                     "value": "[",
                     "start": 448,
                     "end": 449,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 2
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 3
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "[",
                       "tokenType": "bracketL",
@@ -6817,16 +5304,7 @@
                     "value": "]",
                     "start": 453,
                     "end": 454,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 7
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 8
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "]",
                       "tokenType": "bracketR",
@@ -6838,16 +5316,7 @@
                     "value": "(",
                     "start": 454,
                     "end": 455,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 9
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "(",
                       "tokenType": "parenL",
@@ -6859,16 +5328,7 @@
                     "value": ")",
                     "start": 455,
                     "end": 456,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 10
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": ")",
                       "tokenType": "parenR",
@@ -6880,16 +5340,7 @@
                     "value": " ",
                     "start": 456,
                     "end": 457,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 10
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 11
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": {
                         "code": " "
@@ -6924,16 +5375,7 @@
                     "value": "->",
                     "start": 458,
                     "end": 460,
-                    "loc": {
-                      "start": {
-                        "line": 37,
-                        "column": 12
-                      },
-                      "end": {
-                        "line": 37,
-                        "column": 14
-                      }
-                    },
+                    "loc": {},
                     "extra": {
                       "tokenValue": "->",
                       "tokenType": "arrow",
@@ -7003,7 +5445,7 @@
                 "body": {
                   "type": "BlockStatement",
                   "start": 460,
-                  "end": 461,
+                  "end": 460,
                   "tokenStart": 163,
                   "tokenEnd": 163,
                   "loc": {
@@ -7012,26 +5454,17 @@
                       "column": 14
                     },
                     "end": {
-                      "line": 38,
-                      "column": 0
+                      "line": 37,
+                      "column": 14
                     }
                   },
                   "sourceElements": [
                     {
                       "element": "LineTerminator",
-                      "value": "\n",
+                      "value": "",
                       "start": 460,
-                      "end": 461,
-                      "loc": {
-                        "start": {
-                          "line": 37,
-                          "column": 14
-                        },
-                        "end": {
-                          "line": 38,
-                          "column": 0
-                        }
-                      },
+                      "end": 460,
+                      "loc": {},
                       "extra": {
                         "tokenValue": "newline",
                         "tokenType": "newline",
@@ -7080,16 +5513,7 @@
             "value": "(",
             "start": 463,
             "end": 464,
-            "loc": {
-              "start": {
-                "line": 39,
-                "column": 0
-              },
-              "end": {
-                "line": 39,
-                "column": 1
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "(",
               "tokenType": "parenL",
@@ -7104,16 +5528,7 @@
             "value": ")",
             "start": 469,
             "end": 470,
-            "loc": {
-              "start": {
-                "line": 39,
-                "column": 6
-              },
-              "end": {
-                "line": 39,
-                "column": 7
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": ")",
               "tokenType": "parenR",
@@ -7125,16 +5540,7 @@
             "value": "\n",
             "start": 470,
             "end": 471,
-            "loc": {
-              "start": {
-                "line": 39,
-                "column": 7
-              },
-              "end": {
-                "line": 40,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -7164,16 +5570,7 @@
               "value": "class",
               "start": 464,
               "end": 469,
-              "loc": {
-                "start": {
-                  "line": 39,
-                  "column": 1
-                },
-                "end": {
-                  "line": 39,
-                  "column": 6
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "class",
                 "tokenType": "_class",

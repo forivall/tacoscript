@@ -37,16 +37,7 @@
         "value": "",
         "start": 51,
         "end": 51,
-        "loc": {
-          "start": {
-            "line": 6,
-            "column": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 0
-          }
-        },
+        "loc": {},
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -55,7 +46,6 @@
       }
     ],
     "sourceType": "module",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "ExpressionStatement",
@@ -82,16 +72,7 @@
             "value": "\n",
             "start": 4,
             "end": 5,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 2,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -121,16 +102,7 @@
               "value": "this",
               "start": 0,
               "end": 4,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 4
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "this",
                 "tokenType": "_this",
@@ -165,16 +137,7 @@
             "value": "\n",
             "start": 13,
             "end": 14,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 8
-              },
-              "end": {
-                "line": 3,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -207,16 +170,7 @@
               "value": ".",
               "start": 9,
               "end": 10,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 5
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": ".",
                 "tokenType": "dot",
@@ -249,16 +203,7 @@
                 "value": "this",
                 "start": 5,
                 "end": 9,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 4
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "this",
                   "tokenType": "_this",
@@ -343,16 +288,7 @@
             "value": "\n",
             "start": 25,
             "end": 26,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 11
-              },
-              "end": {
-                "line": 4,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -385,16 +321,7 @@
               "value": "[",
               "start": 18,
               "end": 19,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 4
-                },
-                "end": {
-                  "line": 3,
-                  "column": 5
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "[",
                 "tokenType": "bracketL",
@@ -409,16 +336,7 @@
               "value": "]",
               "start": 24,
               "end": 25,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 10
-                },
-                "end": {
-                  "line": 3,
-                  "column": 11
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "]",
                 "tokenType": "bracketR",
@@ -448,16 +366,7 @@
                 "value": "this",
                 "start": 14,
                 "end": 18,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 4
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "this",
                   "tokenType": "_this",
@@ -539,16 +448,7 @@
             "value": "\n",
             "start": 36,
             "end": 37,
-            "loc": {
-              "start": {
-                "line": 4,
-                "column": 10
-              },
-              "end": {
-                "line": 5,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -581,16 +481,7 @@
               "value": "(",
               "start": 34,
               "end": 35,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 8
-                },
-                "end": {
-                  "line": 4,
-                  "column": 9
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "(",
                 "tokenType": "parenL",
@@ -602,16 +493,7 @@
               "value": ")",
               "start": 35,
               "end": 36,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 9
-                },
-                "end": {
-                  "line": 4,
-                  "column": 10
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": ")",
                 "tokenType": "parenR",
@@ -644,16 +526,7 @@
                 "value": ".",
                 "start": 30,
                 "end": 31,
-                "loc": {
-                  "start": {
-                    "line": 4,
-                    "column": 4
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 5
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": ".",
                   "tokenType": "dot",
@@ -686,16 +559,7 @@
                   "value": "this",
                   "start": 26,
                   "end": 30,
-                  "loc": {
-                    "start": {
-                      "line": 4,
-                      "column": 0
-                    },
-                    "end": {
-                      "line": 4,
-                      "column": 4
-                    }
-                  },
+                  "loc": {},
                   "extra": {
                     "tokenValue": "this",
                     "tokenType": "_this",
@@ -782,16 +646,7 @@
             "value": "\n",
             "start": 50,
             "end": 51,
-            "loc": {
-              "start": {
-                "line": 5,
-                "column": 13
-              },
-              "end": {
-                "line": 6,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -824,16 +679,7 @@
               "value": "(",
               "start": 48,
               "end": 49,
-              "loc": {
-                "start": {
-                  "line": 5,
-                  "column": 11
-                },
-                "end": {
-                  "line": 5,
-                  "column": 12
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": "(",
                 "tokenType": "parenL",
@@ -845,16 +691,7 @@
               "value": ")",
               "start": 49,
               "end": 50,
-              "loc": {
-                "start": {
-                  "line": 5,
-                  "column": 12
-                },
-                "end": {
-                  "line": 5,
-                  "column": 13
-                }
-              },
+              "loc": {},
               "extra": {
                 "tokenValue": ")",
                 "tokenType": "parenR",
@@ -887,16 +724,7 @@
                 "value": "[",
                 "start": 41,
                 "end": 42,
-                "loc": {
-                  "start": {
-                    "line": 5,
-                    "column": 4
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 5
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "[",
                   "tokenType": "bracketL",
@@ -911,16 +739,7 @@
                 "value": "]",
                 "start": 47,
                 "end": 48,
-                "loc": {
-                  "start": {
-                    "line": 5,
-                    "column": 10
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 11
-                  }
-                },
+                "loc": {},
                 "extra": {
                   "tokenValue": "]",
                   "tokenType": "bracketR",
@@ -950,16 +769,7 @@
                   "value": "this",
                   "start": 37,
                   "end": 41,
-                  "loc": {
-                    "start": {
-                      "line": 5,
-                      "column": 0
-                    },
-                    "end": {
-                      "line": 5,
-                      "column": 4
-                    }
-                  },
+                  "loc": {},
                   "extra": {
                     "tokenValue": "this",
                     "tokenType": "_this",

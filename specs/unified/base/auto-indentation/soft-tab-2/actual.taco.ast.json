@@ -43,7 +43,6 @@
       }
     ],
     "sourceType": "module",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "FunctionDeclaration",
@@ -339,16 +338,16 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 45,
-              "end": 45,
+              "start": 44,
+              "end": 44,
               "loc": {
                 "start": {
-                  "line": 5,
-                  "column": 0
+                  "line": 4,
+                  "column": 9
                 },
                 "end": {
-                  "line": 5,
-                  "column": 0
+                  "line": 4,
+                  "column": 9
                 }
               },
               "extra": {
@@ -359,13 +358,13 @@
             },
             {
               "element": "LineTerminator",
-              "value": "",
-              "start": 45,
+              "value": "\n",
+              "start": 44,
               "end": 45,
               "loc": {
                 "start": {
-                  "line": 5,
-                  "column": 0
+                  "line": 4,
+                  "column": 9
                 },
                 "end": {
                   "line": 5,
@@ -539,7 +538,7 @@
             {
               "type": "IfStatement",
               "start": 28,
-              "end": 45,
+              "end": 44,
               "tokenStart": 11,
               "tokenEnd": 20,
               "loc": {
@@ -548,8 +547,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 5,
-                  "column": 0
+                  "line": 4,
+                  "column": 9
                 }
               },
               "sourceElements": [
@@ -654,7 +653,7 @@
               "consequent": {
                 "type": "BlockStatement",
                 "start": 34,
-                "end": 45,
+                "end": 44,
                 "tokenStart": 13,
                 "tokenEnd": 20,
                 "loc": {
@@ -663,8 +662,8 @@
                     "column": 8
                   },
                   "end": {
-                    "line": 5,
-                    "column": 0
+                    "line": 4,
+                    "column": 9
                   }
                 },
                 "sourceElements": [
@@ -727,16 +726,16 @@
                   {
                     "element": "Dedent",
                     "value": "",
-                    "start": 45,
-                    "end": 45,
+                    "start": 44,
+                    "end": 44,
                     "loc": {
                       "start": {
-                        "line": 5,
-                        "column": 0
+                        "line": 4,
+                        "column": 9
                       },
                       "end": {
-                        "line": 5,
-                        "column": 0
+                        "line": 4,
+                        "column": 9
                       }
                     },
                     "extra": {
@@ -748,16 +747,16 @@
                   {
                     "element": "LineTerminator",
                     "value": "",
-                    "start": 45,
-                    "end": 45,
+                    "start": 44,
+                    "end": 44,
                     "loc": {
                       "start": {
-                        "line": 5,
-                        "column": 0
+                        "line": 4,
+                        "column": 9
                       },
                       "end": {
-                        "line": 5,
-                        "column": 0
+                        "line": 4,
+                        "column": 9
                       }
                     },
                     "extra": {
@@ -771,7 +770,7 @@
                   {
                     "type": "ExpressionStatement",
                     "start": 39,
-                    "end": 45,
+                    "end": 44,
                     "tokenStart": 15,
                     "tokenEnd": 18,
                     "loc": {
@@ -780,8 +779,8 @@
                         "column": 4
                       },
                       "end": {
-                        "line": 5,
-                        "column": 0
+                        "line": 4,
+                        "column": 9
                       }
                     },
                     "sourceElements": [
@@ -790,17 +789,17 @@
                       },
                       {
                         "element": "LineTerminator",
-                        "value": "\n",
+                        "value": "",
                         "start": 44,
-                        "end": 45,
+                        "end": 44,
                         "loc": {
                           "start": {
                             "line": 4,
                             "column": 9
                           },
                           "end": {
-                            "line": 5,
-                            "column": 0
+                            "line": 4,
+                            "column": 9
                           }
                         },
                         "extra": {

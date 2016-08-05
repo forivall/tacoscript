@@ -47,13 +47,13 @@
       },
       {
         "element": "LineTerminator",
-        "value": "",
-        "start": 227,
+        "value": "\n",
+        "start": 226,
         "end": 227,
         "loc": {
           "start": {
-            "line": 31,
-            "column": 0
+            "line": 30,
+            "column": 17
           },
           "end": {
             "line": 31,
@@ -89,7 +89,6 @@
       }
     ],
     "sourceType": "module",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "VariableDeclaration",
@@ -540,16 +539,16 @@
                 {
                   "element": "Dedent",
                   "value": "",
-                  "start": 114,
-                  "end": 114,
+                  "start": 113,
+                  "end": 113,
                   "loc": {
                     "start": {
-                      "line": 15,
-                      "column": 0
+                      "line": 14,
+                      "column": 17
                     },
                     "end": {
-                      "line": 15,
-                      "column": 0
+                      "line": 14,
+                      "column": 17
                     }
                   },
                   "extra": {
@@ -560,13 +559,13 @@
                 },
                 {
                   "element": "LineTerminator",
-                  "value": "",
-                  "start": 114,
+                  "value": "\n",
+                  "start": 113,
                   "end": 114,
                   "loc": {
                     "start": {
-                      "line": 15,
-                      "column": 0
+                      "line": 14,
+                      "column": 17
                     },
                     "end": {
                       "line": 15,
@@ -1867,7 +1866,7 @@
                 {
                   "type": "ObjectMethod",
                   "start": 98,
-                  "end": 114,
+                  "end": 113,
                   "tokenStart": 39,
                   "tokenEnd": 45,
                   "loc": {
@@ -1876,8 +1875,8 @@
                       "column": 2
                     },
                     "end": {
-                      "line": 15,
-                      "column": 0
+                      "line": 14,
+                      "column": 17
                     }
                   },
                   "sourceElements": [
@@ -2256,7 +2255,7 @@
                   "body": {
                     "type": "BlockStatement",
                     "start": 113,
-                    "end": 114,
+                    "end": 113,
                     "tokenStart": 45,
                     "tokenEnd": 45,
                     "loc": {
@@ -2265,24 +2264,24 @@
                         "column": 17
                       },
                       "end": {
-                        "line": 15,
-                        "column": 0
+                        "line": 14,
+                        "column": 17
                       }
                     },
                     "sourceElements": [
                       {
                         "element": "LineTerminator",
-                        "value": "\n",
+                        "value": "",
                         "start": 113,
-                        "end": 114,
+                        "end": 113,
                         "loc": {
                           "start": {
                             "line": 14,
                             "column": 17
                           },
                           "end": {
-                            "line": 15,
-                            "column": 0
+                            "line": 14,
+                            "column": 17
                           }
                         },
                         "extra": {
@@ -2305,7 +2304,7 @@
       {
         "type": "ClassDeclaration",
         "start": 117,
-        "end": 227,
+        "end": 226,
         "tokenStart": 50,
         "tokenEnd": 95,
         "loc": {
@@ -2314,8 +2313,8 @@
             "column": 0
           },
           "end": {
-            "line": 31,
-            "column": 0
+            "line": 30,
+            "column": 17
           }
         },
         "sourceElements": [
@@ -2421,7 +2420,7 @@
         "body": {
           "type": "ClassBody",
           "start": 126,
-          "end": 227,
+          "end": 226,
           "tokenStart": 52,
           "tokenEnd": 95,
           "loc": {
@@ -2430,8 +2429,8 @@
               "column": 9
             },
             "end": {
-              "line": 31,
-              "column": 0
+              "line": 30,
+              "column": 17
             }
           },
           "sourceElements": [
@@ -2602,16 +2601,16 @@
             {
               "element": "Dedent",
               "value": "",
-              "start": 227,
-              "end": 227,
+              "start": 226,
+              "end": 226,
               "loc": {
                 "start": {
-                  "line": 31,
-                  "column": 0
+                  "line": 30,
+                  "column": 17
                 },
                 "end": {
-                  "line": 31,
-                  "column": 0
+                  "line": 30,
+                  "column": 17
                 }
               },
               "extra": {
@@ -3928,7 +3927,7 @@
             {
               "type": "ClassMethod",
               "start": 211,
-              "end": 227,
+              "end": 226,
               "tokenStart": 88,
               "tokenEnd": 94,
               "loc": {
@@ -3937,8 +3936,8 @@
                   "column": 2
                 },
                 "end": {
-                  "line": 31,
-                  "column": 0
+                  "line": 30,
+                  "column": 17
                 }
               },
               "sourceElements": [
@@ -4316,7 +4315,7 @@
               "body": {
                 "type": "BlockStatement",
                 "start": 226,
-                "end": 227,
+                "end": 226,
                 "tokenStart": 94,
                 "tokenEnd": 94,
                 "loc": {
@@ -4325,24 +4324,24 @@
                     "column": 17
                   },
                   "end": {
-                    "line": 31,
-                    "column": 0
+                    "line": 30,
+                    "column": 17
                   }
                 },
                 "sourceElements": [
                   {
                     "element": "LineTerminator",
-                    "value": "\n",
+                    "value": "",
                     "start": 226,
-                    "end": 227,
+                    "end": 226,
                     "loc": {
                       "start": {
                         "line": 30,
                         "column": 17
                       },
                       "end": {
-                        "line": 31,
-                        "column": 0
+                        "line": 30,
+                        "column": 17
                       }
                     },
                     "extra": {

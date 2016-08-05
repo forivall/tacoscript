@@ -28,16 +28,7 @@
         "value": "",
         "start": 14,
         "end": 14,
-        "loc": {
-          "start": {
-            "line": 3,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 0
-          }
-        },
+        "loc": {},
         "extra": {
           "tokenValue": "eof",
           "tokenType": "eof",
@@ -46,7 +37,6 @@
       }
     ],
     "sourceType": "module",
-    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "DebuggerStatement",
@@ -70,16 +60,7 @@
             "value": "debugger",
             "start": 0,
             "end": 8,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 8
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "debugger",
               "tokenType": "_debugger",
@@ -91,16 +72,7 @@
             "value": "\n",
             "start": 8,
             "end": 9,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 8
-              },
-              "end": {
-                "line": 2,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
@@ -131,16 +103,7 @@
             "value": "pass",
             "start": 9,
             "end": 13,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 4
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "pass",
               "tokenType": "_pass",
@@ -152,16 +115,7 @@
             "value": "\n",
             "start": 13,
             "end": 14,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 0
-              }
-            },
+            "loc": {},
             "extra": {
               "tokenValue": "newline",
               "tokenType": "newline",
