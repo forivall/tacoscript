@@ -6,6 +6,8 @@ import matches from 'lodash/matches';
 
 const commaSrcEl = matches({element: 'Punctuator', value: ','});
 
+function last(a) { return a[a.length - 1]; }
+
 export function _function(path: NodePath, node: Node) {
   const t = [];
   if (node.async) {
@@ -164,14 +166,12 @@ export function _params(path: NodePath, node: Node, id: string) {
 }
 
 export function FunctionDeclaration(path: NodePath, node: Node) {
-  const t = this._function(path, node);
-  const body = node.body;
-  if (body.body.length > 0 || body.directives && body.directives.length > 0) {
-    t.push({element: 'Newline', value: '\n'});
-  }
-  node[this.key] = t;
+  node[this.key] = this._function(path, node);
 }
 
 export function FunctionExpression(path: NodePath, node: Node) {
   node[this.key] = this._function(path, node);
+  if ((last(node.body[this.key]) || {}).element === 'LineTerminator') {
+    this._pendingFunctionExpressionNewline = node.body[this.key].pop();
+  }
 }

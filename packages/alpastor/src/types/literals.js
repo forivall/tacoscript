@@ -4,6 +4,8 @@ import type {NodePath} from 'comal-traverse';
 import cloneDeep from 'lodash/cloneDeep';
 import some from 'lodash/some';
 
+function last(a) { return a[a.length - 1]; }
+
 export function Identifier(path: NodePath, node: Node) {
   const namePath = path.get('name');
   // transforms \$get to get
@@ -104,6 +106,10 @@ export function ObjectMethod(path: NodePath, node: Object) {
 
   // TODO: decorators
   t.push(...this._method(path, node));
+
+  if ((last(node.body[this.key]) || {}).element === 'LineTerminator') {
+    this._pendingFunctionExpressionNewline = node.body[this.key].pop();
+  }
 
   node[this.key] = t;
 }

@@ -20,9 +20,26 @@ export function Program(path, node) {
   // TODO: turn assignment on to t into a method,
   // automatically do reference assignment instead of relying on visitors
   const t = [];
-  this.print(path, 'body', {
+
+  let lastDirectivePath = null;
+  this.print(path, 'directives', {
     before: (firstPath) => {
       t.push(...firstPath.srcElBefore());
+    },
+    each: (path) => {
+      t.push(path.srcEl());
+    },
+    between: (leftPath, rightPath) => {
+      t.push(...leftPath.srcElUntil(rightPath));
+    },
+    after: (lastPath) => {
+      lastDirectivePath = lastPath;
+    }
+  });
+
+  this.print(path, 'body', {
+    before: (firstPath) => {
+      t.push(...firstPath.srcElSince(lastDirectivePath));
     },
     each: (path) => {
       t.push(path.srcEl());
@@ -34,7 +51,11 @@ export function Program(path, node) {
       t.push(...lastPath.srcElAfter());
     },
     empty: () => {
-      t.push(...node[this.tKey]);
+      if (lastDirectivePath) {
+        t.push(...lastDirectivePath.srcElAfter());
+      } else {
+        t.push(...node[this.tKey]);
+      }
     }
   });
 
