@@ -63,11 +63,31 @@ export function ObjectExpression(path: NodePath, node: Node) {
       const orig = leftPath.srcElUntil(rightPath);
       if (!some(orig, {value: ','})) {
         t.push({element: 'Punctuator', value: ','});
+        // if there was no comma, it means that there had to have been a newline
+        // but this newline might have been included inside of a function before
+        // the dedent.
+        // TODO: move the newline back to after the dedent.
+        if (!some(orig, {value: '\n'})) {
+          t.push({element: 'WhiteSpace', value: '\n'});
+        }
       }
       t.push(...orig);
     },
-    after(lastPath) {
-      t.push(...lastPath.srcElAfter());
+    after: (lastPath) => {
+      let needsNewline = false;
+      node[this.key] = t;
+      let hasNewline = (lastPath.lastSrcEl((el) => el.element !== 'EOF' && el.value !== '', this.key) || {}).el.value === '\n';
+      for (const el of lastPath.srcElAfter()) {
+        if (el.element === 'Dedent') {
+          needsNewline = true;
+        } else if (el.value === '\n') {
+          hasNewline = true;
+          t.push(el);
+        } else if (el.value === '}') {
+          if (needsNewline && !hasNewline) t.push({element: 'LineTerminator', value: '\n'});
+          t.push(el);
+        }
+      }
     },
     empty: () => {
       t.push(...node[this.tKey])

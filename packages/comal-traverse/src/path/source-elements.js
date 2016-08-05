@@ -118,15 +118,19 @@ export function _leadingWhitespace(whitespace = []) {
   if (this.parentPath == null) {
     return [[], false];
   }
-  for (const srcEl of reversed(this.srcElBefore())) {
+  const srcElBefore = this.srcElBefore();
+  for (const srcEl of reversed(srcElBefore)) {
     const typeName = srcEl.element;
     if (typeName === 'WhiteSpace' || typeName === 'WhiteSpaceLeading') {
       whitespace.unshift(srcEl);
-    }
-    else if (srcEl.reference && !srcEl.value) {
+    } else if (srcEl.reference && !srcEl.value) {
       const childPath = this.parentPath.getRef(srcEl, true);
-      const [childWhitespace, childBroken] = childPath._leadingWhitespace();
-      if (childBroken) {
+      const [childWhitespace, childBroken, childEnd] = childPath._leadingWhitespace();
+      if (childEnd) {
+        end = childEnd;
+        whitespace = childWhitespace;
+        break;
+      } else if (childBroken) {
         whitespace = childWhitespace;
       } else {
         whitespace = childWhitespace.concat(whitespace);
@@ -148,7 +152,7 @@ export function _leadingWhitespace(whitespace = []) {
   if (!end) {
     return this.parentPath._leadingWhitespace(whitespace);
   }
-  return [whitespace, broken];
+  return [whitespace, broken, end];
 }
 
 export function lastSrcEl(test = (() => true), key = this.opts.sourceElementsSource) {

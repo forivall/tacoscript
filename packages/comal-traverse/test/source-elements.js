@@ -11,6 +11,10 @@ const incrementFixture = require('fs').readFileSync(require('path').join(
   __dirname, '../../../specs/core/base-edgecase/misc/increment/expected.taco'
 ), 'utf8');
 
+const completeDescriptorFixture = require('fs').readFileSync(require('path').join(
+  __dirname, '../../../specs/core/base-literals/object-descriptor/complete/expected.taco'
+), 'utf8');
+
 const horchata = require('../../horchata');
 
 suite('comal-traverse/source-elements', function () {
@@ -55,5 +59,15 @@ suite('comal-traverse/source-elements', function () {
     .setContext({opts: {noScope: true, sourceElementsSource: 'sourceElements'}});
     const target = root.get('body.0.declarations.0.init.body', true);
     expect(target.indent().length).equals(0);
+  })
+
+  test('indent wierd', function () {
+    const ast = horchata.parse(completeDescriptorFixture);
+    const root = NodePath.get({parent: ast, container: ast, key: 'program'})
+    .setContext({opts: {noScope: true, sourceElementsSource: 'sourceElements'}});
+    const target = root.get('body.0.expression.right.properties.1', true);
+    const indent = target.indent();
+    expect(indent.length).equals(1);
+    expect(indent[0].value).equals('  ');
   })
 })
