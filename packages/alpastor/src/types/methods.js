@@ -113,14 +113,14 @@ export function _method(path: NodePath, node: Node) {
   return t;
 }
 
-export function _params(path: NodePath, node: Node, id: string) {
+export function _params(path: NodePath, node: Node, id?: string) {
   const t = [];
   const body = path.get('body');
   // TODO: typeParameters and
   // TODO: fix when length is zero
   this.print(path, 'params', {
     before: (firstPath) => {
-      t.push(...firstPath.srcElSince(node[id] ? id : null));
+      t.push(...firstPath.srcElSince(id != null && node[id] ? id : null));
     },
     each: (path) => {
       t.push(path.srcEl());
@@ -148,7 +148,7 @@ export function _params(path: NodePath, node: Node, id: string) {
     },
     empty: () => {
       // TODO: handle method stuff: computed key
-      const beforeBody = body.srcElSince(node[id] ? path.get(id) : null);
+      const beforeBody = body.srcElSince(id != null && node[id] ? path.get(id) : null);
       for (const sourceElement of beforeBody) {
         if (sourceElement.element === 'Punctuator' && (
           sourceElement.value === '*' || sourceElement.extra.tokenType === 'arrow'
@@ -174,4 +174,40 @@ export function FunctionExpression(path: NodePath, node: Node) {
   if ((last(node.body[this.key]) || {}).element === 'LineTerminator') {
     this._pendingFunctionExpressionNewline = node.body[this.key].pop();
   }
+}
+
+export function ArrowFunctionExpression(path: NodePath, node: Node) {
+  const t = [];
+  if (node.async) {
+    t.push(
+      {element: 'Keyword', value: 'async'},
+      {element: 'Whitespace', value: ' '} // TODO: preserve
+    );
+  }
+
+  const bodyPath = path.get('body');
+
+  t.push(...this._params(path, node));
+
+  // TODO: print the arrow and trailing whitespace here
+  t.push({element: 'Punctuator', value: '=>'});
+
+  let beforeArrow = true;
+  for (const el of node[this.tKey]) {
+    if (beforeArrow) {
+      if (el.value === '=>') beforeArrow = false;
+    } else {
+      if (el.reference && el.reference === 'body') break;
+      t.push(el);
+    }
+  }
+
+  this.print(path, 'body');
+  t.push(bodyPath.srcEl());
+  t.push(...bodyPath.srcElAfter());
+
+  if (node.body.type === 'BlockStatement' && (last(node.body[this.key]) || {}).element === 'LineTerminator') {
+    this._pendingArrowFunctionExpressionNewline = node.body[this.key].pop();
+  }
+  node[this.key] = t;
 }

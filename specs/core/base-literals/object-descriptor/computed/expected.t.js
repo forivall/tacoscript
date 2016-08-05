@@ -1,0 +1,5 @@
+"use strict";
+var x = {
+  set i(x) {},
+  i: 42
+};
