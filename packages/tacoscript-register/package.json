@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-register",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Load tacoscript-require-hook. BEWARE: PIRATES",
   "keywords": [
     "tacoscript"
@@ -17,6 +17,6 @@
     "registry": "http://registry.npmjs.org"
   },
   "dependencies": {
-    "tacoscript-require-hook": "^0.6.0"
+    "tacoscript-require-hook": "^0.6.2"
   }
 }

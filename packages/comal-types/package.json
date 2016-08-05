@@ -1,6 +1,6 @@
 {
   "name": "comal-types",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Extensible module for building & analysing ASTs",
   "keywords": [
     "tacoscript"
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
-    "comal-traverse": "^0.6.0",
+    "comal-traverse": "^0.6.2",
     "esutils": "^2.0.2",
     "lodash": "^4.6.1",
     "to-fast-properties": "^1.0.1"

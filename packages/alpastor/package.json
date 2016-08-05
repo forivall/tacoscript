@@ -1,6 +1,6 @@
 {
   "name": "alpastor",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Whitespace preserving generator for Tacoscript CST -> JavaScript",
   "keywords": [
     "tacoscript",
@@ -25,12 +25,12 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
-    "comal": "^0.6.0",
-    "comal-traverse": "^0.6.0",
+    "comal": "^0.6.2",
+    "comal-traverse": "^0.6.2",
     "lodash": "^4.12.0",
-    "tacoscript-cst-utils": "^0.6.0"
+    "tacoscript-cst-utils": "^0.6.2"
   },
   "devDependencies": {
-    "horchata": "^0.6.0"
+    "horchata": "^0.6.2"
   }
 }

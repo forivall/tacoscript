@@ -1,6 +1,6 @@
 {
   "name": "cstify",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Adds cst elements to an ast",
   "keywords": [
     "tacoscript"
@@ -27,7 +27,7 @@
     "babel-traverse": "^6.7.0",
     "babel-types": "^6.7.0",
     "heapjs": "^1.0.4",
-    "tacoscript-cst-utils": "^0.6.0"
+    "tacoscript-cst-utils": "^0.6.2"
   },
   "devDependencies": {
     "babylon": "^6.7.0"

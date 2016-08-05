@@ -1,6 +1,6 @@
 {
   "name": "tacoscript-cst-utils",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Adds cst elements to an ast",
   "keywords": [
     "cst",
