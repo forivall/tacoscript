@@ -133,11 +133,18 @@ export function ObjectProperty(path: NodePath, node: Object) {
   node[this.key] = t;
 }
 
-export function NumericLiteral(path: NodePath, node: Node) {
+function Literal(path: NodePath, node: Node) {
   // TODO: transform non-standard numeric literals, if we have any
   node[this.key] = [...node[this.tKey]];
 }
 
 // TODO: transform differences in string literals
-export {NumericLiteral as StringLiteral};
-export {NumericLiteral as BooleanLiteral};
+export {Literal as BooleanLiteral};
+export {Literal as NumericLiteral};
+export {Literal as NullLiteral};
+export {Literal as RegExpLiteral};
+export {Literal as StringLiteral};
+
+export function ThisExpression(path: NodePath, node: Object) {
+  node[this.key] = [...node[this.tKey]];
+}
