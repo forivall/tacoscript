@@ -1,6 +1,7 @@
 import type Node from 'horchata/lib/parser/node';
 import type {NodePath} from 'comal-traverse';
 
+import {needsParens} from '../path';
 import cloneDeep from 'lodash/cloneDeep';
 import some from 'lodash/some';
 
@@ -54,6 +55,8 @@ export {ArrayExpression as ArrayPattern};
 
 export function ObjectExpression(path: NodePath, node: Node) {
   const t = [];
+  const addParens = needsParens(path);
+  if (addParens) t.push({element: 'Punctuator', value: '('})
   this.print(path, 'properties', {
     before(firstPath) {
       t.push(...firstPath.srcElBefore());
@@ -95,6 +98,7 @@ export function ObjectExpression(path: NodePath, node: Node) {
       t.push(...node[this.tKey])
     }
   });
+  if (addParens) t.push({element: 'Punctuator', value: ')'})
 
   node[this.key] = t;
 }

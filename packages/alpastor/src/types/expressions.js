@@ -32,10 +32,13 @@ export function ExpressionStatement(path: NodePath, node: Node) {
 }
 
 export function AssignmentExpression(path: NodePath, node: Node) {
+  // TODO: for loop headers: instanceof, in
   this.print(path, 'left');
   this.print(path, 'right');
   node[this.key] = [...node[this.tKey]];
 }
+
+export {AssignmentExpression as AssignmentPattern};
 
 export function BinaryExpression(path: NodePath, node: Node) {
   const t = [];

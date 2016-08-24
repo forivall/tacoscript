@@ -27,6 +27,7 @@
     "babel-runtime": "^6.0.0",
     "comal": "^0.6.3",
     "comal-traverse": "^0.6.3",
+    "comal-types": "^0.6.3",
     "lodash": "^4.12.0",
     "tacoscript-cst-utils": "^0.6.2"
   },
