@@ -22,7 +22,7 @@ export function Program(path, node) {
   const t = [];
 
   let lastDirectivePath = null;
-  this.print(path, 'directives', {
+  if (node.directives) this.print(path, 'directives', {
     before: (firstPath) => {
       t.push(...firstPath.srcElBefore());
     },
@@ -201,7 +201,9 @@ export function BlockStatement(path, node) {
         t.push(...this._printBlockTrailing(path, lastDirectivePath.srcElAfter()));
       } else {
         t.push({element: 'Punctuator', value: '}'});
-        t.push(...node[this.tKey]);
+        // TODO: only do this if it's a stanlone block. make a test in node (like needs-parenthises)
+        // to check if it's a stanalone block
+        t.push(...node[this.tKey].filter((el) => !(el.element === 'Punctuator' && el.value === '!')));
       }
     }
   });
@@ -217,9 +219,9 @@ export function BlockStatement(path, node) {
       }
       prevEl = el;
       return false;
-    });
+    }) || {};
 
-    if (lastBeforeDedent.value === '\n') t.push({element: 'WhiteSpace', value: '\n'});
+    if (lastBeforeDedent && lastBeforeDedent.value === '\n') t.push({element: 'WhiteSpace', value: '\n'});
   }
 
   node[this.key] = t;
