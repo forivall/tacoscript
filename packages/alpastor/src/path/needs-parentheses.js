@@ -1,3 +1,6 @@
+import type Node from 'horchata/lib/parser/node';
+import type {NodePath} from 'comal-traverse';
+
 // imported from babel-generator aug 14 2016 (a615964)
 //
 import * as t from "comal-types";
@@ -37,7 +40,7 @@ export { NullableTypeAnnotation as FunctionTypeAnnotation };
 
 export function UpdateExpression(path: NodePath): boolean {
   const parent = path.parent;
-  if (t.isMemberExpression(parent) && parent.object === node) {
+  if (t.isMemberExpression(parent) && parent.object === path.node) {
     // (foo++).test()
     return true;
   }

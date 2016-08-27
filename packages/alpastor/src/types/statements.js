@@ -10,8 +10,30 @@ export function DebuggerStatement(path: NodePath, node: Node) {
 }
 
 export function EmptyStatement(path: NodePath, node: Node) {
-  node[this.key] = [...node[this.tKey]];
-  node[this.key].push({element: 'Punctuator', value: ';'});
+  const t = [];
+  let beforePass = true;
+  let beforePassSpace = true;
+  for (const el of node[this.tKey]) {
+    if (beforePass) {
+      if (beforePassSpace && el.element === 'WhiteSpace') {
+        beforePassSpace = false;
+        if (el.value !== ' ') {
+          t.push({element: 'WhiteSpace', value: el.value.slice(0, -1)})
+        }
+      } else if (el.element === 'Keyword' && el.value === 'pass') {
+        beforePass = false;
+        t.push({element: 'Punctuator', value: ';'});
+      } else {
+        t.push(el);
+      }
+    } else {
+      t.push(el);
+    }
+  }
+  if (beforePass) {
+    t.push({element: 'Punctuator', value: ';'});
+  }
+  node[this.key] = t;
 }
 
 export function IfStatement(path: NodePath, node: Node) {

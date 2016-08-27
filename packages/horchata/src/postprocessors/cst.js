@@ -16,7 +16,7 @@ export class Postprocessor {
     this.ast = ast;
     this.tokens = tokens;
     this.index = 0;
-    this.traverse(ast);
+    this.traverse(ast, null);
     if (this.index < this.tokens.length) {
       throw new Error("All tokens not consumed");
     }
@@ -29,7 +29,7 @@ export class Postprocessor {
   }
 
   // TODO: convert to use a traverse helper, similar to babel's traversal helpers
-  traverse(node) {
+  traverse(node, parentNode) {
     let state = {list: {}};
     let children = node._childReferences || [];
     let i = 0;
@@ -42,10 +42,14 @@ export class Postprocessor {
     while (this.index < this.tokens.length) {
       let token = this.tokens[this.index];
       while (
+        // check that the token is within the current node that we're
+        // traversing upon
           token != null && (
             !nextChild ||
             nextChild.element == null ||
-            (token.index !== -1 ? token.index < this.nextSourceTokenIndex(nextChild, nextNode) : token.start < (nextChild.start || startOf(nextNode))) ||
+            (token.index !== -1 ?
+              token.index < this.nextSourceTokenIndex(nextChild, nextNode) :
+              token.start < (nextChild.start || startOf(nextNode))) ||
           false) &&
           (!nextNode || !nextNode.__isNode || token.index < tokenStartOf(nextNode)) &&
           token.end <= node.end &&
@@ -60,15 +64,29 @@ export class Postprocessor {
           extra: {tokenValue: token.value, tokenType: token.type.key},
         };
         if (token.index >= 0) tokenJson.extra.tokenIndex = token.index;
+
+        // Associate leading whitespace on `pass` to it, because they translate
+        // to punctuation, so we want to omit it when translating
+        if (tokenJson.element === 'Keyword' && tokenJson.value === 'pass') {
+          const parentSourceElements = parentNode[this.sourceElementsKey];
+          if (parentSourceElements) {
+            const lastParentSourceElement = parentSourceElements[parentSourceElements.length - 1];
+            if (lastParentSourceElement && lastParentSourceElement.element === 'WhiteSpace') {
+              sourceElements.push(parentSourceElements.pop())
+            }
+          }
+        }
+
         sourceElements.push(tokenJson);
 
         this.index++;
         token = this.tokens[this.index];
       }
+      // done checking and pushing all of the tokens, now we move onto the next
+      // child node's reference
       if (nextChild) {
-        sourceElements.push(nextChild);
         if (!nextChild.element && nextNode != null) {
-          this.traverse(nextNode);
+          this.traverse(nextNode, node);
         } else {
           if (token && token.index != null && token.index === nextChild.extra.tokenIndex) {
             // sourceElement is for a token, skip the token, since it's already been included while parsing
@@ -76,6 +94,7 @@ export class Postprocessor {
           }
         }
         i += 1;
+        sourceElements.push(nextChild);
         nextChild = children[i];
         nextNode = dereference(node, nextChild, state);
       } else {

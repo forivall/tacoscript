@@ -71,6 +71,7 @@
       }
     ],
     "sourceType": "script",
+    "sourceLanguage": "tacoscript",
     "body": [
       {
         "type": "WithStatement",
@@ -378,28 +379,6 @@
             }
           },
           {
-            "element": "WhiteSpace",
-            "value": " ",
-            "start": 24,
-            "end": 25,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 14
-              },
-              "end": {
-                "line": 2,
-                "column": 15
-              }
-            },
-            "extra": {
-              "tokenValue": {
-                "code": " "
-              },
-              "tokenType": "whitespace"
-            }
-          },
-          {
             "reference": "body"
           }
         ],
@@ -468,6 +447,28 @@
             }
           },
           "sourceElements": [
+            {
+              "element": "WhiteSpace",
+              "value": " ",
+              "start": 24,
+              "end": 25,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 14
+                },
+                "end": {
+                  "line": 2,
+                  "column": 15
+                }
+              },
+              "extra": {
+                "tokenValue": {
+                  "code": " "
+                },
+                "tokenType": "whitespace"
+              }
+            },
             {
               "element": "Keyword",
               "value": "pass",
