@@ -30,18 +30,32 @@ export function IfStatement(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
-export function ReturnStatement(path: NodePath, node: Node) {
-  const t = [];
-  const arg = path.get('argument');
-  t.push(...arg.srcElBefore());
+function buildLabelStatement(type, key = 'label') {
+  const builder = function (path: NodePath, node: Node) {
+    const t = [];
+    if (node[key]) {
+      const arg = path.get(key);
+      t.push(...arg.srcElBefore());
 
-  t.push(arg.srcEl());
-  this.print(path, 'argument');
+      t.push(arg.srcEl());
+      this.print(path, key);
 
-  t.push({element: 'Punctuator', value: ';'});
-  t.push(arg.srcElAfter());
-  node[this.key] = t;
+      t.push({element: 'Punctuator', value: ';'});
+      t.push(arg.srcElAfter());
+    } else {
+      t.push(...node[this.tKey])
+      t.push({element: 'Punctuator', value: ';'});
+    }
+    node[this.key] = t;
+  }
+  Object.defineProperty(builder, 'name', {
+    value: type
+  });
+  return builder;
 }
+
+export const BreakStatement = buildLabelStatement('BreakStatement');
+export const ReturnStatement = buildLabelStatement('ReturnStatement', 'argument');
 
 export function VariableDeclaration(path: NodePath, node: Node) {
   const t = [];
@@ -95,5 +109,28 @@ export function VariableDeclarator(path: NodePath, node: Node) {
       }
     });
   }
+  node[this.key] = t;
+}
+
+export function WhileStatement(path: NodePath, node: Node) {
+  const t = [];
+  const test = path.get('test');
+  const body = path.get('body');
+  t.push(...test.srcElBefore());
+  t.push({element: 'Punctuator', value: '('});
+
+  // TODO: preserve inner paren spacing
+
+  t.push(test.srcEl());
+  this.print(path, 'test');
+
+  t.push({element: 'Punctuator', value: ')'});
+  // TODO: preserve spacing after close paren
+  //       if nothing to preserve, use the spacing seen `()_here_->`
+  t.push(...test.srcElUntil(body));
+
+  t.push(body.srcEl());
+  this.print(path, 'body');
+
   node[this.key] = t;
 }
