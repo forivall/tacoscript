@@ -1,7 +1,18 @@
 import type Node from 'horchata/lib/parser/node';
 import type {NodePath} from 'comal-traverse';
 
+import * as ty from 'comal-types';
 import some from 'lodash/some';
+
+export function DebuggerStatement(path: NodePath, node: Node) {
+  node[this.key] = [...node[this.tKey]];
+  node[this.key].push({element: 'Punctuator', value: ';'});
+}
+
+export function EmptyStatement(path: NodePath, node: Node) {
+  node[this.key] = [...node[this.tKey]];
+  node[this.key].push({element: 'Punctuator', value: ';'});
+}
 
 export function IfStatement(path: NodePath, node: Node) {
   const t = [];
@@ -15,16 +26,47 @@ export function IfStatement(path: NodePath, node: Node) {
   t.push(test.srcEl());
   this.print(path, 'test');
 
-  t.push({element: 'Punctuator', value: ')'});
-  // TODO: preserve spacing after close paren
-  //       if nothing to preserve, use the spacing seen `()_here_->`
-  t.push(...test.srcElUntil(conq));
+  // TODO: move this to a reusable spot, use whenever `then` could occur
+  if (ty.isBlock(node.consequent)) {
+    // TODO: preserve spacing after close paren
+    //       if nothing to preserve, use the spacing seen `()_here_->`
+    t.push({element: 'Punctuator', value: ')'});
+    t.push(...test.srcElUntil(conq));
+  } else {
+    let beforeParen = true;
+    let beforeParenSpace = true;
+    for (const el of test.srcElUntil(conq)) {
+      if (beforeParen) {
+        if (beforeParenSpace && el.element === 'WhiteSpace') {
+          beforeParenSpace = false;
+          if (el.value !== ' ') {
+            t.push({element: 'WhiteSpace', value: el.value.slice(0, -1)})
+          }
+        } else if (el.element === 'Keyword' && el.value === 'then') {
+          beforeParen = false;
+          t.push({element: 'Punctuator', value: ')'});
+        } else {
+          t.push(el);
+        }
+      } else {
+        t.push(el);
+      }
+    }
+    if (beforeParen) {
+      t.push({element: 'Punctuator', value: ')'});
+    }
+  }
 
   t.push(conq.srcEl());
   this.print(path, 'consequent');
 
   if (node.alternate) {
-    throw new Error('TODO');
+    const alt = path.get('alternate');
+    t.push(...conq.srcElUntil(alt), alt.srcEl())
+    this.print(path, 'alternate');
+    t.push(...alt.srcElAfter());
+  } else {
+    t.push(...conq.srcElAfter());
   }
 
   node[this.key] = t;
@@ -55,7 +97,14 @@ function buildLabelStatement(type, key = 'label') {
 }
 
 export const BreakStatement = buildLabelStatement('BreakStatement');
+export const ContinueStatement = buildLabelStatement('ContinueStatement');
 export const ReturnStatement = buildLabelStatement('ReturnStatement', 'argument');
+
+export function LabeledStatement(path: NodePath, node: Node) {
+  this.print(path, 'label');
+  this.print(path, 'body');
+  node[this.key] = [...node[this.tKey]];
+}
 
 export function VariableDeclaration(path: NodePath, node: Node) {
   const t = [];
