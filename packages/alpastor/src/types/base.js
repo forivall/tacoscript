@@ -203,7 +203,14 @@ export function BlockStatement(path, node) {
         t.push({element: 'Punctuator', value: '}'});
         // TODO: only do this if it's a stanlone block. make a test in node (like needs-parenthises)
         // to check if it's a stanalone block
-        t.push(...node[this.tKey].filter((el) => !(el.element === 'Punctuator' && el.value === '!')));
+        let beforeDoubleSemi = true;
+        for (const el of node[this.tKey]) {
+          if (beforeDoubleSemi && el.element === 'Punctuator' && el.value === ';;') {
+            beforeDoubleSemi = false;
+          } else if (!(el.element === 'Punctuator' && el.value === '!')) {
+            t.push(el);
+          }
+        }
       }
     }
   });

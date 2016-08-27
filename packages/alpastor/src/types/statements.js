@@ -9,6 +9,30 @@ export function DebuggerStatement(path: NodePath, node: Node) {
   node[this.key].push({element: 'Punctuator', value: ';'});
 }
 
+export function DoWhileStatement(path: NodePath, node: Node) {
+  const t = [];
+  const body = path.get('body');
+  const test = path.get('test');
+
+  // TODO: preserve inner paren spacing
+
+  t.push(...body.srcElBefore(), body.srcEl());
+  this.print(path, 'body');
+  // TODO: preserve spacing after close paren
+  //       if nothing to preserve, use the spacing seen `()_here_->`
+
+  t.push(...body.srcElUntil(test));
+
+  t.push({element: 'Punctuator', value: '('});
+  t.push(test.srcEl());
+  this.print(path, 'test');
+  t.push({element: 'Punctuator', value: ')'});
+  t.push({element: 'LineTerminator', value: '\n'});
+
+  node[this.key] = t;
+}
+
+
 export function EmptyStatement(path: NodePath, node: Node) {
   const t = [];
   let beforePass = true;
