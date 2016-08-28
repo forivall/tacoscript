@@ -4,6 +4,34 @@ import type {NodePath} from 'comal-traverse';
 import * as ty from 'comal-types';
 import some from 'lodash/some';
 
+// TODO: make these kind of functinos composable
+function keywordToPunc(els: Array<Object>, keyword = 'then', tokens = [{element: 'Punctuator', value: ')'}]) {
+  const t = [];
+  let beforeParen = true;
+  let beforeParenSpace = true;
+  for (const el of els) {
+    if (beforeParen) {
+      if (beforeParenSpace && el.element === 'WhiteSpace') {
+        beforeParenSpace = false;
+        if (el.value !== ' ') {
+          t.push({element: 'WhiteSpace', value: el.value.slice(0, -1)})
+        }
+      } else if (el.element === 'Keyword' && el.value === keyword) {
+        beforeParen = false;
+        t.push(...tokens);
+      } else {
+        t.push(el);
+      }
+    } else {
+      t.push(el);
+    }
+  }
+  if (beforeParen) {
+    t.push({element: 'Punctuator', value: ')'});
+  }
+  return t;
+}
+
 export function DebuggerStatement(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
   node[this.key].push({element: 'Punctuator', value: ';'});
@@ -79,28 +107,7 @@ export function IfStatement(path: NodePath, node: Node) {
     t.push({element: 'Punctuator', value: ')'});
     t.push(...test.srcElUntil(conq));
   } else {
-    let beforeParen = true;
-    let beforeParenSpace = true;
-    for (const el of test.srcElUntil(conq)) {
-      if (beforeParen) {
-        if (beforeParenSpace && el.element === 'WhiteSpace') {
-          beforeParenSpace = false;
-          if (el.value !== ' ') {
-            t.push({element: 'WhiteSpace', value: el.value.slice(0, -1)})
-          }
-        } else if (el.element === 'Keyword' && el.value === 'then') {
-          beforeParen = false;
-          t.push({element: 'Punctuator', value: ')'});
-        } else {
-          t.push(el);
-        }
-      } else {
-        t.push(el);
-      }
-    }
-    if (beforeParen) {
-      t.push({element: 'Punctuator', value: ')'});
-    }
+    t.push(...keywordToPunc(test.srcElUntil(conq)));
   }
 
   t.push(conq.srcEl());
@@ -156,7 +163,7 @@ export function ForStatement(path: NodePath, node: Node) {
   let beforeOpenParen = true;
 
   if (init) {
-    t.push(init.srcElBefore());
+    t.push(...init.srcElBefore());
     if (beforeOpenParen) {
       t.push({element: 'Punctuator', value: '('});
       beforeOpenParen = false;
@@ -166,45 +173,65 @@ export function ForStatement(path: NodePath, node: Node) {
     this.inForStatementInitCounter++;
     this.print(path, 'init');
     this.inForStatementInitCounter--;
-    t.push({element: 'Punctuator', value: ';'});
   }
 
   if (test) {
-    // TODO: filter out "while"
-    t.push(test.srcElSince(init));
+    // filter out "while"
+    const puncs = [{element: 'Punctuator', value: ';'}];
     if (beforeOpenParen) {
-      t.push({element: 'Punctuator', value: '('});
-      t.push({element: 'Punctuator', value: ';'});
+      puncs.unshift({element: 'Punctuator', value: '('});
       beforeOpenParen = false;
     }
+    t.push(...keywordToPunc(test.srcElSince(init), 'while', puncs));
+
     t.push(test.srcEl());
     this.print(path, 'test');
+  } else if (!beforeOpenParen) {
     t.push({element: 'Punctuator', value: ';'});
   }
 
 
   if (update) {
-    // TODO: filter out "update"
-    t.push(update.srcElSince(test || init));
+    // filter out "update"
+    const puncs = [{element: 'Punctuator', value: ';'}];
     if (beforeOpenParen) {
-      t.push({element: 'Punctuator', value: '('});
-      t.push({element: 'Punctuator', value: ';'});
-      t.push({element: 'Punctuator', value: ';'});
+      puncs.unshift(
+        {element: 'Punctuator', value: '('},
+        {element: 'Punctuator', value: ';'}
+      );
       beforeOpenParen = false;
     }
+    t.push(...keywordToPunc(update.srcElSince(test || init), 'update', puncs));
+
     t.push(update.srcEl());
     this.print(path, 'update');
+  } else if (!beforeOpenParen) {
+    t.push({element: 'Punctuator', value: ';'});
   }
 
+  let rest;
   if (beforeOpenParen) {
-    t.push(...body.srcElBefore());
+    rest = [];
+    let beforeFor = true;
+    for (const el of body.srcElBefore()) {
+      if (beforeFor) {
+        t.push(el);
+        if (el.element === 'Keyword' && el.value === 'for') beforeFor = false;
+      } else {
+        rest.push(el);
+      }
+    }
     t.push({element: 'Punctuator', value: '('});
     t.push({element: 'Punctuator', value: ';'});
     t.push({element: 'Punctuator', value: ';'});
+  } else {
+    rest = body.srcElSince(update || test || init);
+  }
+  if (ty.isBlock(node.body)) {
+    t.push(...rest);
     t.push({element: 'Punctuator', value: ')'});
   } else {
-    t.push({element: 'Punctuator', value: ')'});
-    t.push(...body.srcElSince(init || test || update));
+    t.push(...keywordToPunc(rest));
   }
 
   t.push(body.srcEl());
@@ -219,15 +246,20 @@ export function ForInStatement(path: NodePath, node: Node) {
   const l = path.get('left');
   const r = path.get('right');
   const body = path.get('body');
-  t.push(l.srcElBefore());
+  t.push(...l.srcElBefore());
   t.push({element: 'Punctuator', value: '('})
   t.push(l.srcEl());
   this.print(path, 'left');
   t.push(...l.srcElUntil(r));
   t.push(r.srcEl());
   this.print(path, 'right');
-  t.push({element: 'Punctuator', value: ')'})
-  t.push(...r.srcElUntil(body), body.srcEl());
+  if (ty.isBlock(node.body)) {
+    t.push({element: 'Punctuator', value: ')'})
+    t.push(...r.srcElUntil(body));
+  } else {
+    t.push(...keywordToPunc(r.srcElUntil(body)));
+  }
+  t.push(body.srcEl());
   this.print(path, 'body');
   t.push(...body.srcElAfter())
   node[this.key] = t;
@@ -255,7 +287,7 @@ export function VariableDeclaration(path: NodePath, node: Node) {
       t.push(...firstPath.srcElSince('kind'));
     },
     each: (path) => {
-      t.push({reference: 'declarations#next'});
+      t.push(path.srcEl());
     },
     between: (leftPath, rightPath) => {
       const origSourceElements = leftPath.srcElUntil(rightPath);
@@ -265,7 +297,7 @@ export function VariableDeclaration(path: NodePath, node: Node) {
       t.push(...origSourceElements);
     },
     after: (lastPath) => {
-      if (this.inForStatementInitCounter === 0) {
+      if (!ty.isFor(path.parent)) {
         t.push({element: 'Punctuator', value: ';'});
       }
       t.push(...lastPath.srcElAfter());
