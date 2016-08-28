@@ -1,6 +1,7 @@
 import type Node from 'horchata/lib/parser/node';
 import type {NodePath} from 'comal-traverse';
 
+import {needsParens} from '../path';
 import some from 'lodash/some';
 
 export function ExpressionStatement(path: NodePath, node: Node) {
@@ -31,14 +32,41 @@ export function ExpressionStatement(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
-export function AssignmentExpression(path: NodePath, node: Node) {
+export function AssignmentPattern(path: NodePath, node: Node) {
   // TODO: for loop headers: instanceof, in
   this.print(path, 'left');
   this.print(path, 'right');
   node[this.key] = [...node[this.tKey]];
 }
 
-export {AssignmentExpression as AssignmentPattern};
+export function AssignmentExpression(path: NodePath, node: Node) {
+  const t = [];
+  // Somewhere inside a for statement `init` node but doesn't usually
+  // needs a paren except for `in` expressions: `for (a in b ? a : b;;)`
+  const parens = this.inForStatementInitCounter && node.operator === 'in' &&
+               !needsParens(path);
+
+  if (parens) {
+    t.push({element: 'Punctuator', value: '('});
+  }
+
+  const l = path.get('left');
+  const r = path.get('right');
+  t.push(...l.srcElBefore(), l.srcEl());
+  this.print(path, 'left');
+
+  // TODO: translate assignment operators
+  t.push(...l.srcElUntil(r));
+
+  t.push(r.srcEl());
+  this.print(path, 'right');
+  t.push(...r.srcElAfter());
+
+  if (parens) {
+    t.push({element: 'Punctuator', value: ')'});
+  }
+  node[this.key] = t;
+}
 
 export function BinaryExpression(path: NodePath, node: Node) {
   const t = [];

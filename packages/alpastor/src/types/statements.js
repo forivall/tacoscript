@@ -146,6 +146,94 @@ export const BreakStatement = buildLabelStatement('BreakStatement');
 export const ContinueStatement = buildLabelStatement('ContinueStatement');
 export const ReturnStatement = buildLabelStatement('ReturnStatement', 'argument');
 
+export function ForStatement(path: NodePath, node: Node) {
+  const t = [];
+  const init = node.init ? path.get('init') : null;
+  const test = node.test ? path.get('test') : null;
+  const update = node.update ? path.get('update') : null;
+  const body = path.get('body');
+
+  let beforeOpenParen = true;
+
+  if (init) {
+    t.push(init.srcElBefore());
+    if (beforeOpenParen) {
+      t.push({element: 'Punctuator', value: '('});
+      beforeOpenParen = false;
+    }
+    t.push(init.srcEl());
+
+    this.inForStatementInitCounter++;
+    this.print(path, 'init');
+    this.inForStatementInitCounter--;
+    t.push({element: 'Punctuator', value: ';'});
+  }
+
+  if (test) {
+    // TODO: filter out "while"
+    t.push(test.srcElSince(init));
+    if (beforeOpenParen) {
+      t.push({element: 'Punctuator', value: '('});
+      t.push({element: 'Punctuator', value: ';'});
+      beforeOpenParen = false;
+    }
+    t.push(test.srcEl());
+    this.print(path, 'test');
+    t.push({element: 'Punctuator', value: ';'});
+  }
+
+
+  if (update) {
+    // TODO: filter out "update"
+    t.push(update.srcElSince(test || init));
+    if (beforeOpenParen) {
+      t.push({element: 'Punctuator', value: '('});
+      t.push({element: 'Punctuator', value: ';'});
+      t.push({element: 'Punctuator', value: ';'});
+      beforeOpenParen = false;
+    }
+    t.push(update.srcEl());
+    this.print(path, 'update');
+  }
+
+  if (beforeOpenParen) {
+    t.push(...body.srcElBefore());
+    t.push({element: 'Punctuator', value: '('});
+    t.push({element: 'Punctuator', value: ';'});
+    t.push({element: 'Punctuator', value: ';'});
+    t.push({element: 'Punctuator', value: ')'});
+  } else {
+    t.push({element: 'Punctuator', value: ')'});
+    t.push(...body.srcElSince(init || test || update));
+  }
+
+  t.push(body.srcEl());
+  this.print(path, 'body');
+
+  t.push(...body.srcElAfter());
+  node[this.key] = t;
+}
+
+export function ForInStatement(path: NodePath, node: Node) {
+  const t = [];
+  const l = path.get('left');
+  const r = path.get('right');
+  const body = path.get('body');
+  t.push(l.srcElBefore());
+  t.push({element: 'Punctuator', value: '('})
+  t.push(l.srcEl());
+  this.print(path, 'left');
+  t.push(...l.srcElUntil(r));
+  t.push(r.srcEl());
+  this.print(path, 'right');
+  t.push({element: 'Punctuator', value: ')'})
+  t.push(...r.srcElUntil(body), body.srcEl());
+  this.print(path, 'body');
+  t.push(...body.srcElAfter())
+  node[this.key] = t;
+}
+export {ForInStatement as ForOfStatement};
+
 export function LabeledStatement(path: NodePath, node: Node) {
   this.print(path, 'label');
   this.print(path, 'body');
@@ -177,7 +265,9 @@ export function VariableDeclaration(path: NodePath, node: Node) {
       t.push(...origSourceElements);
     },
     after: (lastPath) => {
-      t.push({element: 'Punctuator', value: ';'});
+      if (this.inForStatementInitCounter === 0) {
+        t.push({element: 'Punctuator', value: ';'});
+      }
       t.push(...lastPath.srcElAfter());
     }
   });

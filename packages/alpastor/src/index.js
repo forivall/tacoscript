@@ -38,6 +38,8 @@ export class Visitor {
     this.opts = opts;
     this.tKey = opts.tacoscriptSourceElements;
     this.key = opts.sourceElements;
+
+    this.inForStatementInitCounter = 0;
   }
 
   start(acst, opts) {
@@ -64,12 +66,14 @@ export class Visitor {
         throw new Error('Cannot print node of type "' + node.type + '"')
       }
       this[node.type](path, node);
-      const lastElement = lastRenderable(node[this.key]);
-      if (lastElement && lastElement.element) this._lastElement = lastElement;
+      if (node[this.key]) {
+        const lastElement = lastRenderable(node[this.key]);
+        if (lastElement && lastElement.element) this._lastElement = lastElement;
 
-      const sourceLastElement = lastRenderable(node[this.tKey]);
-      if (sourceLastElement && sourceLastElement.element) {
-        this._sourceLastElement = sourceLastElement;
+        const sourceLastElement = lastRenderable(node[this.tKey]);
+        if (sourceLastElement && sourceLastElement.element) {
+          this._sourceLastElement = sourceLastElement;
+        }
       }
     }
   }
