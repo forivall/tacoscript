@@ -341,10 +341,14 @@ export function WhileStatement(path: NodePath, node: Node) {
   t.push(test.srcEl());
   this.print(path, 'test');
 
-  t.push({element: 'Punctuator', value: ')'});
   // TODO: preserve spacing after close paren
   //       if nothing to preserve, use the spacing seen `()_here_->`
-  t.push(...test.srcElUntil(body));
+  if (ty.isBlock(node.body)) {
+    t.push({element: 'Punctuator', value: ')'});
+    t.push(...test.srcElUntil(body));
+  } else {
+    t.push(...keywordToPunc(test.srcElUntil(body)))
+  }
 
   t.push(body.srcEl());
   this.print(path, 'body');
