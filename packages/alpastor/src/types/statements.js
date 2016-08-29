@@ -272,6 +272,61 @@ export function LabeledStatement(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
 }
 
+export function SwitchStatement(path: NodePath, node: Node) {
+  const t = [];
+  const disc = path.get('discriminant');
+  t.push(...disc.srcElBefore()
+    .filter((el) => !(el.element === 'Punctuator' && el.value === '!'))
+  );
+  t.push({element: 'Punctuator', value: '('});
+  t.push(disc.srcEl());
+  this.print(path, 'discriminant');
+  t.push({element: 'Punctuator', value: ')'});
+
+  this.print(path, 'cases', {
+    before: (firstPath) => {
+      t.push(...this._printBlockLeading(firstPath.srcElSince(disc)));
+    },
+    each(path) { t.push(path.srcEl()); },
+    between(leftPath, rightPath) {
+      t.push(...leftPath.srcElUntil(rightPath));
+    },
+    after: (lastPath) => {
+      t.push(...this._printBlockTrailing(path, lastPath.srcElAfter()))
+    },
+    empty() {
+      t.push({element: 'Punctuator', value: '{'});
+      t.push({element: 'Punctuator', value: '}'});
+    }
+  });
+  node[this.key] = t;
+}
+
+export function SwitchCase(path: NodePath, node: Node) {
+  const t = node[this.key] = [];
+
+  const test = node.test ? path.get('test') : null;
+  // const firstConq = node.consequent.length > 0 ? path.get('consequent.0') : null;
+
+  if (node.test) {
+    t.push(...test.srcElBefore());
+    this.print(path, 'test');
+    t.push(test.srcEl());
+    t.push({element: 'Punctuator', value: ':'});
+    t.push(...test.srcElAfter());
+  } else {
+    let beforeDefault = true;
+    for (const el of node[this.tKey]) {
+      t.push(el);
+      if (beforeDefault && el.element === 'Keyword' && el.value === 'default') {
+        t.push({element: 'Punctuator', value: ':'});
+        beforeDefault = false;
+      }
+    }
+  }
+  this.print(path, 'consequent');
+}
+
 export function VariableDeclaration(path: NodePath, node: Node) {
   const t = [];
   // t.push(...this.beforeRef(node, 'kind'));

@@ -215,21 +215,5 @@ export function BlockStatement(path, node) {
     }
   });
 
-  if (path.parent.type === 'BlockStatement' || path.parent.type === 'Program') {
-    let prevEl;
-    const {
-      el: lastBeforeDedent
-    } = path.lastSrcEl((el) => {
-      if (el.element !== 'Dedent' && el.element !== 'Indent') {
-        if (el.value === '') return false;
-        if (prevEl && prevEl.element === 'Dedent') return true;
-      }
-      prevEl = el;
-      return false;
-    }) || {};
-
-    if (lastBeforeDedent && lastBeforeDedent.value === '\n') t.push({element: 'WhiteSpace', value: '\n'});
-  }
-
   node[this.key] = t;
 }
