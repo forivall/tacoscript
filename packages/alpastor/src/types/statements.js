@@ -27,7 +27,7 @@ function keywordToPunc(els: Array<Object>, keyword = 'then', tokens = [{element:
     }
   }
   if (beforeParen) {
-    t.push({element: 'Punctuator', value: ')'});
+    t.push(...tokens);
   }
   return t;
 }
@@ -152,6 +152,7 @@ function buildLabelStatement(type, key = 'label') {
 export const BreakStatement = buildLabelStatement('BreakStatement');
 export const ContinueStatement = buildLabelStatement('ContinueStatement');
 export const ReturnStatement = buildLabelStatement('ReturnStatement', 'argument');
+export const ThrowStatement = buildLabelStatement('ThrowStatement', 'argument');
 
 export function ForStatement(path: NodePath, node: Node) {
   const t = [];
@@ -325,6 +326,53 @@ export function SwitchCase(path: NodePath, node: Node) {
     }
   }
   this.print(path, 'consequent');
+}
+
+export function TryStatement(path: NodePath, node: Node) {
+  const t = [];
+  const block = path.get('block');
+  const handler = node.handler ? path.get('handler') : null;
+  const finalizer = node.finalizer ? path.get('finalizer') : null;
+  t.push(...block.srcElBefore());
+
+  // TODO: IIRC, `then` can occur here. make sure to filter it
+
+  t.push(block.srcEl());
+  this.print(path, 'block');
+  t.push(...block.srcElUntil(handler || finalizer));
+
+  if (handler) {
+    t.push(handler.srcEl());
+    this.print(path, 'handler');
+    t.push(...handler.srcElUntil(finalizer));
+  }
+
+  if (finalizer) {
+    t.push(finalizer.srcEl());
+    this.print(path, 'finalizer');
+    t.push(...finalizer.srcElAfter());
+  }
+
+  node[this.key] = t;
+}
+
+export function CatchClause(path: NodePath, node: Node) {
+  const t = [];
+  const param = path.get('param');
+  const body = path.get('body');
+  t.push(...param.srcElBefore());
+
+  // TODO: preserve inner paren spacing
+
+  t.push({element: 'Punctuator', value: '('});
+  t.push(param.srcEl());
+  this.print(path, 'param');
+  t.push({element: 'Punctuator', value: ')'});
+
+
+  t.push(...keywordToPunc(param.srcElAfter(), 'then', []));
+  this.print(path, 'body');
+  node[this.key] = t;
 }
 
 export function VariableDeclaration(path: NodePath, node: Node) {
