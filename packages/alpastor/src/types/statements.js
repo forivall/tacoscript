@@ -432,6 +432,33 @@ export function VariableDeclarator(path: NodePath, node: Node) {
   node[this.key] = t;
 }
 
+export function WithStatement(path: NodePath, node: Node) {
+  const t = [];
+  const object = path.get('object');
+  const body = path.get('body');
+  t.push(...object.srcElBefore().filter((el) => !(el.element === 'Punctuator' && el.value === '!')));
+  t.push({element: 'Punctuator', value: '('});
+
+  // TODO: preserve inner paren spacing
+
+  t.push(object.srcEl());
+  this.print(path, 'object');
+
+  // TODO: preserve spacing after close paren
+  //       if nothing to preserve, copy the spacing seen `()_here_->`
+  if (ty.isBlock(node.body)) {
+    t.push({element: 'Punctuator', value: ')'});
+    t.push(...object.srcElUntil(body));
+  } else {
+    t.push(...keywordToPunc(object.srcElUntil(body)))
+  }
+
+  t.push(body.srcEl());
+  this.print(path, 'body');
+
+  node[this.key] = t;
+}
+
 export function WhileStatement(path: NodePath, node: Node) {
   const t = [];
   const test = path.get('test');
