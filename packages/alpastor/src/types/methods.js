@@ -192,10 +192,14 @@ export function ArrowFunctionExpression(path: NodePath, node: Node) {
   // TODO: print the arrow and trailing whitespace here
   t.push({element: 'Punctuator', value: '=>'});
 
+  // TODO: move this into a function -- "elementsAfter"
   let beforeArrow = true;
-  for (const el of node[this.tKey]) {
+  const elements = node.params.length > 0 ?
+    path.get(`params.${node.params.length - 1}`).srcElAfter() :
+    node[this.tKey];
+  for (const el of elements) {
     if (beforeArrow) {
-      if (el.value === '=>') beforeArrow = false;
+      if (el.value === '=>' || el.value === '=>>') beforeArrow = false;
     } else {
       if (el.reference && el.reference === 'body') break;
       t.push(el);
