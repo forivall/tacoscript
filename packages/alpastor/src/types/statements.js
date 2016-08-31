@@ -3,6 +3,7 @@ import type {NodePath} from 'comal-traverse';
 
 import * as ty from 'comal-types';
 import some from 'lodash/some';
+import matches from 'lodash/matches';
 
 // TODO: make these kind of functinos composable
 function keywordToPunc(els: Array<Object>, keyword = 'then', tokens = [{element: 'Punctuator', value: ')'}]) {
@@ -32,9 +33,30 @@ function keywordToPunc(els: Array<Object>, keyword = 'then', tokens = [{element:
   return t;
 }
 
+const DEFAULT_MATCH = {
+  element: 'LineTerminator'
+}
+function insertBefore(els, insert, match = DEFAULT_MATCH) {
+  const t = [];
+  const testMatch = matches(match);
+  let beforeMatch = true;
+  for (const el of els) {
+    if (beforeMatch && testMatch(el)) {
+      beforeMatch = false;
+      t.push(insert, el);
+    } else {
+      t.push(el);
+    }
+  }
+  if (beforeMatch) t.push(insert);
+  return t;
+}
+
 export function DebuggerStatement(path: NodePath, node: Node) {
-  node[this.key] = [...node[this.tKey]];
-  node[this.key].push({element: 'Punctuator', value: ';'});
+  node[this.key] = insertBefore(
+    node[this.tKey],
+    {element: 'Punctuator', value: ';'}
+  );
 }
 
 export function DoWhileStatement(path: NodePath, node: Node) {
@@ -136,10 +158,9 @@ function buildLabelStatement(type, key = 'label') {
       this.print(path, key);
 
       t.push({element: 'Punctuator', value: ';'});
-      t.push(arg.srcElAfter());
+      t.push(...arg.srcElAfter());
     } else {
-      t.push(...node[this.tKey])
-      t.push({element: 'Punctuator', value: ';'});
+      t.push(...insertBefore(node[this.tKey], {element: 'Punctuator', value: ';'}));
     }
     node[this.key] = t;
   }
