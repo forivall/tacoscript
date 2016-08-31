@@ -138,6 +138,17 @@ function Literal(path: NodePath, node: Node) {
   node[this.key] = [...node[this.tKey]];
 }
 
+export function RestElement(path: NodePath, node: Object) {
+  node[this.key] = [...node[this.tKey]];
+  this.print(path, 'argument');
+}
+
+export {
+  RestElement as SpreadElement,
+  RestElement as SpreadProperty,
+  RestElement as RestProperty,
+};
+
 // TODO: transform differences in string literals
 export {Literal as BooleanLiteral};
 export {Literal as NumericLiteral};
