@@ -5,6 +5,8 @@ import {needsParens} from '../path';
 import cloneDeep from 'lodash/cloneDeep';
 import some from 'lodash/some';
 
+import keywordToPunc, {pushTruncatedWhitespace} from '../helpers/keyword-to-punc';
+
 function last(a) { return a[a.length - 1]; }
 
 export function Identifier(path: NodePath, node: Node) {
@@ -39,9 +41,23 @@ export function ArrayExpression(path: NodePath, node: Node) {
       if (!some(orig, {value: ','})) {
         t.push({element: 'Punctuator', value: ','});
       }
+      // if (rightPath.node === null) {
+      //   const lastOrig = last(orig);
+      //     if (lastOrig.element === 'WhiteSpace') {
+      //     t.push(...orig.slice(0, -1));
+      //     pushTruncatedWhitespace(t, last(orig));
+      //   } else {
+      //     t.push(...orig);
+      //   }
+      // } else {
+      //   t.push(...orig);
+      // }
       t.push(...orig);
     },
     after(lastPath) {
+      if (lastPath.node === null) {
+        t.push({element: 'Punctuator', value: ','});
+      }
       t.push(...lastPath.srcElAfter());
     },
     empty: () => {
@@ -121,11 +137,13 @@ export function ObjectMethod(path: NodePath, node: Object) {
 export function ObjectProperty(path: NodePath, node: Object) {
   const t = [];
   // TODO: decorators
-  const key = path.get('key');
+  const key = node.shorthand ? null : path.get('key');
   const value = path.get('value');
-  t.push(...key.srcElBefore(), key.srcEl());
-  this.print(path, 'key');
-  t.push(...key.srcElUntil(value), value.srcEl())
+  if (!node.shorthand) {
+    t.push(...key.srcElBefore(), key.srcEl());
+    this.print(path, 'key');
+  }
+  t.push(...value.srcElSince(key), value.srcEl())
   this.print(path, 'value');
   t.push(...value.srcElAfter());
   // TODO: assignment pattern magic, shorthand magic:
