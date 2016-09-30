@@ -1,6 +1,6 @@
 /* eslint max-len: 0 */
 
-import TraversalContext from "./context";
+import TraversalContext from "./traversal-context";
 import * as visitors from "./visitors";
 import msg from "./messages";
 import includes from "lodash/includes";
@@ -11,7 +11,7 @@ export { default as NodePath } from "./path";
 export { default as WalkContext } from "./walk-context";
 export { default as Scope } from "./scope";
 export { default as Hub } from "./hub";
-export { visitors };
+export { TraversalContext, visitors };
 
 export default function traverse(
   parent: Object | Array<Object>,

@@ -1,7 +1,7 @@
 /* eslint max-len: 0 */
 
 import type Hub from "../hub";
-import type TraversalContext from "../context";
+import type TraversalContext from "../traversal-context";
 import * as virtualTypes from "./lib/virtual-types";
 import buildDebug from "debug";
 import invariant from "invariant";

@@ -1,14 +1,14 @@
+import BaseContext from './base-context';
 import NodePath from "./path";
 import * as t from "comal-types";
 
 let testing = process.env.NODE_ENV === "test";
 
-export default class TraversalContext {
+export default class TraversalContext extends BaseContext {
   constructor(scope, opts, state, parentPath) {
-    this.parentPath = parentPath;
+    super(opts, parentPath);
     this.scope      = scope;
     this.state      = state;
-    this.opts       = opts;
   }
 
   parentPath: NodePath;
@@ -39,16 +39,6 @@ export default class TraversalContext {
     }
 
     return false;
-  }
-
-  create(node, obj, key, listKey): NodePath {
-    return NodePath.get({
-      parentPath: this.parentPath,
-      parent: node,
-      container: obj,
-      key: key,
-      listKey
-    });
   }
 
   maybeQueue(path, notPriority?: boolean) {
@@ -149,13 +139,7 @@ export default class TraversalContext {
   }
 
   visit(node, key) {
-    let nodes = node[key];
-    if (!nodes) return false;
-
-    if (Array.isArray(nodes)) {
-      return this.visitMultiple(nodes, node, key);
-    } else {
-      return this.visitSingle(node, key);
-    }
+    if (!node[key]) return false;
+    return super.visit(node, key);
   }
 }

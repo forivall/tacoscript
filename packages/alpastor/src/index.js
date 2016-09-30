@@ -47,13 +47,7 @@ export class Visitor {
     const file = this.file = new File({filename: acst.filename || ''});
 
     const context = new WalkContext(this);
-    let out;
-    if (Array.isArray(acst)) {
-      const pseudoRoot = {type: '<root>', cst: acst};
-      out = context.visitMultiple(pseudoRoot, pseudoRoot, 'cst');
-    } else {
-      out = context.visitSingle({type: '<root>', cst: acst}, 'cst');
-    }
+    let out = context.visitRoot(acst);
 
     this.file = null;
     return out;

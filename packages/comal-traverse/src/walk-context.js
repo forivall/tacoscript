@@ -1,4 +1,5 @@
 
+import BaseContext from "./base-context";
 import NodePath from "./path";
 
 /**
@@ -6,56 +7,42 @@ import NodePath from "./path";
  * maintains path and not scope or any rewriting stuff, or opts, or state.
  */
 
-// TODO: make a base class for this and TraversalContext
-
-export default class WalkContext {
-
+export default class WalkContext extends BaseContext {
   constructor(visitor, parentPath, queueVisitors) {
-    this.visitor = visitor;
-    this.opts = {
+    super({
       noScope: true, // airhorn
-      ...this.visitor.opts
-    };
-    this.parentPath = parentPath;
+      ...visitor.opts
+    }, parentPath);
+
+    this.visitor = visitor;
     this.queueVisitors = queueVisitors;
   }
 
-  create({parent, container, key, listKey}): NodePath {
-    return NodePath.get({
-      parentPath: this.parentPath,
-      parent,
-      container,
-      key,
-      listKey
-    }).setContext(this);
-  }
-
-  visit(node, key) {
-    let nodes = node[key];
-
-    return (Array.isArray(nodes)
-      ? this.visitMultiple(node, nodes, key)
-      : this.visitSingle(node, key)
-    )
+  visitRoot(root) {
+    if (Array.isArray(root)) {
+      const pseudoRoot = {type: '<root>', root};
+      return this.visitMultiple(pseudoRoot, pseudoRoot, 'root');
+    }
+    return this.visitSingle({type: '<root>', root}, 'root');
   }
 
   visitSingle(parent, key): boolean {
-    return this.visitQueue([this.create({parent, container: parent, key})])
+    return this.visitQueue([this.create(parent, parent, key)])
   }
 
-  visitMultiple(parent, container, listKey) {
+  visitMultiple(container, parent, listKey) {
     if (container.length === 0) {
       if (this.queueVisitors.empty) this.queueVisitors.empty.call(this.visitor);
       return false;
     }
 
     return this.visitQueue(
-      container.map((node, index) => this.create({
+      container.map((node, index) => this.create(
         parent,
         container,
-        key: index,
+        index,
         listKey
-      }))
+      ))
     )
   }
 
@@ -95,10 +82,7 @@ export default class WalkContext {
       }
 
       // here, instead of using path.visit, we directly invoke our visitor
-      // const visitResult =
       this.visitor.visit(path);
-      // if visitResult is 'stop' then break
-      // return value is if visitation was stopped
       prevPath = path;
     }
 
@@ -114,5 +98,6 @@ export default class WalkContext {
   }
 }
 
-// indicate to NodePath that this isn't the normal traversal, so always set context
-WalkContext.prototype.isWalkContext = true;
+// indicate to NodePath that this isn't the normal traversal, so automatically
+// inherit context from parent path
+WalkContext.prototype._autoInherit = true;
