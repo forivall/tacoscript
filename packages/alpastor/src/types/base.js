@@ -61,7 +61,7 @@ export function Program(path, node) {
 
   node[this.key] = t;
 
-  if (this._sourceLastElement && this._sourceLastElement.value === '\n') {
+  if (this.state.sourceLastElement && this.state.sourceLastElement.value === '\n') {
     const {
       el,
       index,
@@ -138,7 +138,7 @@ export function _printBlockTrailing(path, trailingElements) {
         t.push(element);
       }
     } else if (element.element === 'Dedent') {
-      const lastElement = t[t.length - 1] || this._lastElement;
+      const lastElement = t[t.length - 1] || this.state.lastElement;
       if (lastElement.value !== '\n') {
         t.push({element: 'LineTerminator', value: '\n'});
       }

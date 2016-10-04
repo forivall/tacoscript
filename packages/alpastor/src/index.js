@@ -2,8 +2,6 @@
 // ast with cst elements
 
 import {render} from 'tacoscript-cst-utils';
-// TODO: move a base file out of comal into comal-support
-import {File} from 'comal';
 import {WalkContext} from 'comal-traverse';
 import type {NodePath} from 'comal-traverse';
 import type {Node} from 'horchata/lib/parser/node';
@@ -16,8 +14,8 @@ export function generate(acst, opts) {
   if (!opts.tacoscriptSourceElements) opts.tacoscriptSourceElements = 'tacoscriptSourceElements';
   opts.sourceElementsSource = opts.tacoscriptSourceElements;
 
-  const visitor = new Visitor(opts);
-  visitor.start(acst, opts);
+  const printer = new PrinterContext(null, opts, new PrinterState());
+  printer.visitRoot(acst, opts);
 
   return {
     code: render(acst, sourceElementsKey),
@@ -33,48 +31,20 @@ function lastRenderable(t) {
   }
 }
 
-export class Visitor {
-  constructor(opts) {
-    this.opts = opts;
+class PrinterState {
+  constructor() {
+    this.inForStatementInitCounter = 0;
+    this.lastElement = null;
+    this.sourceLastElement = null;
+  }
+}
+
+class PrinterContext extends WalkContext {
+  constructor(parentPath, opts, state) {
+    super(parentPath, {...state.opts, ...opts});
+    this.state = state;
     this.tKey = opts.tacoscriptSourceElements;
     this.key = opts.sourceElements;
-
-    this.inForStatementInitCounter = 0;
-  }
-
-  start(acst, opts) {
-    if (this.file) throw new Error('not reentrant');
-    const file = this.file = new File({filename: acst.filename || ''});
-
-    const context = new WalkContext(this);
-    let out = context.visitRoot(acst);
-
-    this.file = null;
-    return out;
-  }
-
-  visit(path) {
-    const node = path.node;
-    if (node) {
-      if (!this[node.type]) {
-        throw new Error('Cannot print node of type "' + node.type + '"')
-      }
-      this[node.type](path, node);
-      if (node[this.key]) {
-        const lastElement = lastRenderable(node[this.key]);
-        if (lastElement && lastElement.element) this._lastElement = lastElement;
-
-        const sourceLastElement = lastRenderable(node[this.tKey]);
-        if (sourceLastElement && sourceLastElement.element) {
-          this._sourceLastElement = sourceLastElement;
-        }
-      }
-    }
-  }
-
-  lastElement(t) {
-    const lastElement = t[t.length - 1];
-    return lastElement && lastElement.element ? lastElement : this._lastElement;
   }
 
   /**
@@ -92,9 +62,37 @@ export class Visitor {
     })
    */
 
-  print(path, prop, visitors, key=this.tKey: string) {
-    let context = new WalkContext(this, path, visitors);
-    context.visit(path.node, prop);
+  print(path, prop, interns) {
+    let child = new PrinterContext(path, {...this.opts, interns}, this.state);
+    child.visit(path.node, prop);
+  }
+
+  visitPath(path) {
+    const node = path.node;
+    if (node) {
+      if (!this[node.type]) {
+        throw new Error('Cannot print node of type "' + node.type + '"')
+      }
+      this[node.type](path, node);
+      this.updateLastRenderable(node);
+    }
+  }
+
+  lastElement(t) {
+    const lastElement = t[t.length - 1];
+    return lastElement && lastElement.element ? lastElement : this.state.lastElement;
+  }
+
+  updateLastRenderable(node) {
+    if (!node[this.key]) return;
+
+    const lastElement = lastRenderable(node[this.key]);
+    if (lastElement && lastElement.element) this.state.lastElement = lastElement;
+
+    const sourceLastElement = lastRenderable(node[this.tKey]);
+    if (sourceLastElement && sourceLastElement.element) {
+      this.state.sourceLastElement = sourceLastElement;
+    }
   }
 }
 
@@ -116,5 +114,5 @@ for (const generator of [
       statementsGenerators,
       // templateLiteralsGenerators,
     ]) {
-  Object.assign(Visitor.prototype, generator);
+  Object.assign(PrinterContext.prototype, generator);
 }

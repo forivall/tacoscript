@@ -8,14 +8,14 @@ import NodePath from "./path";
  */
 
 export default class WalkContext extends BaseContext {
-  constructor(visitor, parentPath, queueVisitors) {
+  constructor(parentPath, opts) {
     super({
       noScope: true, // airhorn
-      ...visitor.opts
+      ...opts
     }, parentPath);
 
-    this.visitor = visitor;
-    this.queueVisitors = queueVisitors;
+    this.interns = opts.interns || {};
+
   }
 
   visitRoot(root) {
@@ -32,7 +32,7 @@ export default class WalkContext extends BaseContext {
 
   visitMultiple(container, parent, listKey) {
     if (container.length === 0) {
-      if (this.queueVisitors.empty) this.queueVisitors.empty.call(this.visitor);
+      if (this.interns.empty) this.interns.empty.call(this);
       return false;
     }
 
@@ -51,9 +51,9 @@ export default class WalkContext extends BaseContext {
 
     let visited = [];
 
-    const qv = this.queueVisitors;
+    const interns = this.interns;
 
-    if (qv && qv.before) qv.before(paths[0]);
+    if (interns.before) interns.before(paths[0]);
 
     let prevPath = null;
 
@@ -65,9 +65,9 @@ export default class WalkContext extends BaseContext {
         path.pushContext(this);
       }
 
-      if (qv) {
-        if (qv.between && prevPath) qv.between(prevPath, path);
-        if (qv.each) qv.each(path);
+      if (interns) {
+        if (interns.between && prevPath) interns.between(prevPath, path);
+        if (interns.each) interns.each(path);
       }
 
       // TODO: see if this can be hashed to improve perf
@@ -81,12 +81,13 @@ export default class WalkContext extends BaseContext {
         visited.push(path.node);
       }
 
-      // here, instead of using path.visit, we directly invoke our visitor
-      this.visitor.visit(path);
+      // here, instead of using path.visit, we directly invoke the visitPath
+      // function, to be implemented by subclasses
+      this.visitPath(path);
       prevPath = path;
     }
 
-    if (qv && qv.after) qv.after(prevPath);
+    if (interns.after) interns.after(prevPath);
 
     // clear queue
     for (const path of paths) {
