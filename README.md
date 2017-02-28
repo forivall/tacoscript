@@ -253,7 +253,7 @@ Combines tacoscript-conditional-catch and tacoscript-rescue.
 ### tacoscript-incremental-for-loop
 _(Not Implemented)_
 
-Parser & Generator plugins and AST transformations for `upto`, `downto` and `by`
+Parser & Generator plugins and AST transformations for `upto`, `below`, `downto`, `above` and `by`
 in for loop headers
 
 ### tacoscript-literate
@@ -262,6 +262,9 @@ _(Not Implemented)_
 Parser & Generator plugins for literate mode.
 
 ### tacoscript-comprehensions
+_(Not Implemented)_
+
+### tacoscript-ranges
 _(Not Implemented)_
 
 ### tacoscript-operator-overloading
