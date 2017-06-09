@@ -1,4 +1,4 @@
-Copyright (c) 2015-2016 Jordan Klassen <forivall@gmail.com>
+Copyright (c) 2015-2017 Emily Klassen <forivall@gmail.com>
 
 Copyright (c) 2009-2015 Jeremy Ashkenas (repl)
 

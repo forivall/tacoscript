@@ -12,7 +12,7 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "license": "ISC",
-  "author": "Jordan Klassen <forivall@gmail.com>",
+  "author": "Emily Klassen <forivall@gmail.com>",
   "repository": "git://github.com/forivall/tacoscript.git",
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

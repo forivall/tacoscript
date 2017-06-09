@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012-2014 by various contributors (see doc/ACORN_AUTHORS)
- * Copyright (C) 2015 Jordan Klassen <forivall@gmail.com>
+ * Copyright (C) 2015-2017 Emily Klassen <forivall@gmail.com>
  *
  * See LICENSE for full license text
  */

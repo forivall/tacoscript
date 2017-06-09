@@ -10,7 +10,7 @@
     "url": "https://github.com/forivall/tacoscript/issues"
   },
   "license": "MIT",
-  "author": "Jordan J Klassen <forivall@gmail.com>",
+  "author": "Emily Marigold Klassen <forivall@gmail.com>",
   "main": "index.js",
   "repository": "git://github.com/forivall/tacoscript.git",
   "publishConfig": {
