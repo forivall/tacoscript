@@ -161,6 +161,7 @@ appear within parens.
     static \$static() ->
       return false
   ```
+  _Alternative:_ As almost all keywords take an argument, surrounding a taco keyword with parentheises should also be a possibility to switch it into identifier mode - ie. `(static)() ->> false`
 
 11. `#` for line comments, `#*` for block comments, `#%` for directive comments, `###` (alone on a line) for _temporarily_ commenting out blocks of code (like `#if 0` in C). `# *` for a line comment that starts with a \*.
 
