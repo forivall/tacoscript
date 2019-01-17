@@ -336,6 +336,7 @@ statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
 
 * [ ] automatic generator and async function promotion
 * [ ] Hygenic Macros, aka, port sweet.js
+  * [ ] Allow importing them, and allow exporting functions as macros so that postfix `!` isn't necessary (see http://2ality.com/2014/09/es6-modules-final.html)
 * [ ] Overloading infix operators, ``` !arith(a + b) ``` or `a +! b` to use raw operators; type inference would also be used to use raw operators when possible.
 * [ ] Array properties
 
