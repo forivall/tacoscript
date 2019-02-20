@@ -285,6 +285,7 @@ progress.
   * [ ] `for own key, value in object`
 * [ ] array and object comprehensions
 * [ ] multiline regex (coffeescript / [frappe])
+  * also, since we are not using `//` for comments, `/(?:)/` ↔ `//`
 * [ ] Python style keyword arguments
   * should look for or create a good, standardized format for kwargs, that can be submitted as an esnext proposal.
 * [ ] allow breaking from blocks
