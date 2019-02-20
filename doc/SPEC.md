@@ -171,6 +171,21 @@ appear within parens.
 
 13. `with` will be reused for iife. The vanilla, (deprecated in strict mode anyways) `with` must be declared as `with!`
 
+14. Python-ish import statements: As autocomplete systems can resolve the members to import once we have declared from which module we are importing members, it's more useful to declare the module name first
+    ```js
+    import * as fs from 'fs'
+    import {resolve} from 'path'
+    import FileTypePipe from 'file-type-pipe'
+    import defaultImport, {FileTypePipe} from 'file-type-pipe'
+    ```
+    
+    ```taco
+    import 'fs' as fs
+    from 'path' import {resolve}
+    from 'file-type-pipe' import FileTypePipe
+    from 'file-type-pipe import defaultImport, {FileTypePipe}
+    ```
+
 ## Extended syntax
 All of the following syntax is optional, but is default, and is part of the core
 tacoscript "experience". Each will be implemented as a plugin that can be
@@ -327,6 +342,15 @@ progress.
 
 #### Other long-term or non-essential ideas
 
+* [ ] inverted destructuring, like the inverted imports, and with differing modification 
+    ```js
+    const {foo} = bar
+    let {baz} = bar
+    ```
+    ↔
+    ```taco
+    bar =: {foo, let baz}
+    ```
 * [ ] label-less long break/continue -- `break for` will break from the lexically nearest for loop
 * [ ] Whatever custom syntax makes the parser easier to read
 * [ ] allow any indentation level, but it won't be automatically closed. instead,
