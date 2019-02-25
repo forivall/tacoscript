@@ -73,11 +73,11 @@ Everything not specified here, is the same as in JavaScript
     while true
     ```
 
-4. No semicolons to end statements. A newline always ends a statement, unless
-escaped, or if the line ends with a [`continuesExpr` token][tokens]. Unfortunately,
+4. Improved semicolon semantics. A newline always ends a statement, unless
+escaped, or if the line ends with a [`continuesExpr` token][tokens] (aka, the line ends before an expression can be completed) Unfortunately,
 python behaviour of allowing newlines anywhere within parens cannot be mirrored,
 since blocks can appear inside of parens, whereas in python, only expressions can
-appear within parens.
+appear within parens. In statement position, semicolons act as they do in javascirpt, in expression position, they act as the comma operator. so, `const foo = 1; const bar = 2` is the same as javascript, and `(foo = 1; bar = 2)` is the comma operator (`foo = 1, bar = 2`)
 
 5. In objects, arrays and arguments, newlines can be used instead of commas. These can be mixed.
 
