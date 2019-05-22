@@ -383,6 +383,28 @@ statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
 * [ ] [Const classes](http://wiki.ecmascript.org/doku.php?id=harmony:classes#const)
 * [ ] shorten `else if` to `elif`
 * [ ] Deep object properties (especially useful for destructuring): `{a.b: 1}` ↔ `{a: {b: 1}}`
+* [ ] `:=` for `Object.defineProperty`
+  * `this.foo :=wce foo` ↔ `Object.defineProperty(this, 'foo', {writable: true, configurable: true, enumerable: true, value: foo})
+  * `this.foo := foo` ↔ `Object.defineProperty(this, 'foo', {writable: false, configurable: false, enumerable: false, value: foo})
+  * `this.foo :=+ foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), value: foo})
+  * `this.foo :=-w foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), writable: false, value: foo})
+  * `this.foo :=^ foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(Object.getPrototypeOf(this), 'foo'), value: foo})`
+    * `^` is to get the prototype
+    * also use `^*` to go up the prototype chain until a descriptor is found (would use a helper)
+  * `this.foo :=ce {get() { return 'foo' }}`  ↔ `Object.defineProperty({configurable: true, enumerable: true, get() { return 'foo' }, set: undefined})`
+* [ ] `::proto` for `Object.getPrototypeOf`
+  * `this::proto` ↔ `Object.getPrototypeOf(this)`
+* [ ] `proto` in class declarations / expressions
+  * ```
+    class Foo {
+      proto bar = 'baz'
+    }
+    ```
+    ↔ 
+    ```
+    class Foo {}
+    Foo.prototype.bar = 'baz'
+    ```
 
 ## Implementation Plan
 
