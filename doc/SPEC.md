@@ -449,6 +449,9 @@ additiion of other stage-0 proposals to use the @ character, other possible
 alternatives are the diamond `<>` operator, the fat x `><` operator and the
 sideways y `-<`/`>-`, or to reintroduce `||` or `&&`.
 
+## Notes on TypeScript
+
+As there's a conflict with the `!` TypeScript operator, to do ts`foo!`, in tacoscript+types, this would be `foo as !`.
 
 ## formatting directives (work in progress)
 notes: special formatting directives: `#%DIRECTIVE_HERE%#`
