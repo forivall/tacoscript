@@ -169,7 +169,7 @@ appear within parens. In statement position, semicolons act as they do in javasc
 
 12. `switch` with fallthroughs starts with `switch!`, and a phase 3 "[safe switch]" plugin will be written for "safe" switch statements, where each case breaks, and fallthrough is opt-in.
 
-13. `with` will be reused for iife. The vanilla, (deprecated in strict mode anyways) `with` must be declared as `with!`
+13. `with` will be reused for various other features, such as iifes (`do with`), `Object.create` syntax sugar (`{ with proto = null }` and property descriptors (`with descriptor writable, not configurable, not enumerable`). The vanilla, (deprecated in strict mode anyways) `with` must be declared as `with with`
 
 14. Python-ish import statements: As autocomplete systems can resolve the members to import once we have declared from which module we are importing members, it's more useful to declare the module name first
     ```js
@@ -204,13 +204,6 @@ progress.
 * [ ] Automatic `const`, `extern` to assign undeclared (global) variables. [(spec)](./auto-const.md) [#18]
 
 #### Phase 2 - A "Useful" language
-* [ ] IIFE syntax [#19]
-  `(function(a, b, c){})(d, e, c)` ↔ `with {a: d, b: e, c}`  
-  `(function*(a, b, c){})(d, e, c)` ↔ `with* {a: d, b: e, c}`  
-  `(async function(a, b, c){})(d, e, c)` ↔ `with+ {a: d, b: e, c}`  
-  `((a, b, c) => {})(d, e, c)` ↔ `with= {a: d, b: e, c}`  
-  `((a, b, c) => (a + b + c))(d, e, c)` ↔ `with= {a: d, b: e, c} > a + b + c`  
-
 * [ ] `not instanceof` ([frappe])
 * [ ] `not in` ([frappe])
 * [ ] `a < b < c` ([frappe])
@@ -383,17 +376,16 @@ statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
 * [ ] [Const classes](http://wiki.ecmascript.org/doku.php?id=harmony:classes#const)
 * [ ] shorten `else if` to `elif`
 * [ ] Deep object properties (especially useful for destructuring): `{a.b: 1}` ↔ `{a: {b: 1}}`
-* [ ] `:=` for `Object.defineProperty`
-  * `this.foo :=wce foo` ↔ `Object.defineProperty(this, 'foo', {writable: true, configurable: true, enumerable: true, value: foo})
-  * `this.foo := foo` ↔ `Object.defineProperty(this, 'foo', {writable: false, configurable: false, enumerable: false, value: foo})
-  * `this.foo :=+ foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), value: foo})
-  * `this.foo :=-w foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), writable: false, value: foo})
-  * `this.foo :=^ foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(Object.getPrototypeOf(this), 'foo'), value: foo})`
-    * `^` is to get the prototype
-    * also use `^*` to go up the prototype chain until a descriptor is found (would use a helper)
-  * `this.foo :=ce {get() { return 'foo' }}`  ↔ `Object.defineProperty({configurable: true, enumerable: true, get() { return 'foo' }, set: undefined})`
-* [ ] `::proto` for `Object.getPrototypeOf`
-  * `this::proto` ↔ `Object.getPrototypeOf(this)`
+* [ ] `object.propertyName with descriptor writable, configurable, enumerable = ...` and `{with descriptor\npropertyName: ...}` for `Object.defineProperty`
+  * `this.foo with descriptor writable, configurable, enumerable = foo` ↔ `Object.defineProperty(this, 'foo', {writable: true, configurable: true, enumerable: true, value: foo})
+  * `this.foo with descriptor not writable, not configurable, not enumerable = foo` ↔ `Object.defineProperty(this, 'foo', {writable: false, configurable: false, enumerable: false, value: foo})
+  * `this.foo with descriptor ... = foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), value: foo})
+  * `this.foo with descriptor ..., not writable = foo` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(this, 'foo'), writable: false, value: foo})
+  * `this.foo with descriptor ...proto` ↔ `Object.defineProperty(this, 'foo', {...Object.getOwnPropertyDescriptor(Object.getPrototypeOf(this), 'foo'), value: foo})`
+    * also use `proto*` to go up the prototype chain until a descriptor is found (would use a helper)
+  * `this.foo with descriptor configurable, enumerable = get() ->> 'foo'`  ↔ `Object.defineProperty({configurable: true, enumerable: true, get() { return 'foo' }, set: undefined})` (tbd)
+* [ ] `.%proto` for `Object.getPrototypeOf`
+  * `this.%proto` ↔ `Object.getPrototypeOf(this)`
 * [ ] `proto` in class declarations / expressions
   * ```
     class Foo {
@@ -405,6 +397,13 @@ statements will be closed with `endswitch`, `endif`, `endwhile` `enddo`, etc.
     class Foo {}
     Foo.prototype.bar = 'baz'
     ```
+
+* [ ] IIFE syntax [#19]
+  `(function(a, b, c){})(d, e, c)` ↔ `do with {d: a, e: b, c}`  
+  `(function*(a, b, c){})(d, e, c)` ↔ `do with* {d: a, e: b, c}`  
+  `(async function(a, b, c){})(d, e, c)` ↔ `do with+ {d: a, e: b, c}`  
+  `((a, b, c) => {})(d, e, c)` ↔ `do with= {d: a, e: b, c}`  
+  `((a, b, c) => (a + b + c))(d, e, c)` ↔ `do with= {d: a, e: b, c} > a + b + c`  
 
 ## Implementation Plan
 
