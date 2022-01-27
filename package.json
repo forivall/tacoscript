@@ -14,7 +14,7 @@
     "babel-runtime": "^6.0.0",
     "babylon": "^6.8.0",
     "browserify": "^13.0.0",
-    "chai": "^3.3.0",
+    "chai": "^4.3.6",
     "chalk": "^1.1.1",
     "concat-stream": "^1.5.1",
     "es5-shim": "^4.5.7",
@@ -51,18 +51,14 @@
     "lint": "eslint packages/*/src",
     "tasks-pretest": "./scripts/test-task.sh pre",
     "tasks-posttest": "./scripts/test-task.sh post",
-
     "pretest": "npm run lint && npm run tasks-pretest",
     "test": "mocha -- $(scripts/_get-test-directories.sh)",
     "posttest": "npm run tasks-posttest",
-
     "test-ci": "TEST_SKIP=alpastor npm test",
-
     "pretest-cov": "npm run tasks-pretest",
     "test-cov": "nyc -r text -r lcov _mocha -- $(scripts/_get-test-directories.sh)",
     "posttest-cov": "npm run tasks-posttest && echo 'View results with `npm run test-cov-results`.'",
     "test-cov-results": "(sleep 1; python3 -m webbrowser -t http://127.0.0.1:8123) & (cd coverage/lcov-report && python3 -m http.server 8123 -b 127.0.0.1)",
-
     "publish": "git pull --ff-only && npm run build && npm test && lerna publish && npm run clean",
     "install-potato": "< package.json jq -r '.potatoDependencies | to_entries[] | .key + \"@\" + .value' | xargs npm i"
   },
