@@ -20,7 +20,7 @@
     "es5-shim": "^4.5.7",
     "eslint": "^8.7.0",
     "jq-cli-wrapper": "*",
-    "lerna": "2.0.0-beta.14",
+    "lerna": "6.4.1",
     "lodash": "^4.6.1",
     "mocha": "^2.3.3",
     "mocha-fixtures-generic": "^2.7.0",
